@@ -32,15 +32,25 @@ The new standard in using shared Site Config for Nuxt (maybe).
 ## Background
 
 Site config is a general subset of configurations related to common site-wide settings.
-For example, the site name, description, canonical URL and trailing slashes.
+They are often used in many SEO and performance modules.
+Some examples are: site name, description, canonical URL and trailing slashes.
 
-Using site configuration is a common requirement in many Nuxt modules and apps. 
+At the surface, most of this config is simple.
+However, some config is more complex, such as the site URL.
+This URL can be inferred
+from the request headers, however, what if we're prerendering pages?
+Do we take into effect the base URL?
 
-At the surface, most of this config is simple. However, some config is more complex, such as the site URL. The site URL can be inferred
-from the request headers, however what if we're prerendering pages? 
+Also,
+we may want some of this config to be powered by environment variables
+(e.g. staging, production environments), whereas maybe it's more 
+appropriate to handle this config within runtime logic (multi-tenant app).
 
-By creating a standard API for accessing config, we can provide intelligent defaults and powerful overrides. Allowing modules
-to better work together without slowing down end users.
+Things start getting complicated.
+
+By creating a standard API for using site config,
+we make life easier for end users with less config, intelligent defaults and powerful overrides.
+Allowing modules to work better together.
 
 ## Features
 
