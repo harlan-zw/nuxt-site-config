@@ -31,6 +31,9 @@ The new standard in using shared Site Config for Nuxt (maybe).
 
 ## Background
 
+Site config is a general subset of configurations related to common site-wide settings.
+For example, the site name, description, canonical URL and trailing slashes.
+
 Using site configuration is a common requirement in many Nuxt modules and apps. 
 
 At the surface, most of this config is simple. However, some config is more complex, such as the site URL. The site URL can be inferred
