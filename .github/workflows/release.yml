@@ -23,11 +23,6 @@ jobs:
           registry-url: https://registry.npmjs.org/
           cache: pnpm
 
-      - run: export DEBUG=conventional-github-releaser && npx conventional-github-releaser -p angular
-        continue-on-error: false
-        env:
-          CONVENTIONAL_GITHUB_RELEASER_TOKEN: ${{secrets.GITHUB_TOKEN}}
-
       - run: pnpm i
 
       - name: Publish to NPM
@@ -35,3 +30,8 @@ jobs:
         run: pnpm -r publish --access public --no-git-checks --tag beta
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+
+      - run: export DEBUG=conventional-github-releaser && npx conventional-github-releaser -p angular
+        continue-on-error: true
+        env:
+          CONVENTIONAL_GITHUB_RELEASER_TOKEN: ${{secrets.GITHUB_TOKEN}}
