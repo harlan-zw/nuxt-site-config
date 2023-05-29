@@ -1,15 +1,13 @@
 import { joinURL } from 'ufo'
 import { getRequestURL } from 'h3'
-import type { SiteConfig } from '../../type'
-import { SITE_CONFIG_ENV, createSiteConfig } from '../shared'
-
-// @ts-expect-error runtime types
+import type { MaybeComputedRefEntries, SiteConfig, SiteConfigInput } from '../../type'
+import { SITE_CONFIG_ENV, createSiteConfigContainer } from '../shared'
 import {
-  computed, onBeforeUnmount,
+  onBeforeUnmount,
   onMounted,
-  ref,
+  ref, unref,
   useAppConfig,
-  useRequestEvent, useRuntimeConfig, watchEffect,
+  useRequestEvent, useRuntimeConfig, watch, watchEffect,
 } from '#imports'
 
 function useRequestURL() {
@@ -22,9 +20,26 @@ function useRequestURL() {
   return new URL(window.location.href)
 }
 
-export function useSiteConfig(overrides: Partial<SiteConfig> = {}) {
-  const siteConfigInput = ref()
-  const siteConfig = createSiteConfig({ overrides })
+export function useSiteConfig(overrides: MaybeComputedRefEntries<SiteConfigInput> = {}) {
+  const siteConfig = ref({})
+
+  const siteConfigInput = ref({})
+  const container = createSiteConfigContainer()
+
+  watch(() => overrides, () => {
+    const tmpOverridesInput: SiteConfigInput = {}
+    // need to unref overrides fully
+    const unrefdOverrides = unref(overrides)
+    for (const k of Object.keys(unrefdOverrides)) {
+      // @ts-expect-error untyped
+      tmpOverridesInput[k] = unref(unrefdOverrides[k])
+    }
+    container.setOverrides(tmpOverridesInput)
+    siteConfig.value = container.compute(siteConfigInput.value)
+  }, {
+    deep: true,
+    immediate: true,
+  })
 
   function computeConfig() {
     const { baseURL } = useRuntimeConfig().app
@@ -41,13 +56,13 @@ export function useSiteConfig(overrides: Partial<SiteConfig> = {}) {
       runtimeConfig[k] = appConfig.site?.[k] || publicRuntimeConfig.site?.[k]
     }
     siteConfigInput.value = { runtimeConfig, contextConfig }
+    siteConfig.value = container.compute(siteConfigInput.value)
   }
   watchEffect(computeConfig)
   // unmounts of other pages may take effect
   onMounted(computeConfig)
   onBeforeUnmount(() => {
-    siteConfig.cleanUp && siteConfig.cleanUp()
+    container.cleanUp && container.cleanUp()
   })
-
-  return computed(() => siteConfig.compute(siteConfigInput.value))
+  return siteConfig
 }

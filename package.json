@@ -37,6 +37,7 @@
   },
   "dependencies": {
     "@nuxt/kit": "3.5.1",
+    "defu": "^6.1.2",
     "pkg-types": "^1.0.3",
     "ufo": "^1.1.2"
   },

@@ -11,7 +11,7 @@ export interface ModuleOptions extends SiteConfig {
 }
 
 export interface ModulePublicRuntimeConfig {
-  site: SiteConfig
+  site: Partial<SiteConfig>
 }
 
 declare module '@nuxt/schema' {
