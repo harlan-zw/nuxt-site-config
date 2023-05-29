@@ -20,5 +20,11 @@ function changeSiteName() {
   <div class="mt-5">
     <UButton to="/overrides">overrides</UButton>
   </div>
+
+  <div>
+    SiteLink examples
+    <SiteLink to="/blog">No trailing slash set</SiteLink>
+    <SiteLink to="/">home</SiteLink>
+  </div>
 </div>
 </template>

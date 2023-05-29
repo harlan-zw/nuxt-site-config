@@ -21,7 +21,7 @@ function useRequestURL() {
 }
 
 export function useSiteConfig(overrides: MaybeComputedRefEntries<SiteConfigInput> = {}) {
-  const siteConfig = ref({})
+  const siteConfig = ref<Partial<SiteConfig>>({})
 
   const siteConfigInput = ref({})
   const container = createSiteConfigContainer()

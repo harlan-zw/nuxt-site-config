@@ -16,8 +16,8 @@ export function resolveAbsoluteInternalLink(relativeInternalLink: string) {
 }
 
 export function createInternalLinkResolver() {
-  const { trailingSlash, url } = useSiteConfig()
+  const siteConfig = useSiteConfig()
   return (path: string) => {
-    return withBase(trailingSlash ? withTrailingSlash(path) : withoutTrailingSlash(path), url)
+    return withBase(siteConfig.value.trailingSlash ? withTrailingSlash(path) : withoutTrailingSlash(path), siteConfig.value.url || '/')
   }
 }

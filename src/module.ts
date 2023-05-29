@@ -1,4 +1,5 @@
 import {
+  addComponent,
   addImports,
   createResolver,
   defineNuxtModule,
@@ -43,6 +44,11 @@ export default defineNuxtModule<ModuleOptions>({
         from: resolve('./runtime/composables'),
         name: c,
       })
+    })
+
+    await addComponent({
+      filePath: resolve('./runtime/component/SiteLink.vue'),
+      name: 'SiteLink',
     })
 
     // need to transpile shared
