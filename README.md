@@ -10,7 +10,7 @@
 
 
 <p align="center">
-The new standard in using shared Site Config for Nuxt (maybe). 
+Shared site configuration for Nuxt 3 modules.
 </p>
 
 <p align="center">
@@ -94,7 +94,30 @@ export default defineNuxtConfig({
 })
 ```
 
-## How it works
+## Config Schema
+
+```ts
+export interface SiteConfig {
+  /**
+   * The canonical Site URL.
+   * @default `process.env.NUXT_PUBLIC_SITE_URL`
+   * Fallback options are:
+   * - SSR: Inferred from request headers
+   * - SPA: Inferred from `window.location`
+   * - Prerendered: Inferred from CI environment
+   */
+  url: string
+  name: string
+  description: string
+  image: string
+  index: boolean
+  titleSeparator: string
+  trailingSlash: boolean
+  language: string
+}
+```
+
+## Config Resolving
 
 Config is resolved in the following order, starting with the lowest priority.
 1. Context-aware defaults. _For example in some CI environments, we can read environment variables to determine the site URL._
@@ -123,9 +146,9 @@ Note: For dynamic runtime sitemaps this hook won't do anything.
 export default defineNuxtConfig({
   hooks: {
     'site-config:resolve': (siteConfig) => {
-      if (process.env.FOO) {
+      if (process.env.FOO)
         siteConfig.name = 'Bar'
-      }  
+
     },
   },
 })
@@ -142,15 +165,15 @@ This hook allows you to modify the sitemap.xml as runtime before it is sent to t
 Note: For prerendered sitemaps this hook won't do anything.
 
 ```ts
-import {defineNitroPlugin} from 'nitropack/runtime/plugin'
-import {getRequestHost} from "h3";
+import { defineNitroPlugin } from 'nitropack/runtime/plugin'
+import { getRequestHost } from 'h3'
 
 export default defineNitroPlugin((nitroApp) => {
   nitroApp.hooks.hook('site-config:resolve', async (siteConfig) => {
     const e = useRequestEvent()
-    if (getRequestHost(e).startsWith('foo.')) {
-        siteConfig.name = 'Foo'
-    }
+    if (getRequestHost(e).startsWith('foo.'))
+      siteConfig.name = 'Foo'
+
   })
 })
 ```
