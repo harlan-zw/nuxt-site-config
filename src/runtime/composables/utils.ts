@@ -1,10 +1,16 @@
 import { withBase, withTrailingSlash, withoutTrailingSlash } from 'ufo'
 import { computed, useSiteConfig } from '#imports'
 
+function fixSlashes(trailingSlash: boolean, path: string) {
+  return trailingSlash ? withTrailingSlash(path) : withoutTrailingSlash(path)
+}
+
 export function resolveTrailingSlash(path: string) {
   const siteConfig = useSiteConfig()
   return computed(() => {
-    return siteConfig.value.trailingSlash ? withTrailingSlash(path) : withoutTrailingSlash(path)
+    if (typeof siteConfig.value.trailingSlash === 'boolean')
+      return fixSlashes(siteConfig.value.trailingSlash, path)
+    return path
   })
 }
 export function resolveAbsoluteInternalLink(relativeInternalLink: string) {
