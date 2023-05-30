@@ -15,9 +15,13 @@ export function resolveAbsoluteInternalLink(relativeInternalLink: string) {
   })
 }
 
-export function createInternalLinkResolver() {
+export function createInternalLinkResolver(options: { absolute?: boolean } = {}) {
   const siteConfig = useSiteConfig()
   return (path: string) => {
-    return withBase(siteConfig.value.trailingSlash ? withTrailingSlash(path) : withoutTrailingSlash(path), siteConfig.value.url || '/')
+    if (typeof siteConfig.value.trailingSlash === 'boolean')
+      path = fixSlashes(siteConfig.value.trailingSlash, path)
+    if (!options.absolute)
+      return path
+    return withBase(path, siteConfig.value.url || '/')
   }
 }
