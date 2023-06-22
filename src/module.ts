@@ -7,6 +7,8 @@ import {
 import type { SiteConfig, SiteConfigInput } from './type'
 import { initSiteConfig } from './build/init'
 
+export * from './type'
+
 export interface ModuleOptions extends SiteConfigInput {
 }
 

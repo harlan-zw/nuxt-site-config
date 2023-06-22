@@ -19,6 +19,10 @@
       "types": "./dist/types.d.ts",
       "require": "./dist/module.cjs",
       "import": "./dist/module.mjs"
+    },
+    "./build": {
+      "types": "./dist/build.d.ts",
+      "import": "./dist/build.mjs"
     }
   },
   "main": "./dist/module.cjs",
