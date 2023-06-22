@@ -1,0 +1,7 @@
+{
+  "welcome": "Bonjour",
+  "site": {
+    "name": "Configuration du site",
+    "description": "Description du site",
+  }
+}

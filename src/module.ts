@@ -1,18 +1,17 @@
 import {
   addComponent,
-  addImports,
+  addImports, addPlugin, addServerHandler,
   createResolver,
   defineNuxtModule,
 } from '@nuxt/kit'
-import defu from 'defu'
-import type { SiteConfig } from './type'
-import { useSiteConfig } from './build/useSiteConfig'
+import type { SiteConfig, SiteConfigInput } from './type'
+import { initSiteConfig } from './build/init'
 
-export interface ModuleOptions extends SiteConfig {
+export interface ModuleOptions extends SiteConfigInput {
 }
 
 export interface ModulePublicRuntimeConfig {
-  site: Partial<SiteConfig>
+  site: SiteConfigInput
 }
 
 declare module '@nuxt/schema' {
@@ -35,13 +34,23 @@ export default defineNuxtModule<ModuleOptions>({
     configKey: 'site',
   },
   async setup(config, nuxt) {
-    nuxt.options.runtimeConfig.public.site = defu(config, nuxt.options.runtimeConfig.public.site || {})
+    // @ts-expect-error runtime type
+    nuxt.options.runtimeConfig.public.site = await initSiteConfig(config)
+
     const { resolve } = createResolver(import.meta.url)
 
-    const composables = ['useSiteConfig', 'createInternalLinkResolver', 'resolveAbsoluteInternalLink', 'resolveTrailingSlash']
+    const composables = ['useSiteConfig', 'updateSiteConfig']
     composables.forEach((c) => {
       addImports({
-        from: resolve('./runtime/composables'),
+        from: resolve(`./runtime/composables/${c}`),
+        name: c,
+      })
+    })
+
+    const linkComposables = ['createInternalLinkResolver', 'resolveAbsoluteInternalLink', 'resolveTrailingSlash']
+    linkComposables.forEach((c) => {
+      addImports({
+        from: resolve('./runtime/composables/utils'),
         name: c,
       })
     })
@@ -52,11 +61,37 @@ export default defineNuxtModule<ModuleOptions>({
     })
 
     // need to transpile shared
-    const shared = resolve('./runtime/shared')
+    const shared = resolve('./runtime/siteConfig')
     nuxt.options.build.transpile.push(shared)
 
-    nuxt.hook('modules:done', async () => {
-      nuxt.options.runtimeConfig.public.site = await useSiteConfig(nuxt.options.runtimeConfig.public.site)
+    nuxt.options.nitro.imports = nuxt.options.nitro.imports || {}
+    nuxt.options.nitro.imports.imports = nuxt.options.nitro.imports.imports || []
+    nuxt.options.nitro.imports.imports.push(...[
+      {
+        as: 'useSiteConfig',
+        name: 'useSiteConfig',
+        from: resolve('./runtime/nitro/composables/useSiteConfig'),
+      },
+      {
+        as: 'useNitroOrigin',
+        name: 'useNitroOrigin',
+        from: resolve('./runtime/nitro/composables/useNitroOrigin'),
+      },
+      {
+        as: 'updateSiteConfig',
+        name: 'updateSiteConfig',
+        from: resolve('./runtime/nitro/composables/updateSiteConfig'),
+      },
+    ])
+
+    addPlugin({
+      src: resolve('./runtime/plugins/siteConfig.ts'),
+    })
+
+    // add middleware
+    addServerHandler({
+      middleware: true,
+      handler: resolve('./runtime/nitro/middleware/init'),
     })
   },
 })
