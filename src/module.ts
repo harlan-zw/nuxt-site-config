@@ -125,7 +125,7 @@ export default defineNuxtModule<ModuleOptions>({
     ])
 
     addPlugin({
-      src: resolve('./runtime/plugins/siteConfig.ts'),
+      src: resolve('./runtime/plugins/siteConfig'),
     })
 
     // add middleware
