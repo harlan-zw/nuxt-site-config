@@ -1,5 +1,3 @@
-import type { ComputedRef, Ref } from 'vue'
-
 export interface SiteConfig {
   /**
    * The canonical Site URL.
@@ -62,30 +60,7 @@ export interface SiteConfigInput {
   trailingSlash?: boolean | string
 }
 
-declare module 'nuxt/schema' {
-  interface AppConfigInput {
-    /** Theme configuration */
-    site?: SiteConfigInput
-  }
-}
-
-// copied from @vueuse/shared
-export type MaybeReadonlyRef<T> = (() => T) | ComputedRef<T>
-export type MaybeComputedRef<T> = T | MaybeReadonlyRef<T> | Ref<T>
-
-export type MaybeComputedRefEntries<T> = MaybeComputedRef<T> | {
-  [key in keyof T]?: MaybeComputedRef<T[key]>
-}
-
 export interface SiteConfigContainer {
   push: (config: SiteConfigInput) => void
   get: () => SiteConfig
 }
-
-export interface SiteConfigReactiveContainer {
-  push: (config: MaybeComputedRefEntries<SiteConfigInput>) => () => void
-  get: () => Ref<SiteConfig>
-}
-
-// It is always important to ensure you import/export something when augmenting a type
-export {}

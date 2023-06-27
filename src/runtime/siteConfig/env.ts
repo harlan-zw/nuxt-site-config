@@ -1,5 +1,5 @@
 import type Process from 'node:process'
-import type { SiteConfigInput } from '../type'
+import type { SiteConfigInput } from '../../type'
 
 const processShim = typeof process !== 'undefined' ? process : {} as typeof Process
 const envShim = processShim.env || {}
@@ -14,8 +14,8 @@ export const envSiteConfig: SiteConfigInput = {
   name: envShim.NUXT_PUBLIC_SITE_NAME,
   description: envShim.NUXT_PUBLIC_SITE_DESCRIPTION,
   logo: envShim.NUXT_PUBLIC_SITE_IMAGE,
-  index: envShim.NUXT_PUBLIC_SITE_INDEX,
+  indexable: envShim.NUXT_PUBLIC_SITE_INDEXABLE || envShim.NUXT_PUBLIC_SITE_INDEX,
   titleSeparator: envShim.NUXT_PUBLIC_SITE_TITLE_SEPARATOR,
   trailingSlash: envShim.NUXT_PUBLIC_SITE_TRAILING_SLASH,
-  language: envShim.NUXT_PUBLIC_SITE_LANGUAGE,
+  locale: envShim.NUXT_PUBLIC_SITE_LANGUAGE || envShim.NUXT_PUBLIC_SITE_LOCALE,
 }

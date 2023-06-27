@@ -28,6 +28,6 @@ export function createInternalLinkResolver(options: { absolute?: boolean } = {})
       path = fixSlashes(siteConfig.trailingSlash, path)
     if (!options.absolute)
       return path
-    return withBase(path, siteConfig.value.url || '/')
+    return withBase(path, siteConfig.url || '/')
   }
 }

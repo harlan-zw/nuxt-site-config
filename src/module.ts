@@ -4,16 +4,33 @@ import {
   createResolver,
   defineNuxtModule,
 } from '@nuxt/kit'
-import type { SiteConfig, SiteConfigInput } from './type'
-import {assertSiteConfig, updateSiteConfig, useSiteConfig} from './build'
-
-export * from './type'
+import type { SiteConfig, SiteConfigContainer, SiteConfigInput } from './type'
+import { assertSiteConfig, updateSiteConfig, useSiteConfig } from './build'
 
 export interface ModuleOptions extends SiteConfigInput {
 }
 
 export interface ModulePublicRuntimeConfig {
   site: SiteConfigInput
+}
+
+declare module 'h3' {
+  interface H3EventContext {
+    siteConfig: SiteConfigContainer
+  }
+}
+
+declare module 'nuxt/schema' {
+  interface AppConfigInput {
+    /** Theme configuration */
+    site?: SiteConfigInput
+  }
+}
+declare module '@nuxt/schema' {
+  interface AppConfigInput {
+    /** Theme configuration */
+    site?: SiteConfigInput
+  }
 }
 
 declare module '@nuxt/schema' {
