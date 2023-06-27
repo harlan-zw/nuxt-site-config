@@ -36,7 +36,11 @@ export default defineNuxtModule<ModuleOptions>({
     configKey: 'site',
   },
   async setup(config, nuxt) {
-    nuxt.options.runtimeConfig.public.site = await initSiteConfig(config)
+    // @ts-ignore untyped
+    nuxt.options.runtimeConfig.public.site = await initSiteConfig({
+      ...nuxt.options.runtimeConfig.public.site,
+      ...config,
+    })
 
     const { resolve } = createResolver(import.meta.url)
 
