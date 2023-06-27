@@ -24,7 +24,7 @@ jobs:
           cache: pnpm
 
       - run: export DEBUG=conventional-github-releaser && npx conventional-github-releaser -p angular
-        continue-on-error: false
+        continue-on-error: true
         env:
           CONVENTIONAL_GITHUB_RELEASER_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
