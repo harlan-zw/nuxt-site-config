@@ -1,6 +1,6 @@
 import { defu } from 'defu'
 import { joinURL } from 'ufo'
-import { updateSiteConfig, useAppConfig, useNitroOrigin, useRuntimeConfig } from '#imports'
+import { eventHandler, updateSiteConfig, useAppConfig, useNitroOrigin, useRuntimeConfig } from '#imports'
 
 export default eventHandler((e) => {
   if (!e.context.siteConfig) {
