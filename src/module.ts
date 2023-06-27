@@ -5,7 +5,7 @@ import {
   defineNuxtModule,
 } from '@nuxt/kit'
 import type { SiteConfig, SiteConfigInput } from './type'
-import { updateSiteConfig, useSiteConfig } from './build'
+import {assertSiteConfig, updateSiteConfig, useSiteConfig} from './build'
 
 export * from './type'
 
@@ -56,6 +56,13 @@ export default defineNuxtModule<ModuleOptions>({
       await nuxt.callHook('site-config:resolve', siteConfig)
       // @ts-expect-error untyped
       nuxt.options.runtimeConfig.public.site = siteConfig
+    })
+
+    // on prerender
+    nuxt.hooks.hook('nitro:init', async (nitro) => {
+      nitro.hooks.hookOnce('prerender:generate', async () => {
+        await assertSiteConfig('prerender')
+      })
     })
 
     const linkComposables = ['createInternalLinkResolver', 'resolveAbsoluteInternalLink', 'resolveTrailingSlash']

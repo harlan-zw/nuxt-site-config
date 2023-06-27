@@ -5,7 +5,6 @@ import { createSiteConfigContainer } from '../runtime/siteConfig'
 import { envSiteConfig } from '../runtime/siteConfig/env'
 
 let siteConfigContainer: SiteConfigContainer
-
 async function getPkgJsonContextConfig(rootDir: string) {
   const pkgJson = await readPackageJSON(undefined, { startingFrom: rootDir })
   if (!pkgJson)
@@ -51,7 +50,7 @@ export async function initSiteConfig(): Promise<SiteConfig> {
         name: getRuntimeConfig('siteName', 'SITE_NAME'),
         description: getRuntimeConfig('siteDescription', 'SITE_DESCRIPTION'),
         logo: getRuntimeConfig('siteImage', 'SITE_IMAGE'),
-        language: getRuntimeConfig('siteLanguage', 'SITE_LANGUAGE'),
+        locale: getRuntimeConfig('siteLanguage', 'SITE_LANGUAGE'),
         indexable: getRuntimeConfig('siteIndexable', 'SITE_INDEXABLE'),
       })
       siteConfigContainer.push(nuxt?.options.runtimeConfig.public.site as SiteConfigInput)

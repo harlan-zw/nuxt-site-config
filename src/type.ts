@@ -56,7 +56,7 @@ export interface SiteConfigInput {
   logo?: string
   coverImage?: string
   titleSeparator?: string
-  language?: string
+  locale?: string
 
   indexable?: boolean | string
   trailingSlash?: boolean | string
