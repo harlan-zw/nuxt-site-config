@@ -20,9 +20,9 @@
       "require": "./dist/module.cjs",
       "import": "./dist/module.mjs"
     },
-    "./build": {
-      "types": "./dist/build.d.ts",
-      "import": "./dist/build.mjs"
+    "./kit": {
+      "types": "./dist/kit.d.ts",
+      "import": "./dist/kit.mjs"
     }
   },
   "main": "./dist/module.cjs",

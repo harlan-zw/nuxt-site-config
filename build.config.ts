@@ -3,7 +3,7 @@ import { defineBuildConfig } from 'unbuild'
 export default defineBuildConfig({
   declaration: true,
   entries: [
-    { input: 'src/build/index', name: 'build' },
+    { input: 'src/kit/index', name: 'kit' },
   ],
   externals: [
     '#imports',
