@@ -30,7 +30,7 @@ export default defineNuxtModule<ModuleOptions>({
   meta: {
     name: 'nuxt-site-config',
     compatibility: {
-      nuxt: '^3.5.0',
+      nuxt: '^3.6.0',
       bridge: false,
     },
     configKey: 'site',
@@ -55,6 +55,11 @@ export default defineNuxtModule<ModuleOptions>({
         from: resolve('./runtime/composables/utils'),
         name: c,
       })
+    })
+
+    addImports({
+      from: resolve('./runtime/nitro/composables/useNitroOrigin'),
+      name: 'useNitroOrigin',
     })
 
     await addComponent({
