@@ -5,7 +5,8 @@ import {
   defineNuxtModule,
 } from '@nuxt/kit'
 import type { SiteConfig, SiteConfigContainer, SiteConfigInput } from './type'
-import { assertSiteConfig, updateSiteConfig, useSiteConfig } from './build'
+import { assertSiteConfig, updateSiteConfig, useSiteConfig } from './kit'
+import type { AssertionModes, ModuleAssertion } from '~/src/type'
 
 export interface ModuleOptions extends SiteConfigInput {
 }
@@ -26,10 +27,15 @@ declare module 'nuxt/schema' {
     site?: SiteConfigInput
   }
 }
+
 declare module '@nuxt/schema' {
   interface AppConfigInput {
     /** Theme configuration */
     site?: SiteConfigInput
+  }
+  interface Nuxt {
+    _siteConfig?: SiteConfigContainer
+    _siteConfigAsserts?: Partial<Record<Partial<AssertionModes>, ModuleAssertion[]>>
   }
 }
 
@@ -71,7 +77,6 @@ export default defineNuxtModule<ModuleOptions>({
       // final hook for other modules to modify the site config
       // @ts-expect-error untyped
       await nuxt.callHook('site-config:resolve', siteConfig)
-      // @ts-expect-error untyped
       nuxt.options.runtimeConfig.public.site = siteConfig
     })
 

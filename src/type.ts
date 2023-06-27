@@ -64,3 +64,6 @@ export interface SiteConfigContainer {
   push: (config: SiteConfigInput) => void
   get: () => SiteConfig
 }
+
+export type AssertionModes = 'prerender' | 'generate' | 'build'
+export interface ModuleAssertion { context: string; requirements: Partial<Record<keyof SiteConfigInput, string>> }

@@ -21,14 +21,12 @@ export async function initSiteConfig(): Promise<SiteConfigContainer | undefined>
   if (!nuxt)
     return
 
-  // @ts-expect-error hacking nuxt instance
   let siteConfig = nuxt._siteConfig
   if (siteConfig)
     return
 
   const rootDir = nuxt?.options.rootDir || process.cwd()
   // only when called the first time
-  // @ts-expect-error hacking nuxt instance
   nuxt._siteConfig = siteConfig = createSiteConfigContainer()
   const isNodeEnv = !!process.env.NODE_ENV
   // the root dir is maybe the name of the site
@@ -60,7 +58,6 @@ export async function initSiteConfig(): Promise<SiteConfigContainer | undefined>
   })
   siteConfig.push(nuxt?.options.runtimeConfig.public.site as SiteConfigInput)
 
-  // @ts-expect-error hacking nuxt instance
   return nuxt._siteConfig
 }
 
@@ -71,5 +68,5 @@ export async function updateSiteConfig(input: SiteConfigInput) {
 
 export async function useSiteConfig() {
   // make sure it is initialized
-  return (await initSiteConfig())?.get()
+  return (await initSiteConfig())?.get() || {}
 }

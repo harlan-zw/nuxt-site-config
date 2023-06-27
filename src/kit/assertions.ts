@@ -1,26 +1,31 @@
-import { useLogger } from '@nuxt/kit'
-import type { SiteConfig, SiteConfigInput } from '../type'
+import { tryUseNuxt, useLogger } from '@nuxt/kit'
+import type { AssertionModes, ModuleAssertion, SiteConfig } from '../type'
 import { useSiteConfig } from './init'
 
-type AssertionModes = 'prerender' | 'generate' | 'build'
-interface ModuleAssertion { context: string; requirements: Partial<Record<keyof SiteConfigInput, string>> }
-const siteConfigAssertions: Partial<Record<Partial<AssertionModes>, ModuleAssertion[]>> = {}
-
 export function requireSiteConfig(context: string, requirements: Partial<Record<keyof SiteConfig, string>>, modes: Partial<Record<AssertionModes, boolean>>) {
+  const nuxt = tryUseNuxt()
+  if (!nuxt)
+    return
+  const assertions: Partial<Record<Partial<AssertionModes>, ModuleAssertion[]>> = nuxt._siteConfigAsserts || {}
   Object.keys(modes).forEach((mode) => {
     const key = mode as AssertionModes
     if (!modes[key])
       return
-    siteConfigAssertions[key] = siteConfigAssertions[key] || []
-    siteConfigAssertions[key]!.push({ context, requirements })
+    assertions[key] = assertions[key] || []
+    assertions[key]!.push({ context, requirements })
   })
+  nuxt._siteConfigAsserts = assertions
 }
 
 export async function assertSiteConfig(mode: AssertionModes, options?: { throwError?: boolean; logErrors?: boolean }) {
+  const nuxt = tryUseNuxt()
+  if (!nuxt)
+    return
   let valid = true
   const messages: string[] = []
   const logger = useLogger('nuxt-site-config')
-  const assertions = siteConfigAssertions[mode]
+
+  const assertions: ModuleAssertion[] | false = nuxt._siteConfigAsserts?.[mode] || false
   if (!assertions)
     return { valid, messages }
   const siteConfig = await useSiteConfig()
