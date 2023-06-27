@@ -1,4 +1,4 @@
-import { updateSiteConfig } from '#imports'
+import { updateSiteConfig, defineEventHandler } from '#imports'
 
 export default defineEventHandler(async e => {
   if (e.node.req.url?.startsWith('/blog')) {

@@ -1,12 +1,19 @@
 <script lang="ts" setup>
-import { useSiteConfig} from '#imports'
+import { useSiteConfig, useNitroOrigin, useState } from '#imports'
 
 const siteConfig = useSiteConfig()
+
+const origin = useState()
+
+if (process.server) {
+  origin.value = useNitroOrigin()
+}
 </script>
 <template>
 <div>
   <p>Welcome to {{ siteConfig.name }}, the site URL is {{ siteConfig.url }}.</p>
   <p>Description: {{ siteConfig.description }}</p>
+  <p>origin: {{ origin }}</p>
   <div class="mt-5">
     <UButton to="/overrides">overrides</UButton>
   </div>
