@@ -36,7 +36,6 @@ export default defineNuxtModule<ModuleOptions>({
     configKey: 'site',
   },
   async setup(config, nuxt) {
-    // @ts-expect-error runtime type
     nuxt.options.runtimeConfig.public.site = await initSiteConfig(config)
 
     const { resolve } = createResolver(import.meta.url)

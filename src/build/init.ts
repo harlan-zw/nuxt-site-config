@@ -37,7 +37,7 @@ export async function initSiteConfig(siteConfig: SiteConfigInput): Promise<SiteC
     siteConfigContainer.push(envSiteConfig)
     // not actually needed
     if (nuxt)
-      siteConfigContainer.push(nuxt?.options.runtimeConfig.public.site)
+      siteConfigContainer.push(nuxt?.options.runtimeConfig.public.site as SiteConfigInput)
   }
 
   siteConfigContainer.push(siteConfig)
