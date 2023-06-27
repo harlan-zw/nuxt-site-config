@@ -15,7 +15,7 @@ export interface SiteConfig {
   url?: string
 
   titleSeparator?: string
-  index?: boolean
+  indexable?: boolean
   trailingSlash?: boolean
 
   locale?: string
@@ -58,7 +58,7 @@ export interface SiteConfigInput {
   titleSeparator?: string
   language?: string
 
-  index?: boolean | string
+  indexable?: boolean | string
   trailingSlash?: boolean | string
 }
 
