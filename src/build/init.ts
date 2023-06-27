@@ -17,7 +17,7 @@ async function getPkgJsonContextConfig(rootDir: string) {
   }
 }
 
-export async function initSiteConfig(siteConfig: SiteConfigInput): Promise<SiteConfig> {
+export async function initSiteConfig(): Promise<SiteConfig> {
   // use defaults from runtime config
   const nuxt = tryUseNuxt()
   const rootDir = nuxt?.options.rootDir || process.cwd()
@@ -39,7 +39,17 @@ export async function initSiteConfig(siteConfig: SiteConfigInput): Promise<SiteC
     if (nuxt)
       siteConfigContainer.push(nuxt?.options.runtimeConfig.public.site as SiteConfigInput)
   }
+  return siteConfigContainer.get()
+}
 
+export async function updateSiteConfig(siteConfig: SiteConfigInput) {
+  if (!siteConfigContainer)
+    await initSiteConfig()
   siteConfigContainer.push(siteConfig)
+}
+
+export async function useSiteConfig() {
+  if (!siteConfigContainer)
+    await initSiteConfig()
   return siteConfigContainer.get()
 }

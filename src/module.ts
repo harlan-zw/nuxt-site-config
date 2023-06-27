@@ -5,7 +5,7 @@ import {
   defineNuxtModule,
 } from '@nuxt/kit'
 import type { SiteConfig, SiteConfigInput } from './type'
-import { initSiteConfig } from './build/init'
+import { updateSiteConfig, useSiteConfig } from './build'
 
 export * from './type'
 
@@ -36,12 +36,6 @@ export default defineNuxtModule<ModuleOptions>({
     configKey: 'site',
   },
   async setup(config, nuxt) {
-    // @ts-ignore untyped
-    nuxt.options.runtimeConfig.public.site = await initSiteConfig({
-      ...nuxt.options.runtimeConfig.public.site,
-      ...config,
-    })
-
     const { resolve } = createResolver(import.meta.url)
 
     const composables = ['useSiteConfig', 'updateSiteConfig']
@@ -50,6 +44,17 @@ export default defineNuxtModule<ModuleOptions>({
         from: resolve(`./runtime/composables/${c}`),
         name: c,
       })
+    })
+
+    // merge the site config into the runtime config once modules are done extending it
+    nuxt.hook('modules:done', async () => {
+      // the module config should have the highest priority
+      await updateSiteConfig(config)
+      const siteConfig = await useSiteConfig()
+      // final hook for other modules to modify the site config
+      await nuxt.callHook('site-config:resolve', siteConfig)
+      // @ts-expect-error untyped
+      nuxt.options.runtimeConfig.public.site = siteConfig
     })
 
     const linkComposables = ['createInternalLinkResolver', 'resolveAbsoluteInternalLink', 'resolveTrailingSlash']
