@@ -4,7 +4,7 @@ import {
   createResolver,
   defineNuxtModule,
 } from '@nuxt/kit'
-import type { SiteConfig, SiteConfigContainer, SiteConfigInput } from './type'
+import type { SiteConfig, SiteConfigInput, SiteConfigStack } from './type'
 import { assertSiteConfig, updateSiteConfig, useSiteConfig } from './kit'
 import type { AssertionModes, ModuleAssertion } from '~/src/type'
 
@@ -17,7 +17,7 @@ export interface ModulePublicRuntimeConfig {
 
 declare module 'h3' {
   interface H3EventContext {
-    siteConfig: SiteConfigContainer
+    siteConfig: SiteConfigStack
   }
 }
 
@@ -34,7 +34,7 @@ declare module '@nuxt/schema' {
     site?: SiteConfigInput
   }
   interface Nuxt {
-    _siteConfig?: SiteConfigContainer
+    _siteConfig?: SiteConfigStack
     _siteConfigAsserts?: Partial<Record<Partial<AssertionModes>, ModuleAssertion[]>>
   }
 }
@@ -77,6 +77,7 @@ export default defineNuxtModule<ModuleOptions>({
       // final hook for other modules to modify the site config
       // @ts-expect-error untyped
       await nuxt.callHook('site-config:resolve', siteConfig)
+      // @ts-ignore runtime type
       nuxt.options.runtimeConfig.public.site = siteConfig
     })
 

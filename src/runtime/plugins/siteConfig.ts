@@ -1,5 +1,5 @@
 import type { SiteConfig } from '../../type'
-import { createSiteConfigContainer } from '../siteConfig'
+import { createSiteConfigStack } from '../siteConfig'
 import { defineNuxtPlugin, useRequestEvent, useState } from '#imports'
 
 export default defineNuxtPlugin({
@@ -7,24 +7,24 @@ export default defineNuxtPlugin({
   enforce: 'pre', // or 'post'
   async setup(nuxtApp) {
     // this is the equivalent of a normal functional plugin
-    let siteConfigContainer
+    let siteConfigStack
     if (process.server) {
-      siteConfigContainer = useRequestEvent().context.siteConfig
+      siteConfigStack = useRequestEvent().context.siteConfig
       nuxtApp.hooks.hook('app:rendered', () => {
         useState('site-config', () => useRequestEvent().context.siteConfig.get())
       })
     }
-    if (!siteConfigContainer)
-      siteConfigContainer = createSiteConfigContainer()
+    if (!siteConfigStack)
+      siteConfigStack = createSiteConfigStack()
     if (process.client) {
       // init with runtime config and app config
       const state = useState<SiteConfig>('site-config')
       if (state)
-        siteConfigContainer.push(state.value)
+        siteConfigStack.push(state.value)
     }
     return {
       provide: {
-        siteConfig: siteConfigContainer,
+        siteConfig: siteConfigStack,
       },
     }
   },

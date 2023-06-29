@@ -1,16 +1,16 @@
 import type {
-  SiteConfigContainer,
   SiteConfigInput,
+  SiteConfigStack,
 } from '../../type'
 import { useNuxtApp, useRequestEvent } from '#imports'
 
 export function updateSiteConfig(input: SiteConfigInput = {}) {
   if (process.server) {
-    const container = useRequestEvent().context.siteConfig
-    container.push(input)
+    const stack = useRequestEvent().context.siteConfig
+    stack.push(input)
     return
   }
 
-  const container = useNuxtApp().$siteConfig as SiteConfigContainer
-  container.push(input)
+  const stack = useNuxtApp().$siteConfig as SiteConfigStack
+  stack.push(input)
 }

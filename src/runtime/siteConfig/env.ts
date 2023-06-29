@@ -5,6 +5,7 @@ const processShim = typeof process !== 'undefined' ? process : {} as typeof Proc
 const envShim = processShim.env || {}
 
 export const envSiteConfig: SiteConfigInput = {
+  _context: 'env',
   url: [
     envShim.NUXT_PUBLIC_VERCEL_URL, // vercel
     envShim.NUXT_PUBLIC_URL, // netlify

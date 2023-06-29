@@ -1,7 +1,7 @@
 import { tryUseNuxt } from '@nuxt/kit'
 import { readPackageJSON } from 'pkg-types'
-import type { SiteConfigContainer, SiteConfigInput } from '../type'
-import { createSiteConfigContainer } from '../runtime/siteConfig'
+import type { SiteConfigInput, SiteConfigStack } from '../type'
+import { createSiteConfigStack } from '../runtime/siteConfig'
 import { envSiteConfig } from '../runtime/siteConfig/env'
 
 async function getPkgJsonContextConfig(rootDir: string) {
@@ -10,12 +10,13 @@ async function getPkgJsonContextConfig(rootDir: string) {
     return {}
 
   return <SiteConfigInput> {
+    _context: 'package.json',
     name: pkgJson.name,
     description: pkgJson.description,
   }
 }
 
-export async function initSiteConfig(): Promise<SiteConfigContainer | undefined> {
+export async function initSiteConfig(): Promise<SiteConfigStack | undefined> {
   // use defaults from runtime config
   const nuxt = tryUseNuxt()
   if (!nuxt)
@@ -23,14 +24,15 @@ export async function initSiteConfig(): Promise<SiteConfigContainer | undefined>
 
   let siteConfig = nuxt._siteConfig
   if (siteConfig)
-    return
+    return siteConfig
 
   const rootDir = nuxt?.options.rootDir || process.cwd()
   // only when called the first time
-  siteConfig = createSiteConfigContainer()
+  siteConfig = createSiteConfigStack()
   const isNodeEnv = !!process.env.NODE_ENV
   // the root dir is maybe the name of the site
   siteConfig.push({
+    _context: 'system',
     name: rootDir.split('/').pop(),
     indexable: isNodeEnv ? process.env.NODE_ENV === 'production' : !process.dev,
   })
@@ -49,6 +51,7 @@ export async function initSiteConfig(): Promise<SiteConfigContainer | undefined>
   }
   // support legacy config
   siteConfig.push(<SiteConfigInput> {
+    _context: 'legacyRuntimeConfig',
     url: getRuntimeConfig('Url', '_URL'),
     name: getRuntimeConfig('Name', '_NAME'),
     description: getRuntimeConfig('Description', '_DESCRIPTION'),
@@ -56,18 +59,28 @@ export async function initSiteConfig(): Promise<SiteConfigContainer | undefined>
     locale: getRuntimeConfig('Language', '_LANGUAGE'),
     indexable: getRuntimeConfig('Indexable', '_INDEXABLE'),
   })
-  siteConfig.push(nuxt?.options.runtimeConfig.public.site as SiteConfigInput)
+  siteConfig.push({
+    _context: 'runtimeConfig',
+    ...(nuxt?.options.runtimeConfig.public.site as any as SiteConfigInput || {}),
+  })
 
   nuxt._siteConfig = siteConfig
   return siteConfig
 }
 
+async function getSiteConfigStack() {
+  const lastFunctionName = new Error('tmp').stack?.split('\n')[2].split(' ')[5]
+  const container = await initSiteConfig()
+  if (!container)
+    throw new Error(`Site config isn't initialized. Make sure you're calling \`${lastFunctionName}\` within the Nuxt context.`)
+  return container
+}
 export async function updateSiteConfig(input: SiteConfigInput) {
-  // make sure it is initialized
-  (await initSiteConfig())?.push(input)
+  const container = await getSiteConfigStack()
+  container.push(input)
 }
 
 export async function useSiteConfig() {
-  // make sure it is initialized
-  return (await initSiteConfig())?.get() || {}
+  const container = await getSiteConfigStack()
+  return container.get()
 }

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { assertSiteConfig, requireSiteConfig, updateSiteConfig } from '../src/build'
+import { assertSiteConfig, requireSiteConfig, updateSiteConfig } from '../src/kit'
 
 describe('assertions', async () => {
   it('prerender', async () => {

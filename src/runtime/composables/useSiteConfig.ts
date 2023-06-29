@@ -1,4 +1,4 @@
-import type { SiteConfigContainer } from '../../type'
+import type { SiteConfigStack } from '../../type'
 import {
   useNuxtApp,
   useRequestEvent,
@@ -6,11 +6,11 @@ import {
 
 export function useSiteConfig() {
   if (process.server) {
-    const container = useRequestEvent().context.siteConfig as SiteConfigContainer
+    const stack = useRequestEvent().context.siteConfig as SiteConfigStack
     // ensure a consistent api
-    return container.get()
+    return stack.get()
   }
 
-  const container = useNuxtApp().$siteConfig as SiteConfigContainer
-  return container.get()
+  const stack = useNuxtApp().$siteConfig as SiteConfigStack
+  return stack.get()
 }

@@ -45,9 +45,17 @@ export interface SiteConfig {
    * Used by: nuxt-schema-org, nuxt-seo-kit
    */
   logo?: string
+  /**
+   * The mapping of the context of each site config value being set.
+   */
+  _context: Partial<Record<Exclude<keyof SiteConfig, '_meta'>, string>>
 }
 
 export interface SiteConfigInput {
+  /**
+   * A description of the context which added the config.
+   */
+  _context?: string
   url?: string
   name?: string
   description?: string
@@ -60,8 +68,8 @@ export interface SiteConfigInput {
   trailingSlash?: boolean | string
 }
 
-export interface SiteConfigContainer {
-  push: (config: SiteConfigInput) => void
+export interface SiteConfigStack {
+  push: (config: SiteConfigInput | SiteConfig) => void
   get: () => SiteConfig
 }
 
