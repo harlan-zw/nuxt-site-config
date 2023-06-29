@@ -27,51 +27,63 @@ Shared site configuration for Nuxt 3 modules.
 </table>
 </p>
 
-ℹ️ Looking for a complete SEO solution? Check out [Nuxt SEO Kit](https://github.com/harlan-zw/nuxt-seo-kit).
-
 ## Background
 
 Site config is a general subset of configurations related to common site-wide settings.
 They are often used in many SEO and performance modules.
-Some examples are: site name, description, canonical URL and trailing slashes.
+Some examples are: url, name, description and trailing slashes.
 
-At the surface, most of this config is simple.
-However, some config is more complex, such as the site URL.
-This URL can be inferred
-from the request headers, however, what if we're prerendering pages?
-Do we take into effect the base URL?
+Usually it's expected that the end-user will configure these settings themselves for each module,
+however,
+as a module author it can be quite difficult to support all the ways this config is used, and the end-user experience
+of not having a single source of truth becomes difficult to maintain.
 
-Also,
-we may want some of this config to be powered by environment variables
-(e.g. staging, production environments), whereas maybe it's more 
-appropriate to handle this config within runtime logic (multi-tenant app).
+Let's consider the case of a module that needs the URL of the site. 
 
-Things start getting complicated.
+The module can make use of the SSR utilities to get the URL from the request headers at runtime, which is great!
 
-By creating a standard API for using site config,
-we make life easier for end users with less config, intelligent defaults and powerful overrides.
-Allowing modules to work better together.
+But what if:
+- The URL is needed when prerendering or at build time?
+- The URL needs to conditionally swap at runtime (such as a multi-tenant app or i18n seperated sites)
+- The URL from the headers is not the canonical URL?
+
+Now imagine this problem for every module that needs this config, and the config extends beyond just the URL.
+
+## Solution
+
+We need:
+- The user to be able to configure this URL at build time and runtime for any modules which need it.
+- The data source to remain in sync across runtimes.
+- A hierarchy of config sources, so that we can provide intelligent defaults and overrides. Relying on environment data where possible.
+- A generic API for modules to use this config.
+
+The solution is a subset of the App config functionality, except with build-time support.
+The underlying implementation 
+is currently bespoke, but it will likely be using app config directly in the future
+(once SSR runtime syncing is supported).
 
 ## Features
 
-- 😌 Zero-config defaults from environment: site URL, name and description
+- 😌 Zero-config defaults: URL, name and description
 - 🎨 Multiple config sources: app.config.ts, nuxt.config.ts and environment variables
-- 🤖 Smart stackable overrides for build and runtime
-- Universal runtimes: Use in Nuxt, Nuxt App, Nitro
-- Editable with HMR and reactivity
+- 🤖 Smart stackable overrides for build-time and runtime with ledger capabilities
+- ✅ Safe fallbacks with runtime assertions
+- Site-config based composables for modules to use: `resolveTrailingSlash`, `useNitroOrigin`, etc.
 
 ## Install
 
-```bash
-npm install nuxt-site-config
+:Warn: This module is experimental. The default supported site config keys are subject to change based on feedback.
 
-# Using yarn
+```bash
+#
+npm install nuxt-site-config
+#
 yarn add nuxt-site-config
+#
+pnpm add nuxt-site-config
 ```
 
 ## Setup
-
-**Modules**
 
 ```ts
 export default defineNuxtModule<ModuleOptions>({
@@ -79,18 +91,6 @@ export default defineNuxtModule<ModuleOptions>({
     // ...
     await installModule('nuxt-site-config')
   }
-})
-```
-
-**Nuxt Apps**
-
-_nuxt.config.ts_
-
-```ts
-export default defineNuxtConfig({
-  modules: [
-    'nuxt-site-config',
-  ],
 })
 ```
 
