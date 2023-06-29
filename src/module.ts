@@ -72,7 +72,10 @@ export default defineNuxtModule<ModuleOptions>({
     // merge the site config into the runtime config once modules are done extending it
     nuxt.hook('modules:done', async () => {
       // the module config should have the highest priority
-      await updateSiteConfig(config)
+      await updateSiteConfig({
+        _context: 'nuxt:config:site',
+        ...config,
+      })
       const siteConfig = await useSiteConfig()
       // final hook for other modules to modify the site config
       // @ts-expect-error untyped
