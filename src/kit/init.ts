@@ -27,7 +27,7 @@ export async function initSiteConfig(): Promise<SiteConfigContainer | undefined>
 
   const rootDir = nuxt?.options.rootDir || process.cwd()
   // only when called the first time
-  nuxt._siteConfig = siteConfig = createSiteConfigContainer()
+  siteConfig = createSiteConfigContainer()
   const isNodeEnv = !!process.env.NODE_ENV
   // the root dir is maybe the name of the site
   siteConfig.push({
@@ -58,7 +58,8 @@ export async function initSiteConfig(): Promise<SiteConfigContainer | undefined>
   })
   siteConfig.push(nuxt?.options.runtimeConfig.public.site as SiteConfigInput)
 
-  return nuxt._siteConfig
+  nuxt._siteConfig = siteConfig
+  return siteConfig
 }
 
 export async function updateSiteConfig(input: SiteConfigInput) {
