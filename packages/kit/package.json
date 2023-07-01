@@ -1,0 +1,41 @@
+{
+  "name": "nuxt-site-config-kit",
+  "type": "module",
+  "version": "0.6.0",
+  "description": "Shared site configuration build-time utilities for Nuxt 3 modules.",
+  "license": "MIT",
+  "funding": "https://github.com/sponsors/harlan-zw",
+  "homepage": "https://github.com/harlan-zw/nuxt-site-config#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/harlan-zw/nuxt-site-config.git",
+    "directory": "packages/kit"
+  },
+  "bugs": {
+    "url": "https://github.com/harlan-zw/nuxt-site-config/issues"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.mjs"
+    }
+  },
+  "main": "./dist/index.cjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "lint": "eslint . --fix",
+    "build": "unbuild",
+    "stub": "unbuild --stub"
+  },
+  "dependencies": {
+    "@nuxt/kit": "^3.6.1",
+    "defu": "^6.1.2",
+    "pkg-types": "^1.0.3",
+    "site-config-stack": "workspace:*",
+    "ufo": "^1.1.2"
+  }
+}

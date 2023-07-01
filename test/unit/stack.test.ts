@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { createSiteConfigStack } from '../src/runtime/siteConfig'
+import { createSiteConfigStack } from '../../src/runtime/siteConfig'
 
 describe('stack', () => {
   it('basic', () => {
@@ -10,7 +10,7 @@ describe('stack', () => {
     })
     expect(stack.get()).toMatchInlineSnapshot(`
       {
-        "_meta": {
+        "_context": {
           "name": "foo",
         },
         "name": "My Site Name",
@@ -49,6 +49,7 @@ describe('stack', () => {
     const stack = createSiteConfigStack()
     stack.push({
       name: 'My Site Name',
+      logo: 'https://example.com/logo.png',
       _context: 'foo',
     })
     stack.push({
@@ -59,7 +60,18 @@ describe('stack', () => {
     const resolvedStack = stack.get()
     const newStack = createSiteConfigStack()
     newStack.push(resolvedStack)
-    expect(newStack.get()).toMatchInlineSnapshot()
+    expect(newStack.get()).toMatchInlineSnapshot(`
+      {
+        "_context": {
+          "logo": "foo",
+          "name": "bar",
+          "url": "bar",
+        },
+        "logo": "https://example.com/logo.png",
+        "name": "New Site Name",
+        "url": "https://example.com",
+      }
+    `)
   })
   it ('anonymous context', () => {
     const stack = createSiteConfigStack()

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 // we need to intercept the `to` property and make sure that we have the right trailing slash
-import { computed, createInternalLinkResolver, defineProps } from '#imports'
+import { computed, createInternalLinkResolver } from '#imports'
 
 const props = defineProps({
   to: {

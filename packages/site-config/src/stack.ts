@@ -1,4 +1,4 @@
-import type { SiteConfig, SiteConfigInput, SiteConfigStack } from '../../type'
+import type { SiteConfig, SiteConfigInput, SiteConfigStack } from './type'
 import { normalizeSiteConfig } from './'
 
 export function createSiteConfigStack(): SiteConfigStack {
@@ -24,6 +24,7 @@ export function createSiteConfigStack(): SiteConfigStack {
     // what context it came from, we'll need a custom defu function
     for (const o in stack) {
       for (const k in stack[o]) {
+        const key = k as keyof SiteConfig
         // @ts-expect-error untyped
         const val = stack[o][k]
         // first do the merge, pretty simple
@@ -31,7 +32,12 @@ export function createSiteConfigStack(): SiteConfigStack {
           // @ts-expect-error untyped
           siteConfig[k] = val
           // we're setting the key value, update the meta
-          siteConfig._context[k] = stack[o]._context?.[k] || stack[o]._context || 'anonymous'
+          // @ts-expect-error untyped
+          siteConfig._context[key] = stack[o]._context?.[key]
+          if (!siteConfig._context[key] && typeof stack[o] === 'string')
+            siteConfig._context[key] = stack[o]._context
+          if (!siteConfig._context[key])
+            siteConfig._context[key] = 'anonymous'
         }
       }
     }

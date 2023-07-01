@@ -1,2 +1,5 @@
 packages:
   - playground
+  - packages/module
+  - packages/kit
+  - packages/site-config

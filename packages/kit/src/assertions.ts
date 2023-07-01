@@ -1,5 +1,5 @@
-import { tryUseNuxt, useLogger } from '@nuxt/kit'
-import type { AssertionModes, ModuleAssertion, SiteConfig } from '../type'
+import { tryUseNuxt, useLogger, useNuxt } from '@nuxt/kit'
+import type { AssertionModes, ModuleAssertion, SiteConfig } from './type'
 import { useSiteConfig } from './init'
 
 export function requireSiteConfig(context: string, requirements: Partial<Record<keyof SiteConfig, string>>, modes: Partial<Record<AssertionModes, boolean>>) {
@@ -18,9 +18,8 @@ export function requireSiteConfig(context: string, requirements: Partial<Record<
 }
 
 export async function assertSiteConfig(mode: AssertionModes, options?: { throwError?: boolean; logErrors?: boolean }) {
-  const nuxt = tryUseNuxt()
-  if (!nuxt)
-    return
+  const siteConfig = await useSiteConfig()
+  const nuxt = useNuxt()
   let valid = true
   const messages: string[] = []
   const logger = useLogger('nuxt-site-config')
@@ -28,7 +27,6 @@ export async function assertSiteConfig(mode: AssertionModes, options?: { throwEr
   const assertions: ModuleAssertion[] | false = nuxt._siteConfigAsserts?.[mode] || false
   if (!assertions)
     return { valid, messages }
-  const siteConfig = await useSiteConfig()
   assertions.forEach(({ context, requirements }) => {
     Object.keys(requirements).forEach((k) => {
       const key = k as keyof SiteConfig

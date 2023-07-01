@@ -1,7 +1,7 @@
 import type {
   SiteConfigInput,
   SiteConfigStack,
-} from '../../type'
+} from 'site-config-stack'
 import { useNuxtApp, useRequestEvent } from '#imports'
 
 export function updateSiteConfig(input: SiteConfigInput = {}) {

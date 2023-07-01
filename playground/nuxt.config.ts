@@ -2,7 +2,7 @@ import { defineNuxtConfig } from 'nuxt/config'
 
 export default defineNuxtConfig({
   modules: [
-    '../src/module',
+    'nuxt-site-config',
     '@nuxthq/ui',
     'nuxt-icon',
     '@nuxtjs/i18n'

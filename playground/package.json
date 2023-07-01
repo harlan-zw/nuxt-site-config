@@ -1,11 +1,12 @@
 {
   "private": true,
-  "name": "nuxt-breadcrumbs-playground",
+  "name": "nuxt-site-config-playground",
   "type": "module",
   "main": "./nuxt.config.ts",
   "dependencies": {
-    "@nuxthq/ui": "^2.2.0",
-    "nuxt-icon": "^0.4.1",
-    "@nuxtjs/i18n": "^8.0.0-beta.12"
+    "@nuxthq/ui": "^2.5.0",
+    "@nuxtjs/i18n": "^8.0.0-beta.12",
+    "nuxt-site-config": "workspace:*",
+    "nuxt-icon": "^0.4.2"
   }
 }

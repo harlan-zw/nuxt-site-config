@@ -1,8 +1,8 @@
 import { tryUseNuxt } from '@nuxt/kit'
 import { readPackageJSON } from 'pkg-types'
-import type { SiteConfigInput, SiteConfigStack } from '../type'
-import { createSiteConfigStack } from '../runtime/siteConfig'
-import { envSiteConfig } from '../runtime/siteConfig/env'
+import type { SiteConfig } from 'site-config-stack'
+import { createSiteConfigStack, envSiteConfig } from 'site-config-stack'
+import type { SiteConfigInput, SiteConfigStack } from './type'
 
 async function getPkgJsonContextConfig(rootDir: string) {
   const pkgJson = await readPackageJSON(undefined, { startingFrom: rootDir })
@@ -68,19 +68,19 @@ export async function initSiteConfig(): Promise<SiteConfigStack | undefined> {
   return siteConfig
 }
 
-async function getSiteConfigStack() {
+async function getSiteConfigStack(): Promise<SiteConfigStack> {
   const lastFunctionName = new Error('tmp').stack?.split('\n')[2].split(' ')[5]
   const container = await initSiteConfig()
   if (!container)
     throw new Error(`Site config isn't initialized. Make sure you're calling \`${lastFunctionName}\` within the Nuxt context.`)
   return container
 }
-export async function updateSiteConfig(input: SiteConfigInput) {
+export async function updateSiteConfig(input: SiteConfigInput): Promise<void> {
   const container = await getSiteConfigStack()
   container.push(input)
 }
 
-export async function useSiteConfig() {
+export async function useSiteConfig(): Promise<SiteConfig> {
   const container = await getSiteConfigStack()
   return container.get()
 }

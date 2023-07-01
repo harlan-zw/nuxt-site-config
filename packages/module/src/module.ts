@@ -4,9 +4,8 @@ import {
   createResolver,
   defineNuxtModule,
 } from '@nuxt/kit'
-import type { SiteConfig, SiteConfigInput, SiteConfigStack } from './type'
-import { assertSiteConfig, updateSiteConfig, useSiteConfig } from './kit'
-import type { AssertionModes, ModuleAssertion } from '~/src/type'
+import { assertSiteConfig, updateSiteConfig, useSiteConfig } from 'nuxt-site-config-kit'
+import type { AssertionModes, ModuleAssertion, SiteConfig, SiteConfigInput, SiteConfigStack } from 'nuxt-site-config-kit'
 
 export interface ModuleOptions extends SiteConfigInput {
 }
@@ -80,7 +79,7 @@ export default defineNuxtModule<ModuleOptions>({
       // final hook for other modules to modify the site config
       // @ts-expect-error untyped
       await nuxt.callHook('site-config:resolve', siteConfig)
-      // @ts-ignore runtime type
+      // @ts-expect-error runtime type
       nuxt.options.runtimeConfig.public.site = siteConfig
     })
 
@@ -132,6 +131,9 @@ export default defineNuxtModule<ModuleOptions>({
         from: resolve('./runtime/nitro/composables/updateSiteConfig'),
       },
     ])
+
+    // add site-conifg-stack to transpile
+    nuxt.options.build.transpile.push('site-config-stack')
 
     addPlugin({
       src: resolve('./runtime/plugins/siteConfig'),

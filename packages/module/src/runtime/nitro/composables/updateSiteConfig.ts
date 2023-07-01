@@ -1,6 +1,6 @@
 import type { H3Event } from 'h3'
-import type { SiteConfigInput } from '../../../type'
-import { createSiteConfigStack } from '../../siteConfig'
+import type { SiteConfigInput } from 'site-config-stack'
+import { createSiteConfigStack } from 'site-config-stack'
 
 export function updateSiteConfig(e: H3Event, input: SiteConfigInput) {
   e.context.siteConfig = e.context.siteConfig || createSiteConfigStack()

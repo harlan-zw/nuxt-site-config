@@ -1,5 +1,5 @@
-import type { SiteConfig } from '../../type'
-import { createSiteConfigStack } from '../siteConfig'
+import { createSiteConfigStack } from 'site-config-stack'
+import type { SiteConfig } from 'site-config-stack'
 import { defineNuxtPlugin, useRequestEvent, useState } from '#imports'
 
 export default defineNuxtPlugin({
