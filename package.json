@@ -1,5 +1,6 @@
 {
-  "name": "nuxt-site-config",
+  "name": "nuxt-site-config-mono",
+  "private": "true",
   "type": "module",
   "version": "0.7.3",
   "packageManager": "pnpm@8.6.5",
@@ -14,22 +15,6 @@
   "bugs": {
     "url": "https://github.com/harlan-zw/nuxt-site-config/issues"
   },
-  "exports": {
-    ".": {
-      "types": "./dist/types.d.ts",
-      "require": "./dist/module.cjs",
-      "import": "./dist/module.mjs"
-    },
-    "./kit": {
-      "types": "./dist/kit.d.ts",
-      "import": "./dist/kit.mjs"
-    }
-  },
-  "main": "./dist/module.cjs",
-  "types": "./dist/types.d.ts",
-  "files": [
-    "dist"
-  ],
   "scripts": {
     "lint": "eslint . --fix",
     "build": "pnpm --filter='./packages/*' build",
