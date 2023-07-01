@@ -1,4 +1,4 @@
-import type Process from 'process'
+import type Process from 'node:process'
 import type { SiteConfigInput } from './type'
 
 const processShim = typeof process !== 'undefined' ? process : {} as typeof Process
