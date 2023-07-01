@@ -35,7 +35,6 @@
   },
   "dependencies": {
     "@nuxt/kit": "3.6.1",
-    "defu": "^6.1.2",
     "nuxt-site-config-kit": "workspace:*",
     "site-config-stack": "workspace:*",
     "ufo": "^1.1.2"
