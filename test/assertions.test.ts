@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { assertSiteConfig, requireSiteConfig, updateSiteConfig } from '../src/kit'
+import { assertSiteConfig, requireSiteConfig, updateSiteConfig } from '../packages/kit'
 
 // @todo refactor out stateless api
 describe.skip('assertions', async () => {

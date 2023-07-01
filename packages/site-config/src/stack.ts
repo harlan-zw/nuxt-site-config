@@ -33,11 +33,7 @@ export function createSiteConfigStack(): SiteConfigStack {
           siteConfig[k] = val
           // we're setting the key value, update the meta
           // @ts-expect-error untyped
-          siteConfig._context[key] = stack[o]._context?.[key]
-          if (!siteConfig._context[key] && typeof stack[o] === 'string')
-            siteConfig._context[key] = stack[o]._context
-          if (!siteConfig._context[key])
-            siteConfig._context[key] = 'anonymous'
+          siteConfig._context[key] = stack[o]._context?.[key] || stack[o]._context || 'anonymous'
         }
       }
     }

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { createSiteConfigStack } from '../../src/runtime/siteConfig'
+import { createSiteConfigStack } from '../../packages/site-config/src/index'
 
 describe('stack', () => {
   it('basic', () => {
