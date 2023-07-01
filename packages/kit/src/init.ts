@@ -30,6 +30,11 @@ export async function initSiteConfig(): Promise<SiteConfigStack | undefined> {
   // only when called the first time
   siteConfig = createSiteConfigStack()
   const isNodeEnv = !!process.env.NODE_ENV
+  siteConfig.push({
+    _context: 'defaults',
+    trailingSlash: false,
+    titleSeparator: '|',
+  })
   // the root dir is maybe the name of the site
   siteConfig.push({
     _context: 'system',
