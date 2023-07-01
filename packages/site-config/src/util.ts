@@ -1,4 +1,4 @@
-import type { SiteConfig, SiteConfigInput } from './type'
+import type { SiteConfig } from './type'
 
 export function normalizeSiteConfig(config: SiteConfig) {
   // fix booleans index / trailingSlash
