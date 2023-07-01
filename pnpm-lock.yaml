@@ -62,9 +62,6 @@ importers:
       '@nuxt/kit':
         specifier: 3.6.1
         version: 3.6.1(rollup@3.23.0)
-      defu:
-        specifier: ^6.1.2
-        version: 6.1.2
       nuxt-site-config-kit:
         specifier: workspace:*
         version: link:../kit

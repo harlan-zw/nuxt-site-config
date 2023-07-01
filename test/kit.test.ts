@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { updateSiteConfig } from '../src/packages/kit/src'
+import { updateSiteConfig } from '../packages/kit/src'
 
 // @todo provide a context object api
 describe('kit', async () => {

@@ -9,9 +9,24 @@ await setup({
 })
 
 describe('basic', async () => {
-  it('renders the index page with expected meta', async () => {
-    // Get response to a server-rendered page with `$fetch`.
-    const html = await $fetch('/')
-    expect(html).toContain('Welcome to My Site Name')
+  it ('ssr', async () => {
+    const siteConfig = await $fetch('/api/default')
+    expect(siteConfig).toMatchInlineSnapshot(`
+      {
+        "_context": {
+          "indexable": "system",
+          "name": "package.json",
+          "titleSeparator": "defaults",
+          "trailingSlash": "defaults",
+          "url": "nitro:init",
+        },
+        "indexable": false,
+        "name": "nuxt-site-config-playground",
+        "origin": "http://127.0.0.1:33601/",
+        "titleSeparator": "|",
+        "trailingSlash": false,
+        "url": "http://127.0.0.1:33601/",
+      }
+    `)
   })
 })
