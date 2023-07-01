@@ -11,7 +11,10 @@ await setup({
 describe('basic', async () => {
   it ('ssr', async () => {
     const siteConfig = await $fetch('/api/default')
-    expect(siteConfig).toMatchInlineSnapshot(`
+    // replace ports in snapshot with pattern `:port/`
+    // convert json to string
+    const s = JSON.stringify(siteConfig)
+    expect(JSON.parse(s.replace(/:\d+\//g, ':port/'))).toMatchInlineSnapshot(`
       {
         "_context": {
           "indexable": "system",
@@ -22,10 +25,10 @@ describe('basic', async () => {
         },
         "indexable": false,
         "name": "nuxt-site-config-playground",
-        "origin": "http://127.0.0.1:33601/",
+        "origin": "http://127.0.0.1:port/",
         "titleSeparator": "|",
         "trailingSlash": false,
-        "url": "http://127.0.0.1:33601/",
+        "url": "http://127.0.0.1:port/",
       }
     `)
   })
