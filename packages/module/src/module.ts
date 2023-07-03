@@ -110,10 +110,6 @@ export default defineNuxtModule<ModuleOptions>({
       name: 'SiteLink',
     })
 
-    // need to transpile shared
-    const shared = resolve('./runtime/siteConfig')
-    nuxt.options.build.transpile.push(shared)
-
     nuxt.options.nitro.imports = nuxt.options.nitro.imports || {}
     nuxt.options.nitro.imports.imports = nuxt.options.nitro.imports.imports || []
     nuxt.options.nitro.imports.imports.push(...[
@@ -131,6 +127,16 @@ export default defineNuxtModule<ModuleOptions>({
         as: 'updateSiteConfig',
         name: 'updateSiteConfig',
         from: resolve('./runtime/nitro/composables/updateSiteConfig'),
+      },
+      {
+        as: 'withSiteUrl',
+        name: 'withSiteUrl',
+        from: resolve('./runtime/nitro/composables/utils'),
+      },
+      {
+        as: 'withSiteTrailingSlash',
+        name: 'withSiteTrailingSlash',
+        from: resolve('./runtime/nitro/composables/utils'),
       },
     ])
 

@@ -1,19 +1,18 @@
 import { fixSlashes, resolveSitePath } from 'site-config-stack'
-import { useRuntimeConfig, useSiteConfig } from '#imports'
+import type { H3Event } from 'h3'
 
-export function withSiteTrailingSlash(path: string) {
-  const siteConfig = useSiteConfig()
+export function withSiteTrailingSlash(e: H3Event, path: string) {
+  const siteConfig = e.context.siteConfig?.get()
   return fixSlashes(siteConfig.trailingSlash, path)
 }
 
-export function withSiteUrl(path: string, options: { withBase?: boolean } = {}) {
-  const siteConfig = useSiteConfig()
-  const base = useRuntimeConfig().app.baseURL || '/'
+export function withSiteUrl(e: H3Event, path: string, options: { withBase?: boolean } = {}) {
+  const siteConfig = e.context.siteConfig?.get()
   return resolveSitePath(path, {
     absolute: true,
-    siteUrl: siteConfig.url,
+    siteUrl: siteConfig.url || '',
     trailingSlash: siteConfig.trailingSlash,
-    base,
+    base: e.context.nitro.baseURL,
     withBase: options.withBase,
   })
 }
