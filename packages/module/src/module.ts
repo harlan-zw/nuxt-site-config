@@ -4,7 +4,7 @@ import {
   createResolver,
   defineNuxtModule,
 } from '@nuxt/kit'
-import { assertSiteConfig, updateSiteConfig, useSiteConfig } from 'nuxt-site-config-kit'
+import { assertSiteConfig, initSiteConfig, updateSiteConfig, useSiteConfig } from 'nuxt-site-config-kit'
 import type { AssertionModes, ModuleAssertion, SiteConfig, SiteConfigInput, SiteConfigStack } from 'nuxt-site-config-kit'
 
 export interface ModuleOptions extends SiteConfigInput {
@@ -68,6 +68,8 @@ export default defineNuxtModule<ModuleOptions>({
       })
     })
 
+    await initSiteConfig()
+
     // merge the site config into the runtime config once modules are done extending it
     nuxt.hook('modules:done', async () => {
       // the module config should have the highest priority
@@ -90,7 +92,7 @@ export default defineNuxtModule<ModuleOptions>({
       })
     })
 
-    const linkComposables = ['createInternalLinkResolver', 'resolveAbsoluteInternalLink', 'resolveTrailingSlash']
+    const linkComposables = ['createSitePathResolver', 'withSiteTrailingSlash', 'withSiteUrl']
     linkComposables.forEach((c) => {
       addImports({
         from: resolve('./runtime/composables/utils'),

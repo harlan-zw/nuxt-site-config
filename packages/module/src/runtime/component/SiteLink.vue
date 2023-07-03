@@ -1,33 +1,23 @@
 <script lang="ts" setup>
 // we need to intercept the `to` property and make sure that we have the right trailing slash
-import { computed, createInternalLinkResolver } from '#imports'
+import { createSitePathResolver, toRefs } from '#imports'
 
-const props = defineProps({
-  to: {
-    type: String,
-    required: true,
-  },
-})
+const props = defineProps<{
+  to: string
+  withBase?: boolean
+  absolute?: boolean
+}>()
 
-const linkResolver = createInternalLinkResolver()
+// make props refs
+const propRefs = toRefs(props)
 
-const to = computed(() => {
-  // only for relative links
-  if (props.to !== '/' && props.to.startsWith('/'))
-    return linkResolver(props.to)
-  return props.to
-})
+const linkResolver = createSitePathResolver({ withBase: propRefs.withBase, absolute: propRefs.absolute })
 
-const attrs = computed(() => {
-  return {
-    ...props,
-    to: to.value,
-  }
-})
+const to = linkResolver(propRefs.to)
 </script>
 
 <template>
-  <NuxtLink v-bind="{ ...$attrs, ...attrs }">
+  <NuxtLink :to="to">
     <slot />
   </NuxtLink>
 </template>

@@ -1,33 +1,39 @@
-import { withBase, withTrailingSlash, withoutTrailingSlash } from 'ufo'
-import { computed, useSiteConfig } from '#imports'
+import type { MaybeRef } from '@vue/reactivity'
+import { fixSlashes, resolveSitePath } from 'site-config-stack'
+import { computed, unref, useRuntimeConfig, useSiteConfig } from '#imports'
 
-function fixSlashes(trailingSlash: boolean, path: string) {
-  return trailingSlash ? withTrailingSlash(path) : withoutTrailingSlash(path)
-}
-
-export function resolveTrailingSlash(path: string) {
+export function createSitePathResolver(options: { absolute?: MaybeRef<boolean>; withBase?: MaybeRef<boolean> } = {}) {
   const siteConfig = useSiteConfig()
-  return computed(() => {
-    if (typeof siteConfig.trailingSlash === 'boolean')
-      return fixSlashes(siteConfig.trailingSlash, path)
-    return path
-  })
-}
-export function resolveAbsoluteInternalLink(relativeInternalLink: string) {
-  const siteConfig = useSiteConfig()
-  const slashes = resolveTrailingSlash(relativeInternalLink)
-  return computed(() => {
-    return withBase(slashes.value, siteConfig.url || '/')
-  })
-}
-
-export function createInternalLinkResolver(options: { absolute?: boolean } = {}) {
-  const siteConfig = useSiteConfig()
-  return (path: string) => {
-    if (typeof siteConfig.trailingSlash === 'boolean')
-      path = fixSlashes(siteConfig.trailingSlash, path)
-    if (!options.absolute)
-      return path
-    return withBase(path, siteConfig.url || '/')
+  const nuxtBase = useRuntimeConfig().app.baseURL || '/'
+  return (path: MaybeRef<string>) => {
+    // don't use any composables within here
+    return computed(() => resolveSitePath(unref(path), {
+      absolute: unref(options.absolute),
+      withBase: unref(options.withBase),
+      siteUrl: siteConfig.url,
+      trailingSlash: siteConfig.trailingSlash,
+      base: nuxtBase,
+    }))
   }
+}
+
+export function withSiteTrailingSlash(path: MaybeRef<string>) {
+  const siteConfig = useSiteConfig()
+  return computed(() => {
+    return fixSlashes(siteConfig.trailingSlash, unref(path))
+  })
+}
+
+export function withSiteUrl(path: MaybeRef<string>, options: { withBase?: boolean } = {}) {
+  const siteConfig = useSiteConfig()
+  const base = useRuntimeConfig().app.baseURL || '/'
+  return computed(() => {
+    return resolveSitePath(unref(path), {
+      absolute: true,
+      siteUrl: siteConfig.url,
+      trailingSlash: siteConfig.trailingSlash,
+      base,
+      withBase: options.withBase,
+    })
+  })
 }

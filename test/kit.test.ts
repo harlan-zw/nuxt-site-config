@@ -6,13 +6,13 @@ describe('kit', async () => {
   it('fails without nuxt context', async () => {
     let exception = false
     try {
-      await updateSiteConfig({
+      updateSiteConfig({
         name: 'My Site Name',
       })
     }
     catch (e) {
       exception = e
     }
-    expect(exception).toMatchInlineSnapshot('[Error: Site config isn\'t initialized. Make sure you\'re calling `Module.updateSiteConfig` within the Nuxt context.]')
+    expect(exception).toMatchInlineSnapshot('[Error: Nuxt context is missing.]')
   })
 })
