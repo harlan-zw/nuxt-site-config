@@ -15,9 +15,9 @@
     "allowSyntheticDefaultImports": true,
     "types": [
       "node"
-    ],
+    ]
   },
   "exclude": [
-    "./dist",
+    "./dist"
   ]
 }
