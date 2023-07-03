@@ -17,6 +17,11 @@ export default defineNuxtPlugin({
     if (!siteConfigStack)
       siteConfigStack = createSiteConfigStack()
     if (process.client) {
+      // let's add the site origin as the site name for SPA
+      siteConfigStack.push({
+        _context: 'window',
+        url: window.location.origin,
+      })
       // init with runtime config and app config
       const state = useState<SiteConfig>('site-config')
       if (state)
