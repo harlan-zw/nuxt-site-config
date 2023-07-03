@@ -29,6 +29,7 @@ export async function initSiteConfig(nuxt: Nuxt | null = tryUseNuxt()): Promise<
   siteConfig = createSiteConfigStack()
   siteConfig.push({
     _context: 'defaults',
+    locale: 'en',
     trailingSlash: false,
     titleSeparator: '|',
   })
