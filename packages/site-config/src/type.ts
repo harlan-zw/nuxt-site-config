@@ -12,11 +12,11 @@ export interface SiteConfig {
    */
   url?: string
 
-  titleSeparator?: string
-  indexable?: boolean
-  trailingSlash?: boolean
+  titleSeparator: string
+  indexable: boolean
+  trailingSlash: boolean
 
-  locale?: string
+  locale: string
   // content that may change depending on the language
   /**
    * The name of the site.
@@ -28,7 +28,7 @@ export interface SiteConfig {
    *
    * Used by: nuxt-schema-org, nuxt-seo-kit
    */
-  name?: string
+  name: string
   /**
    * The description of the site.
    *
@@ -45,6 +45,8 @@ export interface SiteConfig {
    * Used by: nuxt-schema-org, nuxt-seo-kit
    */
   logo?: string
+  coverImage?: string
+
   /**
    * The mapping of the context of each site config value being set.
    */

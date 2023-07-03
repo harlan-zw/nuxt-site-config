@@ -6,7 +6,7 @@ export function createSiteConfigStack(): SiteConfigStack {
 
   function push(input: SiteConfigInput) {
     if (!input._context) {
-      // use strack trace to detrermine functio name calling this
+      // use stack trace to determine function name calling this
       let lastFunctionName = new Error('tmp').stack?.split('\n')[2].split(' ')[5]
       // avoid exposing paths
       if (lastFunctionName?.includes('/'))
@@ -17,6 +17,7 @@ export function createSiteConfigStack(): SiteConfigStack {
   }
 
   function get() {
+    // @ts-expect-error untyped
     const siteConfig: SiteConfig = {
       _context: {},
     }
