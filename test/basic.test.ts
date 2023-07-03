@@ -18,12 +18,14 @@ describe('basic', async () => {
       {
         "_context": {
           "indexable": "system",
+          "locale": "defaults",
           "name": "package.json",
           "titleSeparator": "defaults",
           "trailingSlash": "defaults",
           "url": "nitro:init",
         },
         "indexable": false,
+        "locale": "en",
         "name": "nuxt-site-config-playground",
         "origin": "http://127.0.0.1:port/",
         "titleSeparator": "|",
