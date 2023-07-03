@@ -1,7 +1,8 @@
-import { tryUseNuxt } from '@nuxt/kit'
+import { installModule, resolvePath, tryUseNuxt } from '@nuxt/kit'
 import { readPackageJSON } from 'pkg-types'
 import type { SiteConfig } from 'site-config-stack'
 import { createSiteConfigStack, envSiteConfig } from 'site-config-stack'
+import type { Nuxt } from '@nuxt/schema'
 import type { SiteConfigInput, SiteConfigStack } from './type'
 
 async function getPkgJsonContextConfig(rootDir: string) {
@@ -16,9 +17,7 @@ async function getPkgJsonContextConfig(rootDir: string) {
   }
 }
 
-export async function initSiteConfig(): Promise<SiteConfigStack | undefined> {
-  // use defaults from runtime config
-  const nuxt = tryUseNuxt()
+export async function initSiteConfig(nuxt: Nuxt | null = tryUseNuxt()): Promise<SiteConfigStack | undefined> {
   if (!nuxt)
     return
 
@@ -26,15 +25,15 @@ export async function initSiteConfig(): Promise<SiteConfigStack | undefined> {
   if (siteConfig)
     return siteConfig
 
-  const rootDir = nuxt?.options.rootDir || process.cwd()
   // only when called the first time
   siteConfig = createSiteConfigStack()
-  const isNodeEnv = !!process.env.NODE_ENV
   siteConfig.push({
     _context: 'defaults',
     trailingSlash: false,
     titleSeparator: '|',
   })
+  const rootDir = nuxt?.options.rootDir || process.cwd()
+  const isNodeEnv = !!process.env.NODE_ENV
   // the root dir is maybe the name of the site
   siteConfig.push({
     _context: 'system',
@@ -73,19 +72,26 @@ export async function initSiteConfig(): Promise<SiteConfigStack | undefined> {
   return siteConfig
 }
 
-async function getSiteConfigStack(): Promise<SiteConfigStack> {
-  const lastFunctionName = new Error('tmp').stack?.split('\n')[2].split(' ')[5]
-  const container = await initSiteConfig()
-  if (!container)
-    throw new Error(`Site config isn't initialized. Make sure you're calling \`${lastFunctionName}\` within the Nuxt context.`)
-  return container
+export async function installNuxtSiteConfig(nuxt: Nuxt | null = tryUseNuxt()): Promise<void> {
+  await installModule(await resolvePath('nuxt-site-config'))
+  await initSiteConfig(nuxt)
 }
-export async function updateSiteConfig(input: SiteConfigInput): Promise<void> {
-  const container = await getSiteConfigStack()
+
+function getSiteConfigStack(nuxt: Nuxt | null = tryUseNuxt()): SiteConfigStack {
+  if (!nuxt)
+    throw new Error('Nuxt context is missing.')
+
+  if (!nuxt._siteConfig)
+    throw new Error('Site config is not initialized. Make sure you are running your module after nuxt-site-config.')
+
+  return nuxt._siteConfig
+}
+export function updateSiteConfig(input: SiteConfigInput, nuxt: Nuxt | null = tryUseNuxt()): void {
+  const container = getSiteConfigStack(nuxt)
   container.push(input)
 }
 
-export async function useSiteConfig(): Promise<SiteConfig> {
-  const container = await getSiteConfigStack()
+export function useSiteConfig(nuxt: Nuxt | null = tryUseNuxt()): SiteConfig {
+  const container = getSiteConfigStack(nuxt)
   return container.get()
 }
