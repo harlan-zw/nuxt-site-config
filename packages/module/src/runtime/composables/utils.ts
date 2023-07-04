@@ -11,7 +11,7 @@ export function createSitePathResolver(options: { canonical?: MaybeRef<boolean>;
     return computed(() => resolveSitePath(unref(path), {
       absolute: unref(options.absolute),
       withBase: unref(options.withBase),
-      siteUrl: unref(options.canonical) !== false ? siteConfig.url : nitroOrigin,
+      siteUrl: unref(options.canonical) !== false || process.env.prerender ? siteConfig.url : nitroOrigin,
       trailingSlash: siteConfig.trailingSlash,
       base: nuxtBase,
     }))
@@ -32,7 +32,7 @@ export function withSiteUrl(path: MaybeRef<string>, options: { canonical?: Maybe
   return computed(() => {
     return resolveSitePath(unref(path), {
       absolute: true,
-      siteUrl: unref(options.canonical) !== false ? siteConfig.url : nitroOrigin,
+      siteUrl: unref(options.canonical) !== false || process.env.prerender ? siteConfig.url : nitroOrigin,
       trailingSlash: siteConfig.trailingSlash,
       base,
       withBase: options.withBase,

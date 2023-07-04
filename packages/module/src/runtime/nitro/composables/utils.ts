@@ -10,7 +10,7 @@ export function withSiteUrl(e: H3Event, path: string, options: { canonical?: boo
   const siteConfig = e.context.siteConfig?.get()
   return resolveSitePath(path, {
     absolute: true,
-    siteUrl: options.canonical !== false ? siteConfig.url : e.context.siteConfigNitroOrigin,
+    siteUrl: options.canonical !== false || process.env.prerender ? siteConfig.url : e.context.siteConfigNitroOrigin,
     trailingSlash: siteConfig.trailingSlash,
     base: e.context.nitro.baseURL,
     withBase: options.withBase,
