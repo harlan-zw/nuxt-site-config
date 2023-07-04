@@ -60,7 +60,7 @@ export default defineNuxtModule<ModuleOptions>({
   async setup(config, nuxt) {
     const { resolve } = createResolver(import.meta.url)
 
-    const composables = ['useSiteConfig', 'updateSiteConfig']
+    const composables = ['useSiteConfig', 'updateSiteConfig', 'useNitroOrigin']
     composables.forEach((c) => {
       addImports({
         from: resolve(`./runtime/composables/${c}`),
