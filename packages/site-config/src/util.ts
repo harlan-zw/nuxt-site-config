@@ -1,4 +1,4 @@
-import { joinURL, withTrailingSlash, withoutTrailingSlash } from 'ufo'
+import {joinURL, withTrailingSlash, withoutTrailingSlash, withProtocol, hasProtocol, withHttps} from 'ufo'
 import type { SiteConfig } from './type'
 
 export function normalizeSiteConfig(config: SiteConfig) {
@@ -7,6 +7,9 @@ export function normalizeSiteConfig(config: SiteConfig) {
     config.indexable = String(config.indexable) !== 'false'
   if (typeof config.trailingSlash !== 'undefined')
     config.trailingSlash = String(config.trailingSlash) !== 'false'
+  if (config.url && !hasProtocol(config.url, { acceptRelative: true, strict: false })) {
+    config.url = withHttps(config.url)
+  }
   return config as SiteConfig
 }
 

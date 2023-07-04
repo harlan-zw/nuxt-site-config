@@ -6,11 +6,11 @@ export function withSiteTrailingSlash(e: H3Event, path: string) {
   return fixSlashes(siteConfig.trailingSlash, path)
 }
 
-export function withSiteUrl(e: H3Event, path: string, options: { withBase?: boolean } = {}) {
+export function withSiteUrl(e: H3Event, path: string, options: { canonical?: boolean; withBase?: boolean } = {}) {
   const siteConfig = e.context.siteConfig?.get()
   return resolveSitePath(path, {
     absolute: true,
-    siteUrl: siteConfig.url || '',
+    siteUrl: options.canonical !== false ? siteConfig.url : e.context.siteConfigNitroOrigin,
     trailingSlash: siteConfig.trailingSlash,
     base: e.context.nitro.baseURL,
     withBase: options.withBase,

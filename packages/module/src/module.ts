@@ -60,14 +60,6 @@ export default defineNuxtModule<ModuleOptions>({
   async setup(config, nuxt) {
     const { resolve } = createResolver(import.meta.url)
 
-    const composables = ['useSiteConfig', 'updateSiteConfig', 'useNitroOrigin']
-    composables.forEach((c) => {
-      addImports({
-        from: resolve(`./runtime/composables/${c}`),
-        name: c,
-      })
-    })
-
     await initSiteConfig()
 
     // merge the site config into the runtime config once modules are done extending it
@@ -85,13 +77,14 @@ export default defineNuxtModule<ModuleOptions>({
       nuxt.options.runtimeConfig.public.site = siteConfig
     })
 
-    // on prerender
-    nuxt.hooks.hook('nitro:init', async (nitro) => {
-      nitro.hooks.hookOnce('prerender:generate', async () => {
-        await assertSiteConfig('prerender')
+
+    const composables = ['useSiteConfig', 'updateSiteConfig', 'useNitroOrigin']
+    composables.forEach((c) => {
+      addImports({
+        from: resolve(`./runtime/composables/${c}`),
+        name: c,
       })
     })
-
     const linkComposables = ['createSitePathResolver', 'withSiteTrailingSlash', 'withSiteUrl']
     linkComposables.forEach((c) => {
       addImports({
@@ -100,10 +93,13 @@ export default defineNuxtModule<ModuleOptions>({
       })
     })
 
-    addImports({
-      from: resolve('./runtime/nitro/composables/useNitroOrigin'),
-      name: 'useNitroOrigin',
+    // on prerender
+    nuxt.hooks.hook('nitro:init', async (nitro) => {
+      nitro.hooks.hookOnce('prerender:generate', async () => {
+        await assertSiteConfig('prerender')
+      })
     })
+
 
     await addComponent({
       filePath: resolve('./runtime/component/SiteLink.vue'),

@@ -1,16 +1,17 @@
 import type { MaybeRef } from '@vue/reactivity'
 import { fixSlashes, resolveSitePath } from 'site-config-stack'
-import { computed, unref, useRuntimeConfig, useSiteConfig } from '#imports'
+import { computed, unref, useNitroOrigin, useRuntimeConfig, useSiteConfig } from '#imports'
 
-export function createSitePathResolver(options: { absolute?: MaybeRef<boolean>; withBase?: MaybeRef<boolean> } = {}) {
+export function createSitePathResolver(options: { canonical?: MaybeRef<boolean>; absolute?: MaybeRef<boolean>; withBase?: MaybeRef<boolean> } = {}) {
   const siteConfig = useSiteConfig()
+  const nitroOrigin = useNitroOrigin()
   const nuxtBase = useRuntimeConfig().app.baseURL || '/'
   return (path: MaybeRef<string>) => {
     // don't use any composables within here
     return computed(() => resolveSitePath(unref(path), {
       absolute: unref(options.absolute),
       withBase: unref(options.withBase),
-      siteUrl: siteConfig.url,
+      siteUrl: unref(options.canonical) !== false ? siteConfig.url : nitroOrigin,
       trailingSlash: siteConfig.trailingSlash,
       base: nuxtBase,
     }))
@@ -24,13 +25,14 @@ export function withSiteTrailingSlash(path: MaybeRef<string>) {
   })
 }
 
-export function withSiteUrl(path: MaybeRef<string>, options: { withBase?: boolean } = {}) {
+export function withSiteUrl(path: MaybeRef<string>, options: { canonical?: MaybeRef<boolean>; withBase?: boolean } = {}) {
   const siteConfig = useSiteConfig()
+  const nitroOrigin = useNitroOrigin()
   const base = useRuntimeConfig().app.baseURL || '/'
   return computed(() => {
     return resolveSitePath(unref(path), {
       absolute: true,
-      siteUrl: siteConfig.url,
+      siteUrl: unref(options.canonical) !== false ? siteConfig.url : nitroOrigin,
       trailingSlash: siteConfig.trailingSlash,
       base,
       withBase: options.withBase,
