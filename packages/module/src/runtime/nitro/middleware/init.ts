@@ -18,5 +18,12 @@ export default eventHandler((e) => {
         ...appConfig.site,
       })
     }
+    // append route rules
+    if (e.context._nitro.routeRules.site) {
+      updateSiteConfig(e, {
+        _context: 'route-rules',
+        ...e.context._nitro.routeRules.site
+      })
+    }
   }
 })
