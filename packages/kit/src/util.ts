@@ -49,7 +49,7 @@ export function withSiteTrailingSlash(path: string) {
 export function createSitePathResolver(options: { canonical?: boolean; absolute?: boolean; withBase?: boolean } = {}, nuxt = useNuxt()): (path: string) => string {
   const siteConfig = useSiteConfig()
   const nitroOrigin = useNitroOrigin()
-  const canUseSiteUrl = options.canonical !== false || process.env.prerender && siteConfig.url
+  const canUseSiteUrl = (options.canonical !== false || process.env.prerender) && siteConfig.url
   const nuxtBase = nuxt.options.app.baseURL || '/'
   return (path: string) => {
     // don't use any composables within here
