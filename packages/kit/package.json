@@ -33,6 +33,7 @@
   },
   "dependencies": {
     "@nuxt/kit": "^3.6.2",
+    "@nuxt/schema": "^3.6.2",
     "defu": "^6.1.2",
     "pkg-types": "^1.0.3",
     "site-config-stack": "workspace:*",

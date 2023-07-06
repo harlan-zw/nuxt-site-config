@@ -46,7 +46,7 @@ export function withSiteTrailingSlash(path: string) {
   return fixSlashes(siteConfig.trailingSlash, path)
 }
 
-export function createSitePathResolver(options: { canonical?: boolean; absolute?: boolean; withBase?: boolean } = {}, nuxt = useNuxt()) {
+export function createSitePathResolver(options: { canonical?: boolean; absolute?: boolean; withBase?: boolean } = {}, nuxt = useNuxt()): (path: string) => string {
   const siteConfig = useSiteConfig()
   const nitroOrigin = useNitroOrigin()
   const canUseSiteUrl = options.canonical !== false || process.env.prerender && siteConfig.url

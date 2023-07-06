@@ -44,6 +44,9 @@ importers:
       '@nuxt/kit':
         specifier: ^3.6.2
         version: 3.6.2(rollup@3.23.0)
+      '@nuxt/schema':
+        specifier: ^3.6.2
+        version: 3.6.2(rollup@3.23.0)
       defu:
         specifier: ^6.1.2
         version: 6.1.2
@@ -8423,7 +8426,7 @@ packages:
       pkg-types: 1.0.3
       scule: 1.0.0
       strip-literal: 1.0.1
-      unplugin: 1.3.2
+      unplugin: 1.3.1
     transitivePeerDependencies:
       - rollup
 
@@ -8440,7 +8443,7 @@ packages:
       pkg-types: 1.0.3
       scule: 1.0.0
       strip-literal: 1.0.1
-      unplugin: 1.3.2
+      unplugin: 1.3.1
     transitivePeerDependencies:
       - rollup
     dev: true
