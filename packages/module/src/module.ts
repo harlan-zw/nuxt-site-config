@@ -132,6 +132,11 @@ export default defineNuxtModule<ModuleOptions>({
         name: 'withSiteTrailingSlash',
         from: resolve('./runtime/nitro/composables/utils'),
       },
+      {
+        as: 'createSitePathResolver',
+        name: 'createSitePathResolver',
+        from: resolve('./runtime/nitro/composables/utils'),
+      }
     ])
 
     // add site-conifg-stack to transpile
