@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { resolveSitePath } from '../../packages/site-config/src'
+import { fixSlashes, resolveSitePath } from '../../packages/site-config/src'
 
 const defaults = {
   siteUrl: 'https://example.com',
@@ -35,6 +35,44 @@ describe('urls', () => {
   it('trailing slash', () => {
     const url = resolveSitePath('/blog/', {
       ...defaults,
+    })
+    expect(url).toMatchInlineSnapshot('"/blog"')
+  })
+
+  it('absolute paths - relative', () => {
+    const url = resolveSitePath('http://localhost:3000/blog/', {
+      ...defaults,
+    })
+    expect(url).toMatchInlineSnapshot('"/blog"')
+  })
+
+  it('root path', () => {
+    const url = resolveSitePath('http://localhost:3000', {
+      ...defaults,
+    })
+    expect(url).toMatchInlineSnapshot('"/"')
+  })
+
+  // do some absolutes
+  it('absolute paths - absolute', () => {
+    const url = resolveSitePath('http://localhost:3000/blog/', {
+      ...defaults,
+      absolute: true,
+    })
+    expect(url).toMatchInlineSnapshot('"https://example.com/blog"')
+  })
+
+  it('absolute slashes', () => {
+    const url = fixSlashes(false, 'https://example.com/blog/')
+    expect(url).toMatchInlineSnapshot('"https://example.com/blog"')
+  })
+
+  it('base ', () => {
+    const url = resolveSitePath('http://localhost:3000/base/blog/', {
+      ...defaults,
+      base: 'base',
+      absolute: false,
+      withBase: false,
     })
     expect(url).toMatchInlineSnapshot('"/blog"')
   })

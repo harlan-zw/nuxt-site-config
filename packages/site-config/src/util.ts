@@ -1,4 +1,4 @@
-import { hasProtocol, joinURL, withHttps, withTrailingSlash, withoutTrailingSlash } from 'ufo'
+import { hasProtocol, parseURL, withBase, withHttps, withTrailingSlash, withoutTrailingSlash } from 'ufo'
 import type { SiteConfig } from './type'
 
 export function normalizeSiteConfig(config: SiteConfig) {
@@ -13,16 +13,28 @@ export function normalizeSiteConfig(config: SiteConfig) {
   return config as SiteConfig
 }
 
-export function resolveSitePath(path: string, options: { siteUrl: string; trailingSlash: boolean; base: string; absolute?: boolean; withBase?: boolean }) {
+export function resolveSitePath(pathOrUrl: string, options: { siteUrl: string; trailingSlash: boolean; base: string; absolute?: boolean; withBase?: boolean }) {
+  let path = pathOrUrl
+  // check we should check what we're working with, either an absolute or relative path
+  if (hasProtocol(pathOrUrl, { strict: false, acceptRelative: true })) {
+    // need to extract just the path
+    const parsed = parseURL(pathOrUrl)
+    path = parsed.pathname
+  }
+  if (!options.withBase && path.startsWith(`/${options.base}`)) {
+    // remove the base from the path
+    path = path.slice(options.base.length + 1)
+  }
   const origin = options.absolute ? options.siteUrl : ''
-  const baseWithOrigin = options.withBase ? joinURL(origin || '/', options.base) : origin
-  const resolvedUrl = joinURL(baseWithOrigin, path)
-  return fixSlashes(options.trailingSlash, resolvedUrl)
+  const baseWithOrigin = options.withBase ? withBase(options.base, origin || '/') : origin
+  const resolvedUrl = withBase(path, baseWithOrigin)
+  return fixSlashes(options.trailingSlash, resolvedUrl.trim())
 }
 
-export function fixSlashes(trailingSlash: boolean, path: string) {
-  const isFileUrl = path.includes('.')
+export function fixSlashes(trailingSlash: boolean, pathOrUrl: string) {
+  const parsed = parseURL(pathOrUrl)
+  const isFileUrl = parsed.pathname.includes('.')
   if (isFileUrl)
-    return path
-  return trailingSlash ? withTrailingSlash(path) : withoutTrailingSlash(path)
+    return pathOrUrl
+  return trailingSlash ? withTrailingSlash(pathOrUrl) : withoutTrailingSlash(pathOrUrl)
 }
