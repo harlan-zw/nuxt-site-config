@@ -1,4 +1,12 @@
-import { hasProtocol, parseURL, withBase, withHttps, withTrailingSlash, withoutTrailingSlash } from 'ufo'
+import {
+  hasProtocol,
+  parseURL,
+  withBase,
+  withHttps,
+  withTrailingSlash,
+  withoutTrailingSlash,
+  withLeadingSlash
+} from 'ufo'
 import type { SiteConfig } from './type'
 
 export function normalizeSiteConfig(config: SiteConfig) {
@@ -21,12 +29,13 @@ export function resolveSitePath(pathOrUrl: string, options: { siteUrl: string; t
     const parsed = parseURL(pathOrUrl)
     path = parsed.pathname
   }
-  if (!options.withBase && path.startsWith(`/${options.base}`)) {
-    // remove the base from the path
-    path = path.slice(options.base.length + 1)
+  const base = withLeadingSlash(options.base)
+  if (base !== '/' && path.startsWith(base)) {
+    // remove the base from the path, it will be re-added if we need it
+    path = path.slice(base.length)
   }
   const origin = options.absolute ? options.siteUrl : ''
-  const baseWithOrigin = options.withBase ? withBase(options.base, origin || '/') : origin
+  const baseWithOrigin = options.withBase ? withBase(base, origin || '/') : origin
   const resolvedUrl = withBase(path, baseWithOrigin)
   return path === '/' ? withTrailingSlash(resolvedUrl) : fixSlashes(options.trailingSlash, resolvedUrl)
 }

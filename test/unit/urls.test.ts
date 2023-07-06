@@ -91,4 +91,22 @@ describe('urls', () => {
     })
     expect(url).toMatchInlineSnapshot('"/"')
   })
+
+  it('base x2', () => {
+    let url = resolveSitePath('/blog', {
+      siteUrl: 'http://localhost:3000/',
+      trailingSlash: false,
+      withBase: true,
+      base: '/base',
+      absolute: true,
+    })
+    url = resolveSitePath(url, {
+      siteUrl: 'http://localhost:3000/',
+      trailingSlash: false,
+      withBase: true,
+      base: '/base',
+      absolute: true,
+    })
+    expect(url).toMatchInlineSnapshot('"http://localhost:3000/base/blog"')
+  })
 })
