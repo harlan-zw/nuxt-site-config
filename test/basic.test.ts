@@ -22,7 +22,7 @@ describe('basic', async () => {
           "name": "package.json",
           "titleSeparator": "defaults",
           "trailingSlash": "defaults",
-          "url": "nitro:init",
+          "url": "app:config",
         },
         "indexable": false,
         "locale": "en",
@@ -30,7 +30,7 @@ describe('basic', async () => {
         "origin": "http://127.0.0.1:port/",
         "titleSeparator": "|",
         "trailingSlash": false,
-        "url": "http://127.0.0.1:port/",
+        "url": "https://harlanzw.com",
       }
     `)
   })
