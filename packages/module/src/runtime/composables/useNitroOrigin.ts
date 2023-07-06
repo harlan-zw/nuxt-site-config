@@ -32,8 +32,8 @@ export function useNitroOrigin(e?: H3Event) {
     port = port ? `:${port}` : ''
     return `${protocol}://${host}${port}/`
   }
-  if (process.client) {
+  if (process.client)
     return window.location.origin
-  }
+
   return ''
 }

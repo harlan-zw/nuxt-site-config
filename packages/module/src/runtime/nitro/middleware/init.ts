@@ -22,7 +22,7 @@ export default eventHandler((e) => {
     if (e.context._nitro.routeRules.site) {
       updateSiteConfig(e, {
         _context: 'route-rules',
-        ...e.context._nitro.routeRules.site
+        ...e.context._nitro.routeRules.site,
       })
     }
   }

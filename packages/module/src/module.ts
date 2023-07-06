@@ -77,7 +77,6 @@ export default defineNuxtModule<ModuleOptions>({
       nuxt.options.runtimeConfig.public.site = siteConfig
     })
 
-
     const composables = ['useSiteConfig', 'updateSiteConfig', 'useNitroOrigin']
     composables.forEach((c) => {
       addImports({
@@ -99,7 +98,6 @@ export default defineNuxtModule<ModuleOptions>({
         await assertSiteConfig('prerender')
       })
     })
-
 
     await addComponent({
       filePath: resolve('./runtime/component/SiteLink.vue'),

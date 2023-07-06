@@ -1,6 +1,6 @@
 import { useNuxt } from '@nuxt/kit'
 import { fixSlashes, resolveSitePath } from 'site-config-stack'
-import { useSiteConfig } from './'
+import { useNitroOrigin, useSiteConfig } from './'
 
 export function withSiteUrl(path: string, options: { withBase?: boolean; throwErrorOnMissingSiteUrl?: boolean } = {}) {
   const siteConfig = useSiteConfig()
@@ -21,4 +21,19 @@ export function withSiteUrl(path: string, options: { withBase?: boolean; throwEr
 export function withSiteTrailingSlash(path: string) {
   const siteConfig = useSiteConfig()
   return fixSlashes(siteConfig.trailingSlash, path)
+}
+
+export function createSitePathResolver(options: { canonical?: boolean; absolute?: boolean; withBase?: boolean } = {}, nuxt = useNuxt()) {
+  const siteConfig = useSiteConfig()
+  const nitroOrigin = useNitroOrigin()
+  const nuxtBase = nuxt.options.app.baseURL || '/'
+  return (path: string) => {
+    // don't use any composables within here
+    return resolveSitePath(path, {
+      ...options,
+      siteUrl: options.canonical !== false || process.env.prerender ? siteConfig.url : nitroOrigin,
+      trailingSlash: siteConfig.trailingSlash,
+      base: nuxtBase,
+    })
+  }
 }
