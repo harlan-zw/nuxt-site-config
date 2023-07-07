@@ -18,7 +18,7 @@ Unifying site config with powerful and flexible APIs, for module authors and use
 <tbody>
 <td align="center">
 <img width="800" height="0" /><br>
-<i>Status:</i> <b>Experimental</b> <br>
+<i>Status:</i> <b>Released</b> <br>
 <sup> Please report any issues 🐛</sup><br>
 <sub>Made possible by my <a href="https://github.com/sponsors/harlan-zw">Sponsor Program 💖</a><br> Follow me <a href="https://twitter.com/harlan_zw">@harlan_zw</a> 🐦 • Join <a href="https://discord.gg/275MBUBvgP">Discord</a> for help</sub><br>
 <img width="800" height="0" />
@@ -27,10 +27,21 @@ Unifying site config with powerful and flexible APIs, for module authors and use
 </table>
 </p>
 
+## Background
+
+Site config can be considered config that is commonly used amongst modules but is not supported by the Nuxt core.
+
+For example: `url`, `name`, `description`, `indexable`, `trailingSlash`, etc.
+
+Without a single source of truth for these, modules have a harder time working together and end-users have to duplicate config across modules.
+
+Nuxt Site Config aims to fix this, with the end goal of making it easy to build multi-lingual / multi-tenancy sites that
+_just work_ with modules.
+
 
 # Features
 
-- 🎨 Any source: `nuxt.config`, `runtimeConfig`, `env`, `appConfig`, `route rules` or programmatically `updateSiteConfig`
+- 🎨 Site config from any source: Nuxt Config, Runtime Config, Environment Variables, App Config, Route Rules or Programmatically
 - 😌 Zero-config, best practice defaults: URL, name and description
 - 🚀 Powerful and runtime agnostic APIs for module authors `useSiteConfig`, `createSitePathResolver`, `withSiteUrl`, `useNitroOrigin`, etc
 - 🤖 Ledger capabilities
