@@ -1,9 +1,10 @@
 import { installModule, resolvePath, tryUseNuxt } from '@nuxt/kit'
 import { readPackageJSON } from 'pkg-types'
 import type { SiteConfig } from 'site-config-stack'
-import { createSiteConfigStack, envSiteConfig } from 'site-config-stack'
+import { createSiteConfigStack } from 'site-config-stack'
 import type { Nuxt } from '@nuxt/schema'
 import type { SiteConfigInput, SiteConfigStack } from './type'
+import { DefaultSiteConfig, VendorEnv, envShim } from './const'
 
 async function getPkgJsonContextConfig(rootDir: string) {
   const pkgJson = await readPackageJSON(undefined, { startingFrom: rootDir })
@@ -12,6 +13,7 @@ async function getPkgJsonContextConfig(rootDir: string) {
 
   return <SiteConfigInput> {
     _context: 'package.json',
+    url: pkgJson.homepage,
     name: pkgJson.name,
     description: pkgJson.description,
   }
@@ -27,48 +29,21 @@ export async function initSiteConfig(nuxt: Nuxt | null = tryUseNuxt()): Promise<
 
   // only when called the first time
   siteConfig = createSiteConfigStack()
-  siteConfig.push({
-    _context: 'defaults',
-    locale: 'en',
-    trailingSlash: false,
-    titleSeparator: '|',
-  })
+
+  // 1. Defaults
+  siteConfig.push(DefaultSiteConfig)
   const rootDir = nuxt?.options.rootDir || process.cwd()
-  const isNodeEnv = !!process.env.NODE_ENV
+  const isNodeEnv = !!envShim.NODE_ENV
   // the root dir is maybe the name of the site
   siteConfig.push({
     _context: 'system',
     name: rootDir.split('/').pop(),
-    indexable: isNodeEnv ? process.env.NODE_ENV === 'production' : !process.dev,
+    indexable: isNodeEnv ? envShim.NODE_ENV === 'production' : !process.dev,
   })
   siteConfig.push(await getPkgJsonContextConfig(rootDir))
 
   // add the env vars lowest priority
-  siteConfig.push(envSiteConfig)
-  // not actually needed
-  const runtimeConfig = nuxt.options.runtimeConfig
-  function getRuntimeConfig(config: string, env: string): string | undefined {
-    if (process.env[`NUXT_${env}}`])
-      return process.env[`NUXT_${env}}`]
-    if (process.env[`NUXT_PUBLIC_${env}}`])
-      return process.env[`NUXT_PUBLIC_${env}}`]
-    return (runtimeConfig[`site${config}`] || runtimeConfig.public?.[`site${config}`]) as string | undefined
-  }
-  // support legacy config
-  siteConfig.push(<SiteConfigInput> {
-    _context: 'legacyRuntimeConfig',
-    url: getRuntimeConfig('Url', '_URL'),
-    name: getRuntimeConfig('Name', '_NAME'),
-    description: getRuntimeConfig('Description', '_DESCRIPTION'),
-    logo: getRuntimeConfig('Image', '_IMAGE'),
-    locale: getRuntimeConfig('Language', '_LANGUAGE'),
-    indexable: getRuntimeConfig('Indexable', '_INDEXABLE'),
-  })
-  siteConfig.push({
-    _context: 'runtimeConfig',
-    ...(nuxt?.options.runtimeConfig.public.site as any as SiteConfigInput || {}),
-  })
-
+  siteConfig.push(VendorEnv)
   nuxt._siteConfig = siteConfig
   return siteConfig
 }
@@ -92,7 +67,7 @@ export function updateSiteConfig(input: SiteConfigInput, nuxt: Nuxt | null = try
   container.push(input)
 }
 
-export function useSiteConfig(nuxt: Nuxt | null = tryUseNuxt()): SiteConfig {
+export function useSiteConfig(context?: { path: string }, nuxt: Nuxt | null = tryUseNuxt()): SiteConfig {
   const container = getSiteConfigStack(nuxt)
   return container.get()
 }

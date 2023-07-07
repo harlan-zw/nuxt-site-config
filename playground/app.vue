@@ -7,7 +7,7 @@ function setLanguage(code: string) {
   i18n.setLocale(code)
 }
 
-const locale = i18n.locale
+const defaultLocale = i18n.defaultLocale
 
 const languageOptions = [
   [
@@ -38,7 +38,7 @@ const siteConfig = useSiteConfig()
           </div>
         </NuxtLink>
         <UDropdown :items="languageOptions" :popper="{ placement: 'bottom-start' }">
-          <UButton color="white" :label="locale" trailing-icon="i-heroicons-chevron-down-20-solid" />
+          <UButton color="white" :label="defaultLocale" trailing-icon="i-heroicons-chevron-down-20-solid" />
         </UDropdown>
       </div>
     </UContainer>

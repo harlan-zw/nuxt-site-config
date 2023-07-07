@@ -1,11 +1,15 @@
+import type Process from 'node:process'
 import {
   addComponent,
   addImports, addPlugin, addServerHandler,
   createResolver,
   defineNuxtModule,
 } from '@nuxt/kit'
-import { assertSiteConfig, initSiteConfig, updateSiteConfig, useSiteConfig } from 'nuxt-site-config-kit'
+import { initSiteConfig, updateSiteConfig, useSiteConfig } from 'nuxt-site-config-kit'
 import type { AssertionModes, ModuleAssertion, SiteConfig, SiteConfigInput, SiteConfigStack } from 'nuxt-site-config-kit'
+
+export const processShim = typeof process !== 'undefined' ? process : {} as typeof Process
+export const envShim = processShim.env || {}
 
 export interface ModuleOptions extends SiteConfigInput {
 }
@@ -69,10 +73,36 @@ export default defineNuxtModule<ModuleOptions>({
         _context: 'nuxt:config:site',
         ...config,
       })
-      const siteConfig = await useSiteConfig()
+
+      // not actually needed
+      const runtimeConfig = nuxt.options.runtimeConfig
+      function getRuntimeConfig(config: string): string | undefined {
+        const env = config.toUpperCase()
+        if (envShim[`NUXT_SITE_${env}}`])
+          return envShim[`NUXT_SITE_${env}}`]
+        if (envShim[`NUXT_PUBLIC_SITE_${env}}`])
+          return envShim[`NUXT_PUBLIC_SITE_${env}}`]
+        return (runtimeConfig[`site${config}`] || runtimeConfig.public?.[`site${config}`]) as string | undefined
+      }
+      // support legacy config
+      updateSiteConfig({
+        _context: 'fallbackRuntimeConfigAndEnv',
+        url: getRuntimeConfig('Url'),
+        name: getRuntimeConfig('Name'),
+        description: getRuntimeConfig('Description'),
+        logo: getRuntimeConfig('Image'),
+        defaultLocale: getRuntimeConfig('Language'),
+        indexable: getRuntimeConfig('Indexable'),
+      })
+      updateSiteConfig({
+        _context: 'runtimeConfig',
+        ...(nuxt?.options.runtimeConfig.public.site as any as SiteConfigInput || {}),
+      })
+
+      const siteConfig = useSiteConfig()
       // final hook for other modules to modify the site config
       // @ts-expect-error untyped
-      await nuxt.callHook('site-config:resolve', siteConfig)
+      await nuxt.callHook('`site-config:resolve`', siteConfig)
       // @ts-expect-error runtime
       nuxt.options.runtimeConfig.public.site = siteConfig
     })
@@ -93,11 +123,6 @@ export default defineNuxtModule<ModuleOptions>({
     })
 
     // on prerender
-    nuxt.hooks.hook('nitro:init', async (nitro) => {
-      nitro.hooks.hookOnce('prerender:generate', async () => {
-        await assertSiteConfig('prerender')
-      })
-    })
 
     await addComponent({
       filePath: resolve('./runtime/component/SiteLink.vue'),

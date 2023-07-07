@@ -17,15 +17,15 @@ describe('basic', async () => {
     expect(JSON.parse(s.replace(/:\d+\//g, ':port/'))).toMatchInlineSnapshot(`
       {
         "_context": {
+          "defaultLocale": "defaults",
           "indexable": "system",
-          "locale": "defaults",
           "name": "package.json",
           "titleSeparator": "defaults",
           "trailingSlash": "defaults",
           "url": "app:config",
         },
+        "defaultLocale": "en",
         "indexable": false,
-        "locale": "en",
         "name": "nuxt-site-config-playground",
         "origin": "http://127.0.0.1:port/",
         "titleSeparator": "|",

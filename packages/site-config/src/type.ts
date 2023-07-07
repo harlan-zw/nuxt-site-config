@@ -2,8 +2,6 @@ export interface SiteConfig {
   /**
    * The canonical Site URL.
    *
-   * @default `process.env.NUXT_PUBLIC_SITE_URL`
-   *
    * - Build / Prerender: Inferred from CI environment (Netlify, Vercel)
    * - SSR: Inferred from request headers
    * - SPA: Inferred from `window.location`
@@ -11,17 +9,8 @@ export interface SiteConfig {
    * Used by: nuxt-simple-sitemap, nuxt-simple-robots, nuxt-schema-org, nuxt-og-image, etc.
    */
   url?: string
-
-  titleSeparator: string
-  indexable: boolean
-  trailingSlash: boolean
-
-  locale: string
-  // content that may change depending on the language
   /**
    * The name of the site.
-   *
-   * @default `process.env.NUXT_PUBLIC_SITE_NAME`
    *
    * - Build / Prerender: Inferred from CI environment (Netlify) or `package.json`
    * - SSR:
@@ -29,6 +18,22 @@ export interface SiteConfig {
    * Used by: nuxt-schema-org, nuxt-seo-kit
    */
   name: string
+  /**
+   * The title separator of the site.
+   */
+  titleSeparator: string
+  /**
+   * Whether the site is indexable by search engines.
+   */
+  indexable: boolean
+  /**
+   * Whether the site uses trailing slash.
+   */
+  trailingSlash: boolean
+  /**
+   * The default locale of the site.
+   */
+  defaultLocale: string
   /**
    * The description of the site.
    *
@@ -38,39 +43,16 @@ export interface SiteConfig {
    */
   description?: string
   /**
-   * The logo of the site.
-   *
-   * @default `process.env.NUXT_PUBLIC_SITE_LOGO`
-   *
-   * Used by: nuxt-schema-org, nuxt-seo-kit
-   */
-  logo?: string
-  coverImage?: string
-
-  /**
    * The mapping of the context of each site config value being set.
    */
   _context: Partial<Record<Exclude<keyof SiteConfig, '_meta'>, string>>
+  [key: string]: any
 }
 
-export interface SiteConfigInput {
-  /**
-   * A description of the context which added the config.
-   */
-  _context?: string
-  url?: string
-  name?: string
-  description?: string
-  logo?: string
-  coverImage?: string
-  titleSeparator?: string
-  locale?: string
-
-  indexable?: boolean | string
-  trailingSlash?: boolean | string
-}
+export type SiteConfigInput = Partial<Omit<SiteConfig, '_context'>> & { _context?: string }
 
 export interface SiteConfigStack {
+  stack: Partial<SiteConfigInput>[]
   push: (config: SiteConfigInput) => void
   get: () => SiteConfig
 }

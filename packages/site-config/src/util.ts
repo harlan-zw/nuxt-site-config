@@ -3,9 +3,9 @@ import {
   parseURL,
   withBase,
   withHttps,
+  withLeadingSlash,
   withTrailingSlash,
   withoutTrailingSlash,
-  withLeadingSlash
 } from 'ufo'
 import type { SiteConfig } from './type'
 

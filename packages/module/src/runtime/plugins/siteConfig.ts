@@ -6,7 +6,6 @@ export default defineNuxtPlugin({
   name: 'nuxt-site-config',
   enforce: 'pre', // or 'post'
   async setup(nuxtApp) {
-    // this is the equivalent of a normal functional plugin
     let siteConfigStack
     if (process.server) {
       siteConfigStack = useRequestEvent().context.siteConfig
