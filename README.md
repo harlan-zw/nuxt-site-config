@@ -31,18 +31,18 @@ Unifying site config with powerful and flexible APIs, for module authors and use
 
 Site config can be considered config that is commonly used amongst modules but is not supported by the Nuxt core.
 
-For example: `url`, `name`, `description`, `indexable`, `trailingSlash`, etc.
+For example: `url` (canonical), `name`, `description`, `indexable`, `trailingSlash`, etc.
 
 Without a single source of truth for these, modules have a harder time working together and end-users have to duplicate config across modules.
 
-Nuxt Site Config aims to fix this, with the end goal of making it easy to build multi-lingual / multi-tenancy sites that
+Nuxt Site Config aims to fix this, with the end goal of making it easy to build SEO multilingual / multi-tenancy sites that
 _just work_ with modules.
 
 
 # Features
 
+- 😌 Zero-config, best practice site config defaults
 - 🎨 Site config from any source: Nuxt Config, Runtime Config, Environment Variables, App Config, Route Rules or Programmatically
-- 😌 Zero-config, best practice defaults: URL, name and description
 - 🚀 Powerful and runtime agnostic APIs for module authors `useSiteConfig`, `createSitePathResolver`, `withSiteUrl`, `useNitroOrigin`, etc
 - 🤖 Ledger capabilities
 - ✅ Safe fallbacks with runtime assertions (wip)
@@ -50,8 +50,7 @@ _just work_ with modules.
 
 # Documentation
 
-[📖 Read the full documentation](https://nuxtseo.com/sitemap) for more information.
-
+[📖 Read the full documentation](https://nuxtseo.com/site-config) for more information.
 
 ## License
 
