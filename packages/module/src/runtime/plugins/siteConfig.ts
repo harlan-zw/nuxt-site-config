@@ -24,7 +24,7 @@ export default defineNuxtPlugin({
       })
       // init with runtime config and app config
       const state = useState<SiteConfig>('site-config')
-      if (state)
+      if (state.value)
         siteConfigStack.push(state.value)
     }
     return {
