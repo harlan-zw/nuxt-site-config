@@ -107,9 +107,6 @@ importers:
       nuxt-icon:
         specifier: ^0.4.2
         version: 0.4.2(rollup@3.23.0)(vue@3.3.4)
-      nuxt-site-config:
-        specifier: workspace:*
-        version: link:../packages/module
 
 packages:
 
