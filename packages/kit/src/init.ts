@@ -13,7 +13,6 @@ async function getPkgJsonContextConfig(rootDir: string) {
 
   return <SiteConfigInput> {
     _context: 'package.json',
-    url: pkgJson.homepage,
     name: pkgJson.name,
     description: pkgJson.description,
   }
