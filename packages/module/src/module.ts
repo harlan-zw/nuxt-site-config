@@ -84,10 +84,10 @@ import type { SiteConfig, SiteConfigInput, SiteConfigStack } from '${resolve('./
 
 declare module 'nitropack' {
   interface NitroRouteRules {
-    site: SiteConfigInput
+    site?: SiteConfigInput
   }
   interface NitroRouteConfig {
-    site: SiteConfig
+    site?: SiteConfig
   }
 }
 
