@@ -1,6 +1,6 @@
-import { eventHandler, updateSiteConfig, useAppConfig, useNitroOrigin, useRuntimeConfig } from '#imports'
+import { defineEventHandler, updateSiteConfig, useAppConfig, useNitroOrigin, useRuntimeConfig } from '#imports'
 
-export default eventHandler((e) => {
+export default defineEventHandler((e) => {
   if (!e.context.siteConfig) {
     const appConfig = useAppConfig()
     const nitroOrigin = useNitroOrigin(e)

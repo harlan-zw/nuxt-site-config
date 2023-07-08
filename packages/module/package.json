@@ -37,6 +37,7 @@
     "@nuxt/kit": "^3.6.2",
     "@nuxt/schema": "^3.6.2",
     "nuxt-site-config-kit": "workspace:*",
+    "pathe": "^1.1.1",
     "site-config-stack": "workspace:*",
     "ufo": "^1.1.2"
   },

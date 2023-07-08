@@ -1,5 +1,5 @@
 import type { SiteConfigStack } from 'site-config-stack'
-import type { NuxtSiteConfig } from '../../types'
+import type { NuxtSiteConfig } from '../types'
 import {
   useNuxtApp,
   useRequestEvent,

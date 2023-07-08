@@ -6,7 +6,8 @@ import {
   defineNuxtModule,
 } from '@nuxt/kit'
 import { initSiteConfig, updateSiteConfig, useSiteConfig } from 'nuxt-site-config-kit'
-import type { AssertionModes, ModuleAssertion, SiteConfig, SiteConfigInput, SiteConfigStack } from 'nuxt-site-config-kit'
+import type { SiteConfig, SiteConfigInput } from 'nuxt-site-config-kit'
+import { extendTypes } from './kit'
 
 export const processShim = typeof process !== 'undefined' ? process : {} as typeof Process
 export const envShim = processShim.env || {}
@@ -16,36 +17,6 @@ export interface ModuleOptions extends SiteConfigInput {
 
 export interface ModulePublicRuntimeConfig {
   site: SiteConfigInput
-}
-
-declare module 'h3' {
-  interface H3EventContext {
-    siteConfig: SiteConfigStack
-  }
-}
-
-declare module 'nuxt/schema' {
-  interface AppConfigInput {
-    /** Theme configuration */
-    site?: SiteConfigInput
-  }
-}
-
-declare module '@nuxt/schema' {
-  interface AppConfigInput {
-    /** Theme configuration */
-    site?: SiteConfigInput
-  }
-  interface Nuxt {
-    _siteConfig?: SiteConfigStack
-    _siteConfigAsserts?: Partial<Record<Partial<AssertionModes>, ModuleAssertion[]>>
-  }
-}
-
-declare module '@nuxt/schema' {
-  export interface RuntimeNuxtHooks {
-    'site-config:resolve': (siteConfig: SiteConfig) => void
-  }
 }
 
 export interface ModuleHooks {
@@ -107,6 +78,50 @@ export default defineNuxtModule<ModuleOptions>({
       nuxt.options.runtimeConfig.public.site = siteConfig
     })
 
+    extendTypes('nuxt-site-config', async () => {
+      return `
+import type { SiteConfig, SiteConfigInput, SiteConfigStack } from '${resolve('./runtime/types')}'
+
+declare module 'nitropack' {
+  interface NitroRouteRules {
+    site: SiteConfigInput
+  }
+  interface NitroRouteConfig {
+    site: SiteConfig
+  }
+}
+
+declare module 'h3' {
+  interface H3EventContext {
+    siteConfig: SiteConfigStack
+  }
+}
+
+declare module 'nuxt/schema' {
+  interface AppConfigInput {
+    /** Theme configuration */
+    site?: SiteConfigInput
+  }
+}
+
+declare module '@nuxt/schema' {
+  interface AppConfigInput {
+    /** Theme configuration */
+    site?: SiteConfigInput
+  }
+  interface Nuxt {
+    _siteConfig?: SiteConfigStack
+  }
+}
+
+declare module '@nuxt/schema' {
+  export interface RuntimeNuxtHooks {
+    'site-config:resolve': (siteConfig: SiteConfig) => void
+  }
+}
+`
+    })
+
     const composables = ['useSiteConfig', 'updateSiteConfig', 'useNitroOrigin']
     composables.forEach((c) => {
       addImports({
@@ -128,6 +143,9 @@ export default defineNuxtModule<ModuleOptions>({
       filePath: resolve('./runtime/component/SiteLink.vue'),
       name: 'SiteLink',
     })
+
+    if (process.env.playground)
+      nuxt.options.alias['site-config-stack'] = resolve('../../site-config/src/index')
 
     nuxt.options.nitro.imports = nuxt.options.nitro.imports || {}
     nuxt.options.nitro.imports.imports = nuxt.options.nitro.imports.imports || []
