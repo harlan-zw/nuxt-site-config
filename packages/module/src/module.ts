@@ -1,9 +1,9 @@
 import type Process from 'node:process'
 import {
   addComponent,
-  addImports, addPlugin, addServerHandler,
+  addImports, addPlugin, addPrerenderRoutes, addServerHandler,
   createResolver,
-  defineNuxtModule,
+  defineNuxtModule, useLogger,
 } from '@nuxt/kit'
 import { initSiteConfig, updateSiteConfig, useSiteConfig } from 'nuxt-site-config-kit'
 import type { SiteConfig, SiteConfigInput } from 'nuxt-site-config-kit'
@@ -13,6 +13,12 @@ export const processShim = typeof process !== 'undefined' ? process : {} as type
 export const envShim = processShim.env || {}
 
 export interface ModuleOptions extends SiteConfigInput {
+  /**
+   * Enable debug mode.
+   *
+   * @default false
+   */
+  debug: boolean
 }
 
 export interface ModulePublicRuntimeConfig {
@@ -32,7 +38,15 @@ export default defineNuxtModule<ModuleOptions>({
     },
     configKey: 'site',
   },
+  defaults(nuxt) {
+    return {
+      debug: nuxt.options.debug || false,
+    }
+  },
   async setup(config, nuxt) {
+    const logger = useLogger('nuxt-site-config')
+    logger.level = config.debug ? 4 : 3
+
     const { resolve } = createResolver(import.meta.url)
 
     await initSiteConfig()
@@ -194,5 +208,14 @@ declare module '@nuxt/schema' {
       middleware: true,
       handler: resolve('./runtime/nitro/middleware/init'),
     })
+
+    if (config.debug) {
+      addServerHandler({
+        route: '/api/__site-config__/debug',
+        handler: resolve('./runtime/nitro/routes/debug'),
+      })
+
+      addPrerenderRoutes('/api/__site-config__/debug')
+    }
   },
 })

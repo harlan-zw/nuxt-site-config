@@ -11,6 +11,10 @@ export default defineNuxtConfig({
     '@nuxtjs/i18n'
   ],
 
+  site: {
+    debug: true,
+  },
+
   i18n: {
     lazy: true,
     langDir: 'locales/',
