@@ -92,45 +92,43 @@ export default defineNuxtModule<ModuleOptions>({
       nuxt.options.runtimeConfig.public.site = siteConfig
     })
 
-    extendTypes('nuxt-site-config', async () => {
+    extendTypes('nuxt-site-config', async ({ typesPath }) => {
       return `
-import type { SiteConfig, SiteConfigInput, SiteConfigStack } from '${resolve('./runtime/types')}'
-
 declare module 'nitropack' {
   interface NitroRouteRules {
-    site?: SiteConfigInput
+    site?: import('${typesPath}').SiteConfigInput
   }
   interface NitroRouteConfig {
-    site?: SiteConfig
+    site?: import('${typesPath}').SiteConfig
   }
 }
 
 declare module 'h3' {
   interface H3EventContext {
-    siteConfig: SiteConfigStack
+    siteConfig: import('${typesPath}').SiteConfigStack
   }
 }
 
 declare module 'nuxt/schema' {
   interface AppConfigInput {
     /** Theme configuration */
-    site?: SiteConfigInput
+    site?: import('${typesPath}').SiteConfigInput
   }
 }
 
 declare module '@nuxt/schema' {
   interface AppConfigInput {
     /** Theme configuration */
-    site?: SiteConfigInput
+    site?: import('${typesPath}').SiteConfigInput
   }
   interface Nuxt {
-    _siteConfig?: SiteConfigStack
+    _siteConfig?: import('${typesPath}').SiteConfigStack
   }
 }
 
 declare module '@nuxt/schema' {
   export interface RuntimeNuxtHooks {
-    'site-config:resolve': (siteConfig: SiteConfig) => void
+    'site-config:resolve': (siteConfig: import('${typesPath}').SiteConfig) => void
   }
 }
 `
