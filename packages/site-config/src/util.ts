@@ -41,9 +41,11 @@ export function resolveSitePath(pathOrUrl: string, options: { siteUrl: string; t
 }
 
 export function fixSlashes(trailingSlash: boolean, pathOrUrl: string) {
-  const parsed = parseURL(pathOrUrl)
-  const isFileUrl = parsed.pathname.includes('.')
+  const $url = parseURL(pathOrUrl)
+  const isFileUrl = $url.pathname.includes('.')
   if (isFileUrl)
     return pathOrUrl
-  return trailingSlash ? withTrailingSlash(pathOrUrl) : withoutTrailingSlash(pathOrUrl)
+  const fixedPath = trailingSlash ? withTrailingSlash($url.pathname) : withoutTrailingSlash($url.pathname)
+  // reconstruct the url
+  return `${$url.protocol ? `${$url.protocol}//` : ''}${$url.host || ''}${fixedPath}${$url.search || ''}${$url.hash || ''}`
 }

@@ -109,4 +109,66 @@ describe('urls', () => {
     })
     expect(url).toMatchInlineSnapshot('"http://localhost:3000/base/blog"')
   })
+
+  it('queries - no slash', () => {
+    const rel = fixSlashes(false, '/blog/?foo=bar')
+    expect(rel).toMatchInlineSnapshot('"/blog?foo=bar"')
+    const abs = fixSlashes(false, 'http://localhost:3000/base/blog/?foo=bar')
+    expect(abs).toMatchInlineSnapshot('"http://localhost:3000/base/blog?foo=bar"')
+    const url = resolveSitePath('/blog/?foo=bar', {
+      siteUrl: 'http://localhost:3000/',
+      trailingSlash: false,
+      withBase: true,
+      base: '/base',
+      absolute: true,
+    })
+    expect(url).toMatchInlineSnapshot('"http://localhost:3000/base/blog?foo=bar"')
+  })
+
+  it('queries - slash', () => {
+    const rel = fixSlashes(true, '/blog/?foo=bar')
+    expect(rel).toMatchInlineSnapshot('"/blog/?foo=bar"')
+    const abs = fixSlashes(true, 'http://localhost:3000/base/blog/?foo=bar')
+    expect(abs).toMatchInlineSnapshot('"http://localhost:3000/base/blog/?foo=bar"')
+    const url = resolveSitePath('/blog/?foo=bar', {
+      siteUrl: 'http://localhost:3000/',
+      trailingSlash: true,
+      withBase: true,
+      base: '/base',
+      absolute: true,
+    })
+    expect(url).toMatchInlineSnapshot('"http://localhost:3000/base/blog/?foo=bar"')
+  })
+
+  it('hash - no slash', () => {
+    const rel = fixSlashes(false, '/blog/#foo')
+    expect(rel).toMatchInlineSnapshot('"/blog#foo"')
+    const abs = fixSlashes(false, 'http://localhost:3000/base/blog/#foo')
+    expect(abs).toMatchInlineSnapshot('"http://localhost:3000/base/blog#foo"')
+    const url = resolveSitePath('/blog/#foo', {
+      siteUrl: 'http://localhost:3000/',
+      trailingSlash: false,
+      withBase: true,
+      base: '/base',
+      absolute: true,
+    })
+    expect(url).toMatchInlineSnapshot('"http://localhost:3000/base/blog#foo"')
+  })
+
+  it('hash - slash', () => {
+    const rel = fixSlashes(true, '/blog#foo')
+    expect(rel).toMatchInlineSnapshot('"/blog/#foo"')
+    const rel2 = fixSlashes(true, '/blog/#foo')
+    expect(rel2).toMatchInlineSnapshot('"/blog/#foo"')
+    const abs = fixSlashes(true, 'http://localhost:3000/base/blog?foo=bar#foo')
+    expect(abs).toMatchInlineSnapshot('"http://localhost:3000/base/blog/?foo=bar#foo"')
+    const url = resolveSitePath('/blog#foo', {
+      siteUrl: 'http://localhost:3000/',
+      trailingSlash: true,
+      withBase: true,
+      base: '/base',
+      absolute: true,
+    })
+    expect(url).toMatchInlineSnapshot('"http://localhost:3000/base/blog/#foo"')
+  })
 })
