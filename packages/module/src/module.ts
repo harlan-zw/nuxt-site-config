@@ -87,7 +87,7 @@ export default defineNuxtModule<ModuleOptions>({
       const siteConfig = useSiteConfig()
       // final hook for other modules to modify the site config
       // @ts-expect-error untyped
-      await nuxt.callHook('`site-config:resolve`', siteConfig)
+      await nuxt.callHook('site-config:resolve', siteConfig)
       // @ts-expect-error runtime
       nuxt.options.runtimeConfig.public.site = siteConfig
     })
