@@ -1,7 +1,7 @@
 {
   "name": "nuxt-site-config",
   "type": "module",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Shared site configuration for Nuxt 3 modules.",
   "license": "MIT",
   "funding": "https://github.com/sponsors/harlan-zw",
