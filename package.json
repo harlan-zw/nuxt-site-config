@@ -31,8 +31,8 @@
     "@nuxtjs/eslint-config-typescript": "^12.0.0",
     "@types/node": "^20.4.5",
     "bumpp": "^9.1.1",
-    "eslint": "8.45.0",
-    "execa": "^7.1.1",
+    "eslint": "8.46.0",
+    "execa": "^7.2.0",
     "nuxt": "^3.6.5",
     "vitest": "^0.33.0"
   }

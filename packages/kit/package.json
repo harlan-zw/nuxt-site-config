@@ -37,6 +37,6 @@
     "defu": "^6.1.2",
     "pkg-types": "^1.0.3",
     "site-config-stack": "workspace:*",
-    "ufo": "^1.1.2"
+    "ufo": "^1.2.0"
   }
 }
