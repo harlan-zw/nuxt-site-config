@@ -37,7 +37,7 @@ export function resolveSitePath(pathOrUrl: string, options: { siteUrl: string; t
   const origin = options.absolute ? options.siteUrl : ''
   const baseWithOrigin = options.withBase ? withBase(base, origin || '/') : origin
   const resolvedUrl = withBase(path, baseWithOrigin)
-  return path === '/' ? withTrailingSlash(resolvedUrl) : fixSlashes(options.trailingSlash, resolvedUrl)
+  return (path === '/' && !options.withBase) ? withTrailingSlash(resolvedUrl) : fixSlashes(options.trailingSlash, resolvedUrl)
 }
 
 export function fixSlashes(trailingSlash: boolean, pathOrUrl: string) {

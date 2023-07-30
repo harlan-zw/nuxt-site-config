@@ -171,4 +171,25 @@ describe('urls', () => {
     })
     expect(url).toMatchInlineSnapshot('"http://localhost:3000/base/blog/#foo"')
   })
+
+  it('base - home slash', () => {
+    const url = resolveSitePath('/', {
+      siteUrl: 'http://localhost:3000/',
+      trailingSlash: false,
+      withBase: true,
+      base: '/base/',
+      absolute: true,
+    })
+    expect(url).toMatchInlineSnapshot('"http://localhost:3000/base"')
+  })
+  it('base - remove base slash home slash', () => {
+    const url = resolveSitePath('/base/', {
+      siteUrl: 'http://localhost:3000',
+      trailingSlash: false,
+      withBase: false,
+      base: '/base',
+      absolute: true,
+    })
+    expect(url).toMatchInlineSnapshot('"http://localhost:3000/"')
+  })
 })
