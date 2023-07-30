@@ -62,16 +62,27 @@ export default defineNuxtModule<ModuleOptions>({
       // not actually needed
       const runtimeConfig = nuxt.options.runtimeConfig
       function getRuntimeConfig(config: string): string | undefined {
-        const env = config.toUpperCase()
-        if (envShim[`NUXT_SITE_${env}}`])
-          return envShim[`NUXT_SITE_${env}}`]
-        if (envShim[`NUXT_PUBLIC_SITE_${env}}`])
-          return envShim[`NUXT_PUBLIC_SITE_${env}}`]
         return (runtimeConfig[`site${config}`] || runtimeConfig.public?.[`site${config}`]) as string | undefined
+      }
+      function getEnv(config: string): string | undefined {
+        const env = config.toUpperCase()
+        if (envShim[`NUXT_SITE_${env}`])
+          return envShim[`NUXT_SITE_${env}`]
+        if (envShim[`NUXT_PUBLIC_SITE_${env}`])
+          return envShim[`NUXT_PUBLIC_SITE_${env}`]
       }
       // support legacy config
       updateSiteConfig({
-        _context: 'fallbackRuntimeConfigAndEnv',
+        _context: 'env',
+        url: getEnv('Url'),
+        name: getEnv('Name'),
+        description: getEnv('Description'),
+        logo: getEnv('Image'),
+        defaultLocale: getEnv('Language'),
+        indexable: getEnv('Indexable'),
+      })
+      updateSiteConfig({
+        _context: 'runtimeConfig',
         url: getRuntimeConfig('Url'),
         name: getRuntimeConfig('Name'),
         description: getRuntimeConfig('Description'),
