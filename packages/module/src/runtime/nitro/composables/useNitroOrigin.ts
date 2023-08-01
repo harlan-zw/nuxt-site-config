@@ -7,7 +7,9 @@ export function useNitroOrigin(e?: H3Event) {
   const key = process.env.NITRO_SSL_KEY
 
   let host = process.env.NITRO_HOST || process.env.HOST || false
-  let port = process.env.NITRO_PORT || process.env.PORT || (process.dev ? 3000 : false)
+  let port: string
+  if (process.dev)
+    port = process.env.NITRO_PORT || process.env.PORT || '3000'
   let protocol = ((cert && key) || !process.dev) ? 'https' : 'http'
   // don't trust development nitro headers
   if (!e) {
