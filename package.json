@@ -35,5 +35,8 @@
     "execa": "^8.0.1",
     "nuxt": "^3.7.0",
     "vitest": "^0.34.3"
+  },
+  "resolutions": {
+    "unstorage": "1.9.0"
   }
 }
