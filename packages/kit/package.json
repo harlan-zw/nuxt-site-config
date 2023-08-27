@@ -32,11 +32,10 @@
     "stub": "unbuild --stub"
   },
   "dependencies": {
-    "@nuxt/kit": "^3.6.5",
-    "@nuxt/schema": "^3.6.5",
-    "defu": "^6.1.2",
+    "@nuxt/kit": "^3.7.0",
+    "@nuxt/schema": "^3.7.0",
     "pkg-types": "^1.0.3",
     "site-config-stack": "workspace:*",
-    "ufo": "^1.2.0"
+    "ufo": "^1.3.0"
   }
 }

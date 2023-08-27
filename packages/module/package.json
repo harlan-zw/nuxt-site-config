@@ -33,12 +33,12 @@
     "test": "vitest"
   },
   "dependencies": {
-    "@nuxt/kit": "^3.6.5",
-    "@nuxt/schema": "^3.6.5",
+    "@nuxt/kit": "^3.7.0",
+    "@nuxt/schema": "^3.7.0",
     "nuxt-site-config-kit": "workspace:*",
     "pathe": "^1.1.1",
     "site-config-stack": "workspace:*",
-    "ufo": "^1.2.0"
+    "ufo": "^1.3.0"
   },
   "build": {
     "externals": [
