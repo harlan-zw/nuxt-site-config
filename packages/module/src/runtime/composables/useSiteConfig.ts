@@ -1,17 +1,23 @@
-import type { SiteConfigStack } from 'site-config-stack'
+import type { SiteConfig } from 'site-config-stack'
 import type { NuxtSiteConfig } from '../types'
 import {
+  toValue,
   useNuxtApp,
   useRequestEvent,
 } from '#imports'
 
-export function useSiteConfig() {
-  if (process.server) {
-    const stack = useRequestEvent().context.siteConfig as SiteConfigStack
-    // ensure a consistent api
-    return stack.get() as NuxtSiteConfig
-  }
+export function useSiteConfig(options?: { withContext?: boolean }) {
+  let stack: Omit<SiteConfig, '_context'>
+  if (process.server)
+    stack = useRequestEvent().context.siteConfig.get() as SiteConfig
+  else
+    stack = useNuxtApp().$siteConfig.get() as SiteConfig
 
-  const stack = useNuxtApp().$siteConfig as SiteConfigStack
-  return stack.get() as NuxtSiteConfig
+  if (!options?.withContext)
+    delete stack._context
+
+  Object.entries(stack).forEach(([k, v]) => {
+    stack[k] = toValue(v)
+  })
+  return stack as NuxtSiteConfig
 }
