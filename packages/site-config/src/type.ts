@@ -19,10 +19,6 @@ export interface SiteConfig {
    */
   name: string
   /**
-   * The title separator of the site.
-   */
-  titleSeparator: string
-  /**
    * Whether the site is indexable by search engines.
    */
   indexable: boolean

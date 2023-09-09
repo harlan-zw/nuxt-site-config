@@ -31,7 +31,7 @@ Unifying site config with powerful and flexible APIs, for module authors and use
 
 Site config can be considered config that is commonly used amongst modules but is not supported by the Nuxt core.
 
-For example: `url` (canonical), `name`, `description`, `indexable`, `trailingSlash`, `titleSeperator`, etc.
+For example: `url` (canonical), `name`, `description`, `indexable`, `trailingSlash`, etc.
 
 Without a single source of truth for these, modules have a hard time working together and end-users have to duplicate config across modules.
 

@@ -7,7 +7,6 @@ export const DefaultSiteConfig: SiteConfigInput = {
   _context: 'defaults',
   defaultLocale: 'en',
   trailingSlash: false,
-  titleSeparator: '|',
 }
 
 export const VendorEnv: SiteConfigInput = {
