@@ -21,6 +21,16 @@ if (process.server) {
     SiteLink examples
     <SiteLink to="/blog">No trailing slash set</SiteLink>
     <SiteLink to="/">home</SiteLink>
+    <div class="w-[200px] my-10 children:(flex items-center justify-between)">
+      <div>
+        <label>Default Locale</label>
+        <div>{{ siteConfig.defaultLocale }}</div>
+      </div>
+      <div>
+        <label>Current Locale</label>
+        <div>{{ siteConfig.currentLocale }}</div>
+      </div>
+    </div>
   </div>
 </div>
 </template>
