@@ -3,6 +3,7 @@ import { defineNuxtPlugin, ref, updateSiteConfig, useSiteConfig } from '#imports
 
 export default defineNuxtPlugin({
   name: 'nuxt-site-config:i18n',
+  // @ts-expect-error todo fix upstream
   enforce: 1, // needs to come after i18n
   setup(nuxtApp) {
     const i18n = (nuxtApp.$i18n || { locale: ref(useSiteConfig().defaultLocale) }) as { locale: Ref<string> }
