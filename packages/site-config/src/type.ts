@@ -45,6 +45,24 @@ export interface SiteConfig {
    */
   description?: string
   /**
+   * Configure the identity of the site.
+   */
+  identity?: {
+    /**
+     * Use Organization for when the site is a company, business, etc.
+     * Use Person for when the site is a personal blog, portfolio, etc.
+     */
+    type: 'Organization' | 'Person'
+  }
+  /**
+   * Twitter (X) profile ID.
+   *
+   * Used for Schema.org sameAs and <meta profile>.
+   *
+   * @example @harlan_zw
+   */
+  twitter?: string
+  /**
    * The mapping of the context of each site config value being set.
    */
   _context: Partial<Record<Exclude<keyof SiteConfig, '_meta'>, string>>
