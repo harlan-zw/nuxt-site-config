@@ -4,7 +4,7 @@ import { defineNuxtPlugin, useRequestEvent, useState } from '#imports'
 
 export default defineNuxtPlugin({
   name: 'nuxt-site-config',
-  enforce: 'pre', // or 'post'
+  enforce: 'pre',
   async setup(nuxtApp) {
     let siteConfigStack
     if (process.server) {

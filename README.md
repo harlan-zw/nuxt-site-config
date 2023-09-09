@@ -46,8 +46,7 @@ _just work_ with modules.
 - 🎨 Site config from any source: Nuxt Config, Runtime Config, Environment Variables, App Config, Route Rules or Programmatically
 - 🚀 Powerful and runtime agnostic APIs for module authors `useSiteConfig`, `createSitePathResolver`, `withSiteUrl`, `useNitroOrigin`, etc
 - 🤖 Ledger capabilities
-- ✅ Safe fallbacks with runtime assertions (wip)
-- 🏠 Build Multi-lingual Multi-tenancy sites (soon)
+- 🤝 Integrates with `@nuxtjs/i18n`
 
 # Documentation
 

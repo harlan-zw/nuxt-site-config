@@ -3,7 +3,7 @@ import {
   addComponent,
   addImports, addPlugin, addPrerenderRoutes, addServerHandler,
   createResolver,
-  defineNuxtModule, useLogger,
+  defineNuxtModule, hasNuxtModule, useLogger,
 } from '@nuxt/kit'
 import { initSiteConfig, updateSiteConfig, useSiteConfig } from 'nuxt-site-config-kit'
 import type { SiteConfig, SiteConfigInput } from 'nuxt-site-config-kit'
@@ -209,8 +209,13 @@ declare module '@nuxt/schema' {
     nuxt.options.build.transpile.push('site-config-stack')
 
     addPlugin({
-      src: resolve('./runtime/plugins/siteConfig'),
+      src: resolve('./runtime/plugins/0.siteConfig'),
     })
+    if (hasNuxtModule('@nuxtjs/i18n')) {
+      addPlugin({
+        src: resolve('./runtime/plugins/i18n'),
+      })
+    }
 
     // add middleware
     addServerHandler({

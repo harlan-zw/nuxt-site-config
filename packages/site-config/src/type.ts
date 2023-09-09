@@ -27,6 +27,12 @@ export interface SiteConfig {
    */
   trailingSlash: boolean
   /**
+   * Current locale, set with @nuxt/i18n.
+   *
+   * Falls back to the defaultLocale.
+   */
+  currentLocale?: string
+  /**
    * The default locale of the site.
    */
   defaultLocale: string
