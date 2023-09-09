@@ -21,7 +21,6 @@ describe('basic', async () => {
           "defaultLocale": "defaults",
           "indexable": "system",
           "name": "package.json",
-          "titleSeparator": "defaults",
           "trailingSlash": "defaults",
           "url": "app:config",
         },
@@ -30,7 +29,6 @@ describe('basic', async () => {
         "indexable": false,
         "name": "nuxt-site-config-playground",
         "origin": "http://127.0.0.1:port/",
-        "titleSeparator": "|",
         "trailingSlash": false,
         "url": "https://harlanzw.com",
       }
