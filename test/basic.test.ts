@@ -34,4 +34,16 @@ describe('basic', async () => {
       }
     `)
   })
+
+  it ('updates site configuration', async () => {
+    const siteConfig = await $fetch('/api/composables')
+    const s = JSON.stringify(siteConfig)
+    expect(JSON.parse(s.replace(/:\d+\//g, ':port/'))).toMatchInlineSnapshot(`
+      [
+        null,
+        "Description",
+        "Description",
+      ]
+    `)
+  })
 })
