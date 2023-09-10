@@ -1,6 +1,5 @@
 import type {
   SiteConfigInput,
-  SiteConfigStack,
 } from 'site-config-stack'
 import { useNuxtApp, useRequestEvent } from '#imports'
 
@@ -11,6 +10,6 @@ export function updateSiteConfig(input: SiteConfigInput = {}) {
     return
   }
 
-  const stack = useNuxtApp().$siteConfig as SiteConfigStack
+  const stack = useNuxtApp().$siteConfig
   stack.push(input)
 }
