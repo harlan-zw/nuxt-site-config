@@ -1,4 +1,6 @@
-export interface SiteConfig {
+type AnyString = (string & Record<never, never>)
+
+interface SiteConfig {
   /**
    * The canonical Site URL.
    *
@@ -27,7 +29,7 @@ export interface SiteConfig {
    */
   trailingSlash: boolean
   /**
-   * Current locale, set with @nuxt/i18n.
+   * Current locale, set with `@nuxt/i18n`.
    *
    * Falls back to the defaultLocale.
    */
@@ -57,16 +59,16 @@ export interface SiteConfig {
   /**
    * Twitter (X) profile ID.
    *
-   * Used for Schema.org sameAs and <meta profile>.
+   * Used for Schema.org sameAs and `<meta profile>`.
    *
-   * @example @harlan_zw
+   * @example `@harlan_zw`
    */
   twitter?: string
   /**
    * The mapping of the context of each site config value being set.
    */
   _context: Partial<Record<Exclude<keyof SiteConfig, '_meta'>, string>>
-  [key: string]: any
+  [key: AnyString]: any
 }
 
 export type SiteConfigInput = Partial<Omit<SiteConfig, '_context'>> & { _context?: string }
