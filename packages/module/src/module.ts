@@ -205,7 +205,7 @@ declare module '@nuxt/schema' {
       },
     ])
 
-    // add site-conifg-stack to transpile
+    // add site-config-stack to transpile
     nuxt.options.build.transpile.push('site-config-stack')
 
     addPlugin({
