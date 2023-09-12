@@ -48,7 +48,9 @@ export default defineNuxtModule<ModuleOptions>({
     await initSiteConfig()
     // the module config should have the highest priority
     await updateSiteConfig({
-      _context: 'nuxt:config:site',
+      // we should allow environment variables to override the site config
+      _priority: -3,
+      _context: 'nuxt-site-config:config',
       ...config,
     })
 
@@ -61,8 +63,8 @@ export default defineNuxtModule<ModuleOptions>({
       await nuxt.callHook('site-config:resolve', clonedSiteConfig)
       if (clonedSiteConfig !== siteConfig) {
         updateSiteConfig({
-          _context: 'nuxt:hook:site-config:resolve',
           ...clonedSiteConfig,
+          _context: 'nuxt:hook:site-config:resolve',
         })
       }
       // @ts-expect-error runtime

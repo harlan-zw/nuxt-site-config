@@ -5,7 +5,6 @@ import { createSiteConfigStack } from 'site-config-stack'
 import type { Nuxt } from '@nuxt/schema'
 import { env, isProduction, process } from 'std-env'
 import type { SiteConfigInput, SiteConfigStack } from './type'
-import { DefaultSiteConfig, VendorEnv } from './const'
 
 async function getPkgJsonContextConfig(rootDir: string) {
   const pkgJson = await readPackageJSON(undefined, { startingFrom: rootDir })
@@ -31,11 +30,17 @@ export async function initSiteConfig(nuxt: Nuxt | null = tryUseNuxt()): Promise<
   siteConfig = createSiteConfigStack()
 
   // 1. Defaults
-  siteConfig.push(DefaultSiteConfig)
+  siteConfig.push({
+    _priority: -15,
+    _context: 'defaults',
+    defaultLocale: 'en',
+    trailingSlash: false,
+  })
   const rootDir = nuxt?.options.rootDir || process.cwd?.() || false
   // the root dir is maybe the name of the site
   siteConfig.push({
     _context: 'system',
+    _priority: -10,
     name: rootDir ? rootDir.split('/').pop() : undefined,
     indexable: isProduction,
   })
@@ -43,7 +48,24 @@ export async function initSiteConfig(nuxt: Nuxt | null = tryUseNuxt()): Promise<
     siteConfig.push(await getPkgJsonContextConfig(rootDir))
 
   // add the env vars lowest priority
-  siteConfig.push(VendorEnv)
+  siteConfig.push({
+    _context: 'vendorEnv',
+    _priority: -5,
+    url: [
+      // vercel
+      env.VERCEL_URL, env.NUXT_ENV_VERCEL_URL,
+      // netlify
+      env.URL,
+      // cloudflare pages
+      env.CF_PAGES_URL,
+    ].find(k => Boolean(k)),
+    name: [
+      // vercel
+      env.NUXT_ENV_VERCEL_GIT_REPO_SLUG,
+      // netlify
+      env.SITE_NAME,
+    ].find(k => Boolean(k)),
+  })
 
   // not actually needed
   const runtimeConfig = nuxt.options.runtimeConfig
@@ -58,7 +80,7 @@ export async function initSiteConfig(nuxt: Nuxt | null = tryUseNuxt()): Promise<
       return env[`NUXT_PUBLIC_SITE_${key}`]
   }
   // support legacy config
-  updateSiteConfig({
+  siteConfig.push({
     _context: 'env',
     url: getEnv('Url'),
     name: getEnv('Name'),
@@ -67,7 +89,7 @@ export async function initSiteConfig(nuxt: Nuxt | null = tryUseNuxt()): Promise<
     defaultLocale: getEnv('Language'),
     indexable: getEnv('Indexable'),
   })
-  updateSiteConfig({
+  siteConfig.push({
     _context: 'runtimeConfig',
     url: getRuntimeConfig('Url'),
     name: getRuntimeConfig('Name'),
