@@ -21,10 +21,10 @@ export async function assertSiteConfig(context: string, requirements: Partial<Re
       valid = false
     }
   })
-  if (!valid && options?.throwError !== false) {
-    if (options?.logErrors !== false)
+  if (!valid) {
+    if (options?.logErrors)
       logger.error(messages.join('\n'))
-    else
+    else if (options?.throwError)
       // eslint-disable-next-line unicorn/error-message
       throw new Error(messages.join('\n'))
   }
