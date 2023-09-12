@@ -5,7 +5,7 @@ import {
   defineNuxtModule, hasNuxtModule, useLogger,
 } from '@nuxt/kit'
 import { initSiteConfig, updateSiteConfig, useSiteConfig } from 'nuxt-site-config-kit'
-import type { SiteConfig, SiteConfigInput } from 'nuxt-site-config-kit'
+import type { SiteConfigInput } from 'nuxt-site-config-kit'
 import { extendTypes } from './kit'
 
 export interface ModuleOptions extends SiteConfigInput {
