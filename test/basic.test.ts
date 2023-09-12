@@ -17,7 +17,7 @@ describe('basic', async () => {
     expect(JSON.parse(s.replace(/:\d+\//g, ':port/'))).toMatchInlineSnapshot(`
       {
         "_context": {
-          "debug": "nuxt:config:site",
+          "debug": "nuxt-site-config:config",
           "defaultLocale": "defaults",
           "indexable": "system",
           "name": "package.json",

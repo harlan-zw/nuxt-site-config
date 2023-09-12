@@ -22,7 +22,7 @@ export interface ModulePublicRuntimeConfig {
 }
 
 export interface ModuleHooks {
-  'site-config:resolve': (siteConfig: SiteConfig) => void
+  'site-config:resolve': () => void
 }
 
 export default defineNuxtModule<ModuleOptions>({
@@ -56,17 +56,8 @@ export default defineNuxtModule<ModuleOptions>({
 
     // merge the site config into the runtime config once modules are done extending it
     nuxt.hook('modules:done', async () => {
-      const siteConfig = useSiteConfig()
-      // final hook for other modules to modify the site config
-      const clonedSiteConfig = { ...siteConfig }
       // @ts-expect-error untyped
-      await nuxt.callHook('site-config:resolve', clonedSiteConfig)
-      if (clonedSiteConfig !== siteConfig) {
-        updateSiteConfig({
-          ...clonedSiteConfig,
-          _context: 'nuxt:hook:site-config:resolve',
-        })
-      }
+      await nuxt.callHook('site-config:resolve')
       // @ts-expect-error runtime
       nuxt.options.runtimeConfig.public.site = useSiteConfig()
     })
