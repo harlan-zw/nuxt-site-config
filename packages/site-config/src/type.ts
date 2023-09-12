@@ -1,6 +1,4 @@
-type AnyString = (string & Record<never, never>)
-
-interface SiteConfig {
+export interface SiteConfig {
   /**
    * The canonical Site URL.
    *
@@ -68,10 +66,15 @@ interface SiteConfig {
    * The mapping of the context of each site config value being set.
    */
   _context: Partial<Record<Exclude<keyof SiteConfig, '_meta'>, string>>
-  [key: AnyString]: any
+  [key: (string & Record<never, never>)]: any
 }
 
-export type SiteConfigInput = Partial<Omit<SiteConfig, '_context'>> & { _context?: string; _priority?: number }
+export type SiteConfigInput = Partial<Omit<SiteConfig, '_context' | 'indexable'>> & {
+  _context?: string
+  _priority?: number
+  // is cast as a boolean
+  indexable?: string | boolean
+}
 
 export interface SiteConfigStack {
   stack: Partial<SiteConfigInput>[]
