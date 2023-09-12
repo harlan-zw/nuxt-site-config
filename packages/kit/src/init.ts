@@ -6,18 +6,6 @@ import type { Nuxt } from '@nuxt/schema'
 import { env, isProduction, process } from 'std-env'
 import type { SiteConfigInput, SiteConfigStack } from './type'
 
-async function getPkgJsonContextConfig(rootDir: string) {
-  const pkgJson = await readPackageJSON(undefined, { startingFrom: rootDir })
-  if (!pkgJson)
-    return {}
-
-  return <SiteConfigInput> {
-    _context: 'package.json',
-    name: pkgJson.name,
-    description: pkgJson.description,
-  }
-}
-
 export async function initSiteConfig(nuxt: Nuxt | null = tryUseNuxt()): Promise<SiteConfigStack | undefined> {
   if (!nuxt)
     return
@@ -31,7 +19,7 @@ export async function initSiteConfig(nuxt: Nuxt | null = tryUseNuxt()): Promise<
 
   // 1. Defaults
   siteConfig.push({
-    _priority: -15,
+    _priority: -20,
     _context: 'defaults',
     defaultLocale: 'en',
     trailingSlash: false,
@@ -40,12 +28,21 @@ export async function initSiteConfig(nuxt: Nuxt | null = tryUseNuxt()): Promise<
   // the root dir is maybe the name of the site
   siteConfig.push({
     _context: 'system',
-    _priority: -10,
+    _priority: -15,
     name: rootDir ? rootDir.split('/').pop() : undefined,
     indexable: isProduction,
   })
-  if (rootDir)
-    siteConfig.push(await getPkgJsonContextConfig(rootDir))
+  if (rootDir) {
+    const pkgJson = await readPackageJSON(undefined, {startingFrom: rootDir})
+    if (pkgJson) {
+      siteConfig.push({
+        _context: 'package.json',
+        _priority: -10,
+        name: pkgJson.name,
+        description: pkgJson.description,
+      })
+    }
+  }
 
   // add the env vars lowest priority
   siteConfig.push({
