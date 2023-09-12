@@ -1,8 +1,6 @@
-import type Process from 'node:process'
 import type { SiteConfigInput } from 'site-config-stack'
+import { env } from 'std-env'
 
-export const processShim = typeof process !== 'undefined' ? process : {} as typeof Process
-export const envShim = processShim.env || {}
 export const DefaultSiteConfig: SiteConfigInput = {
   _context: 'defaults',
   defaultLocale: 'en',
@@ -13,16 +11,16 @@ export const VendorEnv: SiteConfigInput = {
   _context: 'vendorEnv',
   url: [
     // vercel
-    envShim.VERCEL_URL, envShim.NUXT_ENV_VERCEL_URL,
+    env.VERCEL_URL, env.NUXT_ENV_VERCEL_URL,
     // netlify
-    envShim.URL,
+    env.URL,
     // cloudflare pages
-    envShim.CF_PAGES_URL,
+    env.CF_PAGES_URL,
   ].find(k => Boolean(k)),
   name: [
     // vercel
-    envShim.NUXT_ENV_VERCEL_GIT_REPO_SLUG,
+    env.NUXT_ENV_VERCEL_GIT_REPO_SLUG,
     // netlify
-    envShim.SITE_NAME,
+    env.SITE_NAME,
   ].find(k => Boolean(k)),
 }

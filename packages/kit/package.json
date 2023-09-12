@@ -36,6 +36,7 @@
     "@nuxt/schema": "^3.7.1",
     "pkg-types": "^1.0.3",
     "site-config-stack": "workspace:*",
+    "std-env": "^3.4.3",
     "ufo": "^1.3.0"
   }
 }

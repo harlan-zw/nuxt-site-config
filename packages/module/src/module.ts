@@ -1,4 +1,3 @@
-import type Process from 'node:process'
 import {
   addComponent,
   addImports, addPlugin, addPrerenderRoutes, addServerHandler,
@@ -8,9 +7,6 @@ import {
 import { initSiteConfig, updateSiteConfig, useSiteConfig } from 'nuxt-site-config-kit'
 import type { SiteConfig, SiteConfigInput } from 'nuxt-site-config-kit'
 import { extendTypes } from './kit'
-
-export const processShim = typeof process !== 'undefined' ? process : {} as typeof Process
-export const envShim = processShim.env || {}
 
 export interface ModuleOptions extends SiteConfigInput {
   /**
@@ -50,57 +46,27 @@ export default defineNuxtModule<ModuleOptions>({
     const { resolve } = createResolver(import.meta.url)
 
     await initSiteConfig()
+    // the module config should have the highest priority
+    await updateSiteConfig({
+      _context: 'nuxt:config:site',
+      ...config,
+    })
 
     // merge the site config into the runtime config once modules are done extending it
     nuxt.hook('modules:done', async () => {
-      // the module config should have the highest priority
-      await updateSiteConfig({
-        _context: 'nuxt:config:site',
-        ...config,
-      })
-
-      // not actually needed
-      const runtimeConfig = nuxt.options.runtimeConfig
-      function getRuntimeConfig(config: string): string | undefined {
-        return (runtimeConfig[`site${config}`] || runtimeConfig.public?.[`site${config}`]) as string | undefined
-      }
-      function getEnv(config: string): string | undefined {
-        const env = config.toUpperCase()
-        if (envShim[`NUXT_SITE_${env}`])
-          return envShim[`NUXT_SITE_${env}`]
-        if (envShim[`NUXT_PUBLIC_SITE_${env}`])
-          return envShim[`NUXT_PUBLIC_SITE_${env}`]
-      }
-      // support legacy config
-      updateSiteConfig({
-        _context: 'env',
-        url: getEnv('Url'),
-        name: getEnv('Name'),
-        description: getEnv('Description'),
-        logo: getEnv('Image'),
-        defaultLocale: getEnv('Language'),
-        indexable: getEnv('Indexable'),
-      })
-      updateSiteConfig({
-        _context: 'runtimeConfig',
-        url: getRuntimeConfig('Url'),
-        name: getRuntimeConfig('Name'),
-        description: getRuntimeConfig('Description'),
-        logo: getRuntimeConfig('Image'),
-        defaultLocale: getRuntimeConfig('Language'),
-        indexable: getRuntimeConfig('Indexable'),
-      })
-      updateSiteConfig({
-        _context: 'runtimeConfig',
-        ...(nuxt?.options.runtimeConfig.public.site as any as SiteConfigInput || {}),
-      })
-
       const siteConfig = useSiteConfig()
       // final hook for other modules to modify the site config
+      const clonedSiteConfig = { ...siteConfig }
       // @ts-expect-error untyped
-      await nuxt.callHook('site-config:resolve', siteConfig)
+      await nuxt.callHook('site-config:resolve', clonedSiteConfig)
+      if (clonedSiteConfig !== siteConfig) {
+        updateSiteConfig({
+          _context: 'nuxt:hook:site-config:resolve',
+          ...clonedSiteConfig,
+        })
+      }
       // @ts-expect-error runtime
-      nuxt.options.runtimeConfig.public.site = siteConfig
+      nuxt.options.runtimeConfig.public.site = useSiteConfig()
     })
 
     extendTypes('nuxt-site-config', async ({ typesPath }) => {
