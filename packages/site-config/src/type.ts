@@ -69,7 +69,7 @@ export interface SiteConfig {
   [key: string]: any
 }
 
-export type SiteConfigInput = Partial<Omit<SiteConfig, '_context'>> & { _context?: string }
+export type SiteConfigInput = Partial<Omit<SiteConfig, '_context'>> & { _context?: string; _priority?: number }
 
 export interface SiteConfigStack {
   stack: Partial<SiteConfigInput>[]

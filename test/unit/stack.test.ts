@@ -97,4 +97,32 @@ describe('stack', () => {
       }
     `)
   })
+  it ('priority', () => {
+    const stack = createSiteConfigStack()
+    stack.push({
+      name: 'My Site Name',
+      logo: 'https://example.com/logo.png',
+      _context: 'foo',
+    })
+    stack.push({
+      name: 'Low priority config',
+      url: 'https://example.com',
+      trailingSlash: true,
+      _priority: -1,
+    })
+    expect(stack.get()).toMatchInlineSnapshot(`
+      {
+        "_context": {
+          "logo": "foo",
+          "name": "foo",
+          "trailingSlash": "anonymous",
+          "url": "anonymous",
+        },
+        "logo": "https://example.com/logo.png",
+        "name": "My Site Name",
+        "trailingSlash": true,
+        "url": "https://example.com",
+      }
+    `)
+  })
 })

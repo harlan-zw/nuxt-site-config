@@ -25,12 +25,13 @@ export function createSiteConfigStack(): SiteConfigStack {
     }
     // resolve the stack, we need to defu the fields but we also want to make a _meta property which maps each field to
     // what context it came from, we'll need a custom defu function
-    for (const o in stack) {
+    for (const o in stack.sort((a, b) => (a._priority || 0) - (b._priority || 0))) {
       for (const k in stack[o]) {
         const key = k as keyof SiteConfig
         const val = stack[o][k]
         // first do the merge, pretty simple
-        if (!k.endsWith('context') && typeof val !== 'undefined') {
+        if (!k.startsWith('_') && typeof val !== 'undefined') {
+          // make sure the priority is correct
           siteConfig[k] = val
           // we're setting the key value, update the meta
           // @ts-expect-error untyped
