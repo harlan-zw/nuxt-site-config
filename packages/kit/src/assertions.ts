@@ -8,7 +8,7 @@ import { useSiteConfig } from './init'
 export function requireSiteConfig() {
 }
 
-export async function assertSiteConfig(context: string, requirements: Partial<Record<keyof SiteConfig, string>>, options?: { throwError?: boolean; logErrors?: boolean }) {
+export function assertSiteConfig(context: string, requirements: Partial<Record<keyof SiteConfig, string>>, options?: { throwError?: boolean; logErrors?: boolean }) {
   const siteConfig = useSiteConfig()
   let valid = true
   const messages: string[] = []
