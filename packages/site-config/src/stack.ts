@@ -29,8 +29,8 @@ export function createSiteConfigStack(): SiteConfigStack {
       for (const k in stack[o]) {
         const key = k as keyof SiteConfig
         const val = stack[o][k]
-        // first do the merge, pretty simple
-        if (!k.startsWith('_') && typeof val !== 'undefined') {
+        // first do the merge, pretty simple, avoid empty strings
+        if (!k.startsWith('_') && typeof val !== 'undefined' && val !== '') {
           // make sure the priority is correct
           siteConfig[k] = val
           // we're setting the key value, update the meta
