@@ -8,7 +8,7 @@ export default defineEventHandler(async (e) => {
   const { public: publicRuntimeConfig } = useRuntimeConfig()
 
   // add json headers
-  setHeader(e.response, 'Content-Type', 'application/json')
+  setHeader(e, 'Content-Type', 'application/json')
   return {
     ...siteConfig,
     nitroOrigin,
