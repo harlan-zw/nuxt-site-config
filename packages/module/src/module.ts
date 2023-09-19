@@ -59,8 +59,8 @@ export default defineNuxtModule<ModuleOptions>({
     nuxt.hook('modules:done', async () => {
       // @ts-expect-error untyped
       await nuxt.callHook('site-config:resolve')
-      // @ts-expect-error runtime
       nuxt.options.runtimeConfig.public['nuxt-site-config'] = {
+        // @ts-expect-error untyped
         siteConfig: useSiteConfig(),
         version,
       }
