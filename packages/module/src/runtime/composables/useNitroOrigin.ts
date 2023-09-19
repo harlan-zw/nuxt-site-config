@@ -22,8 +22,7 @@ export function useNitroOrigin(e?: H3Event) {
         host = withoutProtocol(origin)
         protocol = origin.includes('https') ? 'https' : 'http'
       }
-    }
-    else {
+    } else {
       host = getRequestHost(e, { xForwardedHost: true }) || host
       protocol = getRequestProtocol(e, { xForwardedProto: true }) || protocol
     }
