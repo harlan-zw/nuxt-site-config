@@ -11,7 +11,7 @@ export default defineEventHandler((e) => {
       url: nitroOrigin,
     })
     // @ts-expect-error runtime type
-    updateSiteConfig(e, publicRuntimeConfig.site)
+    updateSiteConfig(e, publicRuntimeConfig['nuxt-site-config']?.siteConfig)
     if (appConfig.site) {
       updateSiteConfig(e, {
         _context: 'app:config',

@@ -6,6 +6,7 @@ import {
 } from '@nuxt/kit'
 import { initSiteConfig, updateSiteConfig, useSiteConfig } from 'nuxt-site-config-kit'
 import type { SiteConfigInput } from 'nuxt-site-config-kit'
+import { version } from '../package.json'
 import { extendTypes } from './kit'
 
 export interface ModuleOptions extends SiteConfigInput {
@@ -59,7 +60,10 @@ export default defineNuxtModule<ModuleOptions>({
       // @ts-expect-error untyped
       await nuxt.callHook('site-config:resolve')
       // @ts-expect-error runtime
-      nuxt.options.runtimeConfig.public.site = useSiteConfig()
+      nuxt.options.runtimeConfig.public['nuxt-site-config'] = {
+        siteConfig: useSiteConfig(),
+        version,
+      }
     })
 
     extendTypes('nuxt-site-config', async ({ typesPath }) => {
