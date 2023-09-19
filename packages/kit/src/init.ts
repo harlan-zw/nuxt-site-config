@@ -33,7 +33,7 @@ export async function initSiteConfig(nuxt: Nuxt | null = tryUseNuxt()): Promise<
     indexable: isProduction,
   })
   if (rootDir) {
-    const pkgJson = await readPackageJSON(undefined, {startingFrom: rootDir})
+    const pkgJson = await readPackageJSON(undefined, { startingFrom: rootDir })
     if (pkgJson) {
       siteConfig.push({
         _context: 'package.json',

@@ -77,7 +77,7 @@ describe('urls', () => {
     expect(url).toMatchInlineSnapshot('"/blog"')
   })
 
-  it ('home slash url absolute', () => {
+  it('home slash url absolute', () => {
     const url = resolveSitePath('/', {
       ...defaults,
       absolute: true,
@@ -85,7 +85,7 @@ describe('urls', () => {
     expect(url).toMatchInlineSnapshot('"https://example.com/"')
   })
 
-  it ('home slash url relative', () => {
+  it('home slash url relative', () => {
     const url = resolveSitePath('/', {
       ...defaults,
     })

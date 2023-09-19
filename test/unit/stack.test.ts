@@ -45,7 +45,7 @@ describe('stack', () => {
     `)
   })
 
-  it ('hydrate', () => {
+  it('hydrate', () => {
     const stack = createSiteConfigStack()
     stack.push({
       name: 'My Site Name',
@@ -73,7 +73,7 @@ describe('stack', () => {
       }
     `)
   })
-  it ('anonymous context', () => {
+  it('anonymous context', () => {
     const stack = createSiteConfigStack()
     stack.push({
       name: 'My Site Name',
@@ -97,7 +97,7 @@ describe('stack', () => {
       }
     `)
   })
-  it ('priority', () => {
+  it('priority', () => {
     const stack = createSiteConfigStack()
     stack.push({
       name: 'My Site Name',

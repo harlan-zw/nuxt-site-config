@@ -9,7 +9,7 @@ await setup({
 })
 
 describe('basic', async () => {
-  it ('ssr', async () => {
+  it('ssr', async () => {
     const siteConfig = await $fetch('/api/default')
     // replace ports in snapshot with pattern `:port/`
     // convert json to string
