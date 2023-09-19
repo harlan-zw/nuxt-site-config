@@ -11,7 +11,7 @@ export function useSiteConfig(options?: { withContext?: boolean }) {
   if (process.server)
     stack = useRequestEvent().context.siteConfig.get() as SiteConfig
   else
-    stack = useNuxtApp().$siteConfig.get() as SiteConfig
+    stack = useNuxtApp().$nuxtSiteConfig.get() as SiteConfig
 
   if (!options?.withContext)
     delete stack._context

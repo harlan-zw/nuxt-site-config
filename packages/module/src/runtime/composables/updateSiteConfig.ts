@@ -11,6 +11,6 @@ export function updateSiteConfig(input: SiteConfigInput = {}) {
     return
   }
 
-  const stack = useNuxtApp().$siteConfig as SiteConfigStack
+  const stack = useNuxtApp().$nuxtSiteConfig as SiteConfigStack
   stack.push(input)
 }

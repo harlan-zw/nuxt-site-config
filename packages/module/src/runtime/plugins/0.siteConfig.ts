@@ -28,7 +28,7 @@ export default defineNuxtPlugin({
     }
     return {
       provide: {
-        siteConfig: siteConfigStack,
+        nuxtSiteConfig: siteConfigStack,
       },
     }
   },
