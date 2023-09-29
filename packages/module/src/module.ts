@@ -179,6 +179,13 @@ declare module '@nuxt/schema' {
       addPlugin({
         src: resolve('./runtime/plugins/i18n'),
       })
+      updateSiteConfig({
+        _context: '@nuxtjs/i18n',
+        // @ts-expect-error untyped
+        url: nuxt.options.i18n?.baseUrl,
+        // @ts-expect-error untyped
+        defaultLocale: nuxt.options.i18n?.defaultLocale,
+      })
     }
 
     // add middleware
