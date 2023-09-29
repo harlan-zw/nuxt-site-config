@@ -63,6 +63,7 @@ export default defineNuxtModule<ModuleOptions>({
         // @ts-expect-error untyped
         siteConfig: useSiteConfig(),
         version,
+        debug: config.debug,
       }
     })
 

@@ -1,11 +1,12 @@
 import { createSiteConfigStack } from 'site-config-stack'
 import type { SiteConfig } from 'site-config-stack'
-import { defineNuxtPlugin, useRequestEvent, useState } from '#imports'
+import { defineNuxtPlugin, useRequestEvent, useRuntimeConfig, useState } from '#imports'
 
 export default defineNuxtPlugin({
   name: 'nuxt-site-config',
   enforce: 'pre',
   async setup(nuxtApp) {
+    const config = useRuntimeConfig()['nuxt-site-config'] || { debug: false }
     let siteConfigStack
     if (process.server) {
       siteConfigStack = useRequestEvent().context.siteConfig
@@ -13,8 +14,11 @@ export default defineNuxtPlugin({
         useState('site-config', () => useRequestEvent().context.siteConfig.get())
       })
     }
-    if (!siteConfigStack)
-      siteConfigStack = createSiteConfigStack()
+    if (!siteConfigStack) {
+      siteConfigStack = createSiteConfigStack({
+        debug: config.debug,
+      })
+    }
     if (process.client) {
       // let's add the site origin as the site name for SPA
       siteConfigStack.push({

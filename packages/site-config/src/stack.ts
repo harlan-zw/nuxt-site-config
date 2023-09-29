@@ -1,13 +1,15 @@
 import type { SiteConfig, SiteConfigInput, SiteConfigStack } from './type'
 import { normalizeSiteConfig } from './'
 
-export function createSiteConfigStack(): SiteConfigStack {
+export function createSiteConfigStack(options?: { debug: boolean }): SiteConfigStack {
+  const debug = options?.debug || false
   const stack: Partial<SiteConfigInput>[] = []
 
   function push(input: SiteConfigInput) {
     if (!input || typeof input !== 'object' || Object.keys(input).length === 0)
       return
-    if (!input._context) {
+    // avoid exposing internals unless we're debugging
+    if (!input._context && debug) {
       // use stack trace to determine function name calling this
       let lastFunctionName = new Error('tmp').stack?.split('\n')[2].split(' ')[5]
       // avoid exposing paths

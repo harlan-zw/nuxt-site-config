@@ -6,18 +6,19 @@ import {
   useRequestEvent,
 } from '#imports'
 
-export function useSiteConfig(options?: { withContext?: boolean }) {
+export function useSiteConfig(options?: { debug?: boolean }) {
   let stack: Omit<SiteConfig, '_context'>
   if (process.server)
     stack = useRequestEvent().context.siteConfig.get() as SiteConfig
   else
     stack = useNuxtApp().$nuxtSiteConfig.get() as SiteConfig
 
-  if (!options?.withContext)
+  if (!options?.debug)
     delete stack._context
 
-  Object.entries(stack).forEach(([k, v]) => {
-    stack[k] = toValue(v)
-  })
+  Object.entries(stack)
+    .forEach(([k, v]) => {
+      stack[k] = toValue(v)
+    })
   return stack as NuxtSiteConfig
 }
