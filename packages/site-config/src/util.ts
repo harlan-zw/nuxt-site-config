@@ -18,7 +18,15 @@ export function normalizeSiteConfig(config: SiteConfig) {
   if (config.url && !hasProtocol(config.url, { acceptRelative: true, strict: false }))
     config.url = withHttps(config.url)
 
-  return config as SiteConfig
+  // sort the keys
+  const keys = Object.keys(config)
+    .sort((a, b) => a.localeCompare(b))
+  // create new object
+  const newConfig: Partial<SiteConfig> = {}
+  for (const k of keys)
+    newConfig[k] = config[k]
+
+  return newConfig as SiteConfig
 }
 
 export function resolveSitePath(pathOrUrl: string, options: { siteUrl: string; trailingSlash: boolean; base: string; absolute?: boolean; withBase?: boolean }) {
