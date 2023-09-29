@@ -71,13 +71,13 @@ describe('basic', async () => {
             "url": "harlanzw.com",
           },
           {
-            "_context": "@nuxtjs/i18n",
-            "defaultLocale": "en",
+            "_context": "env",
+            "_priority": 0,
+            "url": "https://env.harlanzw.com",
           },
           {
-            "_context": "env",
-            "_priority": 1,
-            "url": "https://env.harlanzw.com",
+            "_context": "@nuxtjs/i18n",
+            "defaultLocale": "en",
           },
         ],
       }
