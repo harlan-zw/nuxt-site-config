@@ -48,11 +48,15 @@ export default defineNuxtModule<ModuleOptions>({
 
     await initSiteConfig()
     // the module config should have the highest priority
+    // site config input should be config except without the debug option
+    const siteConfigInput = { ...config }
+    // @ts-expect-error untyped
+    delete siteConfigInput.debug
     await updateSiteConfig({
       // we should allow environment variables to override the site config
       _priority: -3,
       _context: 'nuxt-site-config:config',
-      ...config,
+      ...siteConfigInput,
     })
 
     // merge the site config into the runtime config once modules are done extending it

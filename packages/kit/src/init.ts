@@ -50,7 +50,8 @@ export async function initSiteConfig(nuxt: Nuxt | null = tryUseNuxt()): Promise<
     _priority: -5,
     url: [
       // vercel
-      env.VERCEL_URL, env.NUXT_ENV_VERCEL_URL,
+      env.VERCEL_URL,
+      env.NUXT_ENV_VERCEL_URL,
       // netlify
       env.URL,
       // cloudflare pages
@@ -78,15 +79,7 @@ export async function initSiteConfig(nuxt: Nuxt | null = tryUseNuxt()): Promise<
   }
   // support legacy config
   siteConfig.push({
-    _context: 'env',
-    url: getEnv('Url'),
-    name: getEnv('Name'),
-    description: getEnv('Description'),
-    logo: getEnv('Image'),
-    defaultLocale: getEnv('Language'),
-    indexable: getEnv('Indexable'),
-  })
-  siteConfig.push({
+    _priority: -1,
     _context: 'runtimeConfig',
     url: getRuntimeConfig('Url'),
     name: getRuntimeConfig('Name'),
@@ -95,6 +88,17 @@ export async function initSiteConfig(nuxt: Nuxt | null = tryUseNuxt()): Promise<
     defaultLocale: getRuntimeConfig('Language'),
     indexable: getRuntimeConfig('Indexable'),
     ...(nuxt?.options.runtimeConfig.public.site as any as SiteConfigInput || {}),
+  })
+  // env is highest support
+  siteConfig.push({
+    _context: 'env',
+    _priority: 0,
+    url: getEnv('Url'),
+    name: getEnv('Name'),
+    description: getEnv('Description'),
+    logo: getEnv('Image'),
+    defaultLocale: getEnv('Language'),
+    indexable: getEnv('Indexable'),
   })
   nuxt._siteConfig = siteConfig
   return siteConfig
