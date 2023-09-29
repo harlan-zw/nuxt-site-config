@@ -1,3 +1,5 @@
+import { ComputedRef, Ref } from "vue"
+
 export interface SiteConfig {
   /**
    * The canonical Site URL.
@@ -69,11 +71,16 @@ export interface SiteConfig {
   [key: (string & Record<never, never>)]: any
 }
 
-export type SiteConfigInput = Partial<Omit<SiteConfig, '_context' | 'indexable'>> & {
+export type MaybeComputedRef<T> = T | (() => T) | ComputedRef<T> | Ref<T>
+export type MaybeComputedRefEntries<T> = {
+  [key in keyof T]?: MaybeComputedRef<T[key]>
+}
+
+export type SiteConfigInput = Omit<MaybeComputedRefEntries<Partial<SiteConfig>>, '_context' | 'indexable'> & {
   _context?: string
   _priority?: number
   // is cast as a boolean
-  indexable?: string | boolean
+  indexable?: MaybeComputedRef<string | boolean>
 }
 
 export interface SiteConfigStack {
