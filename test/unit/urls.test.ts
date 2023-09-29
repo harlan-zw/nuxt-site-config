@@ -192,4 +192,14 @@ describe('urls', () => {
     })
     expect(url).toMatchInlineSnapshot('"http://localhost:3000/"')
   })
+  it('root slash', () => {
+    const url = resolveSitePath('/', {
+      siteUrl: 'http://localhost:3000',
+      trailingSlash: false,
+      withBase: false,
+      base: '',
+      absolute: true,
+    })
+    expect(url).toMatchInlineSnapshot('"http://localhost:3000/"')
+  })
 })

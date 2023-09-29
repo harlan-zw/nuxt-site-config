@@ -1,7 +1,7 @@
 {
   "welcome": "Bonjour",
-  "site": {
+  "nuxtSiteConfig": {
     "name": "Configuration du site",
-    "description": "Description du site",
+    "description": "Description du site"
   }
 }

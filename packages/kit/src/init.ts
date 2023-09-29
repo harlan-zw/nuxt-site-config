@@ -109,7 +109,7 @@ export async function installNuxtSiteConfig(nuxt: Nuxt | null = tryUseNuxt()): P
   await initSiteConfig(nuxt)
 }
 
-function getSiteConfigStack(nuxt: Nuxt | null = tryUseNuxt()): SiteConfigStack {
+export function getSiteConfigStack(nuxt: Nuxt | null = tryUseNuxt()): SiteConfigStack {
   if (!nuxt)
     throw new Error('Nuxt context is missing.')
 

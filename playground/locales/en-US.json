@@ -1,6 +1,6 @@
 {
   "welcome": "Hello",
-  "site": {
+  "nuxtSiteConfig": {
     "name": "Site Config",
     "description": "Shared site configuration for Nuxt 3 modules."
   }

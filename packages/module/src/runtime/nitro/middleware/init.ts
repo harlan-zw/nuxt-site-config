@@ -1,7 +1,13 @@
-import { defineEventHandler, updateSiteConfig, useAppConfig, useNitroOrigin, useRuntimeConfig } from '#imports'
+import { createSiteConfigStack } from 'site-config-stack'
+import { defineEventHandler, useAppConfig, useNitroOrigin, useRuntimeConfig } from '#imports'
 
 export default defineEventHandler((e) => {
-  if (!e.context.siteConfig) {
+  const config = useRuntimeConfig()['nuxt-site-config']
+  const siteConfig = e.context.siteConfig || createSiteConfigStack({
+    // @ts-expect-error untyped
+    debug: config.debug,
+  })
+  if (siteConfig) {
     const appConfig = useAppConfig()
     const nitroOrigin = useNitroOrigin(e)
     e.context.siteConfigNitroOrigin = nitroOrigin

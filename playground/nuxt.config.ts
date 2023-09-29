@@ -8,7 +8,7 @@ export default defineNuxtConfig({
     NuxtSitConfig,
     '@nuxthq/ui',
     'nuxt-icon',
-    '@nuxtjs/i18n'
+    '@nuxtjs/i18n',
   ],
 
   site: {
@@ -27,9 +27,9 @@ export default defineNuxtConfig({
         code: 'fr',
         iso: 'fr-FR',
         file: 'fr-FR.json',
-      }
+      },
     ],
     defaultLocale: 'en',
     strategy: 'prefix_except_default',
-  }
+  },
 })

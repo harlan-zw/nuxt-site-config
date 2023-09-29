@@ -3,6 +3,7 @@ import { useSiteConfig } from '#imports'
 
 const siteConfig = useSiteConfig()
 </script>
+
 <template>
   <div>
     <div>

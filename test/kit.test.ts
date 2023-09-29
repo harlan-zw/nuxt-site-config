@@ -9,7 +9,8 @@ describe('kit', async () => {
       updateSiteConfig({
         name: 'My Site Name',
       })
-    } catch (e) {
+    }
+    catch (e) {
       exception = e
     }
     expect(exception).toMatchInlineSnapshot('[Error: Nuxt context is missing.]')

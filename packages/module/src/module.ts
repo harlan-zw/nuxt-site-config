@@ -1,10 +1,15 @@
 import {
   addComponent,
-  addImports, addPlugin, addPrerenderRoutes, addServerHandler,
+  addImports,
+  addPlugin,
+  addPrerenderRoutes,
+  addServerHandler,
   createResolver,
-  defineNuxtModule, hasNuxtModule, useLogger,
+  defineNuxtModule,
+  hasNuxtModule,
+  useLogger,
 } from '@nuxt/kit'
-import { initSiteConfig, updateSiteConfig, useSiteConfig } from 'nuxt-site-config-kit'
+import { getSiteConfigStack, initSiteConfig, updateSiteConfig } from 'nuxt-site-config-kit'
 import type { SiteConfigInput } from 'nuxt-site-config-kit'
 import { version } from '../package.json'
 import { extendTypes } from './kit'
