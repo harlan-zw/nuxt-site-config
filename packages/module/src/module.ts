@@ -18,7 +18,7 @@ export interface ModuleOptions extends SiteConfigInput {
   debug: boolean
 }
 
-export interface ModulePublicRuntimeConfig {
+export interface ModuleRuntimeConfig {
   site: SiteConfigInput
 }
 
@@ -59,9 +59,8 @@ export default defineNuxtModule<ModuleOptions>({
     nuxt.hook('modules:done', async () => {
       // @ts-expect-error untyped
       await nuxt.callHook('site-config:resolve')
-      nuxt.options.runtimeConfig.public['nuxt-site-config'] = {
-        // @ts-expect-error untyped
-        siteConfig: useSiteConfig(),
+      nuxt.options.runtimeConfig['nuxt-site-config'] = {
+        stack: getSiteConfigStack().stack,
         version,
         debug: config.debug,
       }
