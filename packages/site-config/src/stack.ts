@@ -17,7 +17,15 @@ export function createSiteConfigStack(options?: { debug: boolean }): SiteConfigS
         lastFunctionName = 'anonymous'
       input._context = lastFunctionName
     }
-    stack.push(input)
+    const entry: Record<string, any> = {}
+    // filter input, make sure values are defined and not ''
+    for (const k in input) {
+      const val = input[k]
+      if (typeof val !== 'undefined' && val !== '')
+        entry[k] = val
+    }
+    if (Object.keys(entry).filter(k => !k.startsWith('_')).length > 0)
+      stack.push(entry)
   }
 
   function get() {
@@ -32,7 +40,7 @@ export function createSiteConfigStack(options?: { debug: boolean }): SiteConfigS
         const key = k as keyof SiteConfig
         const val = stack[o][k]
         // first do the merge, pretty simple, avoid empty strings
-        if (!k.startsWith('_') && typeof val !== 'undefined' && val !== '') {
+        if (!k.startsWith('_')) {
           // make sure the priority is correct
           siteConfig[k] = val
           // we're setting the key value, update the meta
