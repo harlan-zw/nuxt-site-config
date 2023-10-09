@@ -2,20 +2,17 @@ import { fileURLToPath } from 'node:url'
 import { describe, expect, it } from 'vitest'
 import { $fetch, setup } from '@nuxt/test-utils'
 
-process.env.NUXT_PUBLIC_SITE_URL = 'https://env.harlanzw.com'
+process.env.NUXT_PUBLIC_SITE_URL = 'https://staging.harlanzw.com'
+process.env.NUXT_PUBLIC_SITE_ENV = 'staging'
+process.env.NODE_ENV = 'production'
 await setup({
   rootDir: fileURLToPath(new URL('../playground', import.meta.url)),
   server: true,
   build: true,
-  nuxtConfig: {
-    site: {
-      url: 'https://harlanzw.com',
-    },
-  },
 })
 
-describe('basic', async () => {
-  it('ssr', async () => {
+describe('staging', async () => {
+  it('ssr debug', async () => {
     const siteConfig = await $fetch('/api/__site-config__/debug')
     // replace ports in snapshot with pattern `:port/`
     // convert json to string
@@ -25,18 +22,18 @@ describe('basic', async () => {
         "config": {
           "_context": {
             "defaultLocale": "@nuxtjs/i18n",
-            "env": "system",
+            "env": "env",
             "indexable": "computed-env",
             "name": "package.json",
             "trailingSlash": "defaults",
             "url": "env",
           },
           "defaultLocale": "en",
-          "env": "test",
+          "env": "staging",
           "indexable": false,
           "name": "nuxt-site-config-playground",
           "trailingSlash": false,
-          "url": "https://env.harlanzw.com",
+          "url": "https://staging.harlanzw.com",
         },
         "nitroOrigin": "http://localhost/",
         "stack": [
@@ -49,7 +46,7 @@ describe('basic', async () => {
           {
             "_context": "system",
             "_priority": -15,
-            "env": "test",
+            "env": "production",
             "name": "playground",
           },
           {
@@ -63,11 +60,6 @@ describe('basic', async () => {
             "url": "http://localhost/",
           },
           {
-            "_context": "nuxt-site-config:config",
-            "_priority": -3,
-            "url": "https://harlanzw.com",
-          },
-          {
             "_context": "app:config",
             "_priority": -2,
             "url": "harlanzw.com",
@@ -75,7 +67,8 @@ describe('basic', async () => {
           {
             "_context": "env",
             "_priority": 0,
-            "url": "https://env.harlanzw.com",
+            "env": "staging",
+            "url": "https://staging.harlanzw.com",
           },
           {
             "_context": "computed-env",

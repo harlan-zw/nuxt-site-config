@@ -3,7 +3,7 @@ import { readPackageJSON } from 'pkg-types'
 import type { SiteConfig } from 'site-config-stack'
 import { createSiteConfigStack } from 'site-config-stack'
 import type { Nuxt } from '@nuxt/schema'
-import { env, isProduction, process } from 'std-env'
+import { env, process } from 'std-env'
 import type { SiteConfigInput, SiteConfigStack } from './type'
 
 export async function initSiteConfig(nuxt: Nuxt | null = tryUseNuxt()): Promise<SiteConfigStack | undefined> {
@@ -30,7 +30,7 @@ export async function initSiteConfig(nuxt: Nuxt | null = tryUseNuxt()): Promise<
     _context: 'system',
     _priority: -15,
     name: rootDir ? rootDir.split('/').pop() : undefined,
-    indexable: isProduction,
+    env: env.NODE_ENV,
   })
   if (rootDir) {
     const pkgJson = await readPackageJSON(undefined, { startingFrom: rootDir })
@@ -81,6 +81,7 @@ export async function initSiteConfig(nuxt: Nuxt | null = tryUseNuxt()): Promise<
   siteConfig.push({
     _priority: -1,
     _context: 'runtimeConfig',
+    env: getRuntimeConfig('Env'),
     url: getRuntimeConfig('Url'),
     name: getRuntimeConfig('Name'),
     description: getRuntimeConfig('Description'),
@@ -93,6 +94,7 @@ export async function initSiteConfig(nuxt: Nuxt | null = tryUseNuxt()): Promise<
   siteConfig.push({
     _context: 'env',
     _priority: 0,
+    env: getEnv('Env'),
     url: getEnv('Url'),
     name: getEnv('Name'),
     description: getEnv('Description'),
@@ -100,6 +102,14 @@ export async function initSiteConfig(nuxt: Nuxt | null = tryUseNuxt()): Promise<
     defaultLocale: getEnv('Language'),
     indexable: getEnv('Indexable'),
   })
+  const curStack = siteConfig.get()
+  if (typeof curStack.indexable === 'undefined') {
+    siteConfig.push({
+      _context: 'computed-env',
+      _priority: 0,
+      indexable: curStack.env === 'production',
+    })
+  }
   nuxt._siteConfig = siteConfig
   return siteConfig
 }

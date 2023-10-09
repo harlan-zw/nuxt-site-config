@@ -25,6 +25,10 @@ export interface SiteConfig {
    */
   indexable: boolean
   /**
+   * The environment of the site. Comparable to `process.env.NODE_ENV`.
+   */
+  env: 'production' | 'staging' | 'development' | string
+  /**
    * Whether the site uses trailing slash.
    */
   trailingSlash: boolean
