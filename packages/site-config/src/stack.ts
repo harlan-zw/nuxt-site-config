@@ -1,4 +1,4 @@
-import type { SiteConfig, SiteConfigInput, SiteConfigStack } from './type'
+import type { GetSiteConfigOptions, SiteConfig, SiteConfigInput, SiteConfigStack } from './type'
 import { normalizeSiteConfig } from './'
 
 export function createSiteConfigStack(options?: { debug: boolean }): SiteConfigStack {
@@ -28,11 +28,11 @@ export function createSiteConfigStack(options?: { debug: boolean }): SiteConfigS
       stack.push(entry)
   }
 
-  function get() {
+  function get(options?: GetSiteConfigOptions) {
     // @ts-expect-error untyped
-    const siteConfig: SiteConfig = {
-      _context: {},
-    }
+    const siteConfig: SiteConfig = {}
+    if (options?.debug)
+      siteConfig._context = {}
     // resolve the stack, we need to defu the fields but we also want to make a _meta property which maps each field to
     // what context it came from, we'll need a custom defu function
     for (const o in stack.sort((a, b) => (a._priority || 0) - (b._priority || 0))) {
@@ -44,8 +44,9 @@ export function createSiteConfigStack(options?: { debug: boolean }): SiteConfigS
           // make sure the priority is correct
           siteConfig[k] = val
           // we're setting the key value, update the meta
-          // @ts-expect-error untyped
-          siteConfig._context[key] = stack[o]._context?.[key] || stack[o]._context || 'anonymous'
+          if (options?.debug)
+            // @ts-expect-error untyped
+            siteConfig._context[key] = stack[o]._context?.[key] || stack[o]._context || 'anonymous'
         }
       }
     }

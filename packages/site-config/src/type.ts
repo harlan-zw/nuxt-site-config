@@ -87,8 +87,12 @@ export type SiteConfigInput = Omit<MaybeComputedRefEntries<Partial<SiteConfig>>,
   indexable?: MaybeComputedRef<string | boolean>
 }
 
+export interface GetSiteConfigOptions {
+  debug?: boolean
+}
+
 export interface SiteConfigStack {
   stack: Partial<SiteConfigInput>[]
   push: (config: SiteConfigInput) => void
-  get: () => SiteConfig
+  get: (options?: GetSiteConfigOptions) => SiteConfig
 }

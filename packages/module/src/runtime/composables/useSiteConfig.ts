@@ -1,4 +1,4 @@
-import type { SiteConfig } from 'site-config-stack'
+import type { GetSiteConfigOptions, SiteConfig } from 'site-config-stack'
 import type { NuxtSiteConfig } from '../types'
 import {
   toValue,
@@ -6,15 +6,12 @@ import {
   useRequestEvent,
 } from '#imports'
 
-export function useSiteConfig(options?: { debug?: boolean }) {
+export function useSiteConfig(options?: GetSiteConfigOptions) {
   let stack: Omit<SiteConfig, '_context'>
   if (process.server)
-    stack = useRequestEvent().context.siteConfig.get() as SiteConfig
+    stack = useRequestEvent().context.siteConfig.get(options) as SiteConfig
   else
-    stack = useNuxtApp().$nuxtSiteConfig.get() as SiteConfig
-
-  if (!options?.debug)
-    delete stack._context
+    stack = useNuxtApp().$nuxtSiteConfig.get(options) as SiteConfig
 
   Object.entries(stack)
     .forEach(([k, v]) => {
