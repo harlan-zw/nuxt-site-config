@@ -1,38 +1,46 @@
 import { createSiteConfigStack } from 'site-config-stack'
 import type { SiteConfig } from 'site-config-stack'
-import { defineNuxtPlugin, useRequestEvent, useRuntimeConfig, useState } from '#imports'
+import { parse } from 'devalue'
+import { defineNuxtPlugin, useNuxtApp, useRequestEvent, useRuntimeConfig, useState } from '#imports'
 
 export default defineNuxtPlugin({
   name: 'nuxt-site-config',
   enforce: 'pre',
   async setup(nuxtApp) {
     const config = useRuntimeConfig()['nuxt-site-config'] || { debug: false }
-    let siteConfigStack
+    let stack
+    const state = useState<SiteConfig>('site-config')
     if (process.server) {
-      siteConfigStack = useRequestEvent().context.siteConfig
+      stack = useRequestEvent().context.siteConfig
       nuxtApp.hooks.hook('app:rendered', () => {
-        useState('site-config', () => useRequestEvent().context.siteConfig.get())
+        state.value = useRequestEvent().context.siteConfig.get()
       })
     }
-    if (!siteConfigStack) {
-      siteConfigStack = createSiteConfigStack({
+    if (!stack) {
+      stack = createSiteConfigStack({
         debug: config.debug,
       })
     }
     if (process.client) {
       // let's add the site origin as the site name for SPA
-      siteConfigStack.push({
+      stack.push({
         _context: 'window',
         url: window.location.origin,
       })
-      // init with runtime config and app config
-      const state = useState<SiteConfig>('site-config')
-      if (state.value)
-        siteConfigStack.push(state.value)
+      const nuxt = useNuxtApp()
+      if (nuxt.payload.serverRendered) {
+        // init with runtime config and app config
+        stack.push(state.value)
+        // state is missing, we need to fallback to
+      }
+      else {
+        // need to hydrate from the template
+        stack.push(parse(window.__NUXT_SITE_CONFIG__))
+      }
     }
     return {
       provide: {
-        nuxtSiteConfig: siteConfigStack,
+        nuxtSiteConfig: stack,
       },
     }
   },

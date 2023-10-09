@@ -4,6 +4,7 @@ import {
   addPlugin,
   addPrerenderRoutes,
   addServerHandler,
+  addServerPlugin,
   createResolver,
   defineNuxtModule,
   hasNuxtModule,
@@ -210,5 +211,8 @@ declare module '@nuxt/schema' {
 
       addPrerenderRoutes('/api/__site-config__/debug')
     }
+
+    // injects the payload for non-ssr templates
+    addServerPlugin(resolve('./runtime/nitro/plugins/injectState'))
   },
 })
