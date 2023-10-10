@@ -1,6 +1,5 @@
 import { createSiteConfigStack } from 'site-config-stack'
 import type { SiteConfig } from 'site-config-stack'
-import { parse } from 'devalue'
 import { defineNuxtPlugin, useNuxtApp, useRequestEvent, useRuntimeConfig, useState } from '#imports'
 
 export default defineNuxtPlugin({
@@ -33,9 +32,9 @@ export default defineNuxtPlugin({
         stack.push(state.value)
         // state is missing, we need to fallback to
       }
-      else {
+      else if (typeof window.__NUXT_SITE_CONFIG__ !== 'undefined') {
         // need to hydrate from the template
-        stack.push(parse(window.__NUXT_SITE_CONFIG__))
+        stack.push(window.__NUXT_SITE_CONFIG__)
       }
     }
     return {
