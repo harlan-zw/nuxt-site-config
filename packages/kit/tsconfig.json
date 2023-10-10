@@ -3,18 +3,18 @@
   "compilerOptions": {
     "target": "ESNext",
     "jsx": "preserve",
+    "baseUrl": ".",
     "module": "ESNext",
     "moduleResolution": "Node",
-    "baseUrl": "/home/harlan/packages/nuxt-site-config/packages/module",
+    "resolveJsonModule": true,
     "types": [
       "node"
     ],
-    "resolveJsonModule": true,
     "allowJs": true,
+    "strict": true,
     "noEmit": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
-    "strict": true,
     "skipLibCheck": true
   },
   "exclude": [
