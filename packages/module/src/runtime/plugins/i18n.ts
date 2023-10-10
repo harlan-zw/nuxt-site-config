@@ -12,8 +12,8 @@ export default defineNuxtPlugin({
       _context: '@nuxtjs/i18n',
       url: i18n.baseUrl.value,
       currentLocale: i18n.locale,
-      description: computed(() => i18n.t('nuxtSiteConfig.description')),
-      name: computed(() => i18n.t('nuxtSiteConfig.name')),
+      description: computed(() => i18n.te('nuxtSiteConfig.description') ? i18n.t('nuxtSiteConfig.description') : undefined),
+      name: computed(() => i18n.te('nuxtSiteConfig.name') ? i18n.t('nuxtSiteConfig.name') : undefined),
     })
   },
 })
