@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest'
 import { $fetch, setup } from '@nuxt/test-utils'
 
 process.env.NUXT_PUBLIC_SITE_URL = 'https://env.harlanzw.com'
+process.env.NUXT_PUBLIC_SITE_ENV = 'test'
 await setup({
   rootDir: fileURLToPath(new URL('../playground', import.meta.url)),
   server: true,
@@ -25,7 +26,7 @@ describe('basic', async () => {
         "config": {
           "_context": {
             "defaultLocale": "@nuxtjs/i18n",
-            "env": "system",
+            "env": "env",
             "indexable": "computed-env",
             "name": "package.json",
             "trailingSlash": "defaults",
@@ -49,7 +50,7 @@ describe('basic', async () => {
           {
             "_context": "system",
             "_priority": -15,
-            "env": "test",
+            "env": "production",
             "name": "playground",
           },
           {
@@ -75,6 +76,7 @@ describe('basic', async () => {
           {
             "_context": "env",
             "_priority": 0,
+            "env": "test",
             "url": "https://env.harlanzw.com",
           },
           {

@@ -106,7 +106,7 @@ export async function initSiteConfig(nuxt: Nuxt | null = tryUseNuxt()): Promise<
   if (typeof curStack.indexable === 'undefined') {
     siteConfig.push({
       _context: 'computed-env',
-      _priority: 0,
+      _priority: -4, // allow overriding from the module
       indexable: curStack.env === 'production',
     })
   }
