@@ -50,7 +50,7 @@ describe('basic', async () => {
           {
             "_context": "system",
             "_priority": -15,
-            "env": "production",
+            "env": "test",
             "name": "playground",
           },
           {

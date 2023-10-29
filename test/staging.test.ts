@@ -4,7 +4,6 @@ import { $fetch, setup } from '@nuxt/test-utils'
 
 process.env.NUXT_PUBLIC_SITE_URL = 'https://staging.harlanzw.com'
 process.env.NUXT_PUBLIC_SITE_ENV = 'staging'
-process.env.NODE_ENV = 'production'
 await setup({
   rootDir: fileURLToPath(new URL('../playground', import.meta.url)),
   server: true,
@@ -46,7 +45,7 @@ describe('staging', async () => {
           {
             "_context": "system",
             "_priority": -15,
-            "env": "production",
+            "env": "test",
             "name": "playground",
           },
           {
