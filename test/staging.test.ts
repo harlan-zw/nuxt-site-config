@@ -60,6 +60,11 @@ describe('staging', async () => {
             "url": "http://localhost/",
           },
           {
+            "_context": "computed-env",
+            "_priority": -4,
+            "indexable": false,
+          },
+          {
             "_context": "app:config",
             "_priority": -2,
             "url": "harlanzw.com",
@@ -69,11 +74,6 @@ describe('staging', async () => {
             "_priority": 0,
             "env": "staging",
             "url": "https://staging.harlanzw.com",
-          },
-          {
-            "_context": "computed-env",
-            "_priority": 0,
-            "indexable": false,
           },
           {
             "_context": "@nuxtjs/i18n",

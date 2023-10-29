@@ -64,6 +64,11 @@ describe('basic', async () => {
             "url": "http://localhost/",
           },
           {
+            "_context": "computed-env",
+            "_priority": -4,
+            "indexable": false,
+          },
+          {
             "_context": "nuxt-site-config:config",
             "_priority": -3,
             "url": "https://harlanzw.com",
@@ -78,11 +83,6 @@ describe('basic', async () => {
             "_priority": 0,
             "env": "test",
             "url": "https://env.harlanzw.com",
-          },
-          {
-            "_context": "computed-env",
-            "_priority": 0,
-            "indexable": false,
           },
           {
             "_context": "@nuxtjs/i18n",
