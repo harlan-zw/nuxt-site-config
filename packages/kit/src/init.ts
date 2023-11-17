@@ -79,8 +79,8 @@ export async function initSiteConfig(nuxt: Nuxt | null = tryUseNuxt()): Promise<
   }
   // support legacy config
   siteConfig.push({
-    _priority: -1,
-    _context: 'runtimeConfig',
+    _priority: -2,
+    _context: 'legacyRuntimeConfig',
     env: getRuntimeConfig('Env'),
     url: getRuntimeConfig('Url'),
     name: getRuntimeConfig('Name'),
@@ -92,8 +92,8 @@ export async function initSiteConfig(nuxt: Nuxt | null = tryUseNuxt()): Promise<
   })
   // env is highest support
   siteConfig.push({
-    _context: 'env',
-    _priority: 0,
+    _context: 'buildEnv',
+    _priority: -1,
     env: getEnv('Env'),
     url: getEnv('Url'),
     name: getEnv('Name'),
