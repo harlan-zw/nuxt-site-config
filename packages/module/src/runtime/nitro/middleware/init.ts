@@ -39,7 +39,6 @@ export default defineEventHandler((e) => {
       indexable: getEnv('Indexable'),
     })
     const buildStack = config.stack || []
-    // @ts-expect-error runtime type
     buildStack.forEach(c => siteConfig.push(c))
     if (appConfig.site) {
       siteConfig.push({
@@ -53,6 +52,14 @@ export default defineEventHandler((e) => {
       siteConfig.push({
         _context: 'route-rules',
         ...e.context._nitro.routeRules.site,
+      })
+    }
+    const curStack = siteConfig.get()
+    if (typeof curStack.indexable === 'undefined') {
+      siteConfig.push({
+        _context: 'computed-env',
+        _priority: -4, // allow overriding from the module
+        indexable: curStack.env === 'production',
       })
     }
   }
