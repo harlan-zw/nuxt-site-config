@@ -14,6 +14,7 @@ import { getSiteConfigStack, initSiteConfig, updateSiteConfig } from 'nuxt-site-
 import type { SiteConfigInput } from 'nuxt-site-config-kit'
 import { version } from '../package.json'
 import { extendTypes } from './kit'
+import { setupDevToolsUI } from './devtools'
 
 export interface ModuleOptions extends SiteConfigInput {
   /**
@@ -212,6 +213,9 @@ declare module '@nuxt/schema' {
       if (nuxt.options._generate)
         addPrerenderRoutes('/__site-config__/debug.json')
     }
+
+    if (nuxt.options.dev)
+      setupDevToolsUI(resolve)
 
     // injects the payload for non-ssr templates
     addServerPlugin(resolve('./runtime/nitro/plugins/injectState'))

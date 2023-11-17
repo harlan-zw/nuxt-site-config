@@ -1,5 +1,5 @@
 import { parseURL } from 'ufo'
-import { computed, useSiteConfig, defineNuxtPlugin, updateSiteConfig } from '#imports'
+import { computed, defineNuxtPlugin, updateSiteConfig, useSiteConfig } from '#imports'
 
 export default defineNuxtPlugin({
   name: 'nuxt-site-config:i18n',

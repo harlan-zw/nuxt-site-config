@@ -5,14 +5,14 @@ import { $fetch, setup } from '@nuxt/test-utils'
 process.env.NUXT_PUBLIC_SITE_URL = 'https://staging.harlanzw.com'
 process.env.NUXT_PUBLIC_SITE_ENV = 'staging'
 await setup({
-  rootDir: fileURLToPath(new URL('../playground', import.meta.url)),
+  rootDir: fileURLToPath(new URL('../.playground', import.meta.url)),
   server: true,
   build: true,
 })
 
 describe('staging', async () => {
   it('ssr debug', async () => {
-    const siteConfig = await $fetch('/api/__site-config__/debug')
+    const siteConfig = await $fetch('/__site-config__/debug.json')
     // replace ports in snapshot with pattern `:port/`
     // convert json to string
     const s = JSON.stringify(siteConfig)
@@ -21,11 +21,11 @@ describe('staging', async () => {
         "config": {
           "_context": {
             "defaultLocale": "@nuxtjs/i18n",
-            "env": "env",
+            "env": "runtimeEnv",
             "indexable": "computed-env",
             "name": "package.json",
             "trailingSlash": "defaults",
-            "url": "env",
+            "url": "runtimeEnv",
           },
           "defaultLocale": "en",
           "env": "staging",
@@ -34,7 +34,7 @@ describe('staging', async () => {
           "trailingSlash": false,
           "url": "https://staging.harlanzw.com",
         },
-        "nitroOrigin": "http://localhost/",
+        "nitroOrigin": "http://127.0.0.1:port/",
         "stack": [
           {
             "_context": "defaults",
@@ -46,7 +46,7 @@ describe('staging', async () => {
             "_context": "system",
             "_priority": -15,
             "env": "test",
-            "name": "playground",
+            "name": ".playground",
           },
           {
             "_context": "package.json",
@@ -56,7 +56,7 @@ describe('staging', async () => {
           {
             "_context": "nitro:init",
             "_priority": -4,
-            "url": "http://localhost/",
+            "url": "http://127.0.0.1:port/",
           },
           {
             "_context": "computed-env",
@@ -69,7 +69,13 @@ describe('staging', async () => {
             "url": "harlanzw.com",
           },
           {
-            "_context": "env",
+            "_context": "buildEnv",
+            "_priority": -1,
+            "env": "staging",
+            "url": "https://staging.harlanzw.com",
+          },
+          {
+            "_context": "runtimeEnv",
             "_priority": 0,
             "env": "staging",
             "url": "https://staging.harlanzw.com",

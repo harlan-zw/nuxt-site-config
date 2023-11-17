@@ -1,0 +1,6 @@
+{
+  "name": "nuxt-site-config-playground",
+  "type": "module",
+  "private": true,
+  "main": "./nuxt.config.ts"
+}

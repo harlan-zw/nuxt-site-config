@@ -5,7 +5,7 @@ import { $fetch, setup } from '@nuxt/test-utils'
 process.env.NUXT_PUBLIC_SITE_URL = 'https://env.harlanzw.com'
 process.env.NUXT_PUBLIC_SITE_ENV = 'test'
 await setup({
-  rootDir: fileURLToPath(new URL('../playground', import.meta.url)),
+  rootDir: fileURLToPath(new URL('../.playground', import.meta.url)),
   server: true,
   build: true,
   nuxtConfig: {
@@ -17,7 +17,7 @@ await setup({
 
 describe('basic', async () => {
   it('ssr', async () => {
-    const siteConfig = await $fetch('/api/__site-config__/debug')
+    const siteConfig = await $fetch('/__site-config__/debug.json')
     // replace ports in snapshot with pattern `:port/`
     // convert json to string
     const s = JSON.stringify(siteConfig)
@@ -26,11 +26,11 @@ describe('basic', async () => {
         "config": {
           "_context": {
             "defaultLocale": "@nuxtjs/i18n",
-            "env": "env",
+            "env": "runtimeEnv",
             "indexable": "computed-env",
             "name": "package.json",
             "trailingSlash": "defaults",
-            "url": "env",
+            "url": "runtimeEnv",
           },
           "defaultLocale": "en",
           "env": "test",
@@ -39,7 +39,7 @@ describe('basic', async () => {
           "trailingSlash": false,
           "url": "https://env.harlanzw.com",
         },
-        "nitroOrigin": "http://localhost/",
+        "nitroOrigin": "http://127.0.0.1:port/",
         "stack": [
           {
             "_context": "defaults",
@@ -51,7 +51,7 @@ describe('basic', async () => {
             "_context": "system",
             "_priority": -15,
             "env": "test",
-            "name": "playground",
+            "name": ".playground",
           },
           {
             "_context": "package.json",
@@ -61,7 +61,7 @@ describe('basic', async () => {
           {
             "_context": "nitro:init",
             "_priority": -4,
-            "url": "http://localhost/",
+            "url": "http://127.0.0.1:port/",
           },
           {
             "_context": "computed-env",
@@ -79,7 +79,13 @@ describe('basic', async () => {
             "url": "harlanzw.com",
           },
           {
-            "_context": "env",
+            "_context": "buildEnv",
+            "_priority": -1,
+            "env": "test",
+            "url": "https://env.harlanzw.com",
+          },
+          {
+            "_context": "runtimeEnv",
             "_priority": 0,
             "env": "test",
             "url": "https://env.harlanzw.com",

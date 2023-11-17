@@ -31,7 +31,9 @@ const rows = [
       Site Config
     </h2>
     <!--  going to make a table of all the site config values -->
-    <UTable :rows="rows" />
+    <ClientOnly>
+      <UTable :rows="rows" />
+    </ClientOnly>
     <div class="mt-5">
       <UButton to="/overrides">
         overrides

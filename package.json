@@ -18,9 +18,9 @@
   "scripts": {
     "lint": "eslint . --fix",
     "build": "pnpm --filter='./packages/*' build",
-    "dev": "nuxi dev playground",
-    "dev:build": "nuxi build playground",
-    "dev:prepare": "nuxt-module-build --stub && nuxi prepare playground",
+    "dev": "nuxi dev .playground",
+    "dev:build": "nuxi build .playground",
+    "dev:prepare": "nuxt-module-build --stub && nuxi prepare .playground",
     "release": "bumpp package.json packages/*/package.json --commit --push --tag",
     "test": "vitest"
   },
@@ -28,11 +28,14 @@
     "@antfu/eslint-config": "^1.1.4",
     "@nuxt/module-builder": "^0.5.4",
     "@nuxt/test-utils": "3.8.1",
+    "@nuxt/ui": "^2.10.0",
     "@nuxtjs/eslint-config-typescript": "^12.1.0",
+    "@nuxtjs/i18n": "^8.0.0-rc.5",
     "bumpp": "^9.2.0",
     "eslint": "8.53.0",
     "execa": "^8.0.1",
     "nuxt": "^3.8.1",
+    "nuxt-icon": "^0.6.6",
     "vitest": "^0.34.6"
   }
 }
