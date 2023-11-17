@@ -205,11 +205,12 @@ declare module '@nuxt/schema' {
 
     if (config.debug) {
       addServerHandler({
-        route: '/api/__site-config__/debug',
-        handler: resolve('./runtime/nitro/routes/debug'),
+        route: '/__site-config__/debug.json',
+        handler: resolve('./runtime/nitro/routes/__site-config__/debug'),
       })
 
-      addPrerenderRoutes('/api/__site-config__/debug')
+      if (nuxt.options._generate)
+        addPrerenderRoutes('/__site-config__/debug.json')
     }
 
     // injects the payload for non-ssr templates
