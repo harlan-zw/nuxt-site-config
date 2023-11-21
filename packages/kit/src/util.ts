@@ -26,7 +26,7 @@ export function useNitroOrigin() {
   return `${protocol}://${host}${port}/`
 }
 
-export function withSiteUrl(path: string, options: { withBase?: boolean; throwErrorOnMissingSiteUrl?: boolean } = {}) {
+export function withSiteUrl(path: string, options: { withBase?: boolean, throwErrorOnMissingSiteUrl?: boolean } = {}) {
   const siteConfig = useSiteConfig()
   if (!siteConfig.url && options.throwErrorOnMissingSiteUrl)
     throw new Error('Missing url in site config. Please add `{ site: { url: <url> } }` to nuxt.config.ts.')
@@ -47,7 +47,7 @@ export function withSiteTrailingSlash(path: string) {
   return fixSlashes(siteConfig.trailingSlash, path)
 }
 
-export function createSitePathResolver(options: { canonical?: boolean; absolute?: boolean; withBase?: boolean } = {}, nuxt = useNuxt()): (path: string) => string {
+export function createSitePathResolver(options: { canonical?: boolean, absolute?: boolean, withBase?: boolean } = {}, nuxt = useNuxt()): (path: string) => string {
   const siteConfig = useSiteConfig()
   const nitroOrigin = useNitroOrigin()
   const canUseSiteUrl = (options.canonical !== false || env.prerender) && siteConfig.url

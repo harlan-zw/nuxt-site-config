@@ -1,7 +1,7 @@
 import type { SiteConfig, SiteConfigInput, SiteConfigStack } from 'site-config-stack'
 
 export type AssertionModes = 'prerender' | 'generate' | 'build'
-export interface ModuleAssertion { context: string; requirements: Partial<Record<keyof SiteConfigInput, string>> }
+export interface ModuleAssertion { context: string, requirements: Partial<Record<keyof SiteConfigInput, string>> }
 
 declare module '@nuxt/schema' {
   interface AppConfigInput {

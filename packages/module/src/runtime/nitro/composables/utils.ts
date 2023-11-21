@@ -2,7 +2,7 @@ import { fixSlashes, resolveSitePath } from 'site-config-stack'
 import type { H3Event } from 'h3'
 import { useNitroOrigin, useRuntimeConfig, useSiteConfig } from '#imports'
 
-export function createSitePathResolver(e: H3Event, options: { canonical?: boolean; absolute?: boolean; withBase?: boolean } = {}) {
+export function createSitePathResolver(e: H3Event, options: { canonical?: boolean, absolute?: boolean, withBase?: boolean } = {}) {
   const siteConfig = useSiteConfig(e)
   const nitroOrigin = useNitroOrigin(e)
   const nuxtBase = useRuntimeConfig().app.baseURL || '/'
@@ -22,7 +22,7 @@ export function withSiteTrailingSlash(e: H3Event, path: string) {
   return fixSlashes(siteConfig.trailingSlash, path)
 }
 
-export function withSiteUrl(e: H3Event, path: string, options: { canonical?: boolean; withBase?: boolean } = {}) {
+export function withSiteUrl(e: H3Event, path: string, options: { canonical?: boolean, withBase?: boolean } = {}) {
   const siteConfig = e.context.siteConfig?.get()
   return resolveSitePath(path, {
     absolute: true,

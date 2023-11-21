@@ -2,7 +2,7 @@ import type { MaybeRef } from '@vue/reactivity'
 import { fixSlashes, resolveSitePath } from 'site-config-stack'
 import { computed, unref, useNitroOrigin, useRuntimeConfig, useSiteConfig } from '#imports'
 
-export function createSitePathResolver(options: { canonical?: MaybeRef<boolean>; absolute?: MaybeRef<boolean>; withBase?: MaybeRef<boolean> } = {}) {
+export function createSitePathResolver(options: { canonical?: MaybeRef<boolean>, absolute?: MaybeRef<boolean>, withBase?: MaybeRef<boolean> } = {}) {
   const siteConfig = useSiteConfig()
   const nitroOrigin = useNitroOrigin()
   const nuxtBase = useRuntimeConfig().app.baseURL || '/'
@@ -25,7 +25,7 @@ export function withSiteTrailingSlash(path: MaybeRef<string>) {
   })
 }
 
-export function withSiteUrl(path: MaybeRef<string>, options: { canonical?: MaybeRef<boolean>; withBase?: boolean } = {}) {
+export function withSiteUrl(path: MaybeRef<string>, options: { canonical?: MaybeRef<boolean>, withBase?: boolean } = {}) {
   const siteConfig = useSiteConfig()
   const nitroOrigin = useNitroOrigin()
   const base = useRuntimeConfig().app.baseURL || '/'

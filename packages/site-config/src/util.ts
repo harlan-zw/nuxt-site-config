@@ -29,7 +29,7 @@ export function normalizeSiteConfig(config: SiteConfig) {
   return newConfig as SiteConfig
 }
 
-export function resolveSitePath(pathOrUrl: string, options: { siteUrl: string; trailingSlash: boolean; base?: string; absolute?: boolean; withBase?: boolean }) {
+export function resolveSitePath(pathOrUrl: string, options: { siteUrl: string, trailingSlash: boolean, base?: string, absolute?: boolean, withBase?: boolean }) {
   let path = pathOrUrl
   // check we should check what we're working with, either an absolute or relative path
   if (hasProtocol(pathOrUrl, { strict: false, acceptRelative: true })) {
