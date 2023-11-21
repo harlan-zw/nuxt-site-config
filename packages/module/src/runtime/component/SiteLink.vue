@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-// we need to intercept the `to` property and make sure that we have the right trailing slash
-import { createSitePathResolver, toRefs } from '#imports'
+import { toRefs } from 'vue'
+import { createSitePathResolver } from '../composables/utils'
 
 const props = defineProps<{
   to: string
