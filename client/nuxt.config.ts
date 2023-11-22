@@ -11,7 +11,7 @@ export default defineNuxtConfig({
   },
   nitro: {
     output: {
-      publicDir: resolve(__dirname, '../dist/client'),
+      publicDir: resolve(__dirname, '../packages/module/dist/client'),
     },
   },
   app: {

@@ -17,7 +17,7 @@
   },
   "scripts": {
     "lint": "eslint . --fix",
-    "build": "pnpm --filter='./packages/*' build",
+    "build": "pnpm --filter='./packages/*' build && nuxi build client",
     "dev": "nuxi dev .playground",
     "dev:build": "nuxi build .playground",
     "dev:prepare": "nuxt-module-build --stub && nuxi prepare .playground",
