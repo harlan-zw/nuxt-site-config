@@ -37,7 +37,7 @@ export function setupDevToolsUI(resolve: Resolver['resolve'], nuxt: Nuxt = useNu
   nuxt.hook('devtools:customTabs', (tabs) => {
     tabs.push({
       // unique identifier
-      name: 'nuxt-simple-sitemap',
+      name: 'nuxt-site-config',
       // title to display in the tab
       title: 'Site Config',
       // any icon from Iconify, or a URL to an image
