@@ -1,7 +1,7 @@
 {
   "name": "site-config-stack",
   "type": "module",
-  "version": "1.6.5",
+  "version": "1.6.6",
   "description": "Shared site configuration utilities.",
   "license": "MIT",
   "funding": "https://github.com/sponsors/harlan-zw",
