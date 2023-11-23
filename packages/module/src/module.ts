@@ -204,7 +204,7 @@ declare module '@nuxt/schema' {
       handler: resolve('./runtime/nitro/middleware/init'),
     })
 
-    if (config.debug) {
+    if (config.debug || nuxt.options.dev) {
       addServerHandler({
         route: '/__site-config__/debug.json',
         handler: resolve('./runtime/nitro/routes/__site-config__/debug'),
