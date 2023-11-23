@@ -1,7 +1,7 @@
 {
   "name": "nuxt-site-config-kit",
   "type": "module",
-  "version": "1.6.4",
+  "version": "1.6.5",
   "description": "Shared site configuration build-time utilities for Nuxt 3 modules.",
   "license": "MIT",
   "funding": "https://github.com/sponsors/harlan-zw",
