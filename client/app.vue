@@ -143,7 +143,7 @@ function normaliseSiteConfigInput(_input: Partial<SiteConfigInput>) {
               <div class="col-span-7">
                 <OCodeBlock :lines="false" class="max-h-[350px] min-h-full overflow-y-auto" :code="JSON.stringify(value, null, 2)" lang="json" />
               </div>
-              <div class="opacity-40">
+              <div v-if="data.config._context && key in data.config._context" class="opacity-40">
                 {{ data.config._context[key] }}
               </div>
             </div>
