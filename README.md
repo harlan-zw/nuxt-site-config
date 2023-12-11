@@ -8,7 +8,6 @@
 <a href="https://github.com/harlan-zw/nuxt-site-config" target="__blank"><img alt="GitHub stars" src="https://img.shields.io/github/stars/harlan-zw/nuxt-site-config?flat&colorA=002438&colorB=28CF8D"></a>
 </p>
 
-
 <p align="center">
 Unifying site config with powerful and flexible APIs, for module authors and users.
 </p>

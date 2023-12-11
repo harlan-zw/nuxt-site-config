@@ -12,6 +12,7 @@ import {
 } from '@nuxt/kit'
 import { getSiteConfigStack, initSiteConfig, updateSiteConfig } from 'nuxt-site-config-kit'
 import type { SiteConfigInput } from 'nuxt-site-config-kit'
+import type { Preset } from 'unimport'
 import { version } from '../package.json'
 import { extendTypes } from './kit'
 import { setupDevToolsUI } from './devtools'
@@ -144,40 +145,23 @@ declare module '@nuxt/schema' {
     if (process.env.playground)
       nuxt.options.alias['site-config-stack'] = resolve('../../site-config/src/index')
 
+    const siteConfigPreset: Preset = {
+      from: '#internal/nuxt-site-config',
+      imports: [
+        'useSiteConfig',
+        'useNitroOrigin',
+        'updateSiteConfig',
+        'withSiteUrl',
+        'withSiteTrailingSlash',
+        'createSitePathResolver',
+      ],
+    }
+    nuxt.options.nitro = nuxt.options.nitro || {}
     nuxt.options.nitro.imports = nuxt.options.nitro.imports || {}
-    nuxt.options.nitro.imports.imports = nuxt.options.nitro.imports.imports || []
-    nuxt.options.nitro.imports.imports.push(...[
-      {
-        as: 'useSiteConfig',
-        name: 'useSiteConfig',
-        from: resolve('./runtime/nitro/composables/useSiteConfig'),
-      },
-      {
-        as: 'useNitroOrigin',
-        name: 'useNitroOrigin',
-        from: resolve('./runtime/nitro/composables/useNitroOrigin'),
-      },
-      {
-        as: 'updateSiteConfig',
-        name: 'updateSiteConfig',
-        from: resolve('./runtime/nitro/composables/updateSiteConfig'),
-      },
-      {
-        as: 'withSiteUrl',
-        name: 'withSiteUrl',
-        from: resolve('./runtime/nitro/composables/utils'),
-      },
-      {
-        as: 'withSiteTrailingSlash',
-        name: 'withSiteTrailingSlash',
-        from: resolve('./runtime/nitro/composables/utils'),
-      },
-      {
-        as: 'createSitePathResolver',
-        name: 'createSitePathResolver',
-        from: resolve('./runtime/nitro/composables/utils'),
-      },
-    ])
+    nuxt.options.nitro.imports.presets = nuxt.options.nitro.imports.presets || []
+    nuxt.options.nitro.imports.presets.push(siteConfigPreset)
+    nuxt.options.nitro.alias = nuxt.options.nitro.alias || {}
+    nuxt.options.nitro.alias['#internal/nuxt-site-config'] = resolve('./runtime/nitro/composables')
 
     // add site-config-stack to transpile
     nuxt.options.build.transpile.push('site-config-stack')

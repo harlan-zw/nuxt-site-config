@@ -48,6 +48,12 @@ export default defineNuxtConfig({
     }),
   ],
 
+  nitro: {
+    typescript: {
+      internalPaths: true,
+    },
+  },
+
   site: {
     foo: '<\/script><script>alert("xss")<\/script>',
     debug: true,
