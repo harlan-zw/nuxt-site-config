@@ -202,4 +202,40 @@ describe('urls', () => {
     })
     expect(url).toMatchInlineSnapshot('"http://localhost:3000/"')
   })
+  it('base url root slash', () => {
+    const url = resolveSitePath('/', {
+      siteUrl: 'http://localhost:3000',
+      trailingSlash: true,
+      withBase: true,
+      base: '/subdir/',
+      absolute: true,
+    })
+    expect(url).toMatchInlineSnapshot('"http://localhost:3000/subdir/"')
+
+    const url2 = fixSlashes(true, url)
+    expect(url2).toMatchInlineSnapshot('"http://localhost:3000/subdir/"')
+  })
+  it('base url root slash with base', () => {
+    const url = resolveSitePath('/subdir/', {
+      siteUrl: 'http://localhost:3000',
+      trailingSlash: true,
+      withBase: true,
+      base: '/subdir/',
+      absolute: true,
+    })
+    expect(url).toMatchInlineSnapshot('"http://localhost:3000/subdir/"')
+  })
+  it('base url empty', () => {
+    const url = resolveSitePath('/subdir', {
+      siteUrl: 'http://localhost:3000',
+      trailingSlash: true,
+      withBase: true,
+      base: '/subdir/',
+      absolute: true,
+    })
+    expect(url).toMatchInlineSnapshot(`"http://localhost:3000/subdir/subdir/"`)
+
+    const url2 = fixSlashes(true, url)
+    expect(url2).toMatchInlineSnapshot(`"http://localhost:3000/subdir/subdir/"`)
+  })
 })

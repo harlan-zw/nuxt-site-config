@@ -22,6 +22,7 @@ describe('staging', async () => {
           "_context": {
             "defaultLocale": "@nuxtjs/i18n",
             "env": "runtimeEnv",
+            "foo": "nuxt-site-config:config",
             "indexable": "computed-env",
             "name": "package.json",
             "trailingSlash": "defaults",
@@ -29,6 +30,7 @@ describe('staging', async () => {
           },
           "defaultLocale": "en",
           "env": "staging",
+          "foo": "</script><script>alert("xss")</script>",
           "indexable": false,
           "name": "nuxt-site-config-playground",
           "trailingSlash": false,
@@ -62,6 +64,11 @@ describe('staging', async () => {
             "_context": "computed-env",
             "_priority": -4,
             "indexable": false,
+          },
+          {
+            "_context": "nuxt-site-config:config",
+            "_priority": -3,
+            "foo": "</script><script>alert("xss")</script>",
           },
           {
             "_context": "app:config",

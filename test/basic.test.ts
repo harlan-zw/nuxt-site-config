@@ -27,6 +27,7 @@ describe('basic', async () => {
           "_context": {
             "defaultLocale": "@nuxtjs/i18n",
             "env": "runtimeEnv",
+            "foo": "nuxt-site-config:config",
             "indexable": "computed-env",
             "name": "package.json",
             "trailingSlash": "defaults",
@@ -34,6 +35,7 @@ describe('basic', async () => {
           },
           "defaultLocale": "en",
           "env": "test",
+          "foo": "</script><script>alert("xss")</script>",
           "indexable": false,
           "name": "nuxt-site-config-playground",
           "trailingSlash": false,
@@ -71,6 +73,7 @@ describe('basic', async () => {
           {
             "_context": "nuxt-site-config:config",
             "_priority": -3,
+            "foo": "</script><script>alert("xss")</script>",
             "url": "https://harlanzw.com",
           },
           {

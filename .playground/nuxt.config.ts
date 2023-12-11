@@ -49,6 +49,7 @@ export default defineNuxtConfig({
   ],
 
   site: {
+    foo: '<\/script><script>alert("xss")<\/script>',
     debug: true,
   },
 
