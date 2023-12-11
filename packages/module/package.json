@@ -33,8 +33,8 @@
     "test": "vitest"
   },
   "dependencies": {
-    "@nuxt/devtools-kit": "^1.0.3",
-    "@nuxt/devtools-ui-kit": "^1.0.3",
+    "@nuxt/devtools-kit": "^1.0.5",
+    "@nuxt/devtools-ui-kit": "^1.0.5",
     "@nuxt/kit": "^3.8.2",
     "@nuxt/schema": "^3.8.2",
     "nuxt-site-config-kit": "workspace:*",
