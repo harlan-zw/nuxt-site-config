@@ -6,7 +6,7 @@ import {
   useRequestEvent,
 } from '#imports'
 
-export function useSiteConfig(options?: GetSiteConfigOptions) {
+export function useSiteConfig(options?: GetSiteConfigOptions): NuxtSiteConfig {
   let stack: Omit<SiteConfig, '_context'>
   if (process.server)
     stack = useRequestEvent().context.siteConfig.get(options) as SiteConfig

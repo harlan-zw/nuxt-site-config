@@ -4,7 +4,7 @@ import type {
 } from 'site-config-stack'
 import { useNuxtApp, useRequestEvent } from '#imports'
 
-export function updateSiteConfig(input: SiteConfigInput = {}) {
+export function updateSiteConfig(input: SiteConfigInput = {}): void {
   if (process.server) {
     const stack = useRequestEvent().context.siteConfig
     stack.push(input)

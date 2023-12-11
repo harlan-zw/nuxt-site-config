@@ -3,7 +3,7 @@ import { withoutProtocol } from 'ufo'
 import { getRequestHost, getRequestProtocol } from 'h3'
 import { useRequestEvent } from '#imports'
 
-export function useNitroOrigin(e?: H3Event) {
+export function useNitroOrigin(e?: H3Event): string {
   if (process.server) {
     e = e || useRequestEvent()
     const cert = process.env.NITRO_SSL_CERT
