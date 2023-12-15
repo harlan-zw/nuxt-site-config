@@ -18,6 +18,10 @@ import { extendTypes } from './kit'
 import { setupDevToolsUI } from './devtools'
 
 export interface ModuleOptions extends SiteConfigInput {
+  componentOptions?: {
+    global?: boolean
+    prefix?: string
+  }
   /**
    * Enable debug mode.
    *
@@ -138,8 +142,9 @@ declare module '@nuxt/schema' {
     // on prerender
 
     await addComponent({
-      filePath: resolve('./runtime/component/SiteLink.vue'),
-      name: 'SiteLink',
+      filePath: resolve('./runtime/nuxt/component/SiteLink.vue'),
+      name: `${config.componentOptions?.prefix || ''}SiteLink`,
+      global: config.componentOptions?.global,
     })
 
     if (process.env.playground)
