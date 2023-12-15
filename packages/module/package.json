@@ -4,6 +4,11 @@
   "version": "1.6.7",
   "description": "Shared site configuration for Nuxt 3 modules.",
   "license": "MIT",
+  "author": {
+    "name": "Harlan Wilton",
+    "email": "harlan@harlanzw.com",
+    "url": "https://harlanzw.com/"
+  },
   "funding": "https://github.com/sponsors/harlan-zw",
   "homepage": "https://github.com/harlan-zw/nuxt-site-config#readme",
   "repository": {
@@ -33,8 +38,8 @@
     "test": "vitest"
   },
   "dependencies": {
-    "@nuxt/devtools-kit": "^1.0.5",
-    "@nuxt/devtools-ui-kit": "^1.0.5",
+    "@nuxt/devtools-kit": "^1.0.6",
+    "@nuxt/devtools-ui-kit": "^1.0.6",
     "@nuxt/kit": "^3.8.2",
     "@nuxt/schema": "^3.8.2",
     "nuxt-site-config-kit": "workspace:*",
