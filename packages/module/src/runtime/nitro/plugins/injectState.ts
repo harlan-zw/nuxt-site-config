@@ -1,12 +1,12 @@
-import type { NitroAppPlugin } from 'nitropack'
 import devalue from '@nuxt/devalue'
 import { toValue } from 'vue'
+import { defineNitroPlugin } from 'nitropack/dist/runtime/plugin'
 import { getRouteRules } from '#internal/nitro'
 import { useSiteConfig } from '#internal/nuxt-site-config'
 
 const PRERENDER_NO_SSR_ROUTES = new Set(['/index.html', '/200.html', '/404.html'])
 
-const InjectStatePlugin: NitroAppPlugin = async (nitroApp) => {
+export default defineNitroPlugin(async (nitroApp) => {
   // always use cache for prerendering to speed it up
   nitroApp.hooks.hook('render:html', async (ctx, { event }) => {
     const routeOptions = getRouteRules(event)
@@ -25,6 +25,4 @@ const InjectStatePlugin: NitroAppPlugin = async (nitroApp) => {
       ctx.body.push(`<script>window.__NUXT_SITE_CONFIG__=${devalue(siteConfig)}</script>`)
     }
   })
-}
-
-export default InjectStatePlugin
+})
