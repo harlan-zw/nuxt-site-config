@@ -13,6 +13,7 @@ import {
 import { getSiteConfigStack, initSiteConfig, updateSiteConfig } from 'nuxt-site-config-kit'
 import type { SiteConfigInput } from 'nuxt-site-config-kit'
 import type { Preset } from 'unimport'
+import { validateSiteConfigStack } from 'site-config-stack'
 import { version } from '../package.json'
 import { extendTypes } from './kit'
 import { setupDevToolsUI } from './devtools'
@@ -75,6 +76,14 @@ export default defineNuxtModule<ModuleOptions>({
     nuxt.hook('modules:done', async () => {
       // @ts-expect-error untyped
       await nuxt.callHook('site-config:resolve')
+      // let's validate the stack
+      const errors = validateSiteConfigStack(getSiteConfigStack())
+      if (errors.length > 0) {
+        logger.warn('[Nuxt Site Config] Invalid config provided, please correct:')
+        for (const error of errors)
+          logger.log(`  - ${error}`)
+        logger.log('')
+      }
       nuxt.options.runtimeConfig['nuxt-site-config'] = {
         stack: getSiteConfigStack().stack,
         version,

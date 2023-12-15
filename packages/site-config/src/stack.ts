@@ -1,6 +1,52 @@
 import { toValue } from 'vue'
+import { getQuery, hasProtocol, parseURL, withHttps } from 'ufo'
 import type { GetSiteConfigOptions, SiteConfigInput, SiteConfigResolved, SiteConfigStack } from './type'
-import { normalizeSiteConfig } from './'
+
+export * from './type'
+
+export function normalizeSiteConfig(config: SiteConfigResolved) {
+  // fix booleans index / trailingSlash
+  if (typeof config.indexable !== 'undefined')
+    config.indexable = String(config.indexable) !== 'false'
+  if (typeof config.trailingSlash !== 'undefined' && !config.trailingSlash)
+    config.trailingSlash = String(config.trailingSlash) !== 'false'
+  if (config.url && !hasProtocol(config.url, { acceptRelative: true, strict: false }))
+    config.url = withHttps(config.url)
+
+  // sort the keys
+  const keys = Object.keys(config)
+    .sort((a, b) => a.localeCompare(b))
+  // create new object
+  const newConfig: Partial<SiteConfigResolved> = {}
+  for (const k of keys)
+    newConfig[k] = config[k]
+
+  return newConfig as SiteConfigResolved
+}
+
+export function validateSiteConfigStack(stack: SiteConfigStack) {
+  const resolved = normalizeSiteConfig(stack.get({
+    // we need the context
+    debug: true,
+  }))
+  const errors: string[] = []
+  if (resolved.url) {
+    const val = resolved.url
+    const context = resolved._context?.url || 'unknown'
+    const url = parseURL(val)
+    if (!url.host)
+      errors.push(`url "${val}" from ${context} is not absolute`)
+    else if (url.pathname && url.pathname !== '/')
+      errors.push(`url "${val}" from ${context} should not contain a path`)
+    else if (url.hash)
+      errors.push(`url "${val}" from ${context} should not contain a hash`)
+    else if (Object.keys(getQuery(val)).length > 0)
+      errors.push(`url "${val}" from ${context} should not contain a query`)
+    else if (url.host === 'localhost')
+      errors.push(`url "${val}" from ${context} should not be localhost`)
+  }
+  return errors
+}
 
 export function createSiteConfigStack(options?: { debug: boolean }): SiteConfigStack {
   const debug = options?.debug || false
@@ -30,7 +76,6 @@ export function createSiteConfigStack(options?: { debug: boolean }): SiteConfigS
   }
 
   function get(options?: GetSiteConfigOptions) {
-    // @ts-expect-error untyped
     const siteConfig: SiteConfigResolved = {}
     if (options?.debug)
       siteConfig._context = {}
