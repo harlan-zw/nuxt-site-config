@@ -142,7 +142,7 @@ declare module 'nuxt/app' {
     _siteConfig?: import('${typesPath}').SiteConfigStack
   }
   interface NuxtApp {
-     $nuxtSiteConfig: import('${typesPath}').SiteConfigStack
+     $nuxtSiteConfig: import('${typesPath}').SiteConfigResolved
   }
   interface RuntimeNuxtHooks {
     'site-config:resolve': (siteConfig: import('${typesPath}').SiteConfigResolved) => void
@@ -156,13 +156,13 @@ declare module '#app' {
     _siteConfig?: import('${typesPath}').SiteConfigStack
   }
   interface NuxtApp {
-    $nuxtSiteConfig: import('${typesPath}').SiteConfigStack
+    $nuxtSiteConfig: import('${typesPath}').SiteConfigResolved
   }
   interface RuntimeNuxtHooks {
     'site-config:resolve': (siteConfig: import('${typesPath}').SiteConfigResolved) => void
   }
 }
-declare module globalThis {
+declare global {
   interface Window {
     __NUXT_SITE_CONFIG__: import('${typesPath}').SiteConfigResolved
   }

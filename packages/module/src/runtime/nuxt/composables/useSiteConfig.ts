@@ -1,7 +1,6 @@
 import type { GetSiteConfigOptions, SiteConfigResolved } from 'site-config-stack'
 import type { NuxtSiteConfig } from '../../types'
 import {
-  toValue,
   useNuxtApp,
   useRequestEvent,
 } from '#imports'
@@ -11,11 +10,6 @@ export function useSiteConfig(options?: GetSiteConfigOptions): NuxtSiteConfig {
   if (process.server)
     stack = useRequestEvent().context.siteConfig.get(options)
   else
-    stack = useNuxtApp().$nuxtSiteConfig.get(options)
-
-  Object.entries(stack)
-    .forEach(([k, v]) => {
-      stack[k] = toValue(v)
-    })
+    stack = useNuxtApp().$nuxtSiteConfig
   return stack as NuxtSiteConfig
 }
