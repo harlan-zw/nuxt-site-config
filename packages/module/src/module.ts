@@ -11,7 +11,7 @@ import {
   useLogger,
 } from '@nuxt/kit'
 import { getSiteConfigStack, initSiteConfig, updateSiteConfig } from 'nuxt-site-config-kit'
-import type { SiteConfigInput } from 'nuxt-site-config-kit'
+import type { SiteConfigInput } from 'site-config-stack'
 import type { Preset } from 'unimport'
 import { validateSiteConfigStack } from 'site-config-stack'
 import { version } from '../package.json'
@@ -65,7 +65,7 @@ export default defineNuxtModule<ModuleOptions>({
     const siteConfigInput = { ...config }
     // @ts-expect-error untyped
     delete siteConfigInput.debug
-    await updateSiteConfig({
+    updateSiteConfig({
       // we should allow environment variables to override the site config
       _priority: -3,
       _context: 'nuxt-site-config:config',
@@ -135,12 +135,6 @@ declare module '@nuxt/schema' {
   }
 }
 declare module 'nuxt/app' {
-   interface AppConfigInput {
-    site?: import('${typesPath}').SiteConfigInput
-  }
-  interface Nuxt {
-    _siteConfig?: import('${typesPath}').SiteConfigStack
-  }
   interface NuxtApp {
      $nuxtSiteConfig: import('${typesPath}').SiteConfigResolved
   }
@@ -149,12 +143,6 @@ declare module 'nuxt/app' {
   }
 }
 declare module '#app' {
-   interface AppConfigInput {
-    site?: import('${typesPath}').SiteConfigInput
-  }
-  interface Nuxt {
-    _siteConfig?: import('${typesPath}').SiteConfigStack
-  }
   interface NuxtApp {
     $nuxtSiteConfig: import('${typesPath}').SiteConfigResolved
   }
@@ -180,8 +168,10 @@ declare global {
       global: config.componentOptions?.global,
     })
 
-    if (process.env.playground)
+    if (process.env.playground) {
+      nuxt.options.alias['site-config-stack/urls'] = resolve('../../site-config/src/urls')
       nuxt.options.alias['site-config-stack'] = resolve('../../site-config/src/index')
+    }
 
     const siteConfigPreset: Preset = {
       from: '#internal/nuxt-site-config',

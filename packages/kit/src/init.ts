@@ -78,7 +78,6 @@ export async function initSiteConfig(nuxt: Nuxt | null = tryUseNuxt()): Promise<
     _priority: -1,
     ...envSiteConfig(process.env),
   })
-  console.log(process.env)
   nuxt._siteConfig = siteConfig
   return siteConfig
 }

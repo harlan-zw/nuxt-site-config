@@ -13,6 +13,6 @@ describe('kit', async () => {
     catch (e) {
       exception = e
     }
-    expect(exception).toMatchInlineSnapshot('[Error: Nuxt context is missing.]')
+    expect(exception).toMatchInlineSnapshot(`[Error: Nuxt context is missing.]`)
   })
 })

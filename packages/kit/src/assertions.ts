@@ -1,5 +1,5 @@
 import { useLogger } from '@nuxt/kit'
-import type { SiteConfigResolved } from './type'
+import type { SiteConfigResolved } from 'site-config-stack'
 import { useSiteConfig } from './init'
 
 /**
