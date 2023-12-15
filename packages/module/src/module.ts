@@ -124,20 +124,7 @@ declare module '@nuxt/schema' {
 `
     })
 
-    const composables = ['useSiteConfig', 'updateSiteConfig', 'useNitroOrigin']
-    composables.forEach((c) => {
-      addImports({
-        from: resolve(`./runtime/composables/${c}`),
-        name: c,
-      })
-    })
-    const linkComposables = ['createSitePathResolver', 'withSiteTrailingSlash', 'withSiteUrl']
-    linkComposables.forEach((c) => {
-      addImports({
-        from: resolve('./runtime/composables/utils'),
-        name: c,
-      })
-    })
+    addImportsDir(resolve('./runtime/nuxt/composables'))
 
     // on prerender
 
