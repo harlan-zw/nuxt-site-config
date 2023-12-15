@@ -13,7 +13,7 @@ export function normalizeSiteConfig(config: SiteConfig) {
   // fix booleans index / trailingSlash
   if (typeof config.indexable !== 'undefined')
     config.indexable = String(config.indexable) !== 'false'
-  if (typeof config.trailingSlash !== 'undefined')
+  if (typeof config.trailingSlash !== 'undefined' && !config.trailingSlash)
     config.trailingSlash = String(config.trailingSlash) !== 'false'
   if (config.url && !hasProtocol(config.url, { acceptRelative: true, strict: false }))
     config.url = withHttps(config.url)
@@ -29,7 +29,7 @@ export function normalizeSiteConfig(config: SiteConfig) {
   return newConfig as SiteConfig
 }
 
-export function resolveSitePath(pathOrUrl: string, options: { siteUrl: string, trailingSlash: boolean, base?: string, absolute?: boolean, withBase?: boolean }) {
+export function resolveSitePath(pathOrUrl: string, options: { siteUrl: string, trailingSlash?: boolean, base?: string, absolute?: boolean, withBase?: boolean }) {
   let path = pathOrUrl
   // check we should check what we're working with, either an absolute or relative path
   if (hasProtocol(pathOrUrl, { strict: false, acceptRelative: true })) {
@@ -48,7 +48,7 @@ export function resolveSitePath(pathOrUrl: string, options: { siteUrl: string, t
   return (path === '/' && !options.withBase) ? withTrailingSlash(resolvedUrl) : fixSlashes(options.trailingSlash, resolvedUrl)
 }
 
-export function fixSlashes(trailingSlash: boolean, pathOrUrl: string) {
+export function fixSlashes(trailingSlash: boolean | undefined, pathOrUrl: string) {
   const $url = parseURL(pathOrUrl)
   const isFileUrl = $url.pathname.includes('.')
   if (isFileUrl)

@@ -3,12 +3,12 @@
   "type": "module",
   "version": "1.6.7",
   "description": "Shared site configuration for Nuxt 3 modules.",
-  "license": "MIT",
   "author": {
     "name": "Harlan Wilton",
     "email": "harlan@harlanzw.com",
     "url": "https://harlanzw.com/"
   },
+  "license": "MIT",
   "funding": "https://github.com/sponsors/harlan-zw",
   "homepage": "https://github.com/harlan-zw/nuxt-site-config#readme",
   "repository": {

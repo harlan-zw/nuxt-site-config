@@ -1,6 +1,6 @@
 import {
   addComponent,
-  addImports,
+  addImportsDir,
   addPlugin,
   addPrerenderRoutes,
   addServerHandler,
@@ -159,11 +159,11 @@ declare module '@nuxt/schema' {
     nuxt.options.build.transpile.push('site-config-stack')
 
     addPlugin({
-      src: resolve('./runtime/plugins/0.siteConfig'),
+      src: resolve('./runtime/nuxt/plugins/0.siteConfig'),
     })
     if (hasNuxtModule('@nuxtjs/i18n')) {
       addPlugin({
-        src: resolve('./runtime/plugins/i18n'),
+        src: resolve('./runtime/nuxt/plugins/i18n'),
       })
       updateSiteConfig({
         _context: '@nuxtjs/i18n',

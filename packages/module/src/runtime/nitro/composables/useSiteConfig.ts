@@ -1,7 +1,7 @@
 import type { H3Event } from 'h3'
 import type { GetSiteConfigOptions } from 'site-config-stack'
 import { createSiteConfigStack } from 'site-config-stack'
-import defu from 'defu'
+import { defu } from 'defu'
 import type { NuxtSiteConfig } from '../../types'
 import { useRuntimeConfig } from '#imports'
 

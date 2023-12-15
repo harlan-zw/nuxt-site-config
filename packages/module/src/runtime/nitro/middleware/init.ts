@@ -1,5 +1,6 @@
 import { createSiteConfigStack } from 'site-config-stack'
-import { defineEventHandler, useAppConfig, useNitroOrigin, useRuntimeConfig } from '#imports'
+import { defineEventHandler } from 'h3'
+import { useAppConfig, useNitroOrigin, useRuntimeConfig } from '#imports'
 
 function getEnv(config: string): string | undefined {
   const key = config.toUpperCase()
@@ -36,6 +37,7 @@ export default defineEventHandler((e) => {
       description: getEnv('Description'),
       logo: getEnv('Image'),
       defaultLocale: getEnv('Language'),
+      // legacy
       indexable: getEnv('Indexable'),
     })
     const buildStack = config.stack || []

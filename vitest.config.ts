@@ -2,15 +2,14 @@
 /// <reference types="vitest/globals" />
 
 import { defineConfig } from 'vite'
+import { isCI } from 'std-env'
 
 export default defineConfig({
   test: {
-    threads: false,
-    deps: {
-      inline: [
-        '@nuxt/test-utils',
-        '@nuxt/test-utils-edge',
-      ],
+    poolOptions: {
+      threads: {
+        singleThread: !isCI,
+      },
     },
     watchExclude: [
       'dist',

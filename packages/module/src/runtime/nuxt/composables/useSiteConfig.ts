@@ -1,5 +1,5 @@
 import type { GetSiteConfigOptions, SiteConfig } from 'site-config-stack'
-import type { NuxtSiteConfig } from '../types'
+import type { NuxtSiteConfig } from '../../types'
 import {
   toValue,
   useNuxtApp,

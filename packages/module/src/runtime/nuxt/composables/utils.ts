@@ -1,6 +1,6 @@
 import type { ComputedRef, MaybeRef, Ref } from '@vue/reactivity'
 import { fixSlashes, resolveSitePath } from 'site-config-stack'
-import type { VueCreateSitePathResolverOptions } from '../types'
+import type { VueCreateSitePathResolverOptions } from '../../types'
 import { computed, unref, useNitroOrigin, useRuntimeConfig, useSiteConfig } from '#imports'
 
 export function createSitePathResolver(options: VueCreateSitePathResolverOptions = {}): (path: MaybeRef<string>) => Ref<string> {
