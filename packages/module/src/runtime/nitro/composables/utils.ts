@@ -1,8 +1,8 @@
 import { fixSlashes, resolveSitePath } from 'site-config-stack'
 import type { H3Event } from 'h3'
 import type { CreateSitePathResolverOptions } from '../../types'
-import { useRuntimeConfig } from '#imports'
 import { useNitroOrigin, useSiteConfig } from '#internal/nuxt-site-config'
+import { useRuntimeConfig } from '#imports'
 
 export function createSitePathResolver(e: H3Event, options: CreateSitePathResolverOptions = {}) {
   const siteConfig = useSiteConfig(e)
@@ -26,9 +26,13 @@ export function withSiteTrailingSlash(e: H3Event, path: string) {
 
 export function withSiteUrl(e: H3Event, path: string, options: CreateSitePathResolverOptions = {}) {
   const siteConfig = e.context.siteConfig?.get()
+  let siteUrl = e.context.siteConfigNitroOrigin
+  if ((options.canonical !== false || process.env.prerender) && siteConfig.url)
+    siteUrl = siteConfig.url
+
   return resolveSitePath(path, {
     absolute: true,
-    siteUrl: options.canonical !== false || process.env.prerender ? siteConfig.url : e.context.siteConfigNitroOrigin,
+    siteUrl,
     trailingSlash: siteConfig.trailingSlash,
     base: e.context.nitro.baseURL,
     withBase: options.withBase,

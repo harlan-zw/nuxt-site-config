@@ -1,11 +1,11 @@
 import { ref } from 'vue'
 import type { ModuleRuntimeConfig } from '../../packages/module/src/runtime/types'
-import type { SiteConfig, SiteConfigStack } from '../../packages/site-config/src/type'
+import type { SiteConfigResolved, SiteConfigStack } from '../../packages/site-config/src/type'
 import { appFetch } from './rpc'
 
 export const data = ref<{
   nitroOrigin: string
-  config: SiteConfig
+  config: SiteConfigResolved
   stack: SiteConfigStack[]
   runtimeConfig: ModuleRuntimeConfig
 } | null>(null)

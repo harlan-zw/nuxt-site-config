@@ -3,6 +3,7 @@ import { computed, defineNuxtPlugin, updateSiteConfig, useSiteConfig } from '#im
 
 export default defineNuxtPlugin({
   name: 'nuxt-site-config:i18n',
+  // @ts-expect-error untyped
   enforce: 1, // needs to come after i18n
   setup(nuxtApp) {
     const i18n = nuxtApp.$i18n
@@ -11,6 +12,7 @@ export default defineNuxtPlugin({
     const currentUrl = useSiteConfig().url
     let i18nBaseUrl: false | string = false
     try {
+      // @ts-expect-error untyped
       const url = parseURL(i18n.baseUrl.value)
       if (import.meta.dev && url.host) {
         if (url.host.includes('localhost'))
@@ -25,8 +27,11 @@ export default defineNuxtPlugin({
     updateSiteConfig({
       _context: '@nuxtjs/i18n',
       url: i18nBaseUrl || undefined,
+      // @ts-expect-error untyped
       currentLocale: i18n.locale,
+      // @ts-expect-error untyped
       description: computed(() => i18n.te('nuxtSiteConfig.description') ? i18n.t('nuxtSiteConfig.description') : undefined),
+      // @ts-expect-error untyped
       name: computed(() => i18n.te('nuxtSiteConfig.name') ? i18n.t('nuxtSiteConfig.name') : undefined),
     })
   },

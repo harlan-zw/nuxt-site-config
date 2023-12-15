@@ -1,12 +1,12 @@
 import { toValue } from 'vue'
-import type { GetSiteConfigOptions, SiteConfig, SiteConfigInput, SiteConfigStack } from './type'
+import type { GetSiteConfigOptions, SiteConfigInput, SiteConfigResolved, SiteConfigStack } from './type'
 import { normalizeSiteConfig } from './'
 
 export function createSiteConfigStack(options?: { debug: boolean }): SiteConfigStack {
   const debug = options?.debug || false
   const stack: Partial<SiteConfigInput>[] = []
 
-  function push(input: SiteConfigInput) {
+  function push(input: SiteConfigInput | SiteConfigResolved) {
     if (!input || typeof input !== 'object' || Object.keys(input).length === 0)
       return
     // avoid exposing internals unless we're debugging
@@ -31,14 +31,14 @@ export function createSiteConfigStack(options?: { debug: boolean }): SiteConfigS
 
   function get(options?: GetSiteConfigOptions) {
     // @ts-expect-error untyped
-    const siteConfig: SiteConfig = {}
+    const siteConfig: SiteConfigResolved = {}
     if (options?.debug)
       siteConfig._context = {}
     // resolve the stack, we need to defu the fields but we also want to make a _meta property which maps each field to
     // what context it came from, we'll need a custom defu function
     for (const o in stack.sort((a, b) => (a._priority || 0) - (b._priority || 0))) {
       for (const k in stack[o]) {
-        const key = k as keyof SiteConfig
+        const key = k as keyof SiteConfigResolved
         const val = stack[o][k]
         // first do the merge, pretty simple, avoid empty strings
         if (!k.startsWith('_')) {

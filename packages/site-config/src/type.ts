@@ -1,6 +1,6 @@
 import type { ComputedRef, Ref } from 'vue'
 
-export interface SiteConfig {
+export interface SiteConfigResolved {
   /**
    * The canonical Site URL.
    *
@@ -71,16 +71,21 @@ export interface SiteConfig {
   /**
    * The mapping of the context of each site config value being set.
    */
-  _context: Partial<Record<Exclude<keyof SiteConfig, '_meta'>, string>>
+  _context: Partial<Record<Exclude<keyof SiteConfigResolved, '_meta'>, string>>
   [key: (string & Record<never, never>)]: any
 }
+
+/**
+ * @deprecated use SiteConfigResolved
+ */
+export type SiteConfig = SiteConfigResolved
 
 export type MaybeComputedRef<T> = T | (() => T) | ComputedRef<T> | Ref<T>
 export type MaybeComputedRefEntries<T> = {
   [key in keyof T]?: MaybeComputedRef<T[key]>
 }
 
-export type SiteConfigInput = Omit<MaybeComputedRefEntries<Partial<SiteConfig>>, '_context' | 'indexable'> & {
+export type SiteConfigInput = Omit<MaybeComputedRefEntries<Partial<SiteConfigResolved>>, '_context' | 'indexable'> & {
   _context?: string
   _priority?: number
   // is cast as a boolean
@@ -96,5 +101,5 @@ export interface GetSiteConfigOptions {
 export interface SiteConfigStack {
   stack: Partial<SiteConfigInput>[]
   push: (config: SiteConfigInput) => void
-  get: (options?: GetSiteConfigOptions) => SiteConfig
+  get: (options?: GetSiteConfigOptions) => SiteConfigResolved
 }

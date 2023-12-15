@@ -29,7 +29,8 @@
   "scripts": {
     "lint": "eslint . --fix",
     "build": "unbuild",
-    "stub": "unbuild --stub"
+    "stub": "unbuild --stub",
+    "typecheck": "tsc --noEmit"
   },
   "peerDependencies": {
     "vue": "^3"

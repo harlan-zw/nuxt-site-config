@@ -1,7 +1,6 @@
 import devalue from '@nuxt/devalue'
 import { toValue } from 'vue'
-import { defineNitroPlugin } from 'nitropack/dist/runtime/plugin'
-import { getRouteRules } from '#internal/nitro'
+import { defineNitroPlugin, getRouteRules } from '#internal/nitro'
 import { useSiteConfig } from '#internal/nuxt-site-config'
 
 const PRERENDER_NO_SSR_ROUTES = new Set(['/index.html', '/200.html', '/404.html'])

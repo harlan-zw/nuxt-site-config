@@ -1,9 +1,11 @@
 import { createSiteConfigStack } from 'site-config-stack'
 import { defineEventHandler } from 'h3'
-import { useAppConfig, useNitroOrigin, useRuntimeConfig } from '#imports'
+import { useAppConfig, useRuntimeConfig } from '#imports'
+import { useNitroOrigin } from '#internal/nuxt-site-config'
 
 function getEnv(config: string): string | undefined {
   const key = config.toUpperCase()
+  // @ts-expect-error untyped
   const env = import.meta.env || {}
   const privateKey = `NUXT_SITE_${key}`
   const publicKey = `NUXT_PUBLIC_SITE_${key}`

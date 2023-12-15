@@ -1,5 +1,5 @@
 import { useLogger } from '@nuxt/kit'
-import type { SiteConfig } from './type'
+import type { SiteConfigResolved } from './type'
 import { useSiteConfig } from './init'
 
 /**
@@ -8,13 +8,13 @@ import { useSiteConfig } from './init'
 export function requireSiteConfig() {
 }
 
-export function assertSiteConfig(module: string, requirements: Partial<Record<keyof SiteConfig, string>>, options?: { throwError?: boolean }) {
+export function assertSiteConfig(module: string, requirements: Partial<Record<keyof SiteConfigResolved, string>>, options?: { throwError?: boolean }) {
   const siteConfig = useSiteConfig()
   let valid = true
   const messages: string[] = []
   const logger = useLogger('nuxt-site-config')
   Object.keys(requirements).forEach((k) => {
-    const key = k as keyof SiteConfig
+    const key = k as keyof SiteConfigResolved
     if (!siteConfig[key]) {
       const reason = (requirements[key] || '').split('\n')
       const msg = [

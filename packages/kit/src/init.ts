@@ -1,10 +1,9 @@
 import { installModule, resolvePath, tryUseNuxt } from '@nuxt/kit'
 import { readPackageJSON } from 'pkg-types'
-import type { SiteConfig } from 'site-config-stack'
 import { createSiteConfigStack } from 'site-config-stack'
 import type { Nuxt } from '@nuxt/schema'
 import { env, process } from 'std-env'
-import type { SiteConfigInput, SiteConfigStack } from './type'
+import type { SiteConfigInput, SiteConfigResolved, SiteConfigStack } from './type'
 
 export async function initSiteConfig(nuxt: Nuxt | null = tryUseNuxt()): Promise<SiteConfigStack | undefined> {
   if (!nuxt)
@@ -118,7 +117,7 @@ export function updateSiteConfig(input: SiteConfigInput, nuxt: Nuxt | null = try
   container.push(input)
 }
 
-export function useSiteConfig(nuxt: Nuxt | null = tryUseNuxt()): SiteConfig {
+export function useSiteConfig(nuxt: Nuxt | null = tryUseNuxt()): SiteConfigResolved {
   const container = getSiteConfigStack(nuxt)
   return container.get()
 }

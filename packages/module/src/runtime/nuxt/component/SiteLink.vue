@@ -10,7 +10,7 @@ const props = defineProps<{
 // make props refs
 const propRefs = toRefs(props)
 
-const linkResolver = createSitePathResolver(propRefs)
+const linkResolver = createSitePathResolver(propRefs as any as CreateSitePathResolverOptions)
 
 const to = linkResolver(propRefs.to)
 </script>
