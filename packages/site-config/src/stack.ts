@@ -2,8 +2,6 @@ import { toValue } from 'vue'
 import { getQuery, hasProtocol, parseURL, withHttps } from 'ufo'
 import type { GetSiteConfigOptions, SiteConfigInput, SiteConfigResolved, SiteConfigStack } from './type'
 
-export * from './type'
-
 export function normalizeSiteConfig(config: SiteConfigResolved) {
   // fix booleans index / trailingSlash
   if (typeof config.indexable !== 'undefined')

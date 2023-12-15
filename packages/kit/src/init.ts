@@ -1,9 +1,8 @@
 import { installModule, resolvePath, tryUseNuxt } from '@nuxt/kit'
 import { readPackageJSON } from 'pkg-types'
-import { createSiteConfigStack } from 'site-config-stack'
+import { createSiteConfigStack, envSiteConfig } from 'site-config-stack'
 import type { Nuxt } from '@nuxt/schema'
-import { env, process } from 'std-env'
-import type { SiteConfigInput, SiteConfigResolved, SiteConfigStack } from './type'
+import type { SiteConfigInput, SiteConfigResolved, SiteConfigStack } from 'site-config-stack'
 
 export async function initSiteConfig(nuxt: Nuxt | null = tryUseNuxt()): Promise<SiteConfigStack | undefined> {
   if (!nuxt)
@@ -22,7 +21,7 @@ export async function initSiteConfig(nuxt: Nuxt | null = tryUseNuxt()): Promise<
     _context: 'system',
     _priority: -15,
     name: rootDir ? rootDir.split('/').pop() : undefined,
-    env: env.NODE_ENV,
+    env: process.env.NODE_ENV,
   })
   if (rootDir) {
     const pkgJson = await readPackageJSON(undefined, { startingFrom: rootDir })
@@ -42,58 +41,44 @@ export async function initSiteConfig(nuxt: Nuxt | null = tryUseNuxt()): Promise<
     _priority: -5,
     url: [
       // vercel
-      env.VERCEL_URL,
-      env.NUXT_ENV_VERCEL_URL,
+      process.env.VERCEL_URL,
+      process.env.NUXT_ENV_VERCEL_URL,
       // netlify
-      env.URL,
+      process.env.URL,
       // cloudflare pages
-      env.CF_PAGES_URL,
+      process.env.CF_PAGES_URL,
     ].find(k => Boolean(k)),
     name: [
       // vercel
-      env.NUXT_ENV_VERCEL_GIT_REPO_SLUG,
+      process.env.NUXT_ENV_VERCEL_GIT_REPO_SLUG,
       // netlify
-      env.SITE_NAME,
+      process.env.SITE_NAME,
     ].find(k => Boolean(k)),
   })
 
-  // not actually needed
   const runtimeConfig = nuxt.options.runtimeConfig
-  function getRuntimeConfig(config: string): string | undefined {
-    return (runtimeConfig[`site${config}`] || runtimeConfig.public?.[`site${config}`]) as string | undefined
-  }
-  function getEnv(config: string): string | undefined {
-    const key = config.toUpperCase()
-    if (env[`NUXT_SITE_${key}`])
-      return env[`NUXT_SITE_${key}`]
-    if (env[`NUXT_PUBLIC_SITE_${key}`])
-      return env[`NUXT_PUBLIC_SITE_${key}`]
-  }
-  // support legacy config
+
+  // TODO drop support for this in a v3
+  const runtimeConfigEnvKeys = [
+    ...Object.entries(runtimeConfig.site || {})
+      .filter(([k]) => k.startsWith('site'))
+      .map(([k, v]) => [k.replace(/^site/, ''), v] as const),
+    ...Object.entries([...Object.entries(runtimeConfig), ...Object.entries(runtimeConfig.public)])
+      .filter(([k]) => k.startsWith('site'))
+      .map(([k, v]) => [k.replace(/^site/, ''), v] as const),
+  ]
   siteConfig.push({
     _priority: -2,
     _context: 'legacyRuntimeConfig',
-    env: getRuntimeConfig('Env'),
-    url: getRuntimeConfig('Url'),
-    name: getRuntimeConfig('Name'),
-    description: getRuntimeConfig('Description'),
-    logo: getRuntimeConfig('Image'),
-    defaultLocale: getRuntimeConfig('Language'),
-    indexable: getRuntimeConfig('Indexable'),
-    ...(nuxt?.options.runtimeConfig.public.site as any as SiteConfigInput || {}),
+    ...Object.fromEntries(runtimeConfigEnvKeys),
   })
   // env is highest support
   siteConfig.push({
     _context: 'buildEnv',
     _priority: -1,
-    env: getEnv('Env'),
-    url: getEnv('Url'),
-    name: getEnv('Name'),
-    description: getEnv('Description'),
-    logo: getEnv('Image'),
-    defaultLocale: getEnv('Language'),
-    indexable: getEnv('Indexable'),
+    ...envSiteConfig(process.env),
   })
+  console.log(process.env)
   nuxt._siteConfig = siteConfig
   return siteConfig
 }
