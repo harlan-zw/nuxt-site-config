@@ -10,9 +10,14 @@ export default defineNuxtPlugin({
     let stack
     const state = useState<SiteConfig>('site-config')
     if (process.server) {
-      stack = useRequestEvent().context.siteConfig
+      const { context } = useRequestEvent()
+      stack = context.siteConfig
       nuxtApp.hooks.hook('app:rendered', () => {
-        state.value = useRequestEvent().context.siteConfig.get()
+        state.value = context.siteConfig.get({
+          debug: false,
+          skipNormalize: true,
+          resolveRefs: true,
+        })
       })
     }
     if (!stack) {

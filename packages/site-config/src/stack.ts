@@ -1,3 +1,4 @@
+import { toValue } from 'vue'
 import type { GetSiteConfigOptions, SiteConfig, SiteConfigInput, SiteConfigStack } from './type'
 import { normalizeSiteConfig } from './'
 
@@ -42,7 +43,7 @@ export function createSiteConfigStack(options?: { debug: boolean }): SiteConfigS
         // first do the merge, pretty simple, avoid empty strings
         if (!k.startsWith('_')) {
           // make sure the priority is correct
-          siteConfig[k] = val
+          siteConfig[k] = options?.resolveRefs ? toValue(val) : val
           // we're setting the key value, update the meta
           if (options?.debug)
             // @ts-expect-error untyped
@@ -50,7 +51,7 @@ export function createSiteConfigStack(options?: { debug: boolean }): SiteConfigS
         }
       }
     }
-    return normalizeSiteConfig(siteConfig)
+    return options?.skipNormalize ? siteConfig : normalizeSiteConfig(siteConfig)
   }
 
   return {

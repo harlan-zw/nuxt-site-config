@@ -89,6 +89,8 @@ export type SiteConfigInput = Omit<MaybeComputedRefEntries<Partial<SiteConfig>>,
 
 export interface GetSiteConfigOptions {
   debug?: boolean
+  skipNormalize?: boolean
+  resolveRefs?: boolean
 }
 
 export interface SiteConfigStack {

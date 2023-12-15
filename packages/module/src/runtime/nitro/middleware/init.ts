@@ -54,14 +54,6 @@ export default defineEventHandler((e) => {
         ...e.context._nitro.routeRules.site,
       })
     }
-    const curStack = siteConfig.get()
-    if (typeof curStack.indexable === 'undefined') {
-      siteConfig.push({
-        _context: 'computed-env',
-        _priority: -4, // allow overriding from the module
-        indexable: curStack.env === 'production',
-      })
-    }
   }
   e.context.siteConfig = siteConfig
 })

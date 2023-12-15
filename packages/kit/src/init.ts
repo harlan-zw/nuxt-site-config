@@ -17,13 +17,6 @@ export async function initSiteConfig(nuxt: Nuxt | null = tryUseNuxt()): Promise<
   // only when called the first time
   siteConfig = createSiteConfigStack()
 
-  // 1. Defaults
-  siteConfig.push({
-    _priority: -20,
-    _context: 'defaults',
-    defaultLocale: 'en',
-    trailingSlash: false,
-  })
   const rootDir = nuxt?.options.rootDir || process.cwd?.() || false
   // the root dir is maybe the name of the site
   siteConfig.push({
