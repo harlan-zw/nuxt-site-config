@@ -2,32 +2,10 @@ import {
   hasProtocol,
   parseURL,
   withBase,
-  withHttps,
   withLeadingSlash,
   withTrailingSlash,
   withoutTrailingSlash,
 } from 'ufo'
-import type { SiteConfigResolved } from './type'
-
-export function normalizeSiteConfig(config: SiteConfigResolved) {
-  // fix booleans index / trailingSlash
-  if (typeof config.indexable !== 'undefined')
-    config.indexable = String(config.indexable) !== 'false'
-  if (typeof config.trailingSlash !== 'undefined' && !config.trailingSlash)
-    config.trailingSlash = String(config.trailingSlash) !== 'false'
-  if (config.url && !hasProtocol(config.url, { acceptRelative: true, strict: false }))
-    config.url = withHttps(config.url)
-
-  // sort the keys
-  const keys = Object.keys(config)
-    .sort((a, b) => a.localeCompare(b))
-  // create new object
-  const newConfig: Partial<SiteConfigResolved> = {}
-  for (const k of keys)
-    newConfig[k] = config[k]
-
-  return newConfig as SiteConfigResolved
-}
 
 export function resolveSitePath(pathOrUrl: string, options: { siteUrl: string, trailingSlash?: boolean, base?: string, absolute?: boolean, withBase?: boolean }) {
   let path = pathOrUrl

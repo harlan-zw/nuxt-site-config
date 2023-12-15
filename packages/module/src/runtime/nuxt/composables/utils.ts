@@ -1,5 +1,5 @@
-import type { ComputedRef, MaybeRef, Ref } from '@vue/reactivity'
-import { fixSlashes, resolveSitePath } from 'site-config-stack'
+import type { ComputedRef, MaybeRef, Ref } from 'vue'
+import { fixSlashes, resolveSitePath } from 'site-config-stack/urls'
 import type { VueCreateSitePathResolverOptions } from '../../types'
 import { computed, unref, useNitroOrigin, useRuntimeConfig, useSiteConfig } from '#imports'
 

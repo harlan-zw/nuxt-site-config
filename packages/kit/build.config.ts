@@ -8,6 +8,7 @@ export default defineBuildConfig({
   },
   entries: [
     { input: 'src/index', name: 'index' },
+    { input: 'src/urls', name: 'urls' },
   ],
   externals: [
     '@nuxt/schema',

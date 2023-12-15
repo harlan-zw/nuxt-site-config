@@ -6,6 +6,11 @@
     "baseUrl": ".",
     "module": "ESNext",
     "moduleResolution": "Node",
+    "paths": {
+      "site-config-stack/urls": [
+        "../site-config/src/urls"
+      ]
+    },
     "resolveJsonModule": true,
     "types": [
       "node"

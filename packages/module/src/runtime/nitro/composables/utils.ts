@@ -1,4 +1,4 @@
-import { fixSlashes, resolveSitePath } from 'site-config-stack'
+import { fixSlashes, resolveSitePath } from 'site-config-stack/urls'
 import type { H3Event } from 'h3'
 import type { CreateSitePathResolverOptions } from '../../types'
 import { useNitroOrigin, useSiteConfig } from '#internal/nuxt-site-config'

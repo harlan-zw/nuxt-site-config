@@ -7,6 +7,7 @@ export default defineBuildConfig({
     emitCJS: true,
   },
   entries: [
-    { input: 'src/index', name: 'index' },
+    { input: 'src/stack', name: 'index' },
+    { input: 'src/urls', name: 'urls' },
   ],
 })
