@@ -7,6 +7,6 @@ import { useRuntimeConfig } from '#imports'
 
 export function useSiteConfig(e: H3Event, _options?: GetSiteConfigOptions): NuxtSiteConfig {
   e.context.siteConfig = e.context.siteConfig || createSiteConfigStack()
-  const options = defu(_options, useRuntimeConfig()['nuxt-site-config'], { debug: false })
+  const options = defu(_options, useRuntimeConfig(e)['nuxt-site-config'], { debug: false })
   return e.context.siteConfig.get(options) as NuxtSiteConfig
 }

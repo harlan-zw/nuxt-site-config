@@ -5,12 +5,12 @@ import { useNitroOrigin } from '#internal/nuxt-site-config'
 
 export default defineEventHandler((e) => {
   // this does need to be a middleware so the nitro origin is always up to date
-  const config = useRuntimeConfig()['nuxt-site-config']
+  const config = useRuntimeConfig(e)['nuxt-site-config']
   const siteConfig = e.context.siteConfig || createSiteConfigStack({
     debug: config.debug,
   })
   if (siteConfig) {
-    const appConfig = useAppConfig()
+    const appConfig = useAppConfig(e)
     const nitroOrigin = useNitroOrigin(e)
     e.context.siteConfigNitroOrigin = nitroOrigin
     siteConfig.push({

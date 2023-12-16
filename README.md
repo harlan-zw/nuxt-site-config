@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-Unifying site config with powerful and flexible APIs, for module authors and users.
+Site Config for Nuxt module authors.
 </p>
 
 <p align="center">
@@ -34,7 +34,8 @@ For example: `url` (canonical), `env` (dev, staging, prod), `name`, etc.
 
 Without a single source of truth for these, modules have a hard time working together and end-users have to duplicate config across modules.
 
-Nuxt Site Config aims to fix this.
+Nuxt Site Config aims to fix this using a new config solution that can be extended by anyone. Think of it as writable runtime config
+with extra features.
 
 The end goal is to make it possible to build SEO multilingual / multi-tenancy sites that
 _just work_ with modules.

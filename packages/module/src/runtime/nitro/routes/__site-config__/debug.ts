@@ -7,7 +7,7 @@ export default defineEventHandler(async (e) => {
   const siteConfig = useSiteConfig(e)
   const nitroOrigin = useNitroOrigin(e)
   // use version
-  const { public: publicRuntimeConfig } = useRuntimeConfig()
+  const { public: publicRuntimeConfig } = useRuntimeConfig(e)
 
   const stack = e.context.siteConfig.stack as Partial<SiteConfigInput>[]
   // add json headers

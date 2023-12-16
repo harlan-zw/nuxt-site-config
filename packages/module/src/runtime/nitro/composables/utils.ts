@@ -7,7 +7,7 @@ import { useRuntimeConfig } from '#imports'
 export function createSitePathResolver(e: H3Event, options: CreateSitePathResolverOptions = {}) {
   const siteConfig = useSiteConfig(e)
   const nitroOrigin = useNitroOrigin(e)
-  const nuxtBase = useRuntimeConfig().app.baseURL || '/'
+  const nuxtBase = useRuntimeConfig(e).app.baseURL || '/'
   return (path: string) => {
     // don't use any composables within here
     return resolveSitePath(path, {
