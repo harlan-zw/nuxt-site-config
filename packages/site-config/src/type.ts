@@ -59,6 +59,9 @@ export type SiteConfigInput = Omit<MaybeComputedRefEntries<Partial<SiteConfigRes
   _context?: string
   _priority?: number
   // is cast as a boolean
+  /**
+   * @deprecated use `env`
+   */
   indexable?: MaybeComputedRef<string | boolean>
 }
 
