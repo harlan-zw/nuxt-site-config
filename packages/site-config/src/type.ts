@@ -23,7 +23,7 @@ export interface SiteConfigResolved {
   /**
    * Whether the site is indexable by search engines.
    *
-   * @deprecated we should only rely on `env`
+   * Allows you to opt-out productions environment from being indexed.
    */
   indexable?: boolean
   /**
@@ -59,9 +59,6 @@ export type SiteConfigInput = Omit<MaybeComputedRefEntries<Partial<SiteConfigRes
   _context?: string
   _priority?: number
   // is cast as a boolean
-  /**
-   * @deprecated use `env`
-   */
   indexable?: MaybeComputedRef<string | boolean>
 }
 
