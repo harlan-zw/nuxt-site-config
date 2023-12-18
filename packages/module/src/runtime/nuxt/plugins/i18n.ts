@@ -25,6 +25,7 @@ export default defineNuxtPlugin({
     }
     catch {}
     updateSiteConfig({
+      _priority: -1,
       _context: '@nuxtjs/i18n',
       url: i18nBaseUrl || undefined,
       // @ts-expect-error untyped
