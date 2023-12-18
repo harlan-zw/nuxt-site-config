@@ -100,6 +100,9 @@ declare module 'nitropack' {
   interface NitroRouteConfig {
     site?: import('${typesPath}').SiteConfig
   }
+  interface NitroRuntimeHooks {
+    'site-config:init': (ctx: import('${typesPath}').HookSiteConfigInitContext) => void | Promise<void>
+  }
 }
 
 declare module 'h3' {
@@ -117,9 +120,6 @@ declare module 'nuxt/schema' {
   interface Nuxt {
     _siteConfig?: import('${typesPath}').SiteConfigStack
   }
-  interface RuntimeNuxtHooks {
-    'site-config:resolve': (siteConfig: import('${typesPath}').SiteConfigResolved) => void
-  }
 }
 
 declare module '@nuxt/schema' {
@@ -130,24 +130,15 @@ declare module '@nuxt/schema' {
   interface Nuxt {
     _siteConfig?: import('${typesPath}').SiteConfigStack
   }
-  interface RuntimeNuxtHooks {
-    'site-config:resolve': (siteConfig: import('${typesPath}').SiteConfigResolved) => void
-  }
 }
 declare module 'nuxt/app' {
   interface NuxtApp {
      $nuxtSiteConfig: import('${typesPath}').SiteConfigResolved
   }
-  interface RuntimeNuxtHooks {
-    'site-config:resolve': (siteConfig: import('${typesPath}').SiteConfigResolved) => void
-  }
 }
 declare module '#app' {
   interface NuxtApp {
     $nuxtSiteConfig: import('${typesPath}').SiteConfigResolved
-  }
-  interface RuntimeNuxtHooks {
-    'site-config:resolve': (siteConfig: import('${typesPath}').SiteConfigResolved) => void
   }
 }
 declare global {

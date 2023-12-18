@@ -1,5 +1,6 @@
 import type { SiteConfigInput, SiteConfigResolved, SiteConfigStack } from 'site-config-stack'
 import type { Ref } from 'vue'
+import type { H3Event } from 'h3'
 
 // Once we are accessing site config within Nuxt we have access to the url through request headers / window location
 export type NuxtSiteConfig = Omit<SiteConfigResolved, 'url'> & Required<Pick<SiteConfigResolved, 'url'>>
@@ -21,4 +22,9 @@ export interface ModuleRuntimeConfig {
   debug?: boolean
   stack?: Partial<SiteConfigInput>[]
   version: string
+}
+
+export interface HookSiteConfigInitContext {
+  event: H3Event
+  siteConfig: SiteConfigStack
 }

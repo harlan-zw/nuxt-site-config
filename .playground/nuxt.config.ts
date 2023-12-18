@@ -49,6 +49,9 @@ export default defineNuxtConfig({
   ],
 
   nitro: {
+    plugins: [
+      '~/server/plugin/site-config',
+    ],
     typescript: {
       internalPaths: true,
     },

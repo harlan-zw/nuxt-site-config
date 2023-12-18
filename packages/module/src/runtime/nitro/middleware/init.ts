@@ -1,45 +1,49 @@
 import { createSiteConfigStack, envSiteConfig } from 'site-config-stack'
 import { defineEventHandler } from 'h3'
-import { useAppConfig, useRuntimeConfig } from '#imports'
+import { useAppConfig, useNitroApp, useRuntimeConfig } from '#imports'
 import { useNitroOrigin } from '#internal/nuxt-site-config'
+import type { HookSiteConfigInitContext } from '~/src/runtime/types'
 
-export default defineEventHandler((e) => {
+export default defineEventHandler(async (e) => {
+  if (e.context.siteConfig)
+    return
   // this does need to be a middleware so the nitro origin is always up to date
   const config = useRuntimeConfig(e)['nuxt-site-config']
-  const siteConfig = e.context.siteConfig || createSiteConfigStack({
+  const nitroApp = useNitroApp()
+  const siteConfig = createSiteConfigStack({
     debug: config.debug,
   })
-  if (siteConfig) {
-    const appConfig = useAppConfig(e)
-    const nitroOrigin = useNitroOrigin(e)
-    e.context.siteConfigNitroOrigin = nitroOrigin
+  const appConfig = useAppConfig(e)
+  const nitroOrigin = useNitroOrigin(e)
+  e.context.siteConfigNitroOrigin = nitroOrigin
+  siteConfig.push({
+    _context: 'nitro:init',
+    _priority: -4,
+    url: nitroOrigin,
+  })
+  siteConfig.push({
+    _context: 'runtimeEnv',
+    _priority: 0,
+    // @ts-expect-error untyped
+    ...envSiteConfig(import.meta.env),
+  })
+  const buildStack = config.stack || []
+  buildStack.forEach(c => siteConfig.push(c))
+  if (appConfig.site) {
     siteConfig.push({
-      _context: 'nitro:init',
-      _priority: -4,
-      url: nitroOrigin,
+      _priority: -2,
+      _context: 'app:config',
+      ...appConfig.site,
     })
-    siteConfig.push({
-      _context: 'runtimeEnv',
-      _priority: 0,
-      // @ts-expect-error untyped
-      ...envSiteConfig(import.meta.env),
-    })
-    const buildStack = config.stack || []
-    buildStack.forEach(c => siteConfig.push(c))
-    if (appConfig.site) {
-      siteConfig.push({
-        _priority: -2,
-        _context: 'app:config',
-        ...appConfig.site,
-      })
-    }
-    // append route rules
-    if (e.context._nitro.routeRules.site) {
-      siteConfig.push({
-        _context: 'route-rules',
-        ...e.context._nitro.routeRules.site,
-      })
-    }
   }
-  e.context.siteConfig = siteConfig
+  // append route rules
+  if (e.context._nitro.routeRules.site) {
+    siteConfig.push({
+      _context: 'route-rules',
+      ...e.context._nitro.routeRules.site,
+    })
+  }
+  const ctx: HookSiteConfigInitContext = { siteConfig, event: e }
+  await nitroApp.hooks.callHook('site-config:init', ctx)
+  e.context.siteConfig = ctx.siteConfig
 })
