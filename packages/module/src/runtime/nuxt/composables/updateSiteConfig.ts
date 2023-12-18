@@ -10,5 +10,5 @@ export function updateSiteConfig(input: SiteConfigInput = {}): void {
     stack.push(input)
   }
   if (process.dev)
-    consola.warn('[Nuxt Site Config] \`updateSiteConfig\` is only available on client-side.')
+    consola.warn('[Nuxt Site Config] \`updateSiteConfig\` is only available on server-side.')
 }
