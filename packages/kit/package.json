@@ -19,6 +19,16 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
       "require": "./dist/index.cjs"
+    },
+    "./urls": {
+      "types": "./dist/urls.d.ts",
+      "import": "./dist/urls.mjs",
+      "require": "./dist/urls.cjs"
+    },
+    "./dist/urls": {
+      "types": "./dist/urls.d.ts",
+      "import": "./dist/urls.mjs",
+      "require": "./dist/urls.cjs"
     }
   },
   "main": "./dist/index.cjs",
