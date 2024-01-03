@@ -2,7 +2,7 @@ import type { SiteConfigResolved } from 'site-config-stack'
 import { defineNuxtPlugin, useRequestEvent, useRuntimeConfig, useState } from '#imports'
 
 export default defineNuxtPlugin({
-  name: 'nuxt-site-config',
+  name: 'nuxt-site-config:init',
   enforce: 'pre',
   async setup(nuxtApp) {
     const state = useState<SiteConfigResolved>('site-config')
