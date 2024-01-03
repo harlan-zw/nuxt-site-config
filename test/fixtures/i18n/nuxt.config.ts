@@ -4,8 +4,8 @@ import NuxtSiteConfig from '../../../packages/module/src/module'
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
   modules: [
-    NuxtSiteConfig,
     '@nuxtjs/i18n',
+    NuxtSiteConfig,
   ],
   site: {
     url: 'https://nuxtseo.com',

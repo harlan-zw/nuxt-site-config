@@ -4,7 +4,7 @@ import { computed, defineNuxtPlugin, updateSiteConfig, useSiteConfig } from '#im
 export default defineNuxtPlugin({
   name: 'nuxt-site-config:i18n',
   // @ts-expect-error untyped
-  enforce: 1, // needs to come after i18n
+  dependsOn: ['i18n:plugin'],
   setup(nuxtApp) {
     const i18n = nuxtApp.$i18n
     if (!i18n)
