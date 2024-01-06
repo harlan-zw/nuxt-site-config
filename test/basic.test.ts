@@ -20,6 +20,7 @@ describe('basic', async () => {
     const siteConfig = await $fetch('/__site-config__/debug.json')
     // replace ports in snapshot with pattern `:port/`
     // convert json to string
+    delete siteConfig.version
     const s = JSON.stringify(siteConfig)
     expect(JSON.parse(s.replace(/:\d+\//g, ':port/'))).toMatchInlineSnapshot(`
       {
@@ -83,7 +84,6 @@ describe('basic', async () => {
             "defaultLocale": "en",
           },
         ],
-        "version": "2.2.0",
       }
     `)
   })

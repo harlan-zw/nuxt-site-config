@@ -13,6 +13,7 @@ await setup({
 describe('staging', async () => {
   it('ssr debug', async () => {
     const siteConfig = await $fetch('/__site-config__/debug.json')
+    delete siteConfig.version
     // replace ports in snapshot with pattern `:port/`
     // convert json to string
     const s = JSON.stringify(siteConfig)
@@ -77,7 +78,6 @@ describe('staging', async () => {
             "defaultLocale": "en",
           },
         ],
-        "version": "2.2.0",
       }
     `)
   })
