@@ -43,6 +43,7 @@
     "@nuxt/devtools-ui-kit": "^1.0.6",
     "@nuxt/kit": "^3.9.1",
     "@nuxt/schema": "^3.9.1",
+    "floating-vue": "2.0.0-beta.24",
     "nuxt-site-config-kit": "workspace:*",
     "pathe": "^1.1.1",
     "shiki-es": "^0.14.0",
