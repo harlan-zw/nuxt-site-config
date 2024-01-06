@@ -190,7 +190,8 @@ declare global {
     })
     if (hasNuxtModule('@nuxtjs/i18n')) {
       addPlugin({
-        src: resolve('./runtime/nuxt/plugins/i18n'),
+        mode: 'server',
+        src: resolve('./runtime/nuxt/plugins/i18n.server'),
       })
       updateSiteConfig({
         _context: '@nuxtjs/i18n',

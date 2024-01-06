@@ -28,14 +28,18 @@ const rows = [
   <div>
     <h1>{{ $t('welcome') }}</h1>
     <table>
-      <tr>
-        <th>Key</th>
-        <th>Value</th>
-      </tr>
-      <tr v-for="row in rows" :key="row.key">
-        <td>{{ row.key }}</td>
-        <td>{{ row.value }}</td>
-      </tr>
+      <thead>
+        <tr>
+          <th>Key</th>
+          <th>Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="row in rows" :key="row.key">
+          <td>{{ row.key }}</td>
+          <td>{{ row.value }}</td>
+        </tr>
+      </tbody>
     </table>
   </div>
 </template>
