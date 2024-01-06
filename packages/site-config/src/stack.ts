@@ -82,11 +82,11 @@ export function createSiteConfigStack(options?: { debug: boolean }): SiteConfigS
     for (const o in stack.sort((a, b) => (a._priority || 0) - (b._priority || 0))) {
       for (const k in stack[o]) {
         const key = k as keyof SiteConfigResolved
-        const val = stack[o][k]
+        const val = options?.resolveRefs ? toValue(stack[o][k]) : stack[o][k]
         // first do the merge, pretty simple, avoid empty strings
-        if (!k.startsWith('_')) {
+        if (!k.startsWith('_') && typeof val !== 'undefined') {
           // make sure the priority is correct
-          siteConfig[k] = options?.resolveRefs ? toValue(val) : val
+          siteConfig[k] = val
           // we're setting the key value, update the meta
           if (options?.debug)
             // @ts-expect-error untyped
