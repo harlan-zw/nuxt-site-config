@@ -21,7 +21,7 @@
     "dev": "nuxi dev .playground",
     "dev:build": "nuxi build .playground",
     "dev:prepare": "nuxt-module-build --stub && nuxi prepare .playground",
-    "release": "bumpp package.json packages/*/package.json && pnpm -r publish",
+    "release": "pnpm build && bumpp package.json packages/*/package.json && pnpm -r publish",
     "test": "vitest"
   },
   "devDependencies": {
@@ -34,6 +34,7 @@
     "bumpp": "^9.2.1",
     "eslint": "8.56.0",
     "execa": "^8.0.1",
+    "floating-vue": "2.0.0-beta.24",
     "nuxt": "^3.9.1",
     "nuxt-icon": "^0.6.8",
     "typescript": "^5.3.3",
