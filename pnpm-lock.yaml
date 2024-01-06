@@ -95,6 +95,9 @@ importers:
       pathe:
         specifier: ^1.1.1
         version: 1.1.1
+      pkg-types:
+        specifier: ^1.0.3
+        version: 1.0.3
       shiki-es:
         specifier: ^0.14.0
         version: 0.14.0

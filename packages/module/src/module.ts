@@ -14,7 +14,7 @@ import { getSiteConfigStack, initSiteConfig, updateSiteConfig } from 'nuxt-site-
 import type { SiteConfigInput } from 'site-config-stack'
 import type { Preset } from 'unimport'
 import { validateSiteConfigStack } from 'site-config-stack'
-import { version } from '../package.json'
+import { readPackageJSON } from 'pkg-types'
 import { extendTypes } from './kit'
 import { setupDevToolsUI } from './devtools'
 
@@ -54,10 +54,11 @@ export default defineNuxtModule<ModuleOptions>({
     }
   },
   async setup(config, nuxt) {
-    const logger = useLogger('nuxt-site-config')
-    logger.level = config.debug ? 4 : 3
-
     const { resolve } = createResolver(import.meta.url)
+    const { name, version } = await readPackageJSON(resolve('../package.json'))
+
+    const logger = useLogger(name)
+    logger.level = config.debug ? 4 : 3
 
     await initSiteConfig()
     // the module config should have the highest priority
@@ -86,7 +87,7 @@ export default defineNuxtModule<ModuleOptions>({
       }
       nuxt.options.runtimeConfig['nuxt-site-config'] = {
         stack: getSiteConfigStack().stack,
-        version,
+        version: version!,
         debug: config.debug,
       }
     })
