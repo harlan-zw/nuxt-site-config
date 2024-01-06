@@ -41,8 +41,8 @@
   "dependencies": {
     "@nuxt/devtools-kit": "^1.0.6",
     "@nuxt/devtools-ui-kit": "^1.0.6",
-    "@nuxt/kit": "^3.9.0",
-    "@nuxt/schema": "^3.9.0",
+    "@nuxt/kit": "^3.9.1",
+    "@nuxt/schema": "^3.9.1",
     "nuxt-site-config-kit": "workspace:*",
     "pathe": "^1.1.1",
     "shiki-es": "^0.14.0",
