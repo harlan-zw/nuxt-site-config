@@ -77,6 +77,7 @@ describe('staging', async () => {
             "defaultLocale": "en",
           },
         ],
+        "version": "2.2.0",
       }
     `)
   })

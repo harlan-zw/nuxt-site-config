@@ -83,6 +83,7 @@ describe('basic', async () => {
             "defaultLocale": "en",
           },
         ],
+        "version": "2.2.0",
       }
     `)
   })
