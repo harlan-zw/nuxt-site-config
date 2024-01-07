@@ -12,5 +12,5 @@ export function useSiteConfig(options?: GetSiteConfigOptions): NuxtSiteConfig {
     stack = useRequestEvent().context.siteConfig.get(defu({ resolveRefs: true }, options))
   else
     stack = useNuxtApp().$nuxtSiteConfig
-  return stack as NuxtSiteConfig
+  return (stack || {}) as NuxtSiteConfig
 }
