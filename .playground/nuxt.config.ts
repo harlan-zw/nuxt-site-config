@@ -57,6 +57,14 @@ export default defineNuxtConfig({
     },
   },
 
+  runtimeConfig: {
+    public: {
+      site: {
+        bar: 'baz',
+      },
+    },
+  },
+
   site: {
     foo: '<\/script><script>alert("xss")<\/script>',
     debug: true,

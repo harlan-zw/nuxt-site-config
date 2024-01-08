@@ -7,8 +7,9 @@ import type { HookSiteConfigInitContext } from '~/src/runtime/types'
 export default defineEventHandler(async (e) => {
   if (e.context.siteConfig)
     return
+  const runtimeConfig = useRuntimeConfig(e)
   // this does need to be a middleware so the nitro origin is always up to date
-  const config = useRuntimeConfig(e)['nuxt-site-config']
+  const config = runtimeConfig['nuxt-site-config']
   const nitroApp = useNitroApp()
   const siteConfig = createSiteConfigStack({
     debug: config.debug,
@@ -24,8 +25,10 @@ export default defineEventHandler(async (e) => {
   siteConfig.push({
     _context: 'runtimeEnv',
     _priority: 0,
+    ...(runtimeConfig.site || {}),
+    ...(runtimeConfig.public.site || {}),
     // @ts-expect-error untyped
-    ...envSiteConfig(import.meta.env),
+    ...envSiteConfig(import.meta.env), // just in-case, shouldn't be needed
   })
   const buildStack = config.stack || []
   buildStack.forEach(c => siteConfig.push(c))
