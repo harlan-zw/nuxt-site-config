@@ -26,12 +26,14 @@ describe('basic', async () => {
       {
         "config": {
           "_context": {
+            "bar": "runtimeEnv",
             "defaultLocale": "@nuxtjs/i18n",
             "env": "runtimeEnv",
             "foo": "nuxt-site-config:config",
             "name": "package.json",
             "url": "runtimeEnv",
           },
+          "bar": "baz",
           "defaultLocale": "en",
           "env": "test",
           "foo": "</script><script>alert("xss")</script>",
@@ -76,6 +78,7 @@ describe('basic', async () => {
           {
             "_context": "runtimeEnv",
             "_priority": 0,
+            "bar": "baz",
             "env": "test",
             "url": "https://env.harlanzw.com",
           },

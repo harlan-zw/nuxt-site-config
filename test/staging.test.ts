@@ -21,12 +21,14 @@ describe('staging', async () => {
       {
         "config": {
           "_context": {
+            "bar": "runtimeEnv",
             "defaultLocale": "@nuxtjs/i18n",
             "env": "runtimeEnv",
             "foo": "nuxt-site-config:config",
             "name": "package.json",
             "url": "runtimeEnv",
           },
+          "bar": "baz",
           "defaultLocale": "en",
           "env": "staging",
           "foo": "</script><script>alert("xss")</script>",
@@ -70,6 +72,7 @@ describe('staging', async () => {
           {
             "_context": "runtimeEnv",
             "_priority": 0,
+            "bar": "baz",
             "env": "staging",
             "url": "https://staging.harlanzw.com",
           },
