@@ -39,15 +39,15 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@nuxt/devtools-kit": "^1.0.6",
-    "@nuxt/devtools-ui-kit": "^1.0.6",
-    "@nuxt/kit": "^3.9.1",
-    "@nuxt/schema": "^3.9.1",
-    "floating-vue": "2.0.0-beta.24",
+    "@nuxt/devtools-kit": "^1.0.8",
+    "@nuxt/devtools-ui-kit": "^1.0.8",
+    "@nuxt/kit": "^3.9.3",
+    "@nuxt/schema": "^3.9.3",
+    "floating-vue": "5.2.0",
     "nuxt-site-config-kit": "workspace:*",
-    "pathe": "^1.1.1",
+    "pathe": "^1.1.2",
     "pkg-types": "^1.0.3",
-    "shiki-es": "^0.14.0",
+    "shikiji": "^0.10.0-beta.9",
     "sirv": "^2.0.4",
     "site-config-stack": "workspace:*",
     "ufo": "^1.3.2"

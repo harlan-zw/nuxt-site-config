@@ -42,8 +42,8 @@
     "stub": "unbuild --stub"
   },
   "dependencies": {
-    "@nuxt/kit": "^3.9.1",
-    "@nuxt/schema": "^3.9.1",
+    "@nuxt/kit": "^3.9.3",
+    "@nuxt/schema": "^3.9.3",
     "pkg-types": "^1.0.3",
     "site-config-stack": "workspace:*",
     "std-env": "^3.7.0",
