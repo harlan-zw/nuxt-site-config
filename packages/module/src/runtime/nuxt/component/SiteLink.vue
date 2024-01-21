@@ -1,8 +1,11 @@
 <script lang="ts" setup>
 import { computed, toRefs } from 'vue'
+import type { defineNuxtLink } from 'nuxt/app'
 import type { CreateSitePathResolverOptions } from '../../types'
-import type { NuxtLinkProps } from '#app'
 import { createSitePathResolver, resolveComponent } from '#imports'
+
+// get first argument type
+type NuxtLinkProps = Parameters<typeof defineNuxtLink>[0]
 
 const props = defineProps<CreateSitePathResolverOptions & NuxtLinkProps>()
 
