@@ -148,7 +148,7 @@ function normaliseSiteConfigInput(_input: Partial<SiteConfigInput>) {
             </NLink>
           </div>
           <div class="opacity-80 text-sm">
-            <NLink href="https://github.com/harla-zw/nuxt-site-config" target="_blank">
+            <NLink href="https://github.com/harlan-zw/nuxt-site-config" target="_blank">
               <NIcon icon="logos:github-icon" class="mr-[2px]" />
               Submit an issue
             </NLink>
