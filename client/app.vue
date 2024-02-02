@@ -29,7 +29,7 @@ useHead({
 })
 
 const stack = computed<Partial<SiteConfigInput>[]>(() => {
-  return (data.value?.stack || []).reverse()
+  return (data.value?.stack || []).toReversed()
 })
 
 const config = computed(() => {
