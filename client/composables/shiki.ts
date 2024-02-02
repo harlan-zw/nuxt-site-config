@@ -1,5 +1,5 @@
-import type { BuiltinLanguage, Highlighter } from 'shikiji'
-import { getHighlighter } from 'shikiji'
+import type { BuiltinLanguage, Highlighter } from 'shiki'
+import { getHighlighter } from 'shiki'
 import { computed, ref, unref } from 'vue'
 import type { MaybeRef } from '@vueuse/core'
 import { devtools } from './rpc'

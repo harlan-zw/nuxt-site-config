@@ -3,7 +3,7 @@
   "type": "module",
   "version": "2.2.8",
   "private": true,
-  "packageManager": "pnpm@8.14.2",
+  "packageManager": "pnpm@8.15.1",
   "description": "Shared site configuration for Nuxt 3 modules.",
   "license": "MIT",
   "funding": "https://github.com/sponsors/harlan-zw",
@@ -27,17 +27,17 @@
   "devDependencies": {
     "@antfu/eslint-config": "^2.6.3",
     "@nuxt/module-builder": "^0.5.5",
-    "@nuxt/test-utils": "3.10.0",
-    "@nuxt/ui": "^2.12.3",
+    "@nuxt/test-utils": "3.11.0",
+    "@nuxt/ui": "^2.13.0",
     "@nuxtjs/eslint-config-typescript": "^12.1.0",
-    "@nuxtjs/i18n": "^8.0.0",
+    "@nuxtjs/i18n": "^8.0.1",
     "bumpp": "^9.3.0",
     "eslint": "8.56.0",
     "execa": "^8.0.1",
-    "floating-vue": "5.2.0",
-    "nuxt": "^3.9.3",
+    "floating-vue": "5.2.2",
+    "nuxt": "^3.10.0",
     "nuxt-icon": "^0.6.8",
     "typescript": "^5.3.3",
-    "vitest": "^1.2.1"
+    "vitest": "^1.2.2"
   }
 }
