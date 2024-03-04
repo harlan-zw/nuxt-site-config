@@ -15,31 +15,31 @@ const props = defineProps<CreateSitePathResolverOptions & {
   /**
    * Forces the link to be considered as external (true) or internal (false). This is helpful to handle edge-cases
    */
-  external?: boolean;
+  external?: boolean
   /**
    * Where to display the linked URL, as the name for a browsing context.
    */
-  target?: '_blank' | '_parent' | '_self' | '_top' | (string & {}) | null;
+  target?: '_blank' | '_parent' | '_self' | '_top' | (string & {}) | null
   /**
    * A rel attribute value to apply on the link. Defaults to "noopener noreferrer" for external links.
    */
-  rel?: 'noopener' | 'noreferrer' | 'nofollow' | 'sponsored' | 'ugc' | (string & {}) | null;
+  rel?: 'noopener' | 'noreferrer' | 'nofollow' | 'sponsored' | 'ugc' | (string & {}) | null
   /**
    * If set to true, no rel attribute will be added to the link
    */
-  noRel?: boolean;
+  noRel?: boolean
   /**
    * A class to apply to links that have been prefetched.
    */
-  prefetchedClass?: string;
+  prefetchedClass?: string
   /**
    * When enabled will prefetch middleware, layouts and payloads of links in the viewport.
    */
-  prefetch?: boolean;
+  prefetch?: boolean
   /**
    * Escape hatch to disable `prefetch` attribute.
    */
-  noPrefetch?: boolean;
+  noPrefetch?: boolean
 }>()
 
 // make props refs
