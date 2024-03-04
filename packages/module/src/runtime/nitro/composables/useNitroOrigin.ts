@@ -1,5 +1,5 @@
 import type { H3Event } from 'h3'
-import { withoutProtocol } from 'ufo'
+import { withTrailingSlash, withoutProtocol } from 'ufo'
 import { getRequestHost, getRequestProtocol } from 'h3'
 
 export function useNitroOrigin(e?: H3Event): string {
@@ -12,13 +12,15 @@ export function useNitroOrigin(e?: H3Event): string {
     port = process.env.NITRO_PORT || process.env.PORT || '3000'
   let protocol = ((cert && key) || !process.dev) ? 'https' : 'http'
   // don't trust development nitro headers
-  if (!e) {
-    // in dev and prerendering we can rely on the vite node env
-    if ((process.dev || process.env.prerender) && process.env.NUXT_VITE_NODE_OPTIONS) {
-      const origin = JSON.parse(process.env.NUXT_VITE_NODE_OPTIONS).baseURL.replace('/__nuxt_vite_node__', '')
-      host = withoutProtocol(origin)
-      protocol = origin.includes('https') ? 'https' : 'http'
-    }
+  if ((process.dev || process.env.prerender) && process.env.__NUXT_DEV__) {
+    const origin = JSON.parse(process.env.__NUXT_DEV__).proxy.url
+    host = withoutProtocol(origin)
+    protocol = origin.includes('https') ? 'https' : 'http'
+  }
+  else if ((process.dev || process.env.prerender) && process.env.NUXT_VITE_NODE_OPTIONS) {
+    const origin = JSON.parse(process.env.NUXT_VITE_NODE_OPTIONS).baseURL.replace('/__nuxt_vite_node__', '')
+    host = withoutProtocol(origin)
+    protocol = origin.includes('https') ? 'https' : 'http'
   }
   else {
     host = getRequestHost(e, { xForwardedHost: true }) || host
@@ -29,5 +31,5 @@ export function useNitroOrigin(e?: H3Event): string {
     host = host.split(':')[0]
   }
   port = port ? `:${port}` : ''
-  return `${protocol}://${host}${port}/`
+  return withTrailingSlash(`${protocol}://${host}${port}`)
 }
