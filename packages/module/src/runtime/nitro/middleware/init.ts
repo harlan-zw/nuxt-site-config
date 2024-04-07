@@ -17,11 +17,14 @@ export default defineEventHandler(async (e) => {
   const appConfig = useAppConfig(e)
   const nitroOrigin = useNitroOrigin(e)
   e.context.siteConfigNitroOrigin = nitroOrigin
-  siteConfig.push({
-    _context: 'nitro:init',
-    _priority: -4,
-    url: nitroOrigin,
-  })
+  // this will always be wrong when prerendering
+  if (!import.meta.prerender) {
+    siteConfig.push({
+      _context: 'nitro:init',
+      _priority: -4,
+      url: nitroOrigin,
+    })
+  }
   siteConfig.push({
     _context: 'runtimeEnv',
     _priority: 0,
