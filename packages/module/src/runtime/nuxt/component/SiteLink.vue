@@ -19,11 +19,11 @@ const props = defineProps<CreateSitePathResolverOptions & {
   /**
    * Where to display the linked URL, as the name for a browsing context.
    */
-  target?: '_blank' | '_parent' | '_self' | '_top' | (string & {}) | null
+  target?: '_blank' | '_parent' | '_self' | '_top' | string | null
   /**
    * A rel attribute value to apply on the link. Defaults to "noopener noreferrer" for external links.
    */
-  rel?: 'noopener' | 'noreferrer' | 'nofollow' | 'sponsored' | 'ugc' | (string & {}) | null
+  rel?: 'noopener' | 'noreferrer' | 'nofollow' | 'sponsored' | 'ugc' | string | null
   /**
    * If set to true, no rel attribute will be added to the link
    */
