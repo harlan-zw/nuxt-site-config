@@ -46,9 +46,9 @@
     "vue": "^3"
   },
   "dependencies": {
-    "ufo": "^1.4.0"
+    "ufo": "^1.5.3"
   },
   "devDependencies": {
-    "vue": "^3.4.21"
+    "vue": "^3.4.31"
   }
 }
