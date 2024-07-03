@@ -12,7 +12,7 @@ export function createSitePathResolver(options: VueCreateSitePathResolverOptions
     return computed(() => resolveSitePath(unref(path), {
       absolute: unref(options.absolute),
       withBase: unref(options.withBase),
-      siteUrl: unref(options.canonical) !== false || process.env.prerender ? siteConfig.url : nitroOrigin,
+      siteUrl: (unref(options.canonical) !== false || import.meta.prerender) ? siteConfig.url : nitroOrigin,
       trailingSlash: siteConfig.trailingSlash,
       base: nuxtBase,
     }))
@@ -31,7 +31,7 @@ export function withSiteUrl(path: MaybeRef<string>, options: VueCreateSitePathRe
   return computed(() => {
     return resolveSitePath(unref(path), {
       absolute: true,
-      siteUrl: unref(options.canonical) !== false || process.env.prerender ? siteConfig.url : nitroOrigin,
+      siteUrl: (unref(options.canonical) !== false || import.meta.prerender) ? siteConfig.url : nitroOrigin,
       trailingSlash: siteConfig.trailingSlash,
       base,
       withBase: unref(options.withBase),

@@ -238,4 +238,20 @@ describe('urls', () => {
     const url2 = fixSlashes(true, url)
     expect(url2).toMatchInlineSnapshot(`"http://localhost:3000/subdir/subdir/"`)
   })
+  it('base - weird issue', () => {
+    const url = resolveSitePath('/base/__og-image__/image/og.png', {
+      siteUrl: 'http://localhost:3000',
+      withBase: true,
+      base: '/base',
+      absolute: true,
+    })
+    const url2 = resolveSitePath(url, {
+      siteUrl: 'http://localhost:3000/base',
+      withBase: true,
+      base: '/base',
+      absolute: true,
+      trailingSlash: true,
+    })
+    expect(url2).toMatchInlineSnapshot('"http://localhost:3000/base/__og-image__/image/og.png"')
+  })
 })
