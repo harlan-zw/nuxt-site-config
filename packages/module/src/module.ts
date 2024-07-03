@@ -43,7 +43,7 @@ export default defineNuxtModule<ModuleOptions>({
   meta: {
     name: 'nuxt-site-config',
     compatibility: {
-      nuxt: '^3.9.0',
+      nuxt: '>=3.9.0',
       bridge: false,
     },
     configKey: 'site',
