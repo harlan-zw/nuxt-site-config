@@ -1,16 +1,17 @@
 import type { SiteConfigResolved } from 'site-config-stack'
-import { defineNuxtPlugin, useRequestEvent, useRuntimeConfig, useState } from '#imports'
+import { defineNuxtPlugin } from '#app'
+import { useRequestEvent, useRuntimeConfig, useState } from '#imports'
 
 export default defineNuxtPlugin({
   name: 'nuxt-site-config:init',
   enforce: 'pre',
   async setup(nuxtApp) {
     const state = useState<SiteConfigResolved>('site-config')
-    if (process.server) {
-      const { context } = useRequestEvent()
+    if (import.meta.server) {
+      const context = useRequestEvent()?.context
       nuxtApp.hooks.hook('app:rendered', () => {
         // this is the last point before we render it for the client-side, let's validate it
-        state.value = context.siteConfig.get({
+        state.value = context?.siteConfig.get({
           debug: useRuntimeConfig()['nuxt-site-config'].debug,
           resolveRefs: true,
         })
@@ -18,7 +19,7 @@ export default defineNuxtPlugin({
     }
 
     let stack: SiteConfigResolved = {}
-    if (process.client)
+    if (import.meta.client)
       stack = state.value || window.__NUXT_SITE_CONFIG__
     return {
       provide: {
