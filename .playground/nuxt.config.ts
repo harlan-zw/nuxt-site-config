@@ -10,7 +10,6 @@ export default defineNuxtConfig({
   modules: [
     NuxtSitConfig,
     '@nuxt/ui',
-    'nuxt-icon',
     '@nuxtjs/i18n',
     /**
      * Start a sub Nuxt Server for developing the client

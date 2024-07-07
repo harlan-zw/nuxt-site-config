@@ -31,8 +31,6 @@ const siteConfig = useSiteConfig()
       <UContainer class="py-3">
         <div class="flex items-center justify-between">
           <NuxtLink to="/" class="flex items-center gap-1.5 font-bold text-xl text-gray-900 dark:text-white">
-            <Icon name="logos:nuxt-icon" class="w-8 h-8" />
-            Nuxt
             <div class="text-primary-500 dark:text-primary-400">
               {{ siteConfig.name }}
             </div>
