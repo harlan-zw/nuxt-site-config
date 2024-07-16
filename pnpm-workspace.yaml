@@ -3,3 +3,4 @@ packages:
   - packages/module
   - packages/kit
   - packages/site-config
+  - client
