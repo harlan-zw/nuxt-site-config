@@ -1,7 +1,7 @@
 {
   "name": "nuxt-site-config",
   "type": "module",
-  "version": "2.2.14",
+  "version": "2.2.15",
   "description": "Shared site configuration for Nuxt 3 modules.",
   "author": {
     "name": "Harlan Wilton",
