@@ -30,10 +30,14 @@ export function resolveSitePath(pathOrUrl: string, options: { siteUrl: string, t
   return (path === '/' && !options.withBase) ? withTrailingSlash(resolvedUrl) : fixSlashes(options.trailingSlash, resolvedUrl)
 }
 
+export function isPathFile(path: string) {
+  const lastSegment = path.split('/').pop()
+  return !!((lastSegment || path).match(/\.[0-9a-z]+$/i)?.[0])
+}
+
 export function fixSlashes(trailingSlash: boolean | undefined, pathOrUrl: string) {
   const $url = parseURL(pathOrUrl)
-  const isFileUrl = $url.pathname.includes('.')
-  if (isFileUrl)
+  if (isPathFile($url.pathname))
     return pathOrUrl
   const fixedPath = trailingSlash ? withTrailingSlash($url.pathname) : withoutTrailingSlash($url.pathname)
   // reconstruct the url

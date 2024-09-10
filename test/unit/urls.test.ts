@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { fixSlashes, resolveSitePath } from '../../packages/site-config/src/urls'
+import {fixSlashes, isPathFile, resolveSitePath} from '../../packages/site-config/src/urls'
 
 const defaults = {
   siteUrl: 'https://example.com',
@@ -253,5 +253,17 @@ describe('urls', () => {
       trailingSlash: true,
     })
     expect(url2).toMatchInlineSnapshot('"http://localhost:3000/base/__og-image__/image/og.png"')
+  })
+})
+
+describe('file paths', () => {
+  it('normal', () => {
+    expect(isPathFile('/blog/master')).toBeFalsy()
+  })
+  it('domain path', () => {
+    expect(isPathFile('/blog/master-example.com-quickly')).toBeFalsy()
+  })
+  it('file path', () => {
+    expect(isPathFile('/blog/master-example.com-quickly/foo.pdf')).toBeTruthy()
   })
 })
