@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import {fixSlashes, isPathFile, resolveSitePath} from '../../packages/site-config/src/urls'
+import { fixSlashes, isPathFile, resolveSitePath } from '../../packages/site-config/src/urls'
 
 const defaults = {
   siteUrl: 'https://example.com',

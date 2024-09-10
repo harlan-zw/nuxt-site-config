@@ -1,5 +1,5 @@
-import { fixSlashes, resolveSitePath } from 'site-config-stack/urls'
 import { useNuxt } from '@nuxt/kit'
+import { fixSlashes, resolveSitePath } from 'site-config-stack/urls'
 import { env } from 'std-env'
 import { useSiteConfig } from './init'
 import { useNitroOrigin } from './util'

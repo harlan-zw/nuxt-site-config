@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import 'floating-vue/dist/style.css'
-import { computed, ref } from 'vue'
-import type { SiteConfigInput } from '../packages/site-config/src'
-import { loadShiki } from './composables/shiki'
-import { colorMode } from './composables/rpc'
-import { data, refreshSources } from './composables/state'
 import { useHead } from '#imports'
+import { computed, ref } from 'vue'
+import { colorMode } from './composables/rpc'
+import { loadShiki } from './composables/shiki'
+import { data, refreshSources } from './composables/state'
+import type { SiteConfigInput } from '../packages/site-config/src'
+import 'floating-vue/dist/style.css'
 
 await loadShiki()
 

@@ -1,5 +1,5 @@
-import { withoutProtocol } from 'ufo'
 import { env, isDevelopment } from 'std-env'
+import { withoutProtocol } from 'ufo'
 
 export function useNitroOrigin() {
   const cert = env.NITRO_SSL_CERT

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
+import { createSitePathResolver, resolveComponent } from '#imports'
 import { computed, toRefs } from 'vue'
 import type { CreateSitePathResolverOptions } from '../../types'
-import { createSitePathResolver, resolveComponent } from '#imports'
 
 const props = defineProps<CreateSitePathResolverOptions & {
   /**

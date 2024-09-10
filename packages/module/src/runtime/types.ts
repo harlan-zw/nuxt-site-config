@@ -1,11 +1,11 @@
+import type { H3Event } from 'h3'
 import type { SiteConfigInput, SiteConfigResolved, SiteConfigStack } from 'site-config-stack'
 import type { Ref } from 'vue'
-import type { H3Event } from 'h3'
 
 // Once we are accessing site config within Nuxt we have access to the url through request headers / window location
 export type NuxtSiteConfig = Omit<SiteConfigResolved, 'url'> & Required<Pick<SiteConfigResolved, 'url'>>
 
-export type { SiteConfigResolved, SiteConfigStack, SiteConfigInput }
+export type { SiteConfigInput, SiteConfigResolved, SiteConfigStack }
 
 // same as CreateSitePathResolverOptions but with MaybeRef for each value
 export type VueCreateSitePathResolverOptions = {

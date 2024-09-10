@@ -1,7 +1,7 @@
 import { onDevtoolsClientConnected } from '@nuxt/devtools-kit/iframe-client'
-import type { $Fetch } from 'nitropack'
 import { ref, watchEffect } from 'vue'
 import type { NuxtDevtoolsClient } from '@nuxt/devtools-kit/types'
+import type { $Fetch } from 'nitropack'
 import { refreshSources } from './state'
 
 export const appFetch = ref<$Fetch>()

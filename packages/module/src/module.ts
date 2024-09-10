@@ -11,12 +11,12 @@ import {
   useLogger,
 } from '@nuxt/kit'
 import { getSiteConfigStack, initSiteConfig, updateSiteConfig } from 'nuxt-site-config-kit'
+import { readPackageJSON } from 'pkg-types'
+import { validateSiteConfigStack } from 'site-config-stack'
 import type { SiteConfigInput } from 'site-config-stack'
 import type { Preset } from 'unimport'
-import { validateSiteConfigStack } from 'site-config-stack'
-import { readPackageJSON } from 'pkg-types'
-import { extendTypes } from './kit'
 import { setupDevToolsUI } from './devtools'
+import { extendTypes } from './kit'
 
 export interface ModuleOptions extends SiteConfigInput {
   componentOptions?: {

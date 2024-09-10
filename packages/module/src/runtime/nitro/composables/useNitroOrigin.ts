@@ -1,6 +1,6 @@
-import type { H3Event } from 'h3'
-import { withTrailingSlash, withoutProtocol } from 'ufo'
 import { getRequestHost, getRequestProtocol } from 'h3'
+import { withoutProtocol, withTrailingSlash } from 'ufo'
+import type { H3Event } from 'h3'
 
 export function useNitroOrigin(e?: H3Event): string {
   const cert = process.env.NITRO_SSL_CERT

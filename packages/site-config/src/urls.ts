@@ -3,8 +3,8 @@ import {
   parseURL,
   withBase,
   withLeadingSlash,
-  withTrailingSlash,
   withoutTrailingSlash,
+  withTrailingSlash,
 } from 'ufo'
 
 export function resolveSitePath(pathOrUrl: string, options: { siteUrl: string, trailingSlash?: boolean, base?: string, absolute?: boolean, withBase?: boolean }) {
