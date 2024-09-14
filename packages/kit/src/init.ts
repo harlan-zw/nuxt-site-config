@@ -1,8 +1,8 @@
+import type { Nuxt } from '@nuxt/schema'
+import type { SiteConfigInput, SiteConfigResolved, SiteConfigStack } from 'site-config-stack'
 import { installModule, resolvePath, tryUseNuxt } from '@nuxt/kit'
 import { readPackageJSON } from 'pkg-types'
 import { createSiteConfigStack, envSiteConfig } from 'site-config-stack'
-import type { Nuxt } from '@nuxt/schema'
-import type { SiteConfigInput, SiteConfigResolved, SiteConfigStack } from 'site-config-stack'
 
 export async function initSiteConfig(nuxt: Nuxt | null = tryUseNuxt()): Promise<SiteConfigStack | undefined> {
   if (!nuxt)

@@ -1,5 +1,5 @@
-import { useRequestEvent } from '#imports'
 import type { H3Event } from 'h3'
+import { useRequestEvent } from '#imports'
 
 export function useNitroOrigin(e?: H3Event): string {
   if (process.server) {

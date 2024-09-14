@@ -1,7 +1,7 @@
-import { computed, unref, useNitroOrigin, useRuntimeConfig, useSiteConfig } from '#imports'
-import { fixSlashes, resolveSitePath } from 'site-config-stack/urls'
 import type { ComputedRef, MaybeRef, Ref } from 'vue'
 import type { VueCreateSitePathResolverOptions } from '../../types'
+import { computed, unref, useNitroOrigin, useRuntimeConfig, useSiteConfig } from '#imports'
+import { fixSlashes, resolveSitePath } from 'site-config-stack/urls'
 
 export function createSitePathResolver(options: VueCreateSitePathResolverOptions = {}): (path: MaybeRef<string>) => Ref<string> {
   const siteConfig = useSiteConfig()

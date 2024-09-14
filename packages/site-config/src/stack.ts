@@ -1,6 +1,6 @@
+import type { GetSiteConfigOptions, SiteConfigInput, SiteConfigResolved, SiteConfigStack } from './type'
 import { getQuery, hasProtocol, parseURL, withHttps } from 'ufo'
 import { toValue } from 'vue'
-import type { GetSiteConfigOptions, SiteConfigInput, SiteConfigResolved, SiteConfigStack } from './type'
 
 export function normalizeSiteConfig(config: SiteConfigResolved) {
   // fix booleans index / trailingSlash

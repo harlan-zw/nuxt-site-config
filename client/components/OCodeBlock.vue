@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed } from 'vue'
 import type { BuiltinLanguage } from 'shikiji'
+import { computed } from 'vue'
 import { renderCodeHighlight } from '../composables/shiki'
 
 const props = withDefaults(

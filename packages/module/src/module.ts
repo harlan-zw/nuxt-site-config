@@ -1,3 +1,5 @@
+import type { SiteConfigInput } from 'site-config-stack'
+import type { Preset } from 'unimport'
 import {
   addComponent,
   addImportsDir,
@@ -13,8 +15,6 @@ import {
 import { getSiteConfigStack, initSiteConfig, updateSiteConfig } from 'nuxt-site-config-kit'
 import { readPackageJSON } from 'pkg-types'
 import { validateSiteConfigStack } from 'site-config-stack'
-import type { SiteConfigInput } from 'site-config-stack'
-import type { Preset } from 'unimport'
 import { setupDevToolsUI } from './devtools'
 import { extendTypes } from './kit'
 

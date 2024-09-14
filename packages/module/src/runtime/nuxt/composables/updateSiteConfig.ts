@@ -1,8 +1,8 @@
-import { useRequestEvent } from '#imports'
-import { consola } from 'consola'
 import type {
   SiteConfigInput,
 } from 'site-config-stack'
+import { useRequestEvent } from '#imports'
+import { consola } from 'consola'
 
 export function updateSiteConfig(input: SiteConfigInput = {}): void {
   if (process.server) {
