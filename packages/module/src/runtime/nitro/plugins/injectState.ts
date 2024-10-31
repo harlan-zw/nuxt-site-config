@@ -1,5 +1,4 @@
-import { defineNitroPlugin, getRouteRules } from '#imports'
-import { useSiteConfig } from '#internal/nuxt-site-config'
+import { defineNitroPlugin, getRouteRules, useSiteConfig } from '#imports'
 import devalue from '@nuxt/devalue'
 import { toValue } from 'vue'
 

@@ -1,7 +1,6 @@
 import type { H3Event } from 'h3'
 import type { CreateSitePathResolverOptions } from '../../types'
-import { useRuntimeConfig } from '#imports'
-import { useNitroOrigin, useSiteConfig } from '#internal/nuxt-site-config'
+import { useNitroOrigin, useRuntimeConfig, useSiteConfig } from '#imports'
 import { fixSlashes, resolveSitePath } from 'site-config-stack/urls'
 
 export function createSitePathResolver(e: H3Event, options: CreateSitePathResolverOptions = {}) {

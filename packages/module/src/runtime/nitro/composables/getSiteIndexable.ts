@@ -1,5 +1,5 @@
 import type { H3Event } from 'h3'
-import { useSiteConfig } from '#internal/nuxt-site-config'
+import { useSiteConfig } from '#imports'
 
 export function getSiteIndexable(e: H3Event) {
   // move towards deprecating indexable

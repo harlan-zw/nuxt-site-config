@@ -1,6 +1,5 @@
 import type { SiteConfigInput } from 'site-config-stack'
-import { useRuntimeConfig } from '#imports'
-import { useNitroOrigin, useSiteConfig } from '#internal/nuxt-site-config'
+import { useNitroOrigin, useRuntimeConfig, useSiteConfig } from '#imports'
 import { defineEventHandler, setHeader } from 'h3'
 
 export default defineEventHandler(async (e) => {

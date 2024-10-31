@@ -1,8 +1,6 @@
 import type { HookSiteConfigInitContext } from '../../types'
-import { useAppConfig, useRuntimeConfig } from '#imports'
-import { useNitroOrigin } from '#internal/nuxt-site-config'
+import { useAppConfig, useNitroApp, useNitroOrigin, useRuntimeConfig } from '#imports'
 import { defineEventHandler } from 'h3'
-import { useNitroApp } from 'nitropack/runtime'
 import { createSiteConfigStack, envSiteConfig } from 'site-config-stack'
 
 export default defineEventHandler(async (e) => {

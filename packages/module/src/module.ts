@@ -85,7 +85,6 @@ export default defineNuxtModule<ModuleOptions>({
 
     // merge the site config into the runtime config once modules are done extending it
     nuxt.hook('modules:done', async () => {
-      // @ts-expect-error untyped
       await nuxt.callHook('site-config:resolve')
       // let's validate the stack
       const errors = validateSiteConfigStack(getSiteConfigStack())
@@ -166,7 +165,7 @@ declare global {
     }
 
     const siteConfigPreset: Preset = {
-      from: '#internal/nuxt-site-config',
+      from: '#site-config/nitro/composables',
       imports: [
         'useSiteConfig',
         'useNitroOrigin',
@@ -181,7 +180,7 @@ declare global {
     nuxt.options.nitro.imports.presets = nuxt.options.nitro.imports.presets || []
     nuxt.options.nitro.imports.presets.push(siteConfigPreset)
     nuxt.options.nitro.alias = nuxt.options.nitro.alias || {}
-    nuxt.options.nitro.alias['#internal/nuxt-site-config'] = resolve('./runtime/nitro/composables')
+    nuxt.options.nitro.alias['#site-config'] = resolve('./runtime')
 
     // add site-config-stack to transpile
     nuxt.options.build.transpile.push('site-config-stack')
