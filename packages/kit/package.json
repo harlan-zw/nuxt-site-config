@@ -1,7 +1,6 @@
 {
   "name": "nuxt-site-config-kit",
   "type": "module",
-  "sideEffects": false,
   "version": "2.2.18",
   "description": "Shared site configuration build-time utilities for Nuxt 3 modules.",
   "license": "MIT",
@@ -15,6 +14,7 @@
   "bugs": {
     "url": "https://github.com/harlan-zw/nuxt-site-config/issues"
   },
+  "sideEffects": false,
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -43,9 +43,9 @@
     "stub": "unbuild --stub"
   },
   "dependencies": {
-    "@nuxt/kit": "^3.13.1",
-    "@nuxt/schema": "^3.13.1",
-    "pkg-types": "^1.2.0",
+    "@nuxt/kit": "^3.13.2",
+    "@nuxt/schema": "^3.13.2",
+    "pkg-types": "^1.2.1",
     "site-config-stack": "workspace:*",
     "std-env": "^3.7.0",
     "ufo": "^1.5.4"

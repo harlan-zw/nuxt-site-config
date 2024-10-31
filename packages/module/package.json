@@ -39,13 +39,13 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@nuxt/devtools-kit": "^1.4.2",
-    "@nuxt/kit": "^3.13.1",
-    "@nuxt/schema": "^3.13.1",
+    "@nuxt/devtools-kit": "^1.6.0",
+    "@nuxt/kit": "^3.13.2",
+    "@nuxt/schema": "^3.13.2",
     "nuxt-site-config-kit": "workspace:*",
     "pathe": "^1.1.2",
-    "pkg-types": "^1.2.0",
-    "sirv": "^2.0.4",
+    "pkg-types": "^1.2.1",
+    "sirv": "^3.0.0",
     "site-config-stack": "workspace:*",
     "ufo": "^1.5.4"
   },

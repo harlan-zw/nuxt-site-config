@@ -2,7 +2,6 @@
   "name": "site-config-stack",
   "type": "module",
   "version": "2.2.18",
-  "sideEffects": false,
   "description": "Shared site configuration utilities.",
   "license": "MIT",
   "funding": "https://github.com/sponsors/harlan-zw",
@@ -15,6 +14,7 @@
   "bugs": {
     "url": "https://github.com/harlan-zw/nuxt-site-config/issues"
   },
+  "sideEffects": false,
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -50,6 +50,6 @@
     "ufo": "^1.5.4"
   },
   "devDependencies": {
-    "vue": "^3.5.5"
+    "vue": "^3.5.12"
   }
 }
