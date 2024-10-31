@@ -24,6 +24,12 @@ export interface ModuleOptions extends SiteConfigInput {
     prefix?: string
   }
   /**
+   * Enable the module.
+   *
+   * @default true
+   */
+  enabled?: boolean
+  /**
    * Enable debug mode.
    *
    * @default false
@@ -50,15 +56,19 @@ export default defineNuxtModule<ModuleOptions>({
   },
   defaults(nuxt) {
     return {
+      enabled: true,
       debug: nuxt.options.debug || false,
     }
   },
   async setup(config, nuxt) {
     const { resolve } = createResolver(import.meta.url)
     const { name, version } = await readPackageJSON(resolve('../package.json'))
-
     const logger = useLogger(name)
     logger.level = config.debug ? 4 : 3
+    if (config.enabled === false) {
+      logger.debug('The module is disabled, skipping setup.')
+      return
+    }
 
     await initSiteConfig()
     // the module config should have the highest priority
