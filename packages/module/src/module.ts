@@ -1,11 +1,11 @@
 import type { SiteConfigInput } from 'site-config-stack'
-import type { Preset } from 'unimport'
 import {
   addComponent,
   addImportsDir,
   addPlugin,
   addPrerenderRoutes,
   addServerHandler,
+  addServerImportsDir,
   addServerPlugin,
   createResolver,
   defineNuxtModule,
@@ -166,25 +166,11 @@ declare global {
       nuxt.options.alias['site-config-stack'] = resolve('../../site-config/src/index')
     }
 
-    const siteConfigPreset: Preset = {
-      from: '#site-config/nitro/composables',
-      imports: [
-        'useSiteConfig',
-        'useNitroOrigin',
-        'updateSiteConfig',
-        'withSiteUrl',
-        'withSiteTrailingSlash',
-        'createSitePathResolver',
-      ],
-    }
-    nuxt.options.nitro = nuxt.options.nitro || {}
-    nuxt.options.nitro.imports = nuxt.options.nitro.imports || {}
-    nuxt.options.nitro.imports.presets = nuxt.options.nitro.imports.presets || []
-    nuxt.options.nitro.imports.presets.push(siteConfigPreset)
+    addServerImportsDir(resolve('./runtime/nitro/composables'))
     nuxt.options.nitro.alias = nuxt.options.nitro.alias || {}
     nuxt.options.nitro.alias['#site-config'] = resolve('./runtime')
     // support legacy
-    nuxt.options.nitro.alias['#internal/nuxt-site-config'] = resolve('./runtime/nitro/composables')
+    nuxt.options.nitro.alias['#internal/nuxt-site-config'] = resolve('./runtime/nitro/composable-barrel-deprecated')
 
     // add site-config-stack to transpile
     nuxt.options.build.transpile.push('site-config-stack')
