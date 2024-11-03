@@ -183,6 +183,8 @@ declare global {
     nuxt.options.nitro.imports.presets.push(siteConfigPreset)
     nuxt.options.nitro.alias = nuxt.options.nitro.alias || {}
     nuxt.options.nitro.alias['#site-config'] = resolve('./runtime')
+    // support legacy
+    nuxt.options.nitro.alias['#internal/nuxt-site-config'] = resolve('./runtime/nitro/composables')
 
     // add site-config-stack to transpile
     nuxt.options.build.transpile.push('site-config-stack')
