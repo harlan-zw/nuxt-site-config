@@ -5,8 +5,8 @@ description: The config options available for Nuxt Site Config.
 
 ## `enabled`
 
-- Type: `boolean`
-- Default: `true`
+- Type: `boolean`{lang="ts"}
+- Default: `true`{lang="ts"}
 
 Whether the site config is enabled.
 
