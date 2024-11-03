@@ -76,6 +76,7 @@ export default defineNuxtModule<ModuleOptions>({
     const siteConfigInput = { ...config }
     // @ts-expect-error untyped
     delete siteConfigInput.debug
+    delete siteConfigInput.enabled
     updateSiteConfig({
       // we should allow environment variables to override the site config
       _priority: -3,
