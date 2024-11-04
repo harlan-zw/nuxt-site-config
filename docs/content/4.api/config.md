@@ -37,9 +37,9 @@ export default defineNuxtConfig({
 
 ```vue
 <template>
-  <ISiteConfig to="/foo">
+  <ISiteLink to="/foo">
     Foo
-  </ISiteConfig>
+  </ISiteLink>
 </template>
 ```
 
