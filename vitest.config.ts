@@ -4,19 +4,12 @@
 import { isCI } from 'std-env'
 import { defineConfig } from 'vite'
 
-export default defineConfig({
+export default defineVitestConfig({
   test: {
     poolOptions: {
       threads: {
         singleThread: !isCI,
       },
     },
-    watchExclude: [
-      'dist',
-      'playground',
-      'test/**/*',
-      '**/.nuxt/**/*',
-      '**/.output/**/*',
-    ],
   },
 })
