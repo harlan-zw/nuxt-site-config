@@ -1,46 +1,25 @@
-<h1 align='center'>nuxt-site-config</h1>
+<h1>nuxt-site-config</h1>
 
-<p align="center">
-<a href='https://github.com/harlan-zw/nuxt-site-config/actions/workflows/test.yml'>
-</a>
-<a href="https://www.npmjs.com/package/nuxt-site-config" target="__blank"><img src="https://img.shields.io/npm/v/nuxt-site-config?style=flat&colorA=002438&colorB=28CF8D" alt="NPM version"></a>
-<a href="https://www.npmjs.com/package/nuxt-site-config" target="__blank"><img alt="NPM Downloads" src="https://img.shields.io/npm/dm/nuxt-site-config?flat&colorA=002438&colorB=28CF8D"></a>
-<a href="https://github.com/harlan-zw/nuxt-site-config" target="__blank"><img alt="GitHub stars" src="https://img.shields.io/github/stars/harlan-zw/nuxt-site-config?flat&colorA=002438&colorB=28CF8D"></a>
-</p>
+[![npm version][npm-version-src]][npm-version-href]
+[![npm downloads][npm-downloads-src]][npm-downloads-href]
+[![License][license-src]][license-href]
+[![Nuxt][nuxt-src]][nuxt-href]
 
-<p align="center">
-Site Config for Nuxt module authors.
-</p>
+Nuxt Site Config is a module for module authors to share common site config across modules.
+
+It is not meant to be consumed by end-users directly, but rather to be used by module authors to provide a common site config API.
 
 <p align="center">
 <table>
 <tbody>
 <td align="center">
-<img width="800" height="0" /><br>
-<i>Status:</i> <a href="https://github.com/harlan-zw/nuxt-site-config/releases/tag/v2.0.0">v2 Released 🎉</a></b> <br>
-<sup> Please report any issues 🐛</sup><br>
 <sub>Made possible by my <a href="https://github.com/sponsors/harlan-zw">Sponsor Program 💖</a><br> Follow me <a href="https://twitter.com/harlan_zw">@harlan_zw</a> 🐦 • Join <a href="https://discord.gg/275MBUBvgP">Discord</a> for help</sub><br>
-<img width="800" height="0" />
 </td>
 </tbody>
 </table>
 </p>
 
-## Background
-
-Site config can be considered config that is commonly used amongst modules but is not supported by the Nuxt core.
-
-For example: `url` (canonical), `env` (dev, staging, prod), `name`, etc.
-
-Without a single source of truth for these, modules have a hard time working together and end-users have to duplicate config across modules.
-
-Nuxt Site Config aims to fix this using a new config solution that can be extended by anyone. Think of it as writable runtime config
-with extra features.
-
-The end goal is to make it possible to build SEO multilingual / multi-tenancy sites that
-_just work_ with modules.
-
-# Features
+## Features
 
 - 😌 Zero-config, best practice site config defaults
 - 🎨 Site config from any source: Nuxt Config, Runtime Config, Environment Variables, App Config, Route Rules or Programmatically
@@ -48,10 +27,23 @@ _just work_ with modules.
 - 🤖 Ledger capabilities
 - 🤝 Integrates with `@nuxtjs/i18n`
 
-# Documentation
+## Documentation
 
 [📖 Read the full documentation](https://nuxtseo.com/site-config) for more information.
 
 ## License
 
-MIT License © 2023-PRESENT [Harlan Wilton](https://github.com/harlan-zw)
+Licensed under the [MIT license](https://github.com/harlan-zw/nuxt-site-config/blob/main/LICENSE.md).
+
+<!-- Badges -->
+[npm-version-src]: https://img.shields.io/npm/v/nuxt-site-config/latest.svg?style=flat&colorA=18181B&colorB=28CF8D
+[npm-version-href]: https://npmjs.com/package/nuxt-site-config
+
+[npm-downloads-src]: https://img.shields.io/npm/dm/nuxt-site-config.svg?style=flat&colorA=18181B&colorB=28CF8D
+[npm-downloads-href]: https://npmjs.com/package/nuxt-site-config
+
+[license-src]: https://img.shields.io/github/license/harlan-zw/nuxt-site-config.svg?style=flat&colorA=18181B&colorB=28CF8D
+[license-href]: https://github.com/harlan-zw/nuxt-site-config/blob/main/LICENSE.md
+
+[nuxt-src]: https://img.shields.io/badge/Nuxt-18181B?logo=nuxt.js
+[nuxt-href]: https://nuxt.com
