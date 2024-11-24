@@ -1,6 +1,8 @@
-import { defineNuxtPlugin } from '#app'
-import { computed, updateSiteConfig, useSiteConfig } from '#imports'
+import { defineNuxtPlugin } from 'nuxt/app'
 import { parseURL } from 'ufo'
+import { computed } from 'vue'
+import { updateSiteConfig } from '../composables/updateSiteConfig'
+import { useSiteConfig } from '../composables/useSiteConfig'
 
 export default defineNuxtPlugin({
   name: 'nuxt-site-config:i18n',

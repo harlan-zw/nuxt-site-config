@@ -22,7 +22,7 @@ It is not meant to be consumed by end-users directly, but rather to be used by m
 ## Features
 
 - 😌 Zero-config, best practice site config defaults
-- 🎨 Site config from any source: Nuxt Config, Runtime Config, Environment Variables, App Config, Route Rules or Programmatically
+- 🎨 Site config from any source: Nuxt Config, Environment Variables or Programmatically
 - 🚀 Powerful and runtime agnostic APIs for module authors `useSiteConfig`, `createSitePathResolver`, `withSiteUrl`, `useNitroOrigin`, etc
 - 🤖 Ledger capabilities
 - 🤝 Integrates with `@nuxtjs/i18n`

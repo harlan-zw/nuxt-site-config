@@ -1,7 +1,9 @@
 import type { H3Event } from 'h3'
 import type { CreateSitePathResolverOptions } from '../../types'
-import { useNitroOrigin, useRuntimeConfig, useSiteConfig } from '#imports'
+import { useRuntimeConfig } from 'nitropack/runtime'
 import { fixSlashes, resolveSitePath } from 'site-config-stack/urls'
+import { useNitroOrigin } from './useNitroOrigin'
+import { useSiteConfig } from './useSiteConfig'
 
 export function createSitePathResolver(e: H3Event, options: CreateSitePathResolverOptions = {}) {
   const siteConfig = useSiteConfig(e)
