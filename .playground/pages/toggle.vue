@@ -25,6 +25,5 @@ function changeSiteName() {
         overrides
       </UButton>
     </div>
-
   </div>
 </template>
