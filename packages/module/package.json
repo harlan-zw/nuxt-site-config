@@ -31,6 +31,10 @@
     "./utils": {
       "types": "./dist/utils.d.ts",
       "import": "./dist/utils.mjs"
+    },
+    "./urls": {
+      "types": "./dist/urls.d.ts",
+      "import": "./dist/urls.mjs"
     }
   },
   "main": "./dist/module.cjs",
