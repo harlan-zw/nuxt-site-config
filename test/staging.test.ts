@@ -59,11 +59,6 @@ describe('staging', async () => {
             "foo": "</script><script>alert("xss")</script>",
           },
           {
-            "_context": "app:config",
-            "_priority": -2,
-            "url": "harlanzw.com",
-          },
-          {
             "_context": "buildEnv",
             "_priority": -1,
             "env": "staging",
