@@ -147,12 +147,12 @@ declare global {
 `
     })
 
-    addImportsDir(resolve('./runtime/nuxt/composables'))
+    addImportsDir(resolve('./runtime/app/composables'))
 
     // on prerender
 
     await addComponent({
-      filePath: resolve('./runtime/nuxt/component/SiteLink.vue'),
+      filePath: resolve('./runtime/app/component/SiteLink.vue'),
       name: `${config.componentOptions?.prefix || ''}SiteLink`,
       global: config.componentOptions?.global,
     })
@@ -162,22 +162,22 @@ declare global {
       nuxt.options.alias['site-config-stack'] = resolve('../../site-config/src/index')
     }
 
-    addServerImportsDir(resolve('./runtime/nitro/composables'))
+    addServerImportsDir(resolve('./runtime/server/composables'))
     nuxt.options.nitro.alias = nuxt.options.nitro.alias || {}
     nuxt.options.nitro.alias['#site-config'] = resolve('./runtime')
     // support legacy
-    nuxt.options.nitro.alias['#internal/nuxt-site-config'] = resolve('./runtime/nitro/composable-barrel-deprecated')
+    nuxt.options.nitro.alias['#internal/nuxt-site-config'] = resolve('./runtime/server/composable-barrel-deprecated')
 
     // add site-config-stack to transpile
     nuxt.options.build.transpile.push('site-config-stack')
 
     addPlugin({
-      src: resolve('./runtime/nuxt/plugins/0.siteConfig'),
+      src: resolve('./runtime/app/plugins/0.siteConfig'),
     })
     if (hasNuxtModule('@nuxtjs/i18n')) {
       addPlugin({
         mode: 'server',
-        src: resolve('./runtime/nuxt/plugins/i18n.server'),
+        src: resolve('./runtime/app/plugins/i18n.server'),
       })
       updateSiteConfig({
         _context: '@nuxtjs/i18n',
@@ -191,13 +191,13 @@ declare global {
     // add middleware
     addServerHandler({
       middleware: true,
-      handler: resolve('./runtime/nitro/middleware/init'),
+      handler: resolve('./runtime/server/middleware/init'),
     })
 
     if (config.debug || nuxt.options.dev) {
       addServerHandler({
         route: '/__site-config__/debug.json',
-        handler: resolve('./runtime/nitro/routes/__site-config__/debug'),
+        handler: resolve('./runtime/server/routes/__site-config__/debug'),
       })
 
       if (nuxt.options._generate)
@@ -208,6 +208,6 @@ declare global {
       setupDevToolsUI(resolve)
 
     // injects the payload for non-ssr templates
-    addServerPlugin(resolve('./runtime/nitro/plugins/injectState'))
+    addServerPlugin(resolve('./runtime/server/plugins/injectState'))
   },
 })
