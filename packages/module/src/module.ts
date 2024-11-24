@@ -1,6 +1,5 @@
 import type { SiteConfigInput } from 'site-config-stack'
 import {
-  addComponent,
   addImportsDir,
   addPlugin,
   addPrerenderRoutes,
