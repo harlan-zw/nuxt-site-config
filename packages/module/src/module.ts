@@ -125,10 +125,6 @@ declare module 'h3' {
 }
 
 declare module '@nuxt/schema' {
-  interface AppConfigInput {
-    /** Theme configuration */
-    site?: import('${typesPath}').SiteConfigInput
-  }
   interface Nuxt {
     _siteConfig?: import('${typesPath}').SiteConfigStack
   }

@@ -1,7 +1,8 @@
 import type { HookSiteConfigInitContext } from '../../types'
-import { useAppConfig, useNitroApp, useNitroOrigin, useRuntimeConfig } from '#imports'
 import { defineEventHandler } from 'h3'
+import { useNitroApp, useRuntimeConfig } from 'nitropack/runtime'
 import { createSiteConfigStack, envSiteConfig } from 'site-config-stack'
+import { useNitroOrigin } from '../composables/useNitroOrigin'
 
 export default defineEventHandler(async (e) => {
   if (e.context.siteConfig)
@@ -13,7 +14,6 @@ export default defineEventHandler(async (e) => {
   const siteConfig = createSiteConfigStack({
     debug: config.debug,
   })
-  const appConfig = useAppConfig(e)
   const nitroOrigin = useNitroOrigin(e)
   e.context.siteConfigNitroOrigin = nitroOrigin
   // this will always be wrong when prerendering
@@ -34,13 +34,6 @@ export default defineEventHandler(async (e) => {
   })
   const buildStack = config.stack || []
   buildStack.forEach(c => siteConfig.push(c))
-  if (appConfig.site) {
-    siteConfig.push({
-      _priority: -2,
-      _context: 'app:config',
-      ...appConfig.site,
-    })
-  }
   // append route rules
   if (e.context._nitro.routeRules.site) {
     siteConfig.push({
