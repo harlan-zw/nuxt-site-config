@@ -16,7 +16,7 @@ import { getSiteConfigStack, initSiteConfig, updateSiteConfig } from 'nuxt-site-
 import { readPackageJSON } from 'pkg-types'
 import { validateSiteConfigStack } from 'site-config-stack'
 import { setupDevToolsUI } from './devtools'
-import { extendTypes } from './kit'
+import { extendTypes } from './nuxt-kit'
 
 export interface ModuleOptions extends SiteConfigInput {
   componentOptions?: {

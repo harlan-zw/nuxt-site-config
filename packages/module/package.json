@@ -23,12 +23,22 @@
       "types": "./dist/types.d.ts",
       "import": "./dist/module.mjs",
       "require": "./dist/module.cjs"
+    },
+    "./kit": {
+      "types": "./dist/kit.d.ts",
+      "import": "./dist/kit.mjs"
+    },
+    "./utils": {
+      "types": "./dist/utils.d.ts",
+      "import": "./dist/utils.mjs"
     }
   },
   "main": "./dist/module.cjs",
   "types": "./dist/types.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "kit.d.ts",
+    "utils.d.ts"
   ],
   "scripts": {
     "build": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxt-module-build build",
