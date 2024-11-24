@@ -26,14 +26,5 @@ function changeSiteName() {
       </UButton>
     </div>
 
-    <div>
-      SiteLink examples
-      <SiteLink to="/blog">
-        No trailing slash set
-      </SiteLink>
-      <SiteLink to="/">
-        home
-      </SiteLink>
-    </div>
   </div>
 </template>

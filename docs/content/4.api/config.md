@@ -17,32 +17,6 @@ Whether the site config is enabled.
 
 Whether the debug mode of the site config is enabled.
 
-## `componentOptions`
-
-- Type: `object`
-- Default: `{}`
-
-Modify the behaviour of how the [&lt;SiteLink&gt;](/docs/site-config/api/site-link) is registered.
-
-```ts
-export default defineNuxtConfig({
-  site: {
-    componentOptions: {
-      prefix: 'I',
-      global: true,
-    },
-  },
-})
-```
-
-```vue
-<template>
-  <ISiteLink to="/foo">
-    Foo
-  </ISiteLink>
-</template>
-```
-
 ## `url`
 
 - Type: `string`
@@ -77,12 +51,6 @@ Can the site be indexed by search engines.
 - Default: `false`
 
 Whether to add trailing slashes to the URLs.
-
-## `description`
-
-- Type: `string`
-
-The description of the site.
 
 ## `defaultLocale`
 

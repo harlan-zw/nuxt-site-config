@@ -19,10 +19,6 @@ import { setupDevToolsUI } from './devtools'
 import { extendTypes } from './nuxt-kit'
 
 export interface ModuleOptions extends SiteConfigInput {
-  componentOptions?: {
-    global?: boolean
-    prefix?: string
-  }
   /**
    * Enable the module.
    *
@@ -150,12 +146,6 @@ declare global {
     addImportsDir(resolve('./runtime/app/composables'))
 
     // on prerender
-
-    await addComponent({
-      filePath: resolve('./runtime/app/component/SiteLink.vue'),
-      name: `${config.componentOptions?.prefix || ''}SiteLink`,
-      global: config.componentOptions?.global,
-    })
 
     if (process.env.playground) {
       nuxt.options.alias['site-config-stack/urls'] = resolve('../../site-config/src/urls')
