@@ -5,11 +5,11 @@ import { consola } from 'consola'
 import { useRequestEvent } from 'nuxt/app'
 
 export function updateSiteConfig(input: SiteConfigInput = {}): void {
-  if (process.server) {
+  if (import.meta.server) {
     const stack = useRequestEvent()?.context.siteConfig
     stack?.push(input)
     return
   }
-  if (process.dev)
+  if (import.meta.dev)
     consola.warn('[Nuxt Site Config] \`updateSiteConfig\` is only available on server-side.')
 }

@@ -8,8 +8,8 @@ import {
 
 export function useSiteConfig(options?: GetSiteConfigOptions): NuxtSiteConfig {
   let stack: Omit<SiteConfigResolved, '_context'>
-  if (process.server)
-    stack = useRequestEvent().context.siteConfig.get(defu({ resolveRefs: true }, options))
+  if (import.meta.server)
+    stack = useRequestEvent()?.context.siteConfig.get(defu({ resolveRefs: true }, options))
   else
     stack = useNuxtApp().$nuxtSiteConfig
   return (stack || {}) as NuxtSiteConfig

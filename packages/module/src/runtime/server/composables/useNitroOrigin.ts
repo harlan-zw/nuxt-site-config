@@ -8,21 +8,21 @@ export function useNitroOrigin(e?: H3Event): string {
 
   let host = process.env.NITRO_HOST || process.env.HOST || false
   let port: string | false = false
-  if (process.dev)
+  if (import.meta.dev)
     port = process.env.NITRO_PORT || process.env.PORT || '3000'
   let protocol = ((cert && key) || !process.dev) ? 'https' : 'http'
   // don't trust development nitro headers
-  if ((process.dev || process.env.prerender) && process.env.__NUXT_DEV__) {
+  if ((import.meta.dev || import.meta.prerender) && process.env.__NUXT_DEV__) {
     const origin = JSON.parse(process.env.__NUXT_DEV__).proxy.url
     host = withoutProtocol(origin)
     protocol = origin.includes('https') ? 'https' : 'http'
   }
-  else if ((process.dev || process.env.prerender) && process.env.NUXT_VITE_NODE_OPTIONS) {
+  else if ((import.meta.dev || import.meta.prerender) && process.env.NUXT_VITE_NODE_OPTIONS) {
     const origin = JSON.parse(process.env.NUXT_VITE_NODE_OPTIONS).baseURL.replace('/__nuxt_vite_node__', '')
     host = withoutProtocol(origin)
     protocol = origin.includes('https') ? 'https' : 'http'
   }
-  else {
+  else if (e) {
     host = getRequestHost(e, { xForwardedHost: true }) || host
     protocol = getRequestProtocol(e, { xForwardedProto: true }) || protocol
   }

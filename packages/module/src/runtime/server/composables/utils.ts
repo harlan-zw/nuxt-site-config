@@ -13,7 +13,7 @@ export function createSitePathResolver(e: H3Event, options: CreateSitePathResolv
     // don't use any composables within here
     return resolveSitePath(path, {
       ...options,
-      siteUrl: options.canonical !== false || process.env.prerender ? siteConfig.url : nitroOrigin,
+      siteUrl: options.canonical !== false || import.meta.prerender ? siteConfig.url : nitroOrigin,
       trailingSlash: siteConfig.trailingSlash,
       base: nuxtBase,
     })
@@ -28,7 +28,7 @@ export function withSiteTrailingSlash(e: H3Event, path: string) {
 export function withSiteUrl(e: H3Event, path: string, options: CreateSitePathResolverOptions = {}) {
   const siteConfig = e.context.siteConfig?.get()
   let siteUrl = e.context.siteConfigNitroOrigin
-  if ((options.canonical !== false || process.env.prerender) && siteConfig.url)
+  if ((options.canonical !== false || import.meta.prerender) && siteConfig.url)
     siteUrl = siteConfig.url
 
   return resolveSitePath(path, {
