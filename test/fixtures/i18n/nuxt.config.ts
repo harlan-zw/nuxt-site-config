@@ -1,6 +1,6 @@
 import { resolve } from 'node:path'
-import NuxtSiteConfig from '../../../packages/module/src/module'
 import { createResolver } from '@nuxt/kit'
+import NuxtSiteConfig from '../../../packages/module/src/module'
 
 const resolver = createResolver(import.meta.url)
 
