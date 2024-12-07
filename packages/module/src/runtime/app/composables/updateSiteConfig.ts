@@ -1,13 +1,13 @@
 import type {
   SiteConfigInput,
 } from 'site-config-stack'
-import { useRequestEvent } from '#imports'
 import { consola } from 'consola'
+import { useRequestEvent } from 'nuxt/app'
 
 export function updateSiteConfig(input: SiteConfigInput = {}): void {
   if (process.server) {
-    const stack = useRequestEvent().context.siteConfig
-    stack.push(input)
+    const stack = useRequestEvent()?.context.siteConfig
+    stack?.push(input)
     return
   }
   if (process.dev)
