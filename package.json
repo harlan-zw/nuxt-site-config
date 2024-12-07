@@ -36,10 +36,11 @@
     "execa": "^9.5.1",
     "floating-vue": "5.2.2",
     "nuxt": "^3.14.1592",
-    "typescript": "^5.6.3",
+    "typescript": "5.6.3",
     "vitest": "^2.1.8"
   },
   "resolutions": {
-    "vue": "3.5.13"
+    "vue": "3.5.13",
+    "typescript": "5.6.3"
   }
 }
