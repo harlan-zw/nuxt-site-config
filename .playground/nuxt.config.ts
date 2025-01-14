@@ -1,8 +1,10 @@
 import { resolve } from 'node:path'
 import { startSubprocess } from '@nuxt/devtools-kit'
-import { defineNuxtModule } from '@nuxt/kit'
+import { createResolver, defineNuxtModule } from '@nuxt/kit'
 import { defineNuxtConfig } from 'nuxt/config'
 import NuxtSitConfig from '../packages/module/src/module'
+
+const resolver = createResolver(import.meta.url)
 
 process.env.playground = true
 
@@ -74,12 +76,12 @@ export default defineNuxtConfig({
       {
         code: 'en',
         iso: 'en-US',
-        file: 'en-US.json',
+        file: resolver.resolve('locales/en-US.json'),
       },
       {
         code: 'fr',
         iso: 'fr-FR',
-        file: 'fr-FR.json',
+        file: resolver.resolve('locales/fr-FR.json'),
       },
     ],
     defaultLocale: 'en',

@@ -1,7 +1,7 @@
 {
   "name": "nuxt-site-config",
   "type": "module",
-  "version": "3.0.4",
+  "version": "3.0.6",
   "description": "Shared site configuration for Nuxt 3 modules.",
   "author": {
     "name": "Harlan Wilton",
@@ -47,7 +47,7 @@
   "scripts": {
     "build": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxt-module-build build",
     "dev:build": "nuxi build playground",
-    "dev:prepare": "nuxt-module-build --stub && nuxi prepare playground",
+    "dev:prepare": "nuxt-module-build build --stub  && nuxt-module-build prepare",
     "release": "bumpp package.json --commit --push --tag",
     "test": "vitest",
     "typecheck": "tsc --noEmit"

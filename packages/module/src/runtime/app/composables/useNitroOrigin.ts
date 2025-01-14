@@ -1,13 +1,10 @@
 import type { H3Event } from 'h3'
-import { useRequestEvent } from '#imports'
+import { useRequestEvent } from 'nuxt/app'
 
 export function useNitroOrigin(e?: H3Event): string {
-  if (process.server) {
+  if (import.meta.server) {
     e = e || useRequestEvent()
-    return e.context.siteConfigNitroOrigin
+    return e?.context?.siteConfigNitroOrigin || ''
   }
-  if (process.client)
-    return window.location.origin
-
-  return ''
+  return window.location.origin
 }

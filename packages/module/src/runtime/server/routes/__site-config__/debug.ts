@@ -1,6 +1,8 @@
 import type { SiteConfigInput } from 'site-config-stack'
-import { useNitroOrigin, useRuntimeConfig, useSiteConfig } from '#imports'
+import { useNitroOrigin } from '#site-config/server/composables/useNitroOrigin'
+import { useSiteConfig } from '#site-config/server/composables/useSiteConfig'
 import { defineEventHandler, setHeader } from 'h3'
+import { useRuntimeConfig } from 'nitropack/runtime'
 
 export default defineEventHandler(async (e) => {
   const siteConfig = useSiteConfig(e)

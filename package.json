@@ -1,7 +1,7 @@
 {
   "name": "nuxt-site-config-mono",
   "type": "module",
-  "version": "3.0.4",
+  "version": "3.0.6",
   "private": true,
   "packageManager": "pnpm@9.12.3",
   "description": "Shared site configuration for Nuxt 3 modules.",
@@ -17,7 +17,7 @@
   },
   "scripts": {
     "lint": "eslint . --fix",
-    "build": "pnpm --filter='./packages/*' build && nuxi generate client",
+    "build": "pnpm --filter \"./packages/**\" build && nuxi generate client",
     "dev": "nuxi dev .playground",
     "dev:build": "nuxi build .playground",
     "dev:prepare": "nuxt-module-build build --stub && nuxi prepare .playground",
@@ -25,21 +25,22 @@
     "test": "vitest"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^3.8.0",
+    "@antfu/eslint-config": "^3.11.2",
     "@nuxt/module-builder": "^0.8.4",
-    "@nuxt/test-utils": "^3.14.4",
-    "@nuxt/ui": "^2.18.7",
+    "@nuxt/test-utils": "^3.15.1",
+    "@nuxt/ui": "^2.19.2",
     "@nuxtjs/eslint-config-typescript": "^12.1.0",
-    "@nuxtjs/i18n": "^8.5.6",
-    "bumpp": "^9.8.0",
-    "eslint": "^9.14.0",
+    "@nuxtjs/i18n": "^9.1.1",
+    "bumpp": "^9.8.1",
+    "eslint": "^9.16.0",
     "execa": "^9.5.1",
     "floating-vue": "5.2.2",
-    "nuxt": "^3.13.2",
-    "typescript": "^5.6.3",
-    "vitest": "^2.1.4"
+    "nuxt": "^3.14.1592",
+    "typescript": "5.6.3",
+    "vitest": "^2.1.8"
   },
   "resolutions": {
-    "vue": "3.5.12"
+    "typescript": "5.6.3",
+    "vue": "3.5.13"
   }
 }

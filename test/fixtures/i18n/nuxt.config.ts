@@ -1,5 +1,8 @@
 import { resolve } from 'node:path'
+import { createResolver } from '@nuxt/kit'
 import NuxtSiteConfig from '../../../packages/module/src/module'
+
+const resolver = createResolver(import.meta.url)
 
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
@@ -28,17 +31,17 @@ export default defineNuxtConfig({
       {
         code: 'en',
         language: 'en-US',
-        file: 'en',
+        file: resolver.resolve('locales/en.ts'),
       },
       {
         code: 'es',
         language: 'es-ES',
-        file: 'es',
+        file: resolver.resolve('locales/es.ts'),
       },
       {
         code: 'fr',
         language: 'fr-FR',
-        file: 'fr',
+        file: resolver.resolve('locales/fr.ts'),
       },
     ],
   },
