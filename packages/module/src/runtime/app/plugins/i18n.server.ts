@@ -20,10 +20,11 @@ export default defineNuxtPlugin({
       if (import.meta.dev && url.host) {
         if (url.host.includes('localhost'))
           console.warn(`[Nuxt Site Config] You have set an i18n baseUrl to \`${url.host}\`. This will not work in production. Please set a proper baseUrl in your i18n config.`)
-        else if (!currentUrl.includes(url.host))
+
+        if (!currentUrl.includes(url.host))
           console.warn(`[Nuxt Site Config] Your i18n baseUrl \`${url}\` doesn't match your site url. This can lead to unexpected behavior. Please set a matching baseUrl in your i18n config.`)
-        else
-          i18nBaseUrl = url.host
+
+        i18nBaseUrl = url.host
       }
     }
     catch {}
