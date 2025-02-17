@@ -3,7 +3,8 @@ import type { SiteConfigInput, SiteConfigResolved, SiteConfigStack } from 'site-
 import type { Ref } from 'vue'
 
 // Once we are accessing site config within Nuxt we have access to the url through request headers / window location
-export type NuxtSiteConfig = Omit<SiteConfigResolved, 'url'> & Required<Pick<SiteConfigResolved, 'url'>>
+export interface NuxtSiteConfig extends Omit<SiteConfigResolved, 'url'>, Required<Pick<SiteConfigResolved, 'url'>> {
+}
 
 export type { SiteConfigInput, SiteConfigResolved, SiteConfigStack }
 

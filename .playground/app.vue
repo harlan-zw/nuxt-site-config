@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { updateSiteConfig, useI18n, useRoute, useSiteConfig } from '#imports'
+import { updateSiteConfig, useI18n, useRoute } from '#imports'
+import { useSiteConfig } from '#site-config/app/composables'
 
 const i18n = useI18n()
 

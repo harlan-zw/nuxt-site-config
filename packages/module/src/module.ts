@@ -6,12 +6,13 @@ import {
   addServerHandler,
   addServerImportsDir,
   addServerPlugin,
+  addTypeTemplate,
   createResolver,
   defineNuxtModule,
   hasNuxtModule,
   useLogger,
 } from '@nuxt/kit'
-import { getSiteConfigStack, initSiteConfig, updateSiteConfig } from 'nuxt-site-config-kit'
+import { getSiteConfigStack, initSiteConfig, updateSiteConfig, useSiteConfig } from 'nuxt-site-config-kit'
 import { readPackageJSON } from 'pkg-types'
 import { validateSiteConfigStack } from 'site-config-stack'
 import { setupDevToolsUI } from './devtools'
@@ -97,6 +98,26 @@ export default defineNuxtModule<ModuleOptions>({
         debug: config.debug,
       }
     })
+
+    const dst = addTypeTemplate({
+      filename: 'module/site-config-virtual-types.d.ts',
+      write: true,
+      getContents() {
+        const siteConfig = useSiteConfig(nuxt)
+        return `
+import type { NuxtSiteConfig as _NuxtSiteConfig } from '#site-config/types'
+
+export interface NuxtSiteConfig extends _NuxtSiteConfig {
+${Object.keys(siteConfig).map(key => `  readonly ${key}: ${JSON.stringify(siteConfig[key])} | (${['indexable', 'trailingSlash'].includes(key) ? 'boolean' : 'string'} & Record<never, never>)`).join('\n')}
+  [key: string]: string | number | boolean
+}
+
+export {}
+`
+      },
+    })
+
+    nuxt.options.alias['#site-config-virtual/types'] = dst.dst
 
     extendTypes('nuxt-site-config', async ({ typesPath }) => {
       return `

@@ -1,5 +1,5 @@
+import type { NuxtSiteConfig } from '#site-config-virtual/types'
 import type { GetSiteConfigOptions, SiteConfigResolved } from 'site-config-stack'
-import type { NuxtSiteConfig } from '../../types'
 import { defu } from 'defu'
 import {
   useNuxtApp,
