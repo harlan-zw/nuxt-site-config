@@ -168,10 +168,10 @@ declare global {
         mode: 'server',
         src: resolve('./runtime/app/plugins/i18n.server'),
       })
+      const baseUrl = nuxt.options.i18n?.baseUrl
       updateSiteConfig({
         _context: '@nuxtjs/i18n',
-        // @ts-expect-error untyped
-        url: nuxt.options.i18n?.baseUrl,
+        url: typeof baseUrl === 'string' ? baseUrl : undefined,
         // @ts-expect-error untyped
         defaultLocale: nuxt.options.i18n?.defaultLocale,
       })
