@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useNitroOrigin, useSiteConfig, useState } from '#imports'
+import { useLocaleHead, useNitroOrigin, useSiteConfig, useState } from '#imports'
 
 const siteConfig = useSiteConfig({ debug: true })
 
@@ -22,6 +22,8 @@ const rows = [
     value: origin.value,
   },
 ]
+
+useLocaleHead()
 </script>
 
 <template>
@@ -37,7 +39,9 @@ const rows = [
       <tbody>
         <tr v-for="row in rows" :key="row.key">
           <td>{{ row.key }}</td>
-          <td>{{ row.value }}</td>
+          <td v-bind="{ [`data-${row.key}`]: true }">
+            {{ row.value }}
+          </td>
         </tr>
       </tbody>
     </table>

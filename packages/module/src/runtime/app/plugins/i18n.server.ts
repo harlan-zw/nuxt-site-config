@@ -1,6 +1,6 @@
 import { defineNuxtPlugin } from 'nuxt/app'
 import { parseURL } from 'ufo'
-import { computed } from 'vue'
+import { computed, toValue } from 'vue'
 import { updateSiteConfig } from '../composables/updateSiteConfig'
 import { useSiteConfig } from '../composables/useSiteConfig'
 
@@ -12,26 +12,42 @@ export default defineNuxtPlugin({
     const i18n = nuxtApp.$i18n
     if (!i18n)
       return
-    const currentUrl = useSiteConfig().url
-    let i18nBaseUrl: false | string = false
-    try {
+    const siteConfig = useSiteConfig()
+    const currentUrl = siteConfig.url
+    // @ts-expect-error untyped
+    const i18nBaseUrl = toValue(i18n.baseUrl)
+    // set baseURL to currentUrl if it's not set
+    if (!i18nBaseUrl && currentUrl) {
       // @ts-expect-error untyped
-      const url = parseURL(i18n.baseUrl.value)
-      if (import.meta.dev && url.host) {
-        if (url.host.includes('localhost'))
-          console.warn(`[Nuxt Site Config] You have set an i18n baseUrl to \`${url.host}\`. This will not work in production. Please set a proper baseUrl in your i18n config.`)
-
-        if (!currentUrl.includes(url.host))
-          console.warn(`[Nuxt Site Config] Your i18n baseUrl \`${url}\` doesn't match your site url. This can lead to unexpected behavior. Please set a matching baseUrl in your i18n config.`)
-
-        i18nBaseUrl = url.host
+      i18n.baseUrl.value = currentUrl
+    }
+    // set site config url if not set (and base url set)
+    else if (i18nBaseUrl && (!currentUrl || currentUrl.includes('localhost'))) {
+      // update site config
+      updateSiteConfig({
+        _priority: -1,
+        _context: '@nuxtjs/i18n',
+        url: i18nBaseUrl,
+      })
+    }
+    // if both set check for conflict
+    else if (i18nBaseUrl && currentUrl && !currentUrl.includes('localhost')) {
+      const i18nURL = parseURL(i18nBaseUrl, 'https://')
+      const siteConfigURL = parseURL(currentUrl, 'https://')
+      // if host matches ignore
+      if (i18nURL.host !== siteConfigURL.host) {
+        if (siteConfig.env === 'production') {
+          console.error(`[Nuxt Site Config] Your I18n baseUrl \`${i18nURL.host}\` doesn't match your site url ${siteConfigURL.host}. This will cause production SEO issues. Either provide a matching baseUrl or remove the site url config.`)
+        }
       }
     }
-    catch {}
+
     updateSiteConfig({
       _priority: -1,
       _context: '@nuxtjs/i18n',
       url: i18nBaseUrl || undefined,
+      // @ts-expect-error untyped
+      defaultLocale: i18n.defaultLocale,
       // @ts-expect-error untyped
       currentLocale: i18n.locale,
       // @ts-expect-error untyped
