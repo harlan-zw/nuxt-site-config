@@ -27,7 +27,6 @@ export default defineNuxtConfig({
   },
 
   i18n: {
-    baseUrl: 'i18n.baseurl.com',
     defaultLocale: 'en',
     strategy: 'prefix',
     langDir: 'locales/',

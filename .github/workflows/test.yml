@@ -36,6 +36,8 @@ jobs:
 
       - run: pnpm i
 
+      - run: nuxi prepare .playground
+
       - name: Build
         run: pnpm run build
 
