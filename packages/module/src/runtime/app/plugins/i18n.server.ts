@@ -16,13 +16,8 @@ export default defineNuxtPlugin({
     const currentUrl = siteConfig.url
     // @ts-expect-error untyped
     const i18nBaseUrl = toValue(i18n.baseUrl)
-    // set baseURL to currentUrl if it's not set
-    if (!i18nBaseUrl && currentUrl) {
-      // @ts-expect-error untyped
-      i18n.baseUrl.value = currentUrl
-    }
     // set site config url if not set (and base url set)
-    else if (i18nBaseUrl && (!currentUrl || currentUrl.includes('localhost'))) {
+    if (i18nBaseUrl && (!currentUrl || currentUrl.includes('localhost'))) {
       // update site config
       updateSiteConfig({
         _priority: -1,
