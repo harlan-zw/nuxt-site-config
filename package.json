@@ -20,7 +20,7 @@
     "build": "pnpm --filter \"./packages/**\" build && nuxi generate client",
     "dev": "nuxi dev .playground",
     "dev:build": "nuxi build .playground",
-    "dev:prepare": "nuxt-module-build build --stub && nuxi prepare .playground",
+    "dev:prepare": "nuxt-module-build build --stub packages/module && nuxi prepare .playground",
     "release": "pnpm build && bumpp package.json packages/*/package.json && pnpm -r publish",
     "test": "vitest"
   },
