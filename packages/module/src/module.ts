@@ -168,6 +168,8 @@ declare global {
         mode: 'server',
         src: resolve('./runtime/app/plugins/i18n.server'),
       })
+
+      // @ts-expect-error untyped
       const baseUrl = nuxt.options.i18n?.baseUrl
       updateSiteConfig({
         _context: '@nuxtjs/i18n',
