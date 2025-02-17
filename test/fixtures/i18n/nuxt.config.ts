@@ -10,18 +10,22 @@ export default defineNuxtConfig({
     '@nuxtjs/i18n',
     NuxtSiteConfig,
   ],
+
   site: {
     url: 'https://nuxtseo.com',
   },
+
   alias: {
     'site-config-stack': resolve(__dirname, '../../../packages/site-config/src'),
   },
+
   nitro: {
     prerender: {
       failOnError: false,
       ignore: ['/'],
     },
   },
+
   i18n: {
     baseUrl: 'https://nuxtseo.com',
     defaultLocale: 'en',
@@ -45,4 +49,6 @@ export default defineNuxtConfig({
       },
     ],
   },
+
+  compatibilityDate: '2025-01-29',
 })
