@@ -10,6 +10,7 @@ describe('stack', () => {
     })
     expect(stack.get()).toMatchInlineSnapshot(`
       {
+        "_priority": {},
         "name": "My Site Name",
       }
     `)
@@ -32,6 +33,7 @@ describe('stack', () => {
     })
     expect(stack.get()).toMatchInlineSnapshot(`
       {
+        "_priority": {},
         "name": null,
         "url": "https://example.com",
       }
@@ -55,6 +57,11 @@ describe('stack', () => {
     newStack.push(resolvedStack)
     expect(newStack.get()).toMatchInlineSnapshot(`
       {
+        "_priority": {
+          "logo": {},
+          "name": {},
+          "url": {},
+        },
         "logo": "https://example.com/logo.png",
         "name": "New Site Name",
         "url": "https://example.com",
@@ -74,6 +81,7 @@ describe('stack', () => {
     })
     expect(stack.get()).toMatchInlineSnapshot(`
       {
+        "_priority": {},
         "logo": "https://example.com/logo.png",
         "name": "New Site Name",
         "url": "https://example.com",
@@ -95,6 +103,7 @@ describe('stack', () => {
     })
     expect(stack.get()).toMatchInlineSnapshot(`
       {
+        "_priority": {},
         "logo": "https://example.com/logo.png",
         "name": "My Site Name",
         "trailingSlash": true,

@@ -69,14 +69,22 @@ export function createSiteConfigStack(options?: { debug: boolean }): SiteConfigS
       if (typeof val !== 'undefined' && val !== '')
         entry[k] = val
     }
+    let idx: number
     if (Object.keys(entry).filter(k => !k.startsWith('_')).length > 0)
-      stack.push(entry)
+      idx = stack.push(entry)
+    // return function to pop
+    return () => {
+      if (typeof idx !== 'undefined') {
+        stack.splice(idx - 1, 1)
+      }
+    }
   }
 
   function get(options?: GetSiteConfigOptions) {
     const siteConfig: SiteConfigResolved = {}
     if (options?.debug)
       siteConfig._context = {}
+    siteConfig._priority = {}
     // resolve the stack, we need to defu the fields but we also want to make a _meta property which maps each field to
     // what context it came from, we'll need a custom defu function
     for (const o in stack.sort((a, b) => (a._priority || 0) - (b._priority || 0))) {
@@ -87,6 +95,9 @@ export function createSiteConfigStack(options?: { debug: boolean }): SiteConfigS
         if (!k.startsWith('_') && typeof val !== 'undefined') {
           // make sure the priority is correct
           siteConfig[k] = val
+          if (typeof stack[o]._priority !== 'undefined' && stack[o]._priority !== -1) {
+            siteConfig._priority[key] = stack[o]._priority // -1 default
+          }
           // we're setting the key value, update the meta
           if (options?.debug)
             // @ts-expect-error untyped

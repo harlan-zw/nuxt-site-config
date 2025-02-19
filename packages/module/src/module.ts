@@ -126,12 +126,12 @@ declare module '@nuxt/schema' {
 }
 declare module 'nuxt/app' {
   interface NuxtApp {
-     $nuxtSiteConfig: import('${typesPath}').SiteConfigResolved
+     $nuxtSiteConfig: import('${typesPath}').SiteConfigStack
   }
 }
 declare module '#app' {
   interface NuxtApp {
-    $nuxtSiteConfig: import('${typesPath}').SiteConfigResolved
+    $nuxtSiteConfig: import('${typesPath}').SiteConfigStack
   }
 }
 declare global {
@@ -165,8 +165,7 @@ declare global {
     })
     if (hasNuxtModule('@nuxtjs/i18n')) {
       addPlugin({
-        mode: 'server',
-        src: resolve('./runtime/app/plugins/i18n.server'),
+        src: resolve('./runtime/app/plugins/i18n'),
       })
 
       // @ts-expect-error untyped
