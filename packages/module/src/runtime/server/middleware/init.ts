@@ -33,14 +33,6 @@ export default defineEventHandler(async (e) => {
     // @ts-expect-error untyped
     ...envSiteConfig(import.meta.env), // just in-case, shouldn't be needed
   })
-  siteConfig.push({
-    _context: 'runtimeEnv',
-    _priority: 0,
-    ...(runtimeConfig.site || {}),
-    ...(runtimeConfig.public.site || {}),
-    // @ts-expect-error untyped
-    ...envSiteConfig(import.meta.env), // just in-case, shouldn't be needed
-  })
   const buildStack = config.stack || []
   buildStack.forEach(c => siteConfig.push(c))
   // append route rules
