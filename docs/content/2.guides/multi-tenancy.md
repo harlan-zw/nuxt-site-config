@@ -3,7 +3,7 @@ title: Multi-Tenancy
 description: Learn how to serve multiple sites with different configurations based on the hostname.
 ---
 
-# Introduction
+## Introduction
 
 Multi-tenancy allows you to serve multiple sites with different configurations using a single Nuxt application. This is useful when you need to:
 - Host multiple domains with different branding
@@ -16,7 +16,7 @@ You can configure multi-tenancy using static configuration or dynamically at run
 
 To use build-time multi-tenancy configuration you can use the `multiTenancy` option:
 
-```ts{3-23}
+```ts
 export default defineNuxtConfig({
   site: {
     multiTenancy: [
@@ -24,17 +24,14 @@ export default defineNuxtConfig({
         hosts: ['www.example.com', 'example.com', 'local.example.com'],
         config: {
           name: 'Example',
-          description: 'Example description',
-          url: 'example.com',
-          defaultLocale: 'en',
-          currentLocale: 'en',
+          url: 'example.com' // canonical
         },
       },
       {
         hosts: ['www.foo.com', 'foo.com', 'local.foo.com'],
         config: {
-          url: 'foo.com',
           name: 'Foo',
+          url: 'foo.com', // canonical
           description: 'Foo description',
         },
       },
