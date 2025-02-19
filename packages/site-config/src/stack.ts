@@ -51,8 +51,11 @@ export function createSiteConfigStack(options?: { debug: boolean }): SiteConfigS
   const stack: Partial<SiteConfigInput>[] = []
 
   function push(input: SiteConfigInput | SiteConfigResolved) {
-    if (!input || typeof input !== 'object' || Object.keys(input).length === 0)
-      return
+    if (!input || typeof input !== 'object' || Object.keys(input).length === 0) {
+      return () => {
+        // noop
+      }
+    }
     // avoid exposing internals unless we're debugging
     if (!input._context && debug) {
       // use stack trace to determine function name calling this
