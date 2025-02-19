@@ -14,6 +14,7 @@ import {
 import { getSiteConfigStack, initSiteConfig, updateSiteConfig } from 'nuxt-site-config-kit'
 import { readPackageJSON } from 'pkg-types'
 import { validateSiteConfigStack } from 'site-config-stack'
+import { parseURL } from 'ufo'
 import { setupDevToolsUI } from './devtools'
 import { extendTypes } from './nuxt-kit'
 
@@ -30,6 +31,10 @@ export interface ModuleOptions extends SiteConfigInput {
    * @default false
    */
   debug: boolean
+  /**
+   * Configure multi-tenancy apps at build-time.
+   */
+  multiTenancy?: { hosts: string[], config: SiteConfigInput }[]
 }
 
 export interface ModuleRuntimeConfig {
@@ -95,6 +100,14 @@ export default defineNuxtModule<ModuleOptions>({
         stack: getSiteConfigStack().stack,
         version: version!,
         debug: config.debug,
+        multiTenancy: (config.multiTenancy || [])?.map((t) => {
+          // normalize hosts
+          t.hosts = (t.hosts || []).map(h => parseURL(h, 'https://').host).filter(Boolean) as string[]
+          if (!t.hosts.length) {
+            return false
+          }
+          return t
+        }).filter(Boolean),
       }
     })
 

@@ -2,6 +2,7 @@ import type { HookSiteConfigInitContext } from '../../types'
 import { defineEventHandler } from 'h3'
 import { useNitroApp, useRuntimeConfig } from 'nitropack/runtime'
 import { createSiteConfigStack, envSiteConfig } from 'site-config-stack'
+import { parseURL } from 'ufo'
 import { useNitroOrigin } from '../composables/useNitroOrigin'
 
 export default defineEventHandler(async (e) => {
@@ -40,6 +41,18 @@ export default defineEventHandler(async (e) => {
       _context: 'route-rules',
       ...e.context._nitro.routeRules.site,
     })
+  }
+  if (config.multiTenancy) {
+    // iterate to find the one with hosts that match
+    const host = parseURL(nitroOrigin).host
+    const tenant = config.multiTenancy?.find(t => t.hosts.includes(host))
+    if (tenant) {
+      siteConfig.push({
+        _context: `multi-tenancy:${host}`,
+        _priority: 0,
+        ...tenant.config,
+      })
+    }
   }
   const ctx: HookSiteConfigInitContext = { siteConfig, event: e }
   await nitroApp.hooks.callHook('site-config:init', ctx)

@@ -1,4 +1,4 @@
----
+_---
 title: Nuxt Config
 description: The config options available for Nuxt Site Config.
 ---
@@ -16,6 +16,43 @@ Whether the site config is enabled.
 - Default: `false`
 
 Whether the debug mode of the site config is enabled.
+
+## `multiTenancy`
+
+- Type: `{ hosts: string[]; config: SiteConfigInput }[]`{lang="ts"}
+- Default: `[]`{lang="ts"}
+
+Configure multiple sites with different configurations based on the host. Each site configuration requires:
+
+- `hosts`: An array of hostnames that should use this configuration
+- `config`: The site configuration to use when the hostname matches
+
+```ts [Example]
+export default defineNuxtConfig({
+  site: {
+    multiTenancy: [
+      {
+        hosts: ['www.example.com', 'example.com', 'local.example.com'],
+        config: {
+          name: 'Example',
+          description: 'Example description',
+          url: 'example.com',
+          defaultLocale: 'en',
+          currentLocale: 'en',
+        },
+      },
+      {
+        hosts: ['www.foo.com', 'foo.com', 'local.foo.com'],
+        config: {
+          url: 'foo.com',
+          name: 'Foo',
+          description: 'Foo description',
+        },
+      },
+    ]
+  }
+})
+```
 
 ## `url`
 
@@ -56,4 +93,4 @@ Whether to add trailing slashes to the URLs.
 
 - Type: `string`
 
-The default locale of the site.
+The default locale of the site._
