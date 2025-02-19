@@ -9,7 +9,7 @@
     "@vueuse/core": "^12.7.0",
     "floating-vue": "^5.2.2",
     "nuxt": "^3.15.4",
-    "shiki": "^2.4.2",
+    "shiki": "^3.0.0",
     "vue": "3.5.13",
     "vue-router": "^4.5.0"
   }
