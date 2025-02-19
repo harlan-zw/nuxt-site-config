@@ -6,7 +6,7 @@ import { computed, toValue, watch } from 'vue'
 export default defineNuxtPlugin({
   name: 'nuxt-site-config:i18n',
   // @ts-expect-error untyped
-  dependsOn: ['i18n:plugin'],
+  dependsOn: ['i18n:plugin', 'i18n:plugin:ssg-detect', 'i18n:plugin:route-locale-detect'],
   setup(nuxtApp) {
     const i18n = nuxtApp.$i18n
     if (!i18n)
