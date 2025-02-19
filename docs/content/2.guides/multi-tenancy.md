@@ -43,11 +43,11 @@ export default defineNuxtConfig({
 })
 ```
 
-Each multi-tenant configuration requires:  
+Each multi-tenant configuration requires:
 
 - `hosts`: An array of hostnames that should use this configuration
 
-It's recommended to add any non-canonical hostnames to the `hosts` array to avoid duplicate content issues. For example, 
+It's recommended to add any non-canonical hostnames to the `hosts` array to avoid duplicate content issues. For example,
 www.* and non-www.* hostnames should use the same configuration.
 
 - `config`: The site configuration to apply when the hostname matches
