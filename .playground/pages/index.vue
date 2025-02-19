@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useNitroOrigin, useSiteConfig, useState } from '#imports'
+import { computed, toValue, useNitroOrigin, useSiteConfig, useState } from '#imports'
 
 const siteConfig = useSiteConfig({ debug: true })
 
@@ -8,9 +8,9 @@ const origin = useState()
 if (process.server)
   origin.value = useNitroOrigin()
 
-const rows = [
-  ...Object.entries(siteConfig)
-    .filter(([key]) => key !== '_context')
+const rows = computed(() => [
+  ...Object.entries(toValue(siteConfig))
+    .filter(([key]) => key[0] !== '_')
     .map(([key, value]) => {
       return {
         key,
@@ -22,7 +22,7 @@ const rows = [
     key: 'nitroOrigin',
     value: origin.value,
   },
-]
+])
 </script>
 
 <template>

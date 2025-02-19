@@ -70,6 +70,6 @@ export interface GetSiteConfigOptions {
 
 export interface SiteConfigStack {
   stack: Partial<SiteConfigInput>[]
-  push: (config: SiteConfigInput) => void
+  push: (config: SiteConfigInput) => () => void
   get: (options?: GetSiteConfigOptions) => SiteConfigResolved
 }

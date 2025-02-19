@@ -28,6 +28,13 @@ describe('staging', async () => {
             "name": "package.json",
             "url": "runtimeEnv",
           },
+          "_priority": {
+            "bar": 0,
+            "env": 0,
+            "foo": -3,
+            "name": -10,
+            "url": 0,
+          },
           "bar": "baz",
           "defaultLocale": "en",
           "env": "staging",

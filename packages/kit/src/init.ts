@@ -96,9 +96,9 @@ export function getSiteConfigStack(nuxt: Nuxt | null = tryUseNuxt()): SiteConfig
 
   return nuxt._siteConfig
 }
-export function updateSiteConfig(input: SiteConfigInput, nuxt: Nuxt | null = tryUseNuxt()): void {
+export function updateSiteConfig(input: SiteConfigInput, nuxt: Nuxt | null = tryUseNuxt()): () => void {
   const container = getSiteConfigStack(nuxt)
-  container.push(input)
+  return container.push(input)
 }
 
 export function useSiteConfig(nuxt: Nuxt | null = tryUseNuxt()): SiteConfigResolved {
