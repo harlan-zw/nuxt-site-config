@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import type { BuiltinLanguage } from 'shikiji'
 import { computed } from 'vue'
 import { renderCodeHighlight } from '../composables/shiki'
 
 const props = withDefaults(
   defineProps<{
     code: string
-    lang: BuiltinLanguage
+    lang: 'json'
     lines?: boolean
     transformRendered?: (code: string) => string
   }>(),
