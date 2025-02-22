@@ -8,8 +8,8 @@ export function normalizeSiteConfig(config: SiteConfigResolved) {
     config.indexable = String(config.indexable) !== 'false'
   if (typeof config.trailingSlash !== 'undefined' && !config.trailingSlash)
     config.trailingSlash = String(config.trailingSlash) !== 'false'
-  if (config.url && !hasProtocol(config.url, { acceptRelative: true, strict: false }))
-    config.url = withHttps(config.url)
+  if (config.url && !hasProtocol(String(config.url), { acceptRelative: true, strict: false }))
+    config.url = withHttps(String(config.url))
 
   // sort the keys
   const keys = Object.keys(config)
