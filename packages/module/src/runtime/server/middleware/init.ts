@@ -6,13 +6,13 @@ import { parseURL } from 'ufo'
 import { useNitroOrigin } from '../composables/useNitroOrigin'
 
 export default defineEventHandler(async (e) => {
-  if (e.context.siteConfig)
+  if (e.context._initedSiteConfig)
     return
   const runtimeConfig = useRuntimeConfig(e)
   // this does need to be a middleware so the nitro origin is always up to date
   const config = runtimeConfig['nuxt-site-config']
   const nitroApp = useNitroApp()
-  const siteConfig = createSiteConfigStack({
+  const siteConfig = e.context.siteConfig || createSiteConfigStack({
     debug: config.debug,
   })
   const nitroOrigin = useNitroOrigin(e)
@@ -57,4 +57,5 @@ export default defineEventHandler(async (e) => {
   const ctx: HookSiteConfigInitContext = { siteConfig, event: e }
   await nitroApp.hooks.callHook('site-config:init', ctx)
   e.context.siteConfig = ctx.siteConfig
+  e.context._initedSiteConfig = true
 })
