@@ -1,12 +1,13 @@
 import { useNuxtApp, useRequestEvent } from '#app'
+// @ts-expect-error untyped
+import { i18nPluginDeps } from '#build/nuxt-site-config/i18n-plugin-deps.mjs'
 import { defineNuxtPlugin } from 'nuxt/app'
 import { parseURL } from 'ufo'
 import { computed, toValue, watch } from 'vue'
 
 export default defineNuxtPlugin({
   name: 'nuxt-site-config:i18n',
-  // @ts-expect-error untyped
-  dependsOn: ['i18n:plugin', 'i18n:plugin:ssg-detect', 'i18n:plugin:route-locale-detect'],
+  dependsOn: i18nPluginDeps,
   setup(nuxtApp) {
     const i18n = nuxtApp.$i18n
     if (!i18n)

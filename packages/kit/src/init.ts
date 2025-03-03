@@ -24,7 +24,7 @@ export async function initSiteConfig(nuxt: Nuxt | null = tryUseNuxt()): Promise<
     env: process.env.NODE_ENV,
   })
   if (rootDir) {
-    const pkgJson = await readPackageJSON(undefined, { parent: rootDir })
+    const pkgJson = await readPackageJSON(rootDir)
     if (pkgJson) {
       siteConfig.push({
         _context: 'package.json',

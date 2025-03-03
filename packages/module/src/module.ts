@@ -6,9 +6,11 @@ import {
   addServerHandler,
   addServerImportsDir,
   addServerPlugin,
+  addTemplate,
   createResolver,
   defineNuxtModule,
   hasNuxtModule,
+  hasNuxtModuleCompatibility,
   useLogger,
 } from '@nuxt/kit'
 import { getSiteConfigStack, initSiteConfig, updateSiteConfig } from 'nuxt-site-config-kit'
@@ -177,6 +179,15 @@ declare global {
       src: resolve('./runtime/app/plugins/0.siteConfig'),
     })
     if (hasNuxtModule('@nuxtjs/i18n')) {
+      const isNuxtI18nV9 = await hasNuxtModuleCompatibility('@nuxtjs/i18n', '>=9')
+      addTemplate({
+        filename: 'nuxt-site-config/i18n-plugin-deps.mjs',
+        getContents() {
+          const v9 = ['i18n:plugin', 'i18n:plugin:ssg-detect', 'i18n:plugin:route-locale-detect']
+          const v8 = ['i18n:plugin']
+          return `export const i18nPluginDeps = ${JSON.stringify(isNuxtI18nV9 ? v9 : v8)}`
+        },
+      })
       addPlugin({
         src: resolve('./runtime/app/plugins/i18n'),
       })
