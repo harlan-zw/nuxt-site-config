@@ -95,7 +95,7 @@ export function createSiteConfigStack(options?: { debug: boolean }): SiteConfigS
         const key = k as keyof SiteConfigResolved
         const val = options?.resolveRefs ? toValue(stack[o][k]) : stack[o][k]
         // first do the merge, pretty simple, avoid empty strings
-        if (!k.startsWith('_') && typeof val !== 'undefined') {
+        if (!k.startsWith('_') && typeof val !== 'undefined' && val !== '') {
           // make sure the priority is correct
           siteConfig[k] = val
           if (typeof stack[o]._priority !== 'undefined' && stack[o]._priority !== -1) {

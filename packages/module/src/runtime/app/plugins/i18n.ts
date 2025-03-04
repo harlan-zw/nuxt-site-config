@@ -39,8 +39,12 @@ export default defineNuxtPlugin({
       siteConfigEntry = stack!.push({
         _priority: import.meta.server ? -2 : -1,
         _context: '@nuxtjs/i18n',
-        // @ts-expect-error untyped
-        url: i18n.baseUrl,
+        url: computed(() => {
+          // @ts-expect-error untyped
+          const url = toValue(i18n.baseUrl)
+          // explicit undefined result as i18n will provide a '' baseUrl
+          return url || undefined
+        }),
         // @ts-expect-error untyped
         defaultLocale: i18n.defaultLocale,
         // @ts-expect-error untyped
