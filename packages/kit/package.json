@@ -44,9 +44,9 @@
   },
   "dependencies": {
     "@nuxt/kit": "^3.15.4",
-    "pkg-types": "^2.0.1",
+    "pkg-types": "^2.1.0",
     "site-config-stack": "workspace:*",
-    "std-env": "^3.8.0",
+    "std-env": "^3.8.1",
     "ufo": "^1.5.4"
   },
   "devDependencies": {
