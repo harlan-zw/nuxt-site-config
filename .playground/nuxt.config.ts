@@ -11,7 +11,6 @@ process.env.playground = true
 export default defineNuxtConfig({
   modules: [
     NuxtSitConfig,
-    '@nuxt/ui',
     '@nuxtjs/i18n',
     /**
      * Start a sub Nuxt Server for developing the client
