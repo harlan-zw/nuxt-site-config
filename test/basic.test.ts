@@ -41,7 +41,7 @@ describe('basic', async () => {
             "url": 0,
           },
           "bar": "baz",
-          "defaultLocale": "en",
+          "defaultLocale": "en-US",
           "env": "test",
           "foo": "</script><script>alert("xss")</script>",
           "name": "nuxt-site-config-playground",
@@ -86,7 +86,7 @@ describe('basic', async () => {
           },
           {
             "_context": "@nuxtjs/i18n",
-            "defaultLocale": "en",
+            "defaultLocale": "en-US",
           },
         ],
       }
