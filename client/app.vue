@@ -35,6 +35,7 @@ const stack = computed<Partial<SiteConfigInput>[]>(() => {
 const config = computed(() => {
   const _config = { ...data.value?.config || {} }
   delete _config._context
+  delete _config._priorities
   return Object.entries(_config)
 })
 
