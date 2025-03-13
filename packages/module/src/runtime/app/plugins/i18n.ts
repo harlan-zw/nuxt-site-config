@@ -45,10 +45,17 @@ export default defineNuxtPlugin({
           // explicit undefined result as i18n will provide a '' baseUrl
           return url || undefined
         }),
-        // @ts-expect-error untyped
-        defaultLocale: i18n.defaultLocale,
-        // @ts-expect-error untyped
-        currentLocale: i18n.locale,
+        defaultLocale: computed(() => {
+          // @ts-expect-error untyped
+          const locales = toValue(i18n.locales)
+          // @ts-expect-error untyped
+          return locales.find(l => l.code === i18n.defaultLocale)?.language || i18n.defaultLocale
+        }),
+        currentLocale: computed(() => {
+          // @ts-expect-error untyped
+          const properties = toValue(i18n.localeProperties)
+          return properties.language
+        }),
         // @ts-expect-error untyped
         description: computed(() => i18n.te('nuxtSiteConfig.description') ? i18n.t('nuxtSiteConfig.description') : undefined),
         // @ts-expect-error untyped

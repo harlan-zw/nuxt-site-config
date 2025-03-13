@@ -198,7 +198,7 @@ declare global {
         _context: '@nuxtjs/i18n',
         url: typeof baseUrl === 'string' ? baseUrl : undefined,
         // @ts-expect-error untyped
-        defaultLocale: nuxt.options.i18n?.defaultLocale,
+        defaultLocale: nuxt.options.i18n?.locales.find(l => l.code === nuxt.options.i18n?.defaultLocale)?.language || nuxt.options.i18n?.defaultLocale,
       })
     }
 
