@@ -4,7 +4,7 @@ import { updateSiteConfig } from '../packages/kit/src'
 // @todo provide a context object api
 describe('kit', async () => {
   it('fails without nuxt context', async () => {
-    let exception = false
+    let exception: any = false
     try {
       updateSiteConfig({
         name: 'My Site Name',

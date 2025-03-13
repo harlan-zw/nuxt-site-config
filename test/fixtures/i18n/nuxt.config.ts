@@ -26,6 +26,7 @@ export default defineNuxtConfig({
     },
   },
 
+  // @ts-expect-error untyped
   i18n: {
     defaultLocale: 'en',
     strategy: 'prefix',

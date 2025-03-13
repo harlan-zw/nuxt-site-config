@@ -11,6 +11,7 @@ export const devtools = ref<NuxtDevtoolsClient>()
 export const colorMode = ref<'dark' | 'light'>()
 
 onDevtoolsClientConnected(async (client) => {
+  // @ts-expect-error untyped
   appFetch.value = client.host.app.$fetch
   watchEffect(() => {
     colorMode.value = client.host.app.colorMode.value

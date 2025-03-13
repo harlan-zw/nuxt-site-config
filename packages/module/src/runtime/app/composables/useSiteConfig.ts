@@ -12,9 +12,11 @@ export function useSiteConfig(options?: GetSiteConfigOptions): NuxtSiteConfig {
   if (import.meta.client) {
     watchEffect(() => {
       const data = useNuxtApp().$nuxtSiteConfig.get(defu({ resolveRefs: true }, options))
+      // @ts-expect-error untyped
       Object.assign(stack, data)
     })
   }
+  // @ts-expect-error untyped
   delete stack._priority
   return stack as NuxtSiteConfig
 }

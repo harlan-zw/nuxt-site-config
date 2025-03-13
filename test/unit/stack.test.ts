@@ -54,6 +54,7 @@ describe('stack', () => {
     })
     const resolvedStack = stack.get()
     const newStack = createSiteConfigStack()
+    // @ts-expect-error untyped
     newStack.push(resolvedStack)
     expect(newStack.get()).toMatchInlineSnapshot(`
       {

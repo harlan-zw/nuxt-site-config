@@ -17,22 +17,20 @@
   "sideEffects": false,
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
       "require": "./dist/index.cjs"
     },
     "./urls": {
-      "types": "./dist/urls.d.ts",
       "import": "./dist/urls.mjs",
       "require": "./dist/urls.cjs"
     },
     "./dist/urls": {
-      "types": "./dist/urls.d.ts",
       "import": "./dist/urls.mjs",
       "require": "./dist/urls.cjs"
     }
   },
   "main": "./dist/index.cjs",
+  "module": "dist/index.mjs",
   "types": "./dist/index.d.ts",
   "files": [
     "dist",
@@ -42,7 +40,8 @@
     "lint": "eslint . --fix",
     "build": "unbuild",
     "stub": "unbuild --stub",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test:attw": "attw --pack"
   },
   "peerDependencies": {
     "vue": "^3"

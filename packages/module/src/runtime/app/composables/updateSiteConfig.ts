@@ -5,5 +5,5 @@ import { useNuxtApp, useRequestEvent } from 'nuxt/app'
 
 export function updateSiteConfig(input: SiteConfigInput = {}): () => void {
   const stack = import.meta.server ? useRequestEvent()?.context.siteConfig : useNuxtApp().$nuxtSiteConfig
-  return stack?.push(input)
+  return stack!.push(input)
 }

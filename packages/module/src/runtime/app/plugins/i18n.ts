@@ -31,6 +31,7 @@ export default defineNuxtPlugin({
     }
 
     let siteConfigEntry: (() => void) | undefined
+    // @ts-expect-error untyped
     watch(i18n.locale, () => {
       // remove last entry
       if (siteConfigEntry) {

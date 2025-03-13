@@ -8,6 +8,7 @@ await setup({
   server: true,
   build: true,
   nuxtConfig: {
+    // @ts-expect-error untyped
     i18n: {
       baseUrl: 'i18n.baseurl.com',
     },
@@ -19,7 +20,7 @@ await setup({
 
 describe('i18n', async () => {
   it('en', async () => {
-    const s = await $fetch('/')
+    const s = (await $fetch('/')) as string
     // replace ports in snapshot with pattern `:port/`
     // extract html <td data-currentlocale="true">en</td>
     const currentLocale = s.match(/<td data-currentlocale="true">(.+?)<\/td>/)?.[1]
@@ -36,7 +37,7 @@ describe('i18n', async () => {
     expect(url).toBe('https://i18n.baseurl.com')
   })
   it('fr', async () => {
-    const s = await $fetch('/fr')
+    const s = (await $fetch('/fr')) as string
     // replace ports in snapshot with pattern `:port/`
     // extract html <td data-currentlocale="true">fr</td>
     const currentLocale = s.match(/<td data-currentlocale="true">(.+?)<\/td>/)?.[1]
