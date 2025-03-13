@@ -13,7 +13,6 @@ await setup({
 describe('staging', async () => {
   it('ssr debug', async () => {
     const siteConfig = await $fetch('/__site-config__/debug.json')
-    // @ts-expect-error untyped
     delete siteConfig.version
     // replace ports in snapshot with pattern `:port/`
     // convert json to string
