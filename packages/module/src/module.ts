@@ -194,11 +194,13 @@ declare global {
 
       // @ts-expect-error untyped
       const baseUrl = nuxt.options.i18n?.baseUrl
+      // @ts-expect-error untyped
+      const locale = nuxt.options.i18n?.locales.find(l => l.code === nuxt.options.i18n?.defaultLocale)
       updateSiteConfig({
         _context: '@nuxtjs/i18n',
         url: typeof baseUrl === 'string' ? baseUrl : undefined,
         // @ts-expect-error untyped
-        defaultLocale: nuxt.options.i18n?.locales.find(l => l.code === nuxt.options.i18n?.defaultLocale)?.language || nuxt.options.i18n?.defaultLocale,
+        defaultLocale: locale?.language || locale?.iso || nuxt.options.i18n?.defaultLocale,
       })
     }
 

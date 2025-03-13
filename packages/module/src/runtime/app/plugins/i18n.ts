@@ -36,6 +36,12 @@ export default defineNuxtPlugin({
       if (siteConfigEntry) {
         siteConfigEntry()
       }
+      const defaultLocale = computed(() => {
+        // @ts-expect-error untyped
+        const locale = toValue(i18n.locales).find(l => l.code === i18n.defaultLocale)
+        // @ts-expect-error untyped
+        return locale?.language || locale?.iso || i18n.defaultLocale
+      })
       siteConfigEntry = stack!.push({
         _priority: import.meta.server ? -2 : -1,
         _context: '@nuxtjs/i18n',
@@ -45,16 +51,14 @@ export default defineNuxtPlugin({
           // explicit undefined result as i18n will provide a '' baseUrl
           return url || undefined
         }),
-        defaultLocale: computed(() => {
-          // @ts-expect-error untyped
-          const locales = toValue(i18n.locales)
-          // @ts-expect-error untyped
-          return locales.find(l => l.code === i18n.defaultLocale)?.language || i18n.defaultLocale
-        }),
+        defaultLocale,
         currentLocale: computed(() => {
           // @ts-expect-error untyped
           const properties = toValue(i18n.localeProperties)
-          return properties.language
+          if (properties.language) {
+            return properties.language
+          }
+          return defaultLocale.value
         }),
         // @ts-expect-error untyped
         description: computed(() => i18n.te('nuxtSiteConfig.description') ? i18n.t('nuxtSiteConfig.description') : undefined),
