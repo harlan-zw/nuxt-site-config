@@ -26,8 +26,8 @@ describe('i18n', async () => {
     const env = s.match(/<td data-env="true">(.+?)<\/td>/)?.[1]
     const name = s.match(/<td data-name="true">(.+?)<\/td>/)?.[1]
     const url = s.match(/<td data-url="true">(.+?)<\/td>/)?.[1]
-    expect(currentLocale).toBe('en')
-    expect(defaultLocale).toBe('en')
+    expect(currentLocale).toBe('en-US')
+    expect(defaultLocale).toBe('en-US')
     expect(description).toBe('My site description')
     expect(env).toBe('test')
     expect(name).toBe('My Site')
@@ -43,8 +43,8 @@ describe('i18n', async () => {
     const env = s.match(/<td data-env="true">(.+?)<\/td>/)?.[1]
     const name = s.match(/<td data-name="true">(.+?)<\/td>/)?.[1]
     const url = s.match(/<td data-url="true">(.+?)<\/td>/)?.[1]
-    expect(currentLocale).toBe('fr')
-    expect(defaultLocale).toBe('en')
+    expect(currentLocale).toBe('fr-FR')
+    expect(defaultLocale).toBe('en-US')
     expect(description).toBe('La description de mon site')
     expect(env).toBe('test')
     expect(name).toBe('Mon site')

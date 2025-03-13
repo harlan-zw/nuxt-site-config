@@ -45,13 +45,12 @@ export default defineNuxtPlugin({
           // explicit undefined result as i18n will provide a '' baseUrl
           return url || undefined
         }),
-        // @ts-expect-error untyped
-        ddefaultLocale: computed(() => {
+        defaultLocale: computed(() => {
           // @ts-expect-error untyped
           const locales = toValue(i18n.locales)
+          // @ts-expect-error untyped
           return locales.find(l => l.code === i18n.defaultLocale)?.language || i18n.defaultLocale
         }),
-        // @ts-expect-error untyped
         currentLocale: computed(() => {
           // @ts-expect-error untyped
           const properties = toValue(i18n.localeProperties)
