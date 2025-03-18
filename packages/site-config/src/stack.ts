@@ -41,7 +41,7 @@ export function validateSiteConfigStack(stack: SiteConfigStack) {
       errors.push(`url "${val}" from ${context} should not contain a hash`)
     else if (Object.keys(getQuery(val)).length > 0)
       errors.push(`url "${val}" from ${context} should not contain a query`)
-    else if (hostname === 'localhost')
+    else if (hostname === 'localhost' && resolved.env !== 'development')
       errors.push(`url "${val}" from ${context} should not be localhost`)
   }
   return errors
