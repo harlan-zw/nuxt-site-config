@@ -1,5 +1,5 @@
 import type { GetSiteConfigOptions, SiteConfigInput, SiteConfigResolved, SiteConfigStack } from './type'
-import { getQuery, hasProtocol, parseURL, withHttps } from 'ufo'
+import { getQuery, hasProtocol, parseURL, withHttps, parseHost } from 'ufo'
 import { toValue } from 'vue'
 
 export function normalizeSiteConfig(config: SiteConfigResolved) {
@@ -32,6 +32,7 @@ export function validateSiteConfigStack(stack: SiteConfigStack) {
     const val = resolved.url
     const context = resolved._context?.url || 'unknown'
     const url = parseURL(val)
+    const { hostname } = parseHost(url.host)
     if (!url.host)
       errors.push(`url "${val}" from ${context} is not absolute`)
     else if (url.pathname && url.pathname !== '/')
@@ -40,7 +41,7 @@ export function validateSiteConfigStack(stack: SiteConfigStack) {
       errors.push(`url "${val}" from ${context} should not contain a hash`)
     else if (Object.keys(getQuery(val)).length > 0)
       errors.push(`url "${val}" from ${context} should not contain a query`)
-    else if (url.host === 'localhost' && resolved.env !== 'development')
+    else if (hostname === 'localhost' && resolved.env !== 'development')
       errors.push(`url "${val}" from ${context} should not be localhost`)
   }
   return errors
