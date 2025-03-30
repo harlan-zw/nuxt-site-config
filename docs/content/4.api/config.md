@@ -1,4 +1,4 @@
-_---
+---
 title: Nuxt Config
 description: The config options available for Nuxt Site Config.
 ---
@@ -93,4 +93,4 @@ Whether to add trailing slashes to the URLs.
 
 - Type: `string`
 
-The default locale of the site._
+The default locale of the site.
