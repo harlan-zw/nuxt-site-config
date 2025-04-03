@@ -38,7 +38,7 @@
     "eslint": "^9.22.0",
     "execa": "^9.5.2",
     "floating-vue": "5.2.2",
-    "nuxt": "^3.16.0",
+    "nuxt": "^3.16.2",
     "typescript": "5.6.3",
     "vitest": "^3.0.9",
     "vue-tsc": "^2.2.8"
