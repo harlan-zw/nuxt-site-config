@@ -55,7 +55,7 @@
     "test:attw": "attw --pack"
   },
   "dependencies": {
-    "@nuxt/kit": "^3.16.0",
+    "@nuxt/kit": "^3.16.2",
     "nuxt-site-config-kit": "workspace:*",
     "pathe": "^2.0.3",
     "pkg-types": "^2.1.0",
@@ -64,7 +64,7 @@
     "ufo": "^1.5.4"
   },
   "devDependencies": {
-    "@nuxt/schema": "^3.16.0"
+    "@nuxt/schema": "^3.16.2"
   },
   "build": {
     "externals": [
