@@ -20,30 +20,33 @@
   },
   "exports": {
     ".": {
-      "import": "./dist/module.mjs",
-      "require": "./dist/module.cjs"
+      "types": "./dist/types.d.mts",
+      "import": "./dist/module.mjs"
     },
-    "./kit": {
-      "types": "./dist/kit.d.ts",
-      "default": "./dist/kit.mjs"
-    },
-    "./utils": {
-      "types": "./dist/utils.d.ts",
-      "default": "./dist/utils.mjs"
-    },
-    "./urls": {
-      "types": "./dist/urls.d.ts",
-      "default": "./dist/urls.mjs"
+    "./kit": "./dist/kit.mjs",
+    "./utils": "./dist/utils.mjs",
+    "./urls": "./dist/urls.mjs"
+  },
+  "main": "./dist/module.mjs",
+  "module": "dist/module.mjs",
+  "typesVersions": {
+    "*": {
+      ".": [
+        "./dist/types.d.mts"
+      ],
+      "utils": [
+        "./dist/utils.d.mts"
+      ],
+      "kit": [
+        "./dist/kit.d.mts"
+      ],
+      "urls": [
+        "./dist/urls.d.mts"
+      ]
     }
   },
-  "main": "./dist/module.cjs",
-  "module": "dist/module.mjs",
-  "types": "./dist/types.d.ts",
   "files": [
-    "dist",
-    "kit.d.ts",
-    "urls.d.ts",
-    "utils.d.ts"
+    "dist"
   ],
   "scripts": {
     "build": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxt-module-build build",
@@ -55,7 +58,7 @@
     "test:attw": "attw --pack"
   },
   "dependencies": {
-    "@nuxt/kit": "^3.16.0",
+    "@nuxt/kit": "^3.16.2",
     "nuxt-site-config-kit": "workspace:*",
     "pathe": "^2.0.3",
     "pkg-types": "^2.1.0",
@@ -64,7 +67,7 @@
     "ufo": "^1.5.4"
   },
   "devDependencies": {
-    "@nuxt/schema": "^3.16.0"
+    "@nuxt/schema": "^3.16.2"
   },
   "build": {
     "externals": [
