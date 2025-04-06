@@ -252,7 +252,7 @@ describe('urls', () => {
       absolute: true,
       trailingSlash: true,
     })
-    expect(url2).toMatchInlineSnapshot('"http://localhost:3000/base/__og-image__/image/og.png"')
+    expect(url2).toMatchInlineSnapshot(`"http://localhost:3000/base/__og-image__/image/og.png"`)
   })
 })
 

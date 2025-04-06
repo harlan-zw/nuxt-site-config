@@ -1,5 +1,5 @@
 import type { GetSiteConfigOptions, SiteConfigInput, SiteConfigResolved, SiteConfigStack } from './type'
-import { getQuery, hasProtocol, parseURL, withHttps, parseHost } from 'ufo'
+import { getQuery, hasProtocol, parseHost, parseURL, withHttps } from 'ufo'
 import { toValue } from 'vue'
 
 export function normalizeSiteConfig(config: SiteConfigResolved) {

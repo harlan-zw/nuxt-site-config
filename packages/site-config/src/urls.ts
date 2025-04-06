@@ -30,9 +30,133 @@ export function resolveSitePath(pathOrUrl: string, options: { siteUrl: string, t
   return (path === '/' && !options.withBase) ? withTrailingSlash(resolvedUrl) : fixSlashes(options.trailingSlash, resolvedUrl)
 }
 
+const fileExtensions = [
+  // Images
+  'jpg',
+  'jpeg',
+  'png',
+  'gif',
+  'bmp',
+  'webp',
+  'svg',
+  'ico',
+
+  // Documents
+  'pdf',
+  'doc',
+  'docx',
+  'xls',
+  'xlsx',
+  'ppt',
+  'pptx',
+  'txt',
+  'md',
+  'markdown',
+
+  // Archives
+  'zip',
+  'rar',
+  '7z',
+  'tar',
+  'gz',
+
+  // Audio
+  'mp3',
+  'wav',
+  'flac',
+  'ogg',
+  'opus',
+  'm4a',
+  'aac',
+  'midi',
+  'mid',
+
+  // Video
+  'mp4',
+  'avi',
+  'mkv',
+  'mov',
+  'wmv',
+  'flv',
+  'webm',
+
+  // Web
+  'html',
+  'css',
+  'js',
+  'json',
+  'xml',
+  'tsx',
+  'jsx',
+  'ts',
+  'vue',
+  'svelte',
+
+  // Programming
+  'php',
+  'py',
+  'rb',
+  'java',
+  'c',
+  'cpp',
+  'h',
+  'go',
+
+  // Data formats
+  'csv',
+  'tsv',
+  'sql',
+  'yaml',
+  'yml',
+
+  // Fonts
+  'woff',
+  'woff2',
+  'ttf',
+  'otf',
+  'eot',
+
+  // Executables/Binaries
+  'exe',
+  'msi',
+  'apk',
+  'ipa',
+  'dmg',
+  'iso',
+  'bin',
+
+  // Scripts/Config
+  'bat',
+  'cmd',
+  'sh',
+  'env',
+  'htaccess',
+  'conf',
+  'toml',
+  'ini',
+
+  // Package formats
+  'deb',
+  'rpm',
+  'jar',
+  'war',
+
+  // E-books
+  'epub',
+  'mobi',
+
+  // Common temporary/backup files
+  'log',
+  'tmp',
+  'bak',
+  'old',
+  'sav',
+]
+
 export function isPathFile(path: string) {
   const lastSegment = path.split('/').pop()
-  return !!((lastSegment || path).match(/\.[0-9a-z]+$/i)?.[0])
+  const ext = ((lastSegment || path).match(/\.[0-9a-z]+$/i)?.[0])
+  return ext && fileExtensions.includes(ext.replace('.', ''))
 }
 
 export function fixSlashes(trailingSlash: boolean | undefined, pathOrUrl: string) {
