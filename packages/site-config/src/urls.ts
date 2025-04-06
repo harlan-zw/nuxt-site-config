@@ -91,6 +91,9 @@ const fileExtensions = [
   'ts',
   'vue',
   'svelte',
+  'xsl',
+  'rss',
+  'atom',
 
   // Programming
   'php',
