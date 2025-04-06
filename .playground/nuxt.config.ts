@@ -74,12 +74,12 @@ export default defineNuxtConfig({
     locales: [
       {
         code: 'en',
-        iso: 'en-US',
+        language: 'en-US',
         file: resolver.resolve('locales/en-US.json'),
       },
       {
         code: 'fr',
-        iso: 'fr-FR',
+        language: 'fr-FR',
         file: resolver.resolve('locales/fr-FR.json'),
       },
     ],
