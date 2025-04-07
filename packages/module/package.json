@@ -64,7 +64,7 @@
     "pkg-types": "^2.1.0",
     "sirv": "^3.0.1",
     "site-config-stack": "workspace:*",
-    "ufo": "^1.5.4"
+    "ufo": "^1.6.0"
   },
   "devDependencies": {
     "@nuxt/schema": "^3.16.2"
