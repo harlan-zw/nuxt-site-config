@@ -44,12 +44,12 @@
     "test:attw": "attw --pack"
   },
   "peerDependencies": {
-    "vue": "^3"
+    "vue": "^3.5.14"
   },
   "dependencies": {
-    "ufo": "^1.5.4"
+    "ufo": "^1.6.1"
   },
   "devDependencies": {
-    "vue": "^3.5.13"
+    "vue": "^3.5.14"
   }
 }
