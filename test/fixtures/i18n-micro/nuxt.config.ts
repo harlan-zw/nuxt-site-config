@@ -21,6 +21,7 @@ export default defineNuxtConfig({
       ignore: ['/'],
     },
   },
+  // @ts-expect-error untyped
   i18n: {
     baseUrl: 'https://nuxtseo.com',
     detectBrowserLanguage: false,
