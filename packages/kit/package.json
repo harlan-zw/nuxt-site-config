@@ -44,13 +44,13 @@
     "test:attw": "attw --pack"
   },
   "dependencies": {
-    "@nuxt/kit": "^3.16.2",
+    "@nuxt/kit": "^3.17.3",
     "pkg-types": "^2.1.0",
     "site-config-stack": "workspace:*",
     "std-env": "^3.9.0",
-    "ufo": "^1.5.4"
+    "ufo": "^1.6.1"
   },
   "devDependencies": {
-    "@nuxt/schema": "^3.16.2"
+    "@nuxt/schema": "^3.17.3"
   }
 }
