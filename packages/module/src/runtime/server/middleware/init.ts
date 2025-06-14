@@ -1,11 +1,11 @@
 import type { HookSiteConfigInitContext } from '../../types'
-import { defineEventHandler } from 'h3'
+import { eventHandler } from 'h3'
 import { useNitroApp, useRuntimeConfig } from 'nitropack/runtime'
 import { createSiteConfigStack, envSiteConfig } from 'site-config-stack'
 import { parseURL } from 'ufo'
 import { useNitroOrigin } from '../composables/useNitroOrigin'
 
-export default defineEventHandler(async (e) => {
+export default eventHandler(async (e) => {
   if (e.context._initedSiteConfig)
     return
   const runtimeConfig = useRuntimeConfig(e)
