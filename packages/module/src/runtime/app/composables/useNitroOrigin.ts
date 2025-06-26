@@ -1,5 +1,5 @@
 import type { H3Event } from 'h3'
-import { useRequestEvent } from 'nuxt/app'
+import { useRequestEvent } from '#app'
 
 export function useNitroOrigin(e?: H3Event): string {
   if (import.meta.server) {

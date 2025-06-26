@@ -1,10 +1,10 @@
 import type { GetSiteConfigOptions } from 'site-config-stack'
 import type { NuxtSiteConfig } from '../../types'
-import { defu } from 'defu'
 import {
   useNuxtApp,
   useRequestEvent,
-} from 'nuxt/app'
+} from '#app'
+import { defu } from 'defu'
 import { reactive, watchEffect } from 'vue'
 
 export function useSiteConfig(options?: GetSiteConfigOptions): NuxtSiteConfig {

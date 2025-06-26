@@ -1,5 +1,4 @@
-import { useNuxtApp, useRequestEvent, useRuntimeConfig } from '#app'
-import { defineNuxtPlugin } from 'nuxt/app'
+import { defineNuxtPlugin, useNuxtApp, useRequestEvent, useRuntimeConfig } from '#app'
 
 export default defineNuxtPlugin({
   name: 'nuxt-site-config:i18n',
