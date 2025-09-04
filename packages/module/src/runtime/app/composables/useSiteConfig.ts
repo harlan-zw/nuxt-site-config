@@ -11,12 +11,10 @@ export function useSiteConfig(options?: GetSiteConfigOptions): NuxtSiteConfig {
   const stack = import.meta.server ? useRequestEvent()?.context.siteConfig.get(defu({ resolveRefs: true }, options)) : reactive<NuxtSiteConfig>({} as NuxtSiteConfig)
   if (import.meta.client) {
     watchEffect(() => {
-      const data = useNuxtApp().$nuxtSiteConfig.get(defu({ resolveRefs: true }, options))
-      // @ts-expect-error untyped
+      const data = (useNuxtApp().$nuxtSiteConfig as any).get(defu({ resolveRefs: true }, options)) as NuxtSiteConfig
       Object.assign(stack, data)
     })
   }
-  // @ts-expect-error untyped
-  delete stack._priority
+  delete (stack as any)._priority
   return stack as NuxtSiteConfig
 }

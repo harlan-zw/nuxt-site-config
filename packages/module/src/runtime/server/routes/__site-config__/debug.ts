@@ -1,6 +1,6 @@
 import type { SiteConfigInput } from 'site-config-stack'
-import { useNitroOrigin } from '#site-config/server/composables/useNitroOrigin'
-import { useSiteConfig } from '#site-config/server/composables/useSiteConfig'
+import { useNitroOrigin } from '../../composables/useNitroOrigin'
+import { useSiteConfig } from '../../composables/useSiteConfig'
 import { eventHandler, setHeader } from 'h3'
 import { useRuntimeConfig } from 'nitropack/runtime'
 

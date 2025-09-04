@@ -4,7 +4,7 @@ export function envSiteConfig(env: Record<string, any>) {
     .map(([k, v]) => [
       k.replace(/^NUXT_(PUBLIC_)?SITE_/, '')
         .split('_')
-        .map((s, i) => i === 0 ? s.toLowerCase() : (s[0].toUpperCase() + s.slice(1).toLowerCase()))
+        .map((s, i) => i === 0 ? s.toLowerCase() : (s[0]?.toUpperCase() + s.slice(1).toLowerCase()))
         .join(''),
       v,
     ] as const))

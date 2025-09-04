@@ -30,11 +30,10 @@ export default eventHandler(async (e) => {
     _priority: 0,
     ...(runtimeConfig.site || {}),
     ...(runtimeConfig.public.site || {}),
-    // @ts-expect-error untyped
     ...envSiteConfig(import.meta.env), // just in-case, shouldn't be needed
   })
   const buildStack = config.stack || []
-  buildStack.forEach(c => siteConfig.push(c))
+  buildStack.forEach((c: any) => siteConfig.push(c))
   // append route rules
   if (e.context._nitro.routeRules.site) {
     siteConfig.push({
@@ -45,7 +44,7 @@ export default eventHandler(async (e) => {
   if (config.multiTenancy) {
     // iterate to find the one with hosts that match
     const host = parseURL(nitroOrigin).host
-    const tenant = config.multiTenancy?.find(t => t.hosts.includes(host))
+    const tenant = config.multiTenancy?.find((t: any) => t.hosts.includes(host))
     if (tenant) {
       siteConfig.push({
         _context: `multi-tenancy:${host}`,
@@ -55,7 +54,7 @@ export default eventHandler(async (e) => {
     }
   }
   const ctx: HookSiteConfigInitContext = { siteConfig, event: e }
-  await nitroApp.hooks.callHook('site-config:init', ctx)
+  await (nitroApp.hooks as any).callHook('site-config:init', ctx)
   e.context.siteConfig = ctx.siteConfig
   e.context._initedSiteConfig = true
 })

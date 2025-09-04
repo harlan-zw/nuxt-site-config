@@ -60,7 +60,7 @@ export function createSiteConfigStack(options?: { debug: boolean }): SiteConfigS
     // avoid exposing internals unless we're debugging
     if (!input._context && debug) {
       // use stack trace to determine function name calling this
-      let lastFunctionName = new Error('tmp').stack?.split('\n')[2].split(' ')[5]
+      let lastFunctionName = new Error('tmp').stack?.split('\n')[2]?.split(' ')[5]
       // avoid exposing paths
       if (lastFunctionName?.includes('/'))
         lastFunctionName = 'anonymous'

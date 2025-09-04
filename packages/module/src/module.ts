@@ -52,7 +52,6 @@ export default defineNuxtModule<ModuleOptions>({
     name: 'nuxt-site-config',
     compatibility: {
       nuxt: '>=3.9.0',
-      bridge: false,
     },
     configKey: 'site',
   },
@@ -231,6 +230,7 @@ declare global {
         handler: resolve('./runtime/server/routes/__site-config__/debug'),
       })
 
+      // @ts-expect-error accessing private property
       if (nuxt.options._generate)
         addPrerenderRoutes('/__site-config__/debug.json')
     }
