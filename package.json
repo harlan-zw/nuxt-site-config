@@ -35,10 +35,10 @@
     "@nuxtjs/eslint-config-typescript": "^12.1.0",
     "@nuxtjs/i18n": "^10.0.6",
     "bumpp": "^10.2.3",
-    "eslint": "^9.34.0",
+    "eslint": "^9.35.0",
     "execa": "^9.6.0",
     "nuxt": "^4.1.0",
-    "nuxt-i18n-micro": "^1.94.0",
+    "nuxt-i18n-micro": "^1.95.0",
     "typescript": "^5.9.2",
     "vitest": "^3.2.4",
     "vue-tsc": "^3.0.6"
