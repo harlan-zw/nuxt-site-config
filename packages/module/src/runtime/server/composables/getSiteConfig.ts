@@ -6,13 +6,6 @@ import { useRuntimeConfig } from 'nitropack/runtime'
 import { createSiteConfigStack } from 'site-config-stack'
 import { logger } from '../util'
 
-/**
- * @deprecated please use getSiteConfig instead
- */
-export function useSiteConfig(e: H3Event, _options?: GetSiteConfigOptions): NuxtSiteConfig {
-  return getSiteConfig(e, _options)
-}
-
 export function getSiteConfig(e: H3Event, _options?: GetSiteConfigOptions): NuxtSiteConfig {
   if (import.meta.dev && !e.context._initedSiteConfig) {
     logger.warn('Site config has not been initialized yet. If you\'re trying to access site config in a server middleware then this not yet supported. See https://github.com/harlan-zw/nuxt-seo/issues/397')

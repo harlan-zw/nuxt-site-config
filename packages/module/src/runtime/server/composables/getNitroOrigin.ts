@@ -2,13 +2,6 @@ import type { H3Event } from 'h3'
 import { getRequestHost, getRequestProtocol } from 'h3'
 import { withoutProtocol, withTrailingSlash } from 'ufo'
 
-/**
- * @deprecated please use getNitroOrigin instead
- */
-export function useNitroOrigin(e?: H3Event): string {
-  return getNitroOrigin(e)
-}
-
 export function getNitroOrigin(e?: H3Event): string {
   const cert = process.env.NITRO_SSL_CERT
   const key = process.env.NITRO_SSL_KEY
