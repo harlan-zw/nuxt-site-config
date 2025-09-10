@@ -12,7 +12,9 @@ export function useSiteConfig(options?: GetSiteConfigOptions): NuxtSiteConfig {
   if (import.meta.client) {
     watchEffect(() => {
       const data = (useNuxtApp().$nuxtSiteConfig as any).get(defu({ resolveRefs: true }, options)) as NuxtSiteConfig
-      Object.assign(stack, data)
+      if (stack && data) {
+        Object.assign(stack, data)
+      }
     })
   }
   delete (stack as any)._priority

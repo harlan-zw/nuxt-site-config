@@ -3,7 +3,7 @@ import { eventHandler } from 'h3'
 import { useNitroApp, useRuntimeConfig } from 'nitropack/runtime'
 import { createSiteConfigStack, envSiteConfig } from 'site-config-stack'
 import { parseURL } from 'ufo'
-import { useNitroOrigin } from '../composables/useNitroOrigin'
+import { getNitroOrigin } from '../composables/getNitroOrigin'
 
 export default eventHandler(async (e) => {
   if (e.context._initedSiteConfig)
@@ -15,7 +15,7 @@ export default eventHandler(async (e) => {
   const siteConfig = e.context.siteConfig || createSiteConfigStack({
     debug: config.debug,
   })
-  const nitroOrigin = useNitroOrigin(e)
+  const nitroOrigin = getNitroOrigin(e)
   e.context.siteConfigNitroOrigin = nitroOrigin
   // this will always be wrong when prerendering
   if (!import.meta.prerender) {

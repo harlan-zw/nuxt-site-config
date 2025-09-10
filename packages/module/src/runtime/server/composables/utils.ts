@@ -2,12 +2,12 @@ import type { H3Event } from 'h3'
 import type { CreateSitePathResolverOptions } from '../../types'
 import { useRuntimeConfig } from 'nitropack/runtime'
 import { fixSlashes, resolveSitePath } from 'site-config-stack/urls'
-import { useNitroOrigin } from './useNitroOrigin'
-import { useSiteConfig } from './useSiteConfig'
+import { getNitroOrigin } from './getNitroOrigin'
+import { getSiteConfig } from './getSiteConfig'
 
 export function createSitePathResolver(e: H3Event, options: CreateSitePathResolverOptions = {}) {
-  const siteConfig = useSiteConfig(e)
-  const nitroOrigin = useNitroOrigin(e)
+  const siteConfig = getSiteConfig(e)
+  const nitroOrigin = getNitroOrigin(e)
   const nuxtBase = useRuntimeConfig(e).app.baseURL || '/'
   return (path: string) => {
     // don't use any composables within here
