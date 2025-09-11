@@ -58,7 +58,7 @@
     "test:attw": "attw --pack"
   },
   "peerDependencies": {
-    "h3": "^1"
+    "h3": "^1.15.4"
   },
   "dependencies": {
     "@nuxt/kit": "^4.1.1",
