@@ -55,7 +55,8 @@
     "release": "bumpp package.json --commit --push --tag",
     "test": "vitest",
     "typecheck": "tsc --noEmit",
-    "test:attw": "attw --pack"
+    "test:attw": "attw --pack",
+    "prepack": "pnpm run build"
   },
   "peerDependencies": {
     "h3": "^1"
