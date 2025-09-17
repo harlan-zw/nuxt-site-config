@@ -23,7 +23,7 @@
     "typecheck": "pnpm -r --parallel --filter=./packages/** run typecheck",
     "setup:fixtures": "nuxi prepare test/fixtures/basic && nuxi prepare test/fixtures/i18n",
     "dev:prepare": "pnpm -r --parallel --filter=./packages/** run stub && nuxt-module-build build --stub packages/module && nuxi prepare .playground && nuxt-module-build prepare packages/module && pnpm setup:fixtures",
-    "release": "pnpm build && bumpp package.json packages/*/package.json && pnpm -r publish",
+    "release": "pnpm build && bumpp -x \"npx changelogen --output=CHANGELOG.md\"",
     "test:attw": "pnpm -r --parallel --filter=./packages/** run test:attw",
     "test": "vitest"
   },
