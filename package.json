@@ -3,7 +3,7 @@
   "type": "module",
   "version": "3.2.5",
   "private": true,
-  "packageManager": "pnpm@10.15.1",
+  "packageManager": "pnpm@10.16.1",
   "description": "Shared site configuration for Nuxt 3 modules.",
   "license": "MIT",
   "funding": "https://github.com/sponsors/harlan-zw",
@@ -37,11 +37,11 @@
     "bumpp": "^10.2.3",
     "eslint": "^9.35.0",
     "execa": "^9.6.0",
-    "nuxt": "^4.1.1",
+    "nuxt": "^4.1.2",
     "nuxt-i18n-micro": "^1.95.0",
     "typescript": "^5.9.2",
     "vitest": "^3.2.4",
-    "vue-tsc": "^3.0.6"
+    "vue-tsc": "^3.0.7"
   },
   "pnpm": {
     "onlyBuiltDependencies": [

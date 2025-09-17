@@ -61,7 +61,7 @@
     "h3": "^1"
   },
   "dependencies": {
-    "@nuxt/kit": "^4.1.1",
+    "@nuxt/kit": "^4.1.2",
     "nuxt-site-config-kit": "workspace:*",
     "pathe": "^2.0.3",
     "pkg-types": "^2.3.0",
@@ -70,7 +70,7 @@
     "ufo": "^1.6.1"
   },
   "devDependencies": {
-    "@nuxt/schema": "^4.1.1"
+    "@nuxt/schema": "^4.1.2"
   },
   "build": {
     "externals": [
