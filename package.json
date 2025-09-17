@@ -19,6 +19,7 @@
     "lint": "eslint . --fix",
     "build": "pnpm --filter \"./packages/**\" build && nuxi generate client",
     "dev": "nuxi dev .playground",
+    "prepack": "pnpm run build",
     "dev:build": "nuxi build .playground",
     "typecheck": "pnpm -r --parallel --filter=./packages/** run typecheck",
     "setup:fixtures": "nuxi prepare test/fixtures/basic && nuxi prepare test/fixtures/i18n",
