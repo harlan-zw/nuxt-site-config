@@ -1,16 +1,3 @@
 {
-  "extends": "./.nuxt/tsconfig.json",
-  "exclude": [
-    "docs",
-    "playground",
-    "client",
-    "scripts",
-    "dist",
-    ".nuxt",
-    ".output",
-    "test/e2e",
-    "test/fixtures",
-    "test/unit",
-    "test/benchmark.skip.ts"
-  ]
+  "extends": "./.nuxt/tsconfig.json"
 }
