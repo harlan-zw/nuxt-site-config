@@ -39,7 +39,7 @@
     "eslint": "^9.36.0",
     "execa": "^9.6.0",
     "nuxt": "^4.1.2",
-    "nuxt-i18n-micro": "^1.96.0",
+    "nuxt-i18n-micro": "^1.97.0",
     "typescript": "^5.9.2",
     "vitest": "^3.2.4",
     "vue-tsc": "^3.0.8"
