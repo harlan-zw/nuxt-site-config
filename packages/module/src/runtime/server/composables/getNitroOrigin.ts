@@ -27,8 +27,9 @@ export function getNitroOrigin(e?: H3Event): string {
     protocol = getRequestProtocol(e, { xForwardedProto: true }) || protocol
   }
   if (typeof host === 'string' && host.includes(':')) {
-    port = host.split(':').pop()!
-    host = host.split(':')[0] || false
+    const hostParts = host.split(':')
+    port = hostParts.pop()!
+    host = hostParts.join(":") || false
   }
   port = port ? `:${port}` : ''
   return withTrailingSlash(`${protocol}://${host}${port}`)
