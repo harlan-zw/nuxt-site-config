@@ -29,7 +29,7 @@ export function getNitroOrigin(e?: H3Event): string {
   if (typeof host === 'string' && host.includes(':')) {
     const hostParts = host.split(':')
     port = hostParts.pop()!
-    host = hostParts.join(":") || false
+    host = hostParts.join(':') || false
   }
   port = port ? `:${port}` : ''
   return withTrailingSlash(`${protocol}://${host}${port}`)
