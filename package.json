@@ -1,7 +1,7 @@
 {
   "name": "nuxt-site-config-mono",
   "type": "module",
-  "version": "3.2.10",
+  "version": "3.2.11",
   "private": true,
   "packageManager": "pnpm@10.18.3",
   "description": "Shared site configuration for Nuxt 3 modules.",
