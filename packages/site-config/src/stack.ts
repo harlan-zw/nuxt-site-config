@@ -22,7 +22,7 @@ export function normalizeSiteConfig(config: SiteConfigResolved) {
   return newConfig as SiteConfigResolved
 }
 
-export function validateSiteConfigStack(stack: SiteConfigStack) {
+export function validateSiteConfigStack(stack: SiteConfigStack, options?: { dev?: boolean }) {
   const resolved = normalizeSiteConfig(stack.get({
     // we need the context
     debug: true,
@@ -41,7 +41,7 @@ export function validateSiteConfigStack(stack: SiteConfigStack) {
       errors.push(`url "${val}" from ${context} should not contain a hash`)
     else if (Object.keys(getQuery(val)).length > 0)
       errors.push(`url "${val}" from ${context} should not contain a query`)
-    else if (hostname === 'localhost' && resolved.env !== 'development')
+    else if (hostname === 'localhost' && !options?.dev && resolved.env !== 'development')
       errors.push(`url "${val}" from ${context} should not be localhost`)
   }
   return errors

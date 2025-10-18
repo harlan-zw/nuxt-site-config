@@ -101,7 +101,7 @@ export default defineNuxtModule<ModuleOptions>({
       // @ts-ignore untyped
       await nuxt.callHook('site-config:resolve')
       // let's validate the stack
-      const errors = validateSiteConfigStack(getSiteConfigStack())
+      const errors = validateSiteConfigStack(getSiteConfigStack(), { dev: nuxt.options.dev })
       if (errors.length > 0) {
         logger.warn('[Nuxt Site Config] Invalid config provided, please correct:')
         for (const error of errors)
