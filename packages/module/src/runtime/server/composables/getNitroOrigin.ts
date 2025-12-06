@@ -32,5 +32,8 @@ export function getNitroOrigin(e?: H3Event): string {
     host = hostParts.join(':') || false
   }
   port = port ? `:${port}` : ''
+  host = process.env.NUXT_SITE_HOST_OVERRIDE || host
+  port = process.env.NUXT_SITE_PORT_OVERRIDE || port
+
   return withTrailingSlash(`${protocol}://${host}${port}`)
 }
