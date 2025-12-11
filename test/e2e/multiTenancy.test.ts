@@ -9,6 +9,7 @@ await setup({
   server: true,
   build: true,
   nuxtConfig: {
+    // @ts-expect-error module augments NuxtConfig
     site: {
       multiTenancy: [
         {

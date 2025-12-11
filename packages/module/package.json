@@ -54,24 +54,24 @@
     "dev:prepare": "nuxt-module-build build --stub  && nuxt-module-build prepare",
     "release": "bumpp package.json --commit --push --tag",
     "test": "vitest",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "nuxt typecheck",
     "test:attw": "attw --pack",
     "prepack": "pnpm run build"
   },
   "peerDependencies": {
-    "h3": "^1"
+    "h3": ">=1"
   },
   "dependencies": {
-    "@nuxt/kit": "^4.1.3",
+    "@nuxt/kit": "catalog:",
     "nuxt-site-config-kit": "workspace:*",
-    "pathe": "^2.0.3",
-    "pkg-types": "^2.3.0",
-    "sirv": "^3.0.2",
+    "pathe": "catalog:",
+    "pkg-types": "catalog:",
+    "sirv": "catalog:",
     "site-config-stack": "workspace:*",
-    "ufo": "^1.6.1"
+    "ufo": "catalog:"
   },
   "devDependencies": {
-    "@nuxt/schema": "^4.1.3"
+    "@nuxt/schema": "catalog:"
   },
   "build": {
     "externals": [

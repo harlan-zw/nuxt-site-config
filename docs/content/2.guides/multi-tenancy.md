@@ -69,9 +69,11 @@ Runtime multi-tenancy is useful when you need to:
 To use get started with runtime multi-tenancy you'll need to create a Nitro plugin.
 
 ```ts [server/plugins/site-config.ts]
+import { getNitroOrigin } from '#site-config/server/composables'
+
 export default defineNitroPlugin((nitroApp) => {
   nitroApp.hooks.hook('site-config:init', ({ event, siteConfig }) => {
-    const origin = useNitroOrigin(event)
+    const origin = getNitroOrigin(event)
     // Example: Set configuration based on subdomain
     if (origin.startsWith('fr.')) {
       // push whatever config you'd like for this request

@@ -1,3 +1,4 @@
+export * from './getNitroOrigin'
 export * from './updateSiteConfig'
 export * from './useNitroOrigin'
 export * from './useSiteConfig'

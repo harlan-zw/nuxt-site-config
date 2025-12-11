@@ -2,7 +2,7 @@ import { useNuxt } from '@nuxt/kit'
 import { fixSlashes, resolveSitePath } from 'site-config-stack/urls'
 import { env } from 'std-env'
 import { useSiteConfig } from './init'
-import { useNitroOrigin } from './util'
+import { getNitroOrigin } from './util'
 
 export function withSiteTrailingSlash(path: string) {
   const siteConfig = useSiteConfig()
@@ -11,7 +11,7 @@ export function withSiteTrailingSlash(path: string) {
 
 export function createSitePathResolver(options: { canonical?: boolean, absolute?: boolean, withBase?: boolean } = {}, nuxt = useNuxt()): (path: string) => string {
   const siteConfig = useSiteConfig()
-  const nitroOrigin = useNitroOrigin()
+  const nitroOrigin = getNitroOrigin()
   const canUseSiteUrl = (options.canonical !== false || env.prerender) && siteConfig.url
   const nuxtBase = nuxt.options.app.baseURL || '/'
   return (path: string) => {

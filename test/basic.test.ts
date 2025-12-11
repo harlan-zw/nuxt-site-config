@@ -9,6 +9,7 @@ await setup({
   server: true,
   build: true,
   nuxtConfig: {
+    // @ts-expect-error module augments NuxtConfig
     site: {
       url: 'https://harlanzw.com',
     },
@@ -17,7 +18,7 @@ await setup({
 
 describe('basic', async () => {
   it('ssr', async () => {
-    const siteConfig = await $fetch('/__site-config__/debug.json')
+    const siteConfig = await $fetch<Record<string, any>>('/__site-config__/debug.json')
     // replace ports in snapshot with pattern `:port/`
     // convert json to string
     delete siteConfig.version

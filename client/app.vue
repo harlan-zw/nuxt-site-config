@@ -3,7 +3,7 @@ import type { SiteConfigInput } from '../packages/site-config/src'
 import { useHead } from '#imports'
 import { computed, ref } from 'vue'
 import { colorMode } from './composables/rpc'
-import { loadShiki } from './composables/shiki'
+import { loadShiki, renderCodeHighlight } from './composables/shiki'
 import { data, refreshSources } from './composables/state'
 import 'floating-vue/dist/style.css'
 
@@ -55,7 +55,7 @@ function normaliseSiteConfigInput(_input: Partial<SiteConfigInput>) {
           <h1 text-xl flex items-center gap-2>
             <NIcon icon="carbon:settings-check" class="text-blue-300" />
             Site Config <NBadge class="text-sm">
-              {{ data?.version }}
+              {{ data?.runtimeConfig.version }}
             </NBadge>
           </h1>
         </div>
@@ -173,7 +173,7 @@ function normaliseSiteConfigInput(_input: Partial<SiteConfigInput>) {
                 <div class="col-span-7">
                   <OCodeBlock :lines="false" class="max-h-[350px] min-h-full overflow-y-auto" :code="JSON.stringify(value, null, 2)" lang="json" />
                 </div>
-                <div v-if="data.config._context && key in data.config._context" class="opacity-40">
+                <div v-if="data?.config._context && key in data.config._context" class="opacity-40">
                   {{ data.config._context[key] }}
                 </div>
               </div>

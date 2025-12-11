@@ -24,6 +24,10 @@
       "import": "./dist/urls.mjs",
       "require": "./dist/urls.cjs"
     },
+    "./util": {
+      "import": "./dist/util.mjs",
+      "require": "./dist/util.cjs"
+    },
     "./dist/urls": {
       "import": "./dist/urls.mjs",
       "require": "./dist/urls.cjs"
@@ -45,13 +49,13 @@
     "prepack": "pnpm run build"
   },
   "dependencies": {
-    "@nuxt/kit": "^4.1.3",
-    "pkg-types": "^2.3.0",
+    "@nuxt/kit": "catalog:",
+    "pkg-types": "catalog:",
     "site-config-stack": "workspace:*",
-    "std-env": "^3.10.0",
-    "ufo": "^1.6.1"
+    "std-env": "catalog:",
+    "ufo": "catalog:"
   },
   "devDependencies": {
-    "@nuxt/schema": "^4.1.3"
+    "@nuxt/schema": "catalog:"
   }
 }

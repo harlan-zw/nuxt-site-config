@@ -16,9 +16,11 @@ export interface HookSiteConfigInitContext {
 Modify site config after it's being initialized.
 
 ```ts [server/plugins/site-config.ts]
+import { getNitroOrigin } from '#site-config/server/composables'
+
 export default defineNitroPlugin((nitroApp) => {
   nitroApp.hooks.hook('site-config:init', ({ event, siteConfig }) => {
-    const origin = useNitroOrigin(event)
+    const origin = getNitroOrigin(event)
     if (origin.startsWith('fr.')) {
       siteConfig.push({
         _context: 'french nitro plugin', // helps you debug
