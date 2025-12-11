@@ -1,39 +1,45 @@
 import type { H3Event } from 'h3'
 import { getRequestHost, getRequestProtocol } from 'h3'
-import { withoutProtocol, withTrailingSlash } from 'ufo'
 
 export function getNitroOrigin(e?: H3Event): string {
-  const cert = process.env.NITRO_SSL_CERT
-  const key = process.env.NITRO_SSL_KEY
+  let host = ''
+  let port = ''
+  let protocol: 'https' | 'http' = (process.env.NITRO_SSL_CERT && process.env.NITRO_SSL_KEY) ? 'https' : 'http'
 
-  let host = process.env.NITRO_HOST || process.env.HOST || false
-  let port: string | false = false
-  if (import.meta.dev)
-    port = process.env.NITRO_PORT || process.env.PORT || '3000'
-  let protocol = ((cert && key) || !process.dev) ? 'https' : 'http'
-  // don't trust development nitro headers
-  if ((import.meta.dev || import.meta.prerender) && process.env.__NUXT_DEV__) {
-    const origin = JSON.parse(process.env.__NUXT_DEV__).proxy.url
-    host = withoutProtocol(origin)
-    protocol = origin.includes('https') ? 'https' : 'http'
+  // dev/prerender: use nuxt dev server origin
+  if (import.meta.dev || import.meta.prerender) {
+    const devEnv = process.env.__NUXT_DEV__ || process.env.NUXT_VITE_NODE_OPTIONS
+    if (devEnv) {
+      const parsed = JSON.parse(devEnv)
+      const origin = (parsed.proxy?.url || parsed.baseURL?.replace('/__nuxt_vite_node__', '')) as string
+      host = origin.replace(/^https?:\/\//, '')
+      protocol = origin.startsWith('https') ? 'https' : 'http'
+    }
   }
-  else if ((import.meta.dev || import.meta.prerender) && process.env.NUXT_VITE_NODE_OPTIONS) {
-    const origin = JSON.parse(process.env.NUXT_VITE_NODE_OPTIONS).baseURL.replace('/__nuxt_vite_node__', '')
-    host = withoutProtocol(origin)
-    protocol = origin.includes('https') ? 'https' : 'http'
+
+  // request headers (works for proxied requests with x-forwarded-*)
+  if (!host && e) {
+    host = getRequestHost(e, { xForwardedHost: true }) || ''
+    protocol = getRequestProtocol(e, { xForwardedProto: true }) as 'https' | 'http' || protocol
   }
-  else if (e) {
-    host = getRequestHost(e, { xForwardedHost: true }) || host
-    protocol = getRequestProtocol(e, { xForwardedProto: true }) || protocol
+
+  // fallback to env vars
+  if (!host) {
+    host = process.env.NITRO_HOST || process.env.HOST || ''
+    if (import.meta.dev)
+      port = process.env.NITRO_PORT || process.env.PORT || '3000'
   }
-  if (typeof host === 'string' && host.includes(':')) {
-    const hostParts = host.split(':')
-    port = hostParts.pop()!
-    host = hostParts.join(':') || false
+
+  // extract port from host if present (e.g. "localhost:3000")
+  if (host.includes(':')) {
+    const i = host.lastIndexOf(':')
+    port = host.slice(i + 1)
+    host = host.slice(0, i)
   }
-  port = port ? `:${port}` : ''
+
+  // allow overrides
   host = process.env.NUXT_SITE_HOST_OVERRIDE || host
   port = process.env.NUXT_SITE_PORT_OVERRIDE || port
 
-  return withTrailingSlash(`${protocol}://${host}${port}`)
+  return `${protocol}://${host}${port ? `:${port}` : ''}/`
 }
