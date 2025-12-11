@@ -50,6 +50,15 @@ export function getNitroOrigin(ctx: NitroOriginContext = {}): string {
   host = env.NUXT_SITE_HOST_OVERRIDE || host
   port = env.NUXT_SITE_PORT_OVERRIDE || port
 
+  // handle host with protocol
+  if (host.startsWith('http://') || host.startsWith('https://')) {
+    protocol = host.startsWith('https://') ? 'https' : 'http'
+    host = host.replace(/^https?:\/\//, '')
+  }
+  else if (!host.includes('localhost') && !host.startsWith('127.')) {
+    protocol = 'https'
+  }
+
   return `${protocol}://${host}${port ? `:${port}` : ''}/`
 }
 
