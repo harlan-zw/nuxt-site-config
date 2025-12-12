@@ -55,7 +55,7 @@ function normaliseSiteConfigInput(_input: Partial<SiteConfigInput>) {
           <h1 text-xl flex items-center gap-2>
             <NIcon icon="carbon:settings-check" class="text-blue-300" />
             Site Config <NBadge class="text-sm">
-              {{ data?.runtimeConfig.version }}
+              {{ data?.version }}
             </NBadge>
           </h1>
         </div>
