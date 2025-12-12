@@ -49,14 +49,16 @@
     "dist"
   ],
   "scripts": {
-    "build": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxt-module-build build",
+    "client:build": "nuxi generate ../../client",
+    "client:dev": "nuxi dev ../../client --port 3030",
+    "build": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxt-module-build build && pnpm run client:build",
     "dev:build": "nuxi build playground",
-    "dev:prepare": "nuxt-module-build build --stub  && nuxt-module-build prepare",
+    "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare",
+    "prepack": "pnpm run build",
     "release": "bumpp package.json --commit --push --tag",
     "test": "vitest",
     "typecheck": "nuxt typecheck",
-    "test:attw": "attw --pack",
-    "prepack": "pnpm run build"
+    "test:attw": "attw --pack"
   },
   "peerDependencies": {
     "h3": ">=1"
