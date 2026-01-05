@@ -10,7 +10,7 @@ Multi-tenancy allows you to serve multiple sites with different configurations u
 - Serve region-specific content
 - Maintain multiple sites with shared codebase
 
-You can configure multi-tenancy using static configuration or dynamically at runtime.
+You can configure multi-tenancy using static configuration or dynamically at [runtime](/docs/site-config/guides/runtime-site-config).
 
 ## Usage
 
