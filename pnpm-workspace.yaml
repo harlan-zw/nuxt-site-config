@@ -1,6 +1,7 @@
 catalogMode: prefer
 shellEmulator: true
 trustPolicy: no-downgrade
+
 packages:
   - playground
   - packages/module
@@ -8,7 +9,7 @@ packages:
   - packages/site-config
   - client
 catalog:
-  '@antfu/eslint-config': ^6.6.1
+  '@antfu/eslint-config': ^6.7.3
   '@arethetypeswrong/cli': ^0.18.2
   '@iconify-json/carbon': ^1.2.15
   '@nuxt/devtools-kit': ^3.1.1
@@ -16,7 +17,7 @@ catalog:
   '@nuxt/kit': ^4.2.2
   '@nuxt/module-builder': ^1.0.2
   '@nuxt/schema': ^4.2.2
-  '@nuxt/test-utils': ^3.21.0
+  '@nuxt/test-utils': ^3.23.0
   '@nuxtjs/eslint-config-typescript': ^12.1.0
   '@nuxtjs/i18n': ^10.2.1
   '@vueuse/core': ^14.1.0
@@ -25,18 +26,18 @@ catalog:
   execa: ^9.6.1
   floating-vue: ^5.2.2
   nuxt: ^4.2.2
-  nuxt-i18n-micro: ^2.15.2
+  nuxt-i18n-micro: ^2.16.3
   pathe: ^2.0.3
   pkg-types: ^2.3.0
-  shiki: ^3.20.0
+  shiki: ^3.21.0
   sirv: ^3.0.2
   std-env: ^3.10.0
   typescript: ^5.9.3
-  ufo: ^1.6.1
-  vitest: ^4.0.15
-  vue: ^3.5.25
+  ufo: ^1.6.2
+  vitest: ^4.0.16
+  vue: ^3.5.26
   vue-router: ^4.6.4
-  vue-tsc: ^3.1.8
+  vue-tsc: ^3.2.2
 onlyBuiltDependencies:
   - '@parcel/watcher'
   - esbuild
