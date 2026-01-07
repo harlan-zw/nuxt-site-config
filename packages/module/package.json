@@ -60,11 +60,9 @@
     "typecheck": "nuxt typecheck",
     "test:attw": "attw --pack"
   },
-  "peerDependencies": {
-    "h3": "^1"
-  },
   "dependencies": {
     "@nuxt/kit": "catalog:",
+    "h3": "catalog:",
     "nuxt-site-config-kit": "workspace:*",
     "pathe": "catalog:",
     "pkg-types": "catalog:",
