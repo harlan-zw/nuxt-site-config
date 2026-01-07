@@ -30,8 +30,8 @@ export function getNitroOrigin(ctx: NitroOriginContext = {}): string {
   // handles custom devServer.host that Nuxt doesn't propagate to env vars
   const hostIsLocalhost = !host || host.startsWith('localhost') || host.startsWith('127.')
   if (isDev && hostIsLocalhost && ctx.requestHost) {
-    const reqHost = ctx.requestHost.split(':')[0]
-    if (!reqHost.startsWith('localhost') && !reqHost.startsWith('127.')) {
+    const reqHost = ctx.requestHost.split(':')[0] || ''
+    if (reqHost && !reqHost.startsWith('localhost') && !reqHost.startsWith('127.')) {
       host = ctx.requestHost
       protocol = ctx.requestProtocol || protocol
     }
