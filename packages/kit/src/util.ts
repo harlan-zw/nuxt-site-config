@@ -21,12 +21,23 @@ export function getNitroOrigin(ctx: NitroOriginContext = {}): string {
     if (devEnv) {
       const parsed = JSON.parse(devEnv)
       const origin = (parsed.proxy?.url || parsed.baseURL?.replace('/__nuxt_vite_node__', '')) as string
-      host = origin.replace(/^https?:\/\//, '')
+      host = origin.replace(/^https?:\/\//, '').replace(/\/$/, '')
       protocol = origin.startsWith('https') ? 'https' : 'http'
     }
   }
 
-  // request headers (works for proxied requests with x-forwarded-*)
+  // in dev mode, prefer request host over localhost/127.0.0.1 from env var
+  // handles custom devServer.host that Nuxt doesn't propagate to env vars
+  const hostIsLocalhost = !host || host.startsWith('localhost') || host.startsWith('127.')
+  if (isDev && hostIsLocalhost && ctx.requestHost) {
+    const reqHost = ctx.requestHost.split(':')[0]
+    if (!reqHost.startsWith('localhost') && !reqHost.startsWith('127.')) {
+      host = ctx.requestHost
+      protocol = ctx.requestProtocol || protocol
+    }
+  }
+
+  // request headers fallback (works for proxied requests with x-forwarded-*)
   if (!host && ctx.requestHost) {
     host = ctx.requestHost
     protocol = ctx.requestProtocol || protocol
