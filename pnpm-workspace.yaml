@@ -1,5 +1,6 @@
 catalogMode: prefer
 shellEmulator: true
+
 trustPolicy: no-downgrade
 
 packages:
@@ -9,9 +10,9 @@ packages:
   - packages/site-config
   - client
 catalog:
-  '@antfu/eslint-config': ^6.7.3
+  '@antfu/eslint-config': ^7.0.1
   '@arethetypeswrong/cli': ^0.18.2
-  '@iconify-json/carbon': ^1.2.15
+  '@iconify-json/carbon': ^1.2.18
   '@nuxt/devtools-kit': ^3.1.1
   '@nuxt/devtools-ui-kit': ^3.1.1
   '@nuxt/kit': ^4.2.2
@@ -21,11 +22,11 @@ catalog:
   '@nuxtjs/eslint-config-typescript': ^12.1.0
   '@nuxtjs/i18n': ^10.2.1
   '@vueuse/core': ^14.1.0
-  bumpp: ^10.3.2
+  bumpp: ^10.4.0
   eslint: ^9.39.2
   execa: ^9.6.1
   floating-vue: ^5.2.2
-  h3: ^1.15.4
+  h3: ^1.15.5
   nuxt: ^4.2.2
   nuxt-i18n-micro: ^2.16.3
   pathe: ^2.0.3
@@ -34,9 +35,9 @@ catalog:
   sirv: ^3.0.2
   std-env: ^3.10.0
   typescript: ^5.9.3
-  ufo: ^1.6.2
-  vitest: ^4.0.16
-  vue: ^3.5.26
+  ufo: ^1.6.3
+  vitest: ^4.0.17
+  vue: ^3.5.27
   vue-router: ^4.6.4
   vue-tsc: ^3.2.2
 onlyBuiltDependencies:
