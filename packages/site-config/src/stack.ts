@@ -73,14 +73,16 @@ export function createSiteConfigStack(options?: { debug: boolean }): SiteConfigS
       if (typeof val !== 'undefined' && val !== '')
         entry[k] = val
     }
-    let idx: number
-    if (Object.keys(entry).filter(k => !k.startsWith('_')).length > 0)
-      idx = stack.push(entry)
-    // return function to pop
+    // only push if entry has non-internal keys
+    if (Object.keys(entry).filter(k => !k.startsWith('_')).length === 0) {
+      return () => {}
+    }
+    stack.push(entry)
+    // return function to remove by reference (not index - indices shift on removal)
     return () => {
-      if (typeof idx !== 'undefined') {
-        stack.splice(idx - 1, 1)
-      }
+      const idx = stack.indexOf(entry)
+      if (idx !== -1)
+        stack.splice(idx, 1)
     }
   }
 

@@ -12,8 +12,7 @@ export default defineNuxtPlugin({
     if (!i18n)
       return
     const stack = import.meta.server ? useRequestEvent()?.context.siteConfig : useNuxtApp().$nuxtSiteConfig
-    // @ts-expect-error untyped
-    const i18nBaseUrl = toValue(i18n.baseUrl)
+    const i18nBaseUrl = toValue((i18n as any).baseUrl)
     if (i18nBaseUrl) {
       const siteConfig = stack!.get({ resolveRefs: true })
       const currentUrl = siteConfig.url
@@ -29,41 +28,51 @@ export default defineNuxtPlugin({
       }
     }
 
-    let siteConfigEntry: (() => void) | undefined
-    // @ts-expect-error untyped
-    watch(i18n.locale, () => {
-      // remove last entry
-      if (siteConfigEntry) {
-        siteConfigEntry()
-      }
-      const defaultLocale = computed(() => {
-        // @ts-expect-error untyped
-        const locale = toValue(i18n.locales).find(l => l.code === i18n.defaultLocale)
-        // @ts-expect-error untyped
-        return locale?.language || locale?.iso || i18n.defaultLocale
-      })
-      siteConfigEntry = stack!.push({
-        _priority: import.meta.server ? -2 : -1,
+    // create computed values once (not inside watch to avoid accumulating Vue effects)
+    const defaultLocale = computed(() => {
+      const locale = toValue((i18n as any).locales).find((l: any) => l.code === (i18n as any).defaultLocale)
+      return locale?.language || locale?.iso || (i18n as any).defaultLocale
+    })
+    const i18nUrl = computed(() => {
+      const url = toValue((i18n as any).baseUrl)
+      return url || undefined
+    })
+    const currentLocale = computed(() => {
+      const properties = toValue((i18n as any).localeProperties)
+      if (properties.language)
+        return properties.language
+      return defaultLocale.value
+    })
+    const description = computed(() => (i18n as any).te('nuxtSiteConfig.description') ? (i18n as any).t('nuxtSiteConfig.description') : undefined)
+    const name = computed(() => (i18n as any).te('nuxtSiteConfig.name') ? (i18n as any).t('nuxtSiteConfig.name') : undefined)
+
+    // on server: push once, no need for watch (locale won't change during SSR)
+    if (import.meta.server) {
+      stack!.push({
+        _priority: -2,
         _context: '@nuxtjs/i18n',
-        url: computed(() => {
-          // @ts-expect-error untyped
-          const url = toValue(i18n.baseUrl)
-          // explicit undefined result as i18n will provide a '' baseUrl
-          return url || undefined
-        }),
+        url: i18nUrl,
         defaultLocale,
-        currentLocale: computed(() => {
-          // @ts-expect-error untyped
-          const properties = toValue(i18n.localeProperties)
-          if (properties.language) {
-            return properties.language
-          }
-          return defaultLocale.value
-        }),
-        // @ts-expect-error untyped
-        description: computed(() => i18n.te('nuxtSiteConfig.description') ? i18n.t('nuxtSiteConfig.description') : undefined),
-        // @ts-expect-error untyped
-        name: computed(() => i18n.te('nuxtSiteConfig.name') ? i18n.t('nuxtSiteConfig.name') : undefined),
+        currentLocale,
+        description,
+        name,
+      })
+      return
+    }
+
+    // on client: use watch for locale changes
+    let siteConfigEntry: (() => void) | undefined
+    watch((i18n as any).locale, () => {
+      if (siteConfigEntry)
+        siteConfigEntry()
+      siteConfigEntry = stack!.push({
+        _priority: -1,
+        _context: '@nuxtjs/i18n',
+        url: i18nUrl,
+        defaultLocale,
+        currentLocale,
+        description,
+        name,
       })
     }, {
       immediate: true,

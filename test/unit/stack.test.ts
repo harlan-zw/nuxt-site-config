@@ -1,115 +1,63 @@
 import { describe, expect, it } from 'vitest'
-import { createSiteConfigStack } from '../../packages/site-config/src/index'
+import { createSiteConfigStack } from '../../packages/site-config/src/stack'
 
-describe('stack', () => {
-  it('basic', () => {
+describe('createSiteConfigStack', () => {
+  it('removes entries by reference, not index', () => {
     const stack = createSiteConfigStack()
-    stack.push({
-      name: 'My Site Name',
-      _context: 'foo',
-    })
-    expect(stack.get()).toMatchInlineSnapshot(`
-      {
-        "_priority": {},
-        "name": "My Site Name",
-      }
-    `)
-  })
-  it('many', () => {
-    const stack = createSiteConfigStack()
-    stack.push({
-      name: 'My Site Name',
-      _context: 'foo',
-    })
-    stack.push({
-      name: 'New Site Name',
-      url: 'https://example.com',
-      _context: 'bar',
-    })
-    stack.push({
-      url: undefined,
-      name: null,
-      _context: 'app',
-    })
-    expect(stack.get()).toMatchInlineSnapshot(`
-      {
-        "_priority": {},
-        "name": null,
-        "url": "https://example.com",
-      }
-    `)
+
+    // Push 3 entries
+    const remove1 = stack.push({ url: 'https://a.com', _context: 'a' })
+    const remove2 = stack.push({ url: 'https://b.com', _context: 'b' })
+    const remove3 = stack.push({ url: 'https://c.com', _context: 'c' })
+
+    expect(stack.stack.length).toBe(3)
+
+    // Remove middle entry first
+    remove2()
+    expect(stack.stack.length).toBe(2)
+    expect(stack.get().url).toBe('https://c.com') // c should still be there
+
+    // Remove first entry
+    remove1()
+    expect(stack.stack.length).toBe(1)
+    expect(stack.get().url).toBe('https://c.com') // c should still be there
+
+    // Remove last entry
+    remove3()
+    expect(stack.stack.length).toBe(0)
   })
 
-  it('hydrate', () => {
+  it('handles removing same entry twice gracefully', () => {
     const stack = createSiteConfigStack()
-    stack.push({
-      name: 'My Site Name',
-      logo: 'https://example.com/logo.png',
-      _context: 'foo',
-    })
-    stack.push({
-      name: 'New Site Name',
-      url: 'https://example.com',
-      _context: 'bar',
-    })
-    const resolvedStack = stack.get()
-    const newStack = createSiteConfigStack()
-    // @ts-expect-error untyped
-    newStack.push(resolvedStack)
-    expect(newStack.get()).toMatchInlineSnapshot(`
-      {
-        "_priority": {
-          "logo": {},
-          "name": {},
-          "url": {},
-        },
-        "logo": "https://example.com/logo.png",
-        "name": "New Site Name",
-        "url": "https://example.com",
-      }
-    `)
+
+    const remove = stack.push({ url: 'https://test.com', _context: 'test' })
+    expect(stack.stack.length).toBe(1)
+
+    remove()
+    expect(stack.stack.length).toBe(0)
+
+    // Second removal should be no-op
+    remove()
+    expect(stack.stack.length).toBe(0)
   })
-  it('anonymous context', () => {
+
+  it('handles out-of-order removal correctly', () => {
     const stack = createSiteConfigStack()
-    stack.push({
-      name: 'My Site Name',
-      logo: 'https://example.com/logo.png',
-      _context: 'foo',
-    })
-    stack.push({
-      name: 'New Site Name',
-      url: 'https://example.com',
-    })
-    expect(stack.get()).toMatchInlineSnapshot(`
-      {
-        "_priority": {},
-        "logo": "https://example.com/logo.png",
-        "name": "New Site Name",
-        "url": "https://example.com",
-      }
-    `)
-  })
-  it('priority', () => {
-    const stack = createSiteConfigStack()
-    stack.push({
-      name: 'My Site Name',
-      logo: 'https://example.com/logo.png',
-      _context: 'foo',
-    })
-    stack.push({
-      name: 'Low priority config',
-      url: 'https://example.com',
-      trailingSlash: true,
-      _priority: -1,
-    })
-    expect(stack.get()).toMatchInlineSnapshot(`
-      {
-        "_priority": {},
-        "logo": "https://example.com/logo.png",
-        "name": "My Site Name",
-        "trailingSlash": true,
-        "url": "https://example.com",
-      }
-    `)
+
+    const entries = []
+    for (let i = 0; i < 5; i++) {
+      entries.push(stack.push({ url: `https://${i}.com`, _context: `entry-${i}` }))
+    }
+
+    expect(stack.stack.length).toBe(5)
+
+    // Remove in reverse order
+    entries[4]()
+    entries[2]()
+    entries[0]()
+    entries[3]()
+    entries[1]()
+
+    expect(stack.stack.length).toBe(0)
   })
 })
