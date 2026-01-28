@@ -30,7 +30,7 @@ export default eventHandler(async (e) => {
     _priority: 0,
     ...(runtimeConfig.site || {}),
     ...(runtimeConfig.public.site || {}),
-    ...envSiteConfig(import.meta.env), // just in-case, shouldn't be needed
+    ...envSiteConfig(import.meta.env || {}), // just in-case, shouldn't be needed
   })
   const buildStack = config.stack || []
   buildStack.forEach((c: any) => siteConfig.push(c))

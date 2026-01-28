@@ -76,7 +76,7 @@ export async function initSiteConfig(nuxt: Nuxt | null = tryUseNuxt()): Promise<
   siteConfig.push({
     _context: 'buildEnv',
     _priority: -1,
-    ...envSiteConfig(process.env),
+    ...envSiteConfig(process.env || {}),
   })
   nuxt._siteConfig = siteConfig
   return siteConfig

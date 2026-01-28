@@ -1,4 +1,4 @@
-export function envSiteConfig(env: Record<string, any>) {
+export function envSiteConfig(env: Record<string, any> = {}) {
   return Object.fromEntries(Object.entries(env)
     .filter(([k]) => k.startsWith('NUXT_SITE_') || k.startsWith('NUXT_PUBLIC_SITE_'))
     .map(([k, v]) => [
