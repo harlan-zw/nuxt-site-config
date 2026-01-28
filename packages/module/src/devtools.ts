@@ -2,6 +2,7 @@ import type { Resolver } from '@nuxt/kit'
 import type { Nuxt } from 'nuxt/schema'
 import { existsSync } from 'node:fs'
 import { useNuxt } from '@nuxt/kit'
+import { addCustomTab } from '@nuxt/devtools-kit'
 
 const DEVTOOLS_UI_ROUTE = '/__nuxt-site-config'
 const DEVTOOLS_UI_LOCAL_PORT = 3030
@@ -34,19 +35,17 @@ export function setupDevToolsUI(resolve: Resolver['resolve'], nuxt: Nuxt = useNu
     })
   }
 
-  nuxt.hook('devtools:customTabs', (tabs) => {
-    tabs.push({
-      // unique identifier
-      name: 'nuxt-site-config',
-      // title to display in the tab
-      title: 'Site Config',
-      // any icon from Iconify, or a URL to an image
-      icon: 'carbon:settings-check',
-      // iframe view
-      view: {
-        type: 'iframe',
-        src: DEVTOOLS_UI_ROUTE,
-      },
-    })
+  addCustomTab({
+    // unique identifier
+    name: 'nuxt-site-config',
+    // title to display in the tab
+    title: 'Site Config',
+    // any icon from Iconify, or a URL to an image
+    icon: 'carbon:settings-check',
+    // iframe view
+    view: {
+      type: 'iframe',
+      src: DEVTOOLS_UI_ROUTE,
+    },
   })
 }
