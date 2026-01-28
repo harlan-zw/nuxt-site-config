@@ -31,7 +31,7 @@ export function withSiteUrl(path: string, options: { withBase?: boolean, throwEr
     throw new Error('Missing url in site config. Please add `{ site: { url: <url> } }` to nuxt.config.ts.')
 
   const nuxt = useNuxt()
-  const base = nuxt.options.app.baseURL || nuxt.options.nitro.baseURL || '/'
+  const base = nuxt.options.app.baseURL || '/'
   return resolveSitePath(path, {
     absolute: true,
     siteUrl: siteConfig.url || '',
