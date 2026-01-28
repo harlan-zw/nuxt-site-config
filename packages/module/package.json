@@ -61,6 +61,7 @@
     "test:attw": "attw --pack"
   },
   "dependencies": {
+    "@nuxt/devtools-kit": "catalog:",
     "@nuxt/kit": "catalog:",
     "h3": "catalog:",
     "nuxt-site-config-kit": "workspace:*",

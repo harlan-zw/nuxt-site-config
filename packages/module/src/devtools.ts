@@ -1,8 +1,8 @@
 import type { Resolver } from '@nuxt/kit'
 import type { Nuxt } from 'nuxt/schema'
 import { existsSync } from 'node:fs'
-import { useNuxt } from '@nuxt/kit'
 import { addCustomTab } from '@nuxt/devtools-kit'
+import { useNuxt } from '@nuxt/kit'
 
 const DEVTOOLS_UI_ROUTE = '/__nuxt-site-config'
 const DEVTOOLS_UI_LOCAL_PORT = 3030
