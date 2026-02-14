@@ -27,6 +27,20 @@ It is not meant to be consumed by end-users directly, but rather to be used by m
 - 🤖 Ledger capabilities
 - 🤝 Integrates with `@nuxtjs/i18n`
 
+## Installation
+
+Install `nuxt-site-config` dependency to your project:
+
+```bash
+npx nuxi@latest module add site-config
+```
+
+> [!TIP]
+> Generate an Agent Skill for this package using [skilld](https://github.com/harlan-zw/skilld):
+> ```bash
+> npx skilld add nuxt-site-config
+> ```
+
 ## Documentation
 
 [📖 Read the full documentation](https://nuxtseo.com/site-config) for more information.
