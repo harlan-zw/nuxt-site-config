@@ -244,4 +244,130 @@ describe('getNitroOrigin', () => {
       expect(origin).toBe('http://localhost:8080/')
     })
   })
+
+  describe('iPv6 loopback normalization', () => {
+    describe('normalizes [::1] to localhost from dev server env', () => {
+      it('normalizes [::1]:3000 from __NUXT_DEV__', () => {
+        process.env.__NUXT_DEV__ = JSON.stringify({
+          baseURL: 'http://[::1]:3000/',
+        })
+
+        const origin = getNitroOrigin({ isDev: true })
+        expect(origin).toBe('http://localhost:3000/')
+      })
+
+      it('normalizes [::1]:3000 from NUXT_VITE_NODE_OPTIONS', () => {
+        process.env.NUXT_VITE_NODE_OPTIONS = JSON.stringify({
+          baseURL: 'http://[::1]:3000/',
+        })
+
+        const origin = getNitroOrigin({ isDev: true })
+        expect(origin).toBe('http://localhost:3000/')
+      })
+    })
+
+    describe('normalizes [::1] to localhost from request host', () => {
+      it('treats [::1] as localhost in dev mode', () => {
+        process.env.NUXT_VITE_NODE_OPTIONS = JSON.stringify({
+          baseURL: 'http://[::1]:3000/',
+        })
+
+        const origin = getNitroOrigin({
+          isDev: true,
+          requestHost: '[::1]:3000',
+          requestProtocol: 'http',
+        })
+
+        expect(origin).toBe('http://localhost:3000/')
+      })
+
+      it('prefers custom request host over [::1] from env', () => {
+        process.env.NUXT_VITE_NODE_OPTIONS = JSON.stringify({
+          baseURL: 'http://[::1]:3000/',
+        })
+
+        const origin = getNitroOrigin({
+          isDev: true,
+          requestHost: 'custom.dev:3000',
+          requestProtocol: 'https',
+        })
+
+        expect(origin).toBe('https://custom.dev:3000/')
+      })
+
+      it('normalizes [::1] request host in prod', () => {
+        const origin = getNitroOrigin({
+          isDev: false,
+          requestHost: '[::1]:3000',
+          requestProtocol: 'http',
+        })
+
+        expect(origin).toBe('http://localhost:3000/')
+      })
+    })
+
+    describe('normalizes [::1] to localhost from HOST env var', () => {
+      it('normalizes [::1]:3000', () => {
+        process.env.HOST = '[::1]:3000'
+
+        const origin = getNitroOrigin({ isDev: false })
+        expect(origin).toBe('http://localhost:3000/')
+      })
+
+      it('normalizes [::1] without port', () => {
+        process.env.HOST = '[::1]'
+
+        const origin = getNitroOrigin({ isDev: false })
+        expect(origin).toBe('http://localhost/')
+      })
+
+      it('normalizes bare ::1', () => {
+        process.env.HOST = '::1'
+
+        const origin = getNitroOrigin({ isDev: false })
+        expect(origin).toBe('http://localhost/')
+      })
+    })
+
+    describe('preserves non-loopback IPv6', () => {
+      it('keeps [2001:db8::1]:8080 as-is', () => {
+        process.env.HOST = '[2001:db8::1]:8080'
+
+        const origin = getNitroOrigin({ isDev: false })
+        expect(origin).toBe('https://[2001:db8::1]:8080/')
+      })
+
+      it('brackets bare non-loopback IPv6', () => {
+        process.env.HOST = '2001:db8::1'
+
+        const origin = getNitroOrigin({ isDev: false })
+        expect(origin).toBe('https://[2001:db8::1]/')
+      })
+    })
+
+    describe('protocol detection with IPv6', () => {
+      it('uses http for [::1] (normalized to localhost)', () => {
+        process.env.HOST = '[::1]'
+        process.env.PORT = '3000'
+
+        const origin = getNitroOrigin({ isDev: true })
+        expect(origin).toBe('http://localhost:3000/')
+      })
+
+      it('uses http for bare ::1 (normalized to localhost)', () => {
+        process.env.HOST = '::1'
+        process.env.PORT = '3000'
+
+        const origin = getNitroOrigin({ isDev: true })
+        expect(origin).toBe('http://localhost:3000/')
+      })
+
+      it('uses https for non-loopback IPv6', () => {
+        process.env.HOST = '[2001:db8::1]'
+
+        const origin = getNitroOrigin({ isDev: false })
+        expect(origin).toBe('https://[2001:db8::1]/')
+      })
+    })
+  })
 })

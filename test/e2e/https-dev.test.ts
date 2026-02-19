@@ -48,4 +48,37 @@ describe('https dev server with custom host', () => {
 
     expect(debug.nitroOrigin).toBe('http://127.0.0.1:3000/')
   })
+
+  it('normalizes [::1] to localhost', async () => {
+    const debug = await $fetch<{ nitroOrigin: string }>('/__site-config__/debug.json', {
+      headers: {
+        'x-forwarded-host': '[::1]:3000',
+        'x-forwarded-proto': 'http',
+      },
+    })
+
+    expect(debug.nitroOrigin).toBe('http://localhost:3000/')
+  })
+
+  it('prefers custom host over [::1] from env', async () => {
+    const debug = await $fetch<{ nitroOrigin: string }>('/__site-config__/debug.json', {
+      headers: {
+        'x-forwarded-host': 'custom.dev:3000',
+        'x-forwarded-proto': 'https',
+      },
+    })
+
+    expect(debug.nitroOrigin).toBe('https://custom.dev:3000/')
+  })
+
+  it('handles full IPv6 address with port', async () => {
+    const debug = await $fetch<{ nitroOrigin: string }>('/__site-config__/debug.json', {
+      headers: {
+        'x-forwarded-host': '[2001:db8::1]:8080',
+        'x-forwarded-proto': 'https',
+      },
+    })
+
+    expect(debug.nitroOrigin).toBe('https://[2001:db8::1]:8080/')
+  })
 })

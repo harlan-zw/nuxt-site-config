@@ -7,6 +7,47 @@ export interface NitroOriginContext {
   requestProtocol?: 'http' | 'https'
 }
 
+function isLocalhostHost(host: string): boolean {
+  if (!host || host.startsWith('localhost') || host.startsWith('127.'))
+    return true
+  // Handle IPv6 loopback with or without port: [::1], [::1]:3000, ::1
+  const hostname = host.startsWith('[') ? host.slice(0, host.indexOf(']') + 1) : host
+  return hostname === '[::1]' || hostname === '::1'
+}
+
+// Extract hostname (without port) from a host string, handling IPv6 brackets
+function extractHostname(host: string): string {
+  if (host.startsWith('[')) {
+    const close = host.indexOf(']')
+    return close !== -1 ? host.slice(0, close + 1) : host
+  }
+  // Single colon = host:port, multiple colons = bare IPv6
+  const colonCount = host.split(':').length - 1
+  return colonCount === 1 ? host.slice(0, host.indexOf(':')) : host
+}
+
+// Extract port and host separately, handling IPv6 bracket notation.
+// Normalizes IPv6 loopback (::1, [::1]) to "localhost".
+function splitHostPort(host: string): { host: string, port: string } {
+  if (host.startsWith('[')) {
+    const close = host.indexOf(']')
+    const hostname = close !== -1 ? host.slice(0, close + 1) : host
+    const port = (close !== -1 && host[close + 1] === ':') ? host.slice(close + 2) : ''
+    return { host: hostname === '[::1]' ? 'localhost' : hostname, port }
+  }
+  // Single colon = host:port, multiple colons = bare IPv6
+  const colonCount = host.split(':').length - 1
+  if (colonCount === 1) {
+    const i = host.indexOf(':')
+    return { host: host.slice(0, i), port: host.slice(i + 1) }
+  }
+  // Bare IPv6 (e.g. ::1, 2001:db8::1)
+  if (colonCount > 1) {
+    return { host: host === '::1' ? 'localhost' : `[${host}]`, port: '' }
+  }
+  return { host, port: '' }
+}
+
 export function getNitroOrigin(ctx: NitroOriginContext = {}): string {
   const isDev = ctx.isDev ?? isDevelopment
   const isPrerender = ctx.isPrerender ?? !!env.prerender
@@ -26,12 +67,11 @@ export function getNitroOrigin(ctx: NitroOriginContext = {}): string {
     }
   }
 
-  // in dev mode, prefer request host over localhost/127.0.0.1 from env var
+  // in dev mode, prefer request host over localhost/127.0.0.1/[::1] from env var
   // handles custom devServer.host that Nuxt doesn't propagate to env vars
-  const hostIsLocalhost = !host || host.startsWith('localhost') || host.startsWith('127.')
-  if (isDev && hostIsLocalhost && ctx.requestHost) {
-    const reqHost = ctx.requestHost.split(':')[0] || ''
-    if (reqHost && !reqHost.startsWith('localhost') && !reqHost.startsWith('127.')) {
+  if (isDev && isLocalhostHost(host) && ctx.requestHost) {
+    const reqHost = extractHostname(ctx.requestHost)
+    if (reqHost && !isLocalhostHost(reqHost)) {
       host = ctx.requestHost
       protocol = ctx.requestProtocol || protocol
     }
@@ -50,12 +90,11 @@ export function getNitroOrigin(ctx: NitroOriginContext = {}): string {
       port = env.NITRO_PORT || env.PORT || '3000'
   }
 
-  // extract port from host if present (e.g. "localhost:3000")
-  if (host.includes(':')) {
-    const i = host.lastIndexOf(':')
-    port = host.slice(i + 1)
-    host = host.slice(0, i)
-  }
+  // extract port from host if present (e.g. "localhost:3000", "[::1]:3000")
+  const split = splitHostPort(host)
+  host = split.host
+  if (split.port)
+    port = split.port
 
   // allow overrides
   host = env.NUXT_SITE_HOST_OVERRIDE || host
@@ -66,7 +105,7 @@ export function getNitroOrigin(ctx: NitroOriginContext = {}): string {
     protocol = host.startsWith('https://') ? 'https' : 'http'
     host = host.replace(/^https?:\/\//, '')
   }
-  else if (!host.includes('localhost') && !host.startsWith('127.')) {
+  else if (!host || !isLocalhostHost(host)) {
     protocol = 'https'
   }
 
