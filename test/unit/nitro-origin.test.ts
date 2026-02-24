@@ -69,8 +69,8 @@ describe('getNitroOrigin', () => {
   describe('fallback chain', () => {
     it('returns empty host with default port in dev when no env vars', () => {
       const origin = getNitroOrigin({ isDev: true })
-      // empty host triggers https default (line 58-60 check)
-      expect(origin).toBe('https://:3000/')
+      // in dev mode, default to http (dev servers are typically http)
+      expect(origin).toBe('http://:3000/')
     })
 
     it('returns empty origin in prod when nothing set', () => {
@@ -112,7 +112,8 @@ describe('getNitroOrigin', () => {
         requestProtocol: 'http',
       })
 
-      expect(origin).toBe('https://dev.example.com:3000/')
+      // in dev mode, trust the protocol from request headers
+      expect(origin).toBe('http://dev.example.com:3000/')
     })
 
     it('uses env var when request host is also localhost', () => {
@@ -229,8 +230,8 @@ describe('getNitroOrigin', () => {
         isDev: true,
       })
 
-      // port 3000 is preserved from env var
-      expect(origin).toBe('https://override.example.com:3000/')
+      // port 3000 is preserved from env var, protocol from dev env (http)
+      expect(origin).toBe('http://override.example.com:3000/')
     })
 
     it('respects NUXT_SITE_PORT_OVERRIDE', () => {
@@ -242,6 +243,78 @@ describe('getNitroOrigin', () => {
       })
 
       expect(origin).toBe('http://localhost:8080/')
+    })
+  })
+
+  describe('0.0.0.0 wildcard normalization', () => {
+    it('normalizes 0.0.0.0 from dev server env', () => {
+      process.env.NUXT_VITE_NODE_OPTIONS = JSON.stringify({
+        baseURL: 'http://0.0.0.0:3000/',
+      })
+
+      const origin = getNitroOrigin({ isDev: true })
+      expect(origin).toBe('http://localhost:3000/')
+    })
+
+    it('normalizes 0.0.0.0 from HOST env var in dev', () => {
+      process.env.HOST = '0.0.0.0'
+      process.env.PORT = '3000'
+
+      const origin = getNitroOrigin({ isDev: true })
+      expect(origin).toBe('http://localhost:3000/')
+    })
+
+    it('normalizes 0.0.0.0:3000 from HOST env var', () => {
+      process.env.HOST = '0.0.0.0:3000'
+
+      const origin = getNitroOrigin({ isDev: false })
+      expect(origin).toBe('http://localhost:3000/')
+    })
+
+    it('normalizes 0.0.0.0 request host in dev', () => {
+      process.env.NUXT_VITE_NODE_OPTIONS = JSON.stringify({
+        baseURL: 'http://0.0.0.0:3000/',
+      })
+
+      const origin = getNitroOrigin({
+        isDev: true,
+        requestHost: '0.0.0.0:3000',
+        requestProtocol: 'http',
+      })
+
+      expect(origin).toBe('http://localhost:3000/')
+    })
+  })
+
+  describe('[::]  wildcard normalization', () => {
+    it('normalizes [::]:3000 from dev server env', () => {
+      process.env.NUXT_VITE_NODE_OPTIONS = JSON.stringify({
+        baseURL: 'http://[::]:3000/',
+      })
+
+      const origin = getNitroOrigin({ isDev: true })
+      expect(origin).toBe('http://localhost:3000/')
+    })
+
+    it('normalizes bare :: from HOST env var', () => {
+      process.env.HOST = '::'
+
+      const origin = getNitroOrigin({ isDev: false })
+      expect(origin).toBe('http://localhost/')
+    })
+
+    it('normalizes [::] from HOST env var', () => {
+      process.env.HOST = '[::]'
+
+      const origin = getNitroOrigin({ isDev: false })
+      expect(origin).toBe('http://localhost/')
+    })
+
+    it('normalizes [::]:3000 from HOST env var', () => {
+      process.env.HOST = '[::]:3000'
+
+      const origin = getNitroOrigin({ isDev: false })
+      expect(origin).toBe('http://localhost:3000/')
     })
   })
 
