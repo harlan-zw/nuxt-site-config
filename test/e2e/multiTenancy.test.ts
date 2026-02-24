@@ -68,4 +68,15 @@ describe('mutlitenancy', async () => {
     expect(name).toBe('Foo')
     expect(url).toBe('https://foo.com')
   })
+  it('matches host with port (local dev)', async () => {
+    const s = await $fetch('/', {
+      headers: {
+        'x-forwarded-host': 'local.example.com:3000',
+      },
+    })
+    const name = s.match(/<td data-name="true">(.+?)<\/td>/)?.[1]
+    const description = s.match(/<td data-description="true">(.+?)<\/td>/)?.[1]
+    expect(name).toBe('Example')
+    expect(description).toBe('Example description')
+  })
 })

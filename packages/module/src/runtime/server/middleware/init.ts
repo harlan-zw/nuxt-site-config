@@ -43,7 +43,8 @@ export default eventHandler(async (e) => {
   }
   if (config.multiTenancy) {
     // iterate to find the one with hosts that match
-    const host = parseURL(nitroOrigin).host
+    // strip port so dev-mode hosts like example.com.local:3000 match config entries
+    const host = parseURL(nitroOrigin).host?.replace(/:\d+$/, '') || ''
     const tenant = config.multiTenancy?.find((t: any) => t.hosts.includes(host))
     if (tenant) {
       siteConfig.push({
