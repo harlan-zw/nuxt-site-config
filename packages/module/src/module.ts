@@ -113,8 +113,8 @@ export default defineNuxtModule<ModuleOptions>({
         version: version!,
         debug: config.debug,
         multiTenancy: (config.multiTenancy || [])?.map((t) => {
-          // normalize hosts
-          t.hosts = (t.hosts || []).map(h => parseURL(h, 'https://').host).filter(Boolean) as string[]
+          // normalize hosts, strip ports so dev-mode matching works (e.g. example.com.local:3000)
+          t.hosts = (t.hosts || []).map(h => parseURL(h, 'https://').host?.replace(/:\d+$/, '')).filter(Boolean) as string[]
           if (!t.hosts.length) {
             return false
           }
