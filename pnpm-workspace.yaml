@@ -12,11 +12,11 @@ packages:
   - client
 
 catalog:
-  '@antfu/eslint-config': ^7.4.3
+  '@antfu/eslint-config': ^7.6.1
   '@arethetypeswrong/cli': ^0.18.2
-  '@iconify-json/carbon': ^1.2.18
-  '@nuxt/devtools-kit': ^3.2.1
-  '@nuxt/devtools-ui-kit': ^3.2.1
+  '@iconify-json/carbon': ^1.2.19
+  '@nuxt/devtools-kit': ^3.2.2
+  '@nuxt/devtools-ui-kit': ^3.2.2
   '@nuxt/kit': ^4.3.1
   '@nuxt/module-builder': ^1.0.2
   '@nuxt/schema': ^4.3.1
@@ -25,23 +25,23 @@ catalog:
   '@nuxtjs/i18n': ^10.2.3
   '@vueuse/core': ^14.2.1
   bumpp: ^10.4.1
-  eslint: ^10.0.0
+  eslint: ^10.0.2
   execa: ^9.6.1
   floating-vue: ^5.2.2
   h3: ^1.15.5
   nuxt: ^4.3.1
-  nuxt-i18n-micro: ^3.11.0
+  nuxt-i18n-micro: ^3.13.1
   pathe: ^2.0.3
   pkg-types: ^2.3.0
-  shiki: ^3.22.0
+  shiki: ^3.23.0
   sirv: ^3.0.2
   std-env: ^3.10.0
   typescript: ^5.9.3
   ufo: ^1.6.3
   vitest: ^4.0.18
-  vue: ^3.5.28
-  vue-router: ^5.0.2
-  vue-tsc: ^3.2.4
+  vue: ^3.5.29
+  vue-router: ^5.0.3
+  vue-tsc: ^3.2.5
 
 onlyBuiltDependencies:
   - '@parcel/watcher'
