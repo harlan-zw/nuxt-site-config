@@ -193,10 +193,6 @@ export {}
 
     addServerImportsDir(resolve('./runtime/server/composables'))
     nuxt.options.alias['#site-config'] = resolve('./runtime')
-    // support legacy
-    nuxt.options.nitro.alias = nuxt.options.nitro.alias || {}
-    nuxt.options.nitro.alias['#internal/nuxt-site-config'] = resolve('./runtime/server/composable-barrel-deprecated')
-
     // add site-config-stack to transpile
     nuxt.options.build.transpile.push('site-config-stack')
 
