@@ -194,9 +194,6 @@ importers:
       '@nuxt/kit':
         specifier: 'catalog:'
         version: 4.4.2(magicast@0.5.2)
-      pkg-types:
-        specifier: 'catalog:'
-        version: 2.3.0
       site-config-stack:
         specifier: workspace:*
         version: link:../site-config

@@ -1,27 +1,40 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { getNitroOrigin } from '../../packages/kit/src/util'
 
+// env vars that getNitroOrigin reads via std-env's `env` proxy
+const TRACKED_KEYS = [
+  'NUXT_VITE_NODE_OPTIONS',
+  '__NUXT_DEV__',
+  'NITRO_HOST',
+  'NITRO_PORT',
+  'HOST',
+  'PORT',
+  'NITRO_SSL_CERT',
+  'NITRO_SSL_KEY',
+  'NUXT_SITE_HOST_OVERRIDE',
+  'NUXT_SITE_PORT_OVERRIDE',
+] as const
+
 describe('getNitroOrigin', () => {
-  const originalEnv = process.env
+  // std-env captures a reference to process.env at import time,
+  // so we must mutate the *same* object rather than replacing it
+  const saved: Record<string, string | undefined> = {}
 
   beforeEach(() => {
     vi.resetModules()
-    process.env = { ...originalEnv }
-    // Clear all relevant env vars
-    delete process.env.NUXT_VITE_NODE_OPTIONS
-    delete process.env.__NUXT_DEV__
-    delete process.env.NITRO_HOST
-    delete process.env.NITRO_PORT
-    delete process.env.HOST
-    delete process.env.PORT
-    delete process.env.NITRO_SSL_CERT
-    delete process.env.NITRO_SSL_KEY
-    delete process.env.NUXT_SITE_HOST_OVERRIDE
-    delete process.env.NUXT_SITE_PORT_OVERRIDE
+    for (const key of TRACKED_KEYS) {
+      saved[key] = process.env[key]
+      delete process.env[key]
+    }
   })
 
   afterEach(() => {
-    process.env = originalEnv
+    for (const key of TRACKED_KEYS) {
+      if (saved[key] !== undefined)
+        process.env[key] = saved[key]
+      else
+        delete process.env[key]
+    }
   })
 
   describe('env var priority', () => {
