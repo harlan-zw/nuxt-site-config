@@ -54,19 +54,20 @@ export default defineNuxtPlugin({
       }
     }
 
-    // On SSR, the locale is fixed for the request. Push plain values instead of
-    // computed refs to avoid retaining Vue effect scopes on the H3 event context.
-    // Computed refs capture closures over the i18n instance (which references nuxtApp),
-    // preventing GC of the entire nuxtApp and its payload after rendering.
+    // On SSR, use getter functions instead of computed refs or plain values.
+    // Plain values resolve too early (before middleware sets the locale for no_prefix strategy).
+    // Computed refs create Vue effect scopes that capture the i18n instance, preventing GC.
+    // Getter functions are resolved lazily via toValue() when stack.get({ resolveRefs: true })
+    // is called at render time, after all middleware has run.
     if (import.meta.server) {
       stack!.push({
         _priority: SiteConfigPriority.i18n,
         _context: '@nuxtjs/i18n',
-        url: resolveI18nUrl(i18n),
-        defaultLocale: resolveDefaultLocale(i18n),
-        currentLocale: resolveCurrentLocale(i18n),
-        description: resolveDescription(i18n),
-        name: resolveName(i18n),
+        url: () => resolveI18nUrl(i18n),
+        defaultLocale: () => resolveDefaultLocale(i18n),
+        currentLocale: () => resolveCurrentLocale(i18n),
+        description: () => resolveDescription(i18n),
+        name: () => resolveName(i18n),
       })
       return
     }
