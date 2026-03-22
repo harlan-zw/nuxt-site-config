@@ -7,7 +7,7 @@ import { useNuxt } from '@nuxt/kit'
 const DEVTOOLS_UI_ROUTE = '/__nuxt-site-config'
 const DEVTOOLS_UI_LOCAL_PORT = 3030
 
-export function setupDevToolsUI(resolve: Resolver['resolve'], nuxt: Nuxt = useNuxt()) {
+export function setupDevToolsUI(resolve: Resolver['resolve'], nuxt: Nuxt = useNuxt()): void {
   const clientPath = resolve('./client')
   const isProductionBuild = existsSync(clientPath)
 

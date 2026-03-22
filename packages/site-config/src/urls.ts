@@ -7,7 +7,9 @@ import {
   withTrailingSlash,
 } from 'ufo'
 
-export function resolveSitePath(pathOrUrl: string, options: { siteUrl: string, trailingSlash?: boolean, base?: string, absolute?: boolean, withBase?: boolean }) {
+const FILE_EXT_RE = /\.[0-9a-z]+$/i
+
+export function resolveSitePath(pathOrUrl: string, options: { siteUrl: string, trailingSlash?: boolean, base?: string, absolute?: boolean, withBase?: boolean }): string {
   let path = pathOrUrl
   // check we should check what we're working with, either an absolute or relative path
   if (hasProtocol(pathOrUrl, { strict: false, acceptRelative: true })) {
@@ -156,13 +158,13 @@ const fileExtensions = [
   'sav',
 ]
 
-export function isPathFile(path: string) {
+export function isPathFile(path: string): boolean {
   const lastSegment = path.split('/').pop()
-  const ext = ((lastSegment || path).match(/\.[0-9a-z]+$/i)?.[0])
-  return ext && fileExtensions.includes(ext.replace('.', ''))
+  const ext = ((lastSegment || path).match(FILE_EXT_RE)?.[0])
+  return !!(ext && fileExtensions.includes(ext.replace('.', '')))
 }
 
-export function fixSlashes(trailingSlash: boolean | undefined, pathOrUrl: string) {
+export function fixSlashes(trailingSlash: boolean | undefined, pathOrUrl: string): string {
   const $url = parseURL(pathOrUrl)
   if (isPathFile($url.pathname))
     return pathOrUrl

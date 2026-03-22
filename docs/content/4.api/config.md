@@ -8,14 +8,14 @@ description: The config options available for Nuxt Site Config.
 - Type: `boolean`{lang="ts"}
 - Default: `true`{lang="ts"}
 
-Whether the site config is enabled.
+Whether site config activates for this project.
 
 ## `debug`
 
 - Type: `boolean`
 - Default: `false`
 
-Whether the debug mode of the site config is enabled.
+Whether to activate debug mode for site config.
 
 ## `multiTenancy`
 

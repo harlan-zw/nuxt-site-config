@@ -2,7 +2,7 @@ import type { GetSiteConfigOptions, SiteConfigInput, SiteConfigResolved, SiteCon
 import { getQuery, hasProtocol, parseHost, parseURL, withHttps } from 'ufo'
 import { toValue } from 'vue'
 
-export function normalizeSiteConfig(config: SiteConfigResolved) {
+export function normalizeSiteConfig(config: SiteConfigResolved): SiteConfigResolved {
   // fix booleans index / trailingSlash
   if (typeof config.indexable !== 'undefined')
     config.indexable = String(config.indexable) !== 'false'
@@ -22,7 +22,7 @@ export function normalizeSiteConfig(config: SiteConfigResolved) {
   return newConfig as SiteConfigResolved
 }
 
-export function validateSiteConfigStack(stack: SiteConfigStack, options?: { dev?: boolean }) {
+export function validateSiteConfigStack(stack: SiteConfigStack, options?: { dev?: boolean }): string[] {
   const resolved = normalizeSiteConfig(stack.get({
     // we need the context
     debug: true,
@@ -47,7 +47,7 @@ export function validateSiteConfigStack(stack: SiteConfigStack, options?: { dev?
   return errors
 }
 
-export function createSiteConfigStack(options?: { debug: boolean }): SiteConfigStack {
+export function createSiteConfigStack(options?: { debug: boolean }): { stack: Partial<SiteConfigInput>[], push: (input: SiteConfigInput | SiteConfigResolved) => () => void, get: (options?: GetSiteConfigOptions) => SiteConfigResolved } {
   const debug = options?.debug || false
   const stack: Partial<SiteConfigInput>[] = []
 
@@ -86,7 +86,7 @@ export function createSiteConfigStack(options?: { debug: boolean }): SiteConfigS
     }
   }
 
-  function get(options?: GetSiteConfigOptions) {
+  function get(options?: GetSiteConfigOptions): SiteConfigResolved {
     const siteConfig: SiteConfigResolved = {}
     if (options?.debug)
       siteConfig._context = {}

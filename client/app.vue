@@ -154,7 +154,7 @@ function normaliseSiteConfigInput(_input: Partial<SiteConfigInput>) {
               Submit an issue
             </NLink>
           </div>
-          <a href="https://nuxtseo.com" target="_blank" class="flex items-end gap-1.5 font-semibold text-xl dark:text-white font-title">
+          <a href="https://nuxtseo.com" target="_blank" aria-label="Nuxt SEO" class="flex items-end gap-1.5 font-semibold text-xl dark:text-white font-title">
             <NuxtSeoLogo />
           </a>
         </div>

@@ -7,7 +7,7 @@
 
 Nuxt Site Config is a module for module authors to share common site config across modules.
 
-It is not meant to be consumed by end-users directly, but rather to be used by module authors to provide a common site config API.
+Module authors consume it to provide a common site config API; end users typically interact with it through other modules.
 
 <p align="center">
 <table>

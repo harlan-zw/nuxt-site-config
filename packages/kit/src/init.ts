@@ -1,7 +1,7 @@
 import type { Nuxt } from '@nuxt/schema'
 import type { SiteConfigInput, SiteConfigResolved, SiteConfigStack } from 'site-config-stack'
 import { installModule, resolvePath, tryUseNuxt } from '@nuxt/kit'
-import { readPackageJSON } from 'pkg-types'
+
 import { createSiteConfigStack, envSiteConfig } from 'site-config-stack'
 
 export async function initSiteConfig(nuxt: Nuxt | null = tryUseNuxt()): Promise<SiteConfigStack | undefined> {
@@ -15,25 +15,11 @@ export async function initSiteConfig(nuxt: Nuxt | null = tryUseNuxt()): Promise<
   // only when called the first time
   siteConfig = createSiteConfigStack()
 
-  const rootDir = nuxt?.options.rootDir || process.cwd?.() || false
-  // the root dir is maybe the name of the site
   siteConfig.push({
     _context: 'system',
     _priority: -15,
-    name: rootDir ? rootDir.split('/').pop() : undefined,
     env: process.env.NODE_ENV,
   })
-  if (rootDir) {
-    const pkgJson = await readPackageJSON(rootDir)
-    if (pkgJson) {
-      siteConfig.push({
-        _context: 'package.json',
-        _priority: -10,
-        name: pkgJson.name,
-        description: pkgJson.description,
-      })
-    }
-  }
 
   // add the env vars lowest priority
   siteConfig.push({
@@ -56,22 +42,6 @@ export async function initSiteConfig(nuxt: Nuxt | null = tryUseNuxt()): Promise<
     ].find(k => Boolean(k)),
   })
 
-  const runtimeConfig = nuxt.options.runtimeConfig
-
-  // TODO drop support for this in a v3
-  const runtimeConfigEnvKeys = [
-    ...Object.entries(runtimeConfig.site || {})
-      .filter(([k]) => k.startsWith('site'))
-      .map(([k, v]) => [k.replace(/^site/, ''), v] as const),
-    ...Object.entries([...Object.entries(runtimeConfig), ...Object.entries(runtimeConfig.public)])
-      .filter(([k]) => k.startsWith('site'))
-      .map(([k, v]) => [k.replace(/^site/, ''), v] as const),
-  ]
-  siteConfig.push({
-    _priority: -2,
-    _context: 'legacyRuntimeConfig',
-    ...Object.fromEntries(runtimeConfigEnvKeys),
-  })
   // env is highest support
   siteConfig.push({
     _context: 'buildEnv',

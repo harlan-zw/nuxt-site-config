@@ -21,6 +21,8 @@ import { validateSiteConfigStack } from 'site-config-stack'
 import { parseURL } from 'ufo'
 import { setupDevToolsUI } from './devtools'
 
+const PORT_SUFFIX_RE = /:\d+$/
+
 export interface ModuleOptions extends SiteConfigInput {
   /**
    * Enable the module.
@@ -98,7 +100,7 @@ export default defineNuxtModule<ModuleOptions>({
 
     // merge the site config into the runtime config once modules are done extending it
     nuxt.hook('modules:done', async () => {
-      // @ts-ignore untyped
+      // @ts-expect-error untyped
       await nuxt.callHook('site-config:resolve')
       // let's validate the stack
       const errors = validateSiteConfigStack(getSiteConfigStack(), { dev: nuxt.options.dev })
@@ -114,7 +116,7 @@ export default defineNuxtModule<ModuleOptions>({
         debug: config.debug,
         multiTenancy: (config.multiTenancy || [])?.map((t) => {
           // normalize hosts, strip ports so dev-mode matching works (e.g. example.com.local:3000)
-          t.hosts = (t.hosts || []).map(h => parseURL(h, 'https://').host?.replace(/:\d+$/, '')).filter(Boolean) as string[]
+          t.hosts = (t.hosts || []).map(h => parseURL(h, 'https://').host?.replace(PORT_SUFFIX_RE, '')).filter(Boolean) as string[]
           if (!t.hosts.length) {
             return false
           }

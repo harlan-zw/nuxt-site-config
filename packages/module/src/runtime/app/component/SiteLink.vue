@@ -1,9 +1,12 @@
 <script lang="ts" setup>
-import type { CreateSitePathResolverOptions } from '../../types'
-import { computed, resolveComponent, toRefs } from 'vue'
+import type { VueCreateSitePathResolverOptions } from '../../types'
+import { computed, resolveComponent, toRef } from 'vue'
 import { createSitePathResolver } from '../composables/utils'
 
-const props = defineProps<CreateSitePathResolverOptions & {
+const { canonical, absolute, withBase, ...props } = defineProps<{
+  canonical?: boolean
+  absolute?: boolean
+  withBase?: boolean
   /**
    * Route Location the link should navigate to when clicked on.
    */
@@ -42,14 +45,17 @@ const props = defineProps<CreateSitePathResolverOptions & {
   noPrefetch?: boolean
 }>()
 
-// make props refs
-const propRefs = toRefs(props)
+const resolverOptions: VueCreateSitePathResolverOptions = {
+  canonical: toRef(() => canonical),
+  absolute: toRef(() => absolute),
+  withBase: toRef(() => withBase),
+}
 
-const linkResolver = createSitePathResolver(propRefs as any as CreateSitePathResolverOptions)
+const linkResolver = createSitePathResolver(resolverOptions)
 
 const NuxtLink = resolveComponent('NuxtLink')
 
-const to = computed(() => {
+const resolvedTo = computed(() => {
   const _to = props.to as string | undefined
   if (!_to)
     return undefined
@@ -58,7 +64,7 @@ const to = computed(() => {
 </script>
 
 <template>
-  <NuxtLink v-bind="$props" :to="to">
+  <NuxtLink v-bind="props" :to="resolvedTo" :aria-label="props.to || props.href">
     <slot />
   </NuxtLink>
 </template>

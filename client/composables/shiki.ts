@@ -9,7 +9,7 @@ type MaybeRef<T = any> = T | Ref<T> | ShallowRef<T> | WritableComputedRef<T>
 
 export const shiki = ref<HighlighterCore>()
 
-export async function loadShiki() {
+export async function loadShiki(): Promise<HighlighterCore> {
   // Only loading when needed
   shiki.value = await createHighlighterCore({
     themes: [
@@ -24,7 +24,7 @@ export async function loadShiki() {
   return shiki.value
 }
 
-export function renderCodeHighlight(code: MaybeRef<string>, lang: 'json') {
+export function renderCodeHighlight(code: MaybeRef<string>, lang: 'json'): WritableComputedRef<string> {
   return computed(() => {
     const colorMode = devtools.value?.colorMode || 'light'
     return shiki.value!.codeToHtml(toValue(code), {
