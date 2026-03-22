@@ -1,5 +1,8 @@
 import { env, isDevelopment } from 'std-env'
 
+const PROTOCOL_RE = /^https?:\/\//
+const TRAILING_SLASH_RE = /\/$/
+
 export interface NitroOriginContext {
   isDev?: boolean
   isPrerender?: boolean
@@ -69,7 +72,7 @@ export function getNitroOrigin(ctx: NitroOriginContext = {}): string {
     if (devEnv) {
       const parsed = JSON.parse(devEnv)
       const origin = (parsed.proxy?.url || parsed.baseURL?.replace('/__nuxt_vite_node__', '')) as string
-      host = origin.replace(/^https?:\/\//, '').replace(/\/$/, '')
+      host = origin.replace(PROTOCOL_RE, '').replace(TRAILING_SLASH_RE, '')
       protocol = origin.startsWith('https') ? 'https' : 'http'
     }
   }
@@ -110,7 +113,7 @@ export function getNitroOrigin(ctx: NitroOriginContext = {}): string {
   // handle host with protocol
   if (host.startsWith('http://') || host.startsWith('https://')) {
     protocol = host.startsWith('https://') ? 'https' : 'http'
-    host = host.replace(/^https?:\/\//, '')
+    host = host.replace(PROTOCOL_RE, '')
   }
   // in production, default non-localhost hosts to https
   // in dev mode, trust the protocol from dev env / request headers

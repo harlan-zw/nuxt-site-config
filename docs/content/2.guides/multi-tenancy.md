@@ -53,9 +53,9 @@ The config object supports all standard site configuration options plus any cust
 
 ## How it works
 
-1. When a request is received, the module checks the hostname against the configured hosts arrays
-2. If a match is found, the corresponding config is applied
-3. The configuration is made available through the `useSiteConfig()` composable
+1. When the module receives a request, it checks the hostname against the configured hosts arrays
+2. When it finds a match, it applies the corresponding config
+3. The configuration is made available through the `useSiteConfig()`{lang="ts"} composable
 
 ## Runtime Multi-Tenancy
 

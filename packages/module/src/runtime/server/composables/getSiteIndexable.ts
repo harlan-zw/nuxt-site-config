@@ -1,7 +1,7 @@
 import type { H3Event } from 'h3'
 import { getSiteConfig } from './getSiteConfig'
 
-export function getSiteIndexable(e: H3Event) {
+export function getSiteIndexable(e: H3Event): boolean {
   // move towards deprecating indexable
   const { env, indexable } = getSiteConfig(e)
   // legacy

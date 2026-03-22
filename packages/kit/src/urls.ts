@@ -4,7 +4,7 @@ import { env } from 'std-env'
 import { useSiteConfig } from './init'
 import { getNitroOrigin } from './util'
 
-export function withSiteTrailingSlash(path: string) {
+export function withSiteTrailingSlash(path: string): string {
   const siteConfig = useSiteConfig()
   return fixSlashes(siteConfig.trailingSlash, path)
 }
@@ -25,7 +25,7 @@ export function createSitePathResolver(options: { canonical?: boolean, absolute?
   }
 }
 
-export function withSiteUrl(path: string, options: { withBase?: boolean, throwErrorOnMissingSiteUrl?: boolean } = {}) {
+export function withSiteUrl(path: string, options: { withBase?: boolean, throwErrorOnMissingSiteUrl?: boolean } = {}): string {
   const siteConfig = useSiteConfig()
   if (!siteConfig.url && options.throwErrorOnMissingSiteUrl)
     throw new Error('Missing url in site config. Please add `{ site: { url: <url> } }` to nuxt.config.ts.')

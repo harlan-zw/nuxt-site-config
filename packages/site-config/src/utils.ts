@@ -1,8 +1,10 @@
-export function envSiteConfig(env: Record<string, any> = {}) {
+const NUXT_SITE_ENV_RE = /^NUXT_(PUBLIC_)?SITE_/
+
+export function envSiteConfig(env: Record<string, any> = {}): Record<string, any> {
   return Object.fromEntries(Object.entries(env)
     .filter(([k]) => k.startsWith('NUXT_SITE_') || k.startsWith('NUXT_PUBLIC_SITE_'))
     .map(([k, v]) => [
-      k.replace(/^NUXT_(PUBLIC_)?SITE_/, '')
+      k.replace(NUXT_SITE_ENV_RE, '')
         .split('_')
         .map((s, i) => i === 0 ? s.toLowerCase() : (s[0]?.toUpperCase() + s.slice(1).toLowerCase()))
         .join(''),

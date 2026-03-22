@@ -13,7 +13,7 @@ export interface HookSiteConfigInitContext {
 }
 ```
 
-Modify site config after it's being initialized.
+Modify site config after initialization.
 
 ```ts [server/plugins/site-config.ts]
 import { getNitroOrigin } from '#site-config/server/composables'

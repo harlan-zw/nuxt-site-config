@@ -5,6 +5,8 @@ import { createSiteConfigStack, envSiteConfig } from 'site-config-stack'
 import { parseURL } from 'ufo'
 import { getNitroOrigin } from '../composables/getNitroOrigin'
 
+const PORT_SUFFIX_RE = /:\d+$/
+
 export default eventHandler(async (e) => {
   if (e.context._initedSiteConfig)
     return
@@ -44,7 +46,7 @@ export default eventHandler(async (e) => {
   if (config.multiTenancy) {
     // iterate to find the one with hosts that match
     // strip port so dev-mode hosts like example.com.local:3000 match config entries
-    const host = parseURL(nitroOrigin).host?.replace(/:\d+$/, '') || ''
+    const host = parseURL(nitroOrigin).host?.replace(PORT_SUFFIX_RE, '') || ''
     const tenant = config.multiTenancy?.find((t: any) => t.hosts.includes(host))
     if (tenant) {
       siteConfig.push({

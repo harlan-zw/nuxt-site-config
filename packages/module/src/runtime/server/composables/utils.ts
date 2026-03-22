@@ -5,7 +5,7 @@ import { fixSlashes, resolveSitePath } from 'site-config-stack/urls'
 import { getNitroOrigin } from './getNitroOrigin'
 import { getSiteConfig } from './getSiteConfig'
 
-export function createSitePathResolver(e: H3Event, options: CreateSitePathResolverOptions = {}) {
+export function createSitePathResolver(e: H3Event, options: CreateSitePathResolverOptions = {}): (path: string) => string {
   const siteConfig = getSiteConfig(e)
   const nitroOrigin = getNitroOrigin(e)
   const nuxtBase = useRuntimeConfig(e).app.baseURL || '/'
@@ -20,12 +20,12 @@ export function createSitePathResolver(e: H3Event, options: CreateSitePathResolv
   }
 }
 
-export function withSiteTrailingSlash(e: H3Event, path: string) {
+export function withSiteTrailingSlash(e: H3Event, path: string): string {
   const siteConfig = e.context.siteConfig?.get()
   return fixSlashes(siteConfig.trailingSlash, path)
 }
 
-export function withSiteUrl(e: H3Event, path: string, options: CreateSitePathResolverOptions = {}) {
+export function withSiteUrl(e: H3Event, path: string, options: CreateSitePathResolverOptions = {}): string {
   const siteConfig = e.context.siteConfig?.get()
   let siteUrl = e.context.siteConfigNitroOrigin
   if ((options.canonical !== false || import.meta.prerender) && siteConfig.url)

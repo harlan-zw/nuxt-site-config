@@ -4,6 +4,8 @@ import { installModule, resolvePath, tryUseNuxt } from '@nuxt/kit'
 import { readPackageJSON } from 'pkg-types'
 import { createSiteConfigStack, envSiteConfig } from 'site-config-stack'
 
+const SITE_PREFIX_RE = /^site/
+
 export async function initSiteConfig(nuxt: Nuxt | null = tryUseNuxt()): Promise<SiteConfigStack | undefined> {
   if (!nuxt)
     return
@@ -62,10 +64,10 @@ export async function initSiteConfig(nuxt: Nuxt | null = tryUseNuxt()): Promise<
   const runtimeConfigEnvKeys = [
     ...Object.entries(runtimeConfig.site || {})
       .filter(([k]) => k.startsWith('site'))
-      .map(([k, v]) => [k.replace(/^site/, ''), v] as const),
+      .map(([k, v]) => [k.replace(SITE_PREFIX_RE, ''), v] as const),
     ...Object.entries([...Object.entries(runtimeConfig), ...Object.entries(runtimeConfig.public)])
       .filter(([k]) => k.startsWith('site'))
-      .map(([k, v]) => [k.replace(/^site/, ''), v] as const),
+      .map(([k, v]) => [k.replace(SITE_PREFIX_RE, ''), v] as const),
   ]
   siteConfig.push({
     _priority: -2,

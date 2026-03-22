@@ -10,7 +10,7 @@ export const data = ref<{
   runtimeConfig: ModuleRuntimeConfig
 } | null>(null)
 
-export async function refreshSources() {
+export async function refreshSources(): Promise<void> {
   if (appFetch.value)
     data.value = await appFetch.value('/__site-config__/debug.json')
 }
