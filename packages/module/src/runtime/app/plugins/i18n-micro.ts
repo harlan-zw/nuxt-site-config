@@ -1,5 +1,5 @@
 import { defineNuxtPlugin, useRuntimeConfig } from '#app'
-
+import { SiteConfigPriority } from 'site-config-stack'
 import { getSiteConfigStack } from './i18n-shared'
 
 export default defineNuxtPlugin({
@@ -19,7 +19,7 @@ export default defineNuxtPlugin({
     const localeDefinition = locales.find(l => l.code === locale) || locales.find(l => l.code === defaultLocale)
     const stack = getSiteConfigStack()
     stack!.push({
-      _priority: import.meta.server ? -2 : -1,
+      _priority: import.meta.server ? SiteConfigPriority.i18n : SiteConfigPriority.build,
       _context: 'nuxt-i18n-micro',
       currentLocale: localeDefinition.language || localeDefinition.iso || locale,
       // @ts-expect-error untyped
