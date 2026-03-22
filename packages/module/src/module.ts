@@ -17,7 +17,7 @@ import {
 import { getSiteConfigStack, initSiteConfig, updateSiteConfig } from 'nuxt-site-config-kit'
 import { relative } from 'pathe'
 import { readPackageJSON } from 'pkg-types'
-import { validateSiteConfigStack } from 'site-config-stack'
+import { SiteConfigPriority, validateSiteConfigStack } from 'site-config-stack'
 import { parseURL } from 'ufo'
 import { setupDevToolsUI } from './devtools'
 
@@ -93,7 +93,7 @@ export default defineNuxtModule<ModuleOptions>({
     delete siteConfigInput.enabled
     updateSiteConfig({
       // we should allow environment variables to override the site config
-      _priority: -3,
+      _priority: SiteConfigPriority.config,
       _context: 'nuxt-site-config:config',
       ...siteConfigInput,
     })
@@ -193,10 +193,6 @@ export {}
 
     addServerImportsDir(resolve('./runtime/server/composables'))
     nuxt.options.alias['#site-config'] = resolve('./runtime')
-    // support legacy
-    nuxt.options.nitro.alias = nuxt.options.nitro.alias || {}
-    nuxt.options.nitro.alias['#internal/nuxt-site-config'] = resolve('./runtime/server/composable-barrel-deprecated')
-
     // add site-config-stack to transpile
     nuxt.options.build.transpile.push('site-config-stack')
 
