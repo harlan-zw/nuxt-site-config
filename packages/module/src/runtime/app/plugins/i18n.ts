@@ -1,6 +1,7 @@
 import { defineNuxtPlugin } from '#app'
 // @ts-expect-error untyped
 import { i18nPluginDeps } from '#build/nuxt-site-config/i18n-plugin-deps.mjs'
+import { SiteConfigPriority } from 'site-config-stack'
 import { parseURL } from 'ufo'
 import { computed, toValue, watch } from 'vue'
 import { getSiteConfigStack } from './i18n-shared'
@@ -59,7 +60,7 @@ export default defineNuxtPlugin({
     // preventing GC of the entire nuxtApp and its payload after rendering.
     if (import.meta.server) {
       stack!.push({
-        _priority: -2,
+        _priority: SiteConfigPriority.i18n,
         _context: '@nuxtjs/i18n',
         url: resolveI18nUrl(i18n),
         defaultLocale: resolveDefaultLocale(i18n),
@@ -82,7 +83,7 @@ export default defineNuxtPlugin({
       if (siteConfigEntry)
         siteConfigEntry()
       siteConfigEntry = stack!.push({
-        _priority: -1,
+        _priority: SiteConfigPriority.build,
         _context: '@nuxtjs/i18n',
         url: i18nUrl,
         defaultLocale,

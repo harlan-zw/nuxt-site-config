@@ -2,7 +2,7 @@ import type { Nuxt } from '@nuxt/schema'
 import type { SiteConfigInput, SiteConfigResolved, SiteConfigStack } from 'site-config-stack'
 import { installModule, resolvePath, tryUseNuxt } from '@nuxt/kit'
 import { readPackageJSON } from 'pkg-types'
-import { createSiteConfigStack, envSiteConfig } from 'site-config-stack'
+import { createSiteConfigStack, envSiteConfig, SiteConfigPriority } from 'site-config-stack'
 
 const SITE_PREFIX_RE = /^site/
 
@@ -21,7 +21,7 @@ export async function initSiteConfig(nuxt: Nuxt | null = tryUseNuxt()): Promise<
   // the root dir is maybe the name of the site
   siteConfig.push({
     _context: 'system',
-    _priority: -15,
+    _priority: SiteConfigPriority.system,
     name: rootDir ? rootDir.split('/').pop() : undefined,
     env: process.env.NODE_ENV,
   })
@@ -40,7 +40,7 @@ export async function initSiteConfig(nuxt: Nuxt | null = tryUseNuxt()): Promise<
   // add the env vars lowest priority
   siteConfig.push({
     _context: 'vendorEnv',
-    _priority: -5,
+    _priority: SiteConfigPriority.vendor,
     url: [
       // vercel
       process.env.VERCEL_URL,
@@ -77,7 +77,7 @@ export async function initSiteConfig(nuxt: Nuxt | null = tryUseNuxt()): Promise<
   // env is highest support
   siteConfig.push({
     _context: 'buildEnv',
-    _priority: -1,
+    _priority: SiteConfigPriority.build,
     ...envSiteConfig(process.env || {}),
   })
   nuxt._siteConfig = siteConfig
