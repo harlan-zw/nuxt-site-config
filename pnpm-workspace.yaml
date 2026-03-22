@@ -29,7 +29,6 @@ catalog:
   execa: ^9.6.1
   floating-vue: ^5.2.2
   h3: ^1.15.10
-  lint-staged: ^16.4.0
   nuxt: ^4.4.2
   nuxt-i18n-micro: ^3.13.4
   pathe: ^2.0.3
