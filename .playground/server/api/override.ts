@@ -1,4 +1,4 @@
-import { eventHandler, updateSiteConfig, useNitroOrigin, useSiteConfig } from '#imports'
+import { eventHandler, getSiteConfig, updateSiteConfig, useNitroOrigin } from '#imports'
 
 export default eventHandler((e) => {
   updateSiteConfig(e, {
@@ -7,6 +7,6 @@ export default eventHandler((e) => {
   })
   return {
     origin: useNitroOrigin(e),
-    ...useSiteConfig(e),
+    ...getSiteConfig(e),
   }
 })

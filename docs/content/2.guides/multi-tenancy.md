@@ -55,7 +55,7 @@ The config object supports all standard site configuration options plus any cust
 
 1. When a request is received, the module checks the hostname against the configured hosts arrays
 2. If a match is found, the corresponding config is applied
-3. The configuration is made available through the `useSiteConfig()` composable
+3. The configuration is made available through the `getSiteConfig(event)` composable on the server or `useSiteConfig()` on the client
 
 ## Runtime Multi-Tenancy
 
