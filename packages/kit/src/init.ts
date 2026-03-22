@@ -1,8 +1,7 @@
 import type { Nuxt } from '@nuxt/schema'
 import type { SiteConfigInput, SiteConfigResolved, SiteConfigStack } from 'site-config-stack'
 import { installModule, resolvePath, tryUseNuxt } from '@nuxt/kit'
-
-import { createSiteConfigStack, envSiteConfig } from 'site-config-stack'
+import { createSiteConfigStack, envSiteConfig, SiteConfigPriority } from 'site-config-stack'
 
 export async function initSiteConfig(nuxt: Nuxt | null = tryUseNuxt()): Promise<SiteConfigStack | undefined> {
   if (!nuxt)
@@ -17,14 +16,14 @@ export async function initSiteConfig(nuxt: Nuxt | null = tryUseNuxt()): Promise<
 
   siteConfig.push({
     _context: 'system',
-    _priority: -15,
+    _priority: SiteConfigPriority.system,
     env: process.env.NODE_ENV,
   })
 
   // add the env vars lowest priority
   siteConfig.push({
     _context: 'vendorEnv',
-    _priority: -5,
+    _priority: SiteConfigPriority.vendor,
     url: [
       // vercel
       process.env.VERCEL_URL,
@@ -45,7 +44,7 @@ export async function initSiteConfig(nuxt: Nuxt | null = tryUseNuxt()): Promise<
   // env is highest support
   siteConfig.push({
     _context: 'buildEnv',
-    _priority: -1,
+    _priority: SiteConfigPriority.build,
     ...envSiteConfig(process.env || {}),
   })
   nuxt._siteConfig = siteConfig

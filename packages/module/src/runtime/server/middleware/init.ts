@@ -1,7 +1,7 @@
 import type { HookSiteConfigInitContext } from '../../types'
 import { eventHandler } from 'h3'
 import { useNitroApp, useRuntimeConfig } from 'nitropack/runtime'
-import { createSiteConfigStack, envSiteConfig } from 'site-config-stack'
+import { createSiteConfigStack, envSiteConfig, SiteConfigPriority } from 'site-config-stack'
 import { parseURL } from 'ufo'
 import { getNitroOrigin } from '../composables/getNitroOrigin'
 
@@ -23,13 +23,13 @@ export default eventHandler(async (e) => {
   if (!import.meta.prerender) {
     siteConfig.push({
       _context: 'nitro:init',
-      _priority: -4,
+      _priority: SiteConfigPriority.nitro,
       url: nitroOrigin,
     })
   }
   siteConfig.push({
     _context: 'runtimeEnv',
-    _priority: 0,
+    _priority: SiteConfigPriority.runtime,
     ...(runtimeConfig.site || {}),
     ...(runtimeConfig.public.site || {}),
     ...envSiteConfig(import.meta.env || {}), // just in-case, shouldn't be needed
@@ -51,7 +51,7 @@ export default eventHandler(async (e) => {
     if (tenant) {
       siteConfig.push({
         _context: `multi-tenancy:${host}`,
-        _priority: 0,
+        _priority: SiteConfigPriority.runtime,
         ...tenant.config,
       })
     }
