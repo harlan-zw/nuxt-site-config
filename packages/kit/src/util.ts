@@ -1,4 +1,4 @@
-import { env, isDevelopment } from 'std-env'
+import { isDevelopment } from 'std-env'
 
 const PROTOCOL_RE = /^https?:\/\//
 const TRAILING_SLASH_RE = /\/$/
@@ -60,15 +60,15 @@ function splitHostPort(host: string): { host: string, port: string } {
 
 export function getNitroOrigin(ctx: NitroOriginContext = {}): string {
   const isDev = ctx.isDev ?? isDevelopment
-  const isPrerender = ctx.isPrerender ?? !!env.prerender
+  const isPrerender = ctx.isPrerender ?? !!process.env.prerender
 
   let host = ''
   let port = ''
-  let protocol: 'https' | 'http' = (env.NITRO_SSL_CERT && env.NITRO_SSL_KEY) ? 'https' : 'http'
+  let protocol: 'https' | 'http' = (process.env.NITRO_SSL_CERT && process.env.NITRO_SSL_KEY) ? 'https' : 'http'
 
   // dev/prerender: use nuxt dev server origin
   if (isDev || isPrerender) {
-    const devEnv = env.__NUXT_DEV__ || env.NUXT_VITE_NODE_OPTIONS
+    const devEnv = process.env.__NUXT_DEV__ || process.env.NUXT_VITE_NODE_OPTIONS
     if (devEnv) {
       const parsed = JSON.parse(devEnv)
       const origin = (parsed.proxy?.url || parsed.baseURL?.replace('/__nuxt_vite_node__', '')) as string
@@ -95,9 +95,9 @@ export function getNitroOrigin(ctx: NitroOriginContext = {}): string {
 
   // fallback to env vars
   if (!host) {
-    host = env.NITRO_HOST || env.HOST || ''
+    host = process.env.NITRO_HOST || process.env.HOST || ''
     if (isDev)
-      port = env.NITRO_PORT || env.PORT || '3000'
+      port = process.env.NITRO_PORT || process.env.PORT || '3000'
   }
 
   // extract port from host if present (e.g. "localhost:3000", "[::1]:3000")
@@ -107,8 +107,8 @@ export function getNitroOrigin(ctx: NitroOriginContext = {}): string {
     port = split.port
 
   // allow overrides
-  host = env.NUXT_SITE_HOST_OVERRIDE || host
-  port = env.NUXT_SITE_PORT_OVERRIDE || port
+  host = process.env.NUXT_SITE_HOST_OVERRIDE || host
+  port = process.env.NUXT_SITE_PORT_OVERRIDE || port
 
   // handle host with protocol
   if (host.startsWith('http://') || host.startsWith('https://')) {
