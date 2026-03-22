@@ -55,7 +55,7 @@ The config object supports all standard site configuration options plus any cust
 
 1. When the module receives a request, it checks the hostname against the configured hosts arrays
 2. When it finds a match, it applies the corresponding config
-3. The configuration is made available through the `useSiteConfig()`{lang="ts"} composable
+3. The configuration is made available via `useSiteConfig()`{lang="ts"} in Nuxt app code (client and SSR), and via `getSiteConfig(event)`{lang="ts"} in Nitro handlers or middleware where you have access to the `H3Event`
 
 ## Runtime Multi-Tenancy
 
