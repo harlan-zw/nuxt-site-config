@@ -4,6 +4,30 @@ import { i18nPluginDeps } from '#build/nuxt-site-config/i18n-plugin-deps.mjs'
 import { parseURL } from 'ufo'
 import { computed, toValue, watch } from 'vue'
 
+function resolveDefaultLocale(i18n: any): string | undefined {
+  const locale = toValue(i18n.locales).find((l: any) => l.code === i18n.defaultLocale)
+  return locale?.language || locale?.iso || i18n.defaultLocale
+}
+
+function resolveI18nUrl(i18n: any): string | undefined {
+  return toValue(i18n.baseUrl) || undefined
+}
+
+function resolveCurrentLocale(i18n: any): string | undefined {
+  const properties = toValue(i18n.localeProperties)
+  if (properties.language)
+    return properties.language
+  return resolveDefaultLocale(i18n)
+}
+
+function resolveDescription(i18n: any): string | undefined {
+  return i18n.te('nuxtSiteConfig.description') ? i18n.t('nuxtSiteConfig.description') : undefined
+}
+
+function resolveName(i18n: any): string | undefined {
+  return i18n.te('nuxtSiteConfig.name') ? i18n.t('nuxtSiteConfig.name') : undefined
+}
+
 export default defineNuxtPlugin({
   name: 'nuxt-site-config:i18n',
   dependsOn: i18nPluginDeps,
@@ -28,39 +52,30 @@ export default defineNuxtPlugin({
       }
     }
 
-    // create computed values once (not inside watch to avoid accumulating Vue effects)
-    const defaultLocale = computed(() => {
-      const locale = toValue((i18n as any).locales).find((l: any) => l.code === (i18n as any).defaultLocale)
-      return locale?.language || locale?.iso || (i18n as any).defaultLocale
-    })
-    const i18nUrl = computed(() => {
-      const url = toValue((i18n as any).baseUrl)
-      return url || undefined
-    })
-    const currentLocale = computed(() => {
-      const properties = toValue((i18n as any).localeProperties)
-      if (properties.language)
-        return properties.language
-      return defaultLocale.value
-    })
-    const description = computed(() => (i18n as any).te('nuxtSiteConfig.description') ? (i18n as any).t('nuxtSiteConfig.description') : undefined)
-    const name = computed(() => (i18n as any).te('nuxtSiteConfig.name') ? (i18n as any).t('nuxtSiteConfig.name') : undefined)
-
-    // on server: push once, no need for watch (locale won't change during SSR)
+    // On SSR, the locale is fixed for the request. Push plain values instead of
+    // computed refs to avoid retaining Vue effect scopes on the H3 event context.
+    // Computed refs capture closures over the i18n instance (which references nuxtApp),
+    // preventing GC of the entire nuxtApp and its payload after rendering.
     if (import.meta.server) {
       stack!.push({
         _priority: -2,
         _context: '@nuxtjs/i18n',
-        url: i18nUrl,
-        defaultLocale,
-        currentLocale,
-        description,
-        name,
+        url: resolveI18nUrl(i18n),
+        defaultLocale: resolveDefaultLocale(i18n),
+        currentLocale: resolveCurrentLocale(i18n),
+        description: resolveDescription(i18n),
+        name: resolveName(i18n),
       })
       return
     }
 
-    // on client: use watch for locale changes
+    // On client: use computed + watch for reactive locale changes
+    const defaultLocale = computed(() => resolveDefaultLocale(i18n))
+    const i18nUrl = computed(() => resolveI18nUrl(i18n))
+    const currentLocale = computed(() => resolveCurrentLocale(i18n))
+    const description = computed(() => resolveDescription(i18n))
+    const name = computed(() => resolveName(i18n))
+
     let siteConfigEntry: (() => void) | undefined
     watch((i18n as any).locale, () => {
       if (siteConfigEntry)
