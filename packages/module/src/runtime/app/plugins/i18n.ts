@@ -1,8 +1,9 @@
-import { defineNuxtPlugin, useNuxtApp, useRequestEvent } from '#app'
+import { defineNuxtPlugin } from '#app'
 // @ts-expect-error untyped
 import { i18nPluginDeps } from '#build/nuxt-site-config/i18n-plugin-deps.mjs'
 import { parseURL } from 'ufo'
 import { computed, toValue, watch } from 'vue'
+import { getSiteConfigStack } from './i18n-shared'
 
 function resolveDefaultLocale(i18n: any): string | undefined {
   const locale = toValue(i18n.locales).find((l: any) => l.code === i18n.defaultLocale)
@@ -35,7 +36,7 @@ export default defineNuxtPlugin({
     const i18n = nuxtApp.$i18n
     if (!i18n)
       return
-    const stack = import.meta.server ? useRequestEvent()?.context.siteConfig : useNuxtApp().$nuxtSiteConfig
+    const stack = getSiteConfigStack()
     const i18nBaseUrl = toValue((i18n as any).baseUrl)
     if (i18nBaseUrl) {
       const siteConfig = stack!.get({ resolveRefs: true })
