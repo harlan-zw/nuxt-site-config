@@ -6,6 +6,7 @@ export default antfu(
     type: 'lib',
     ignores: [
       'CLAUDE.md',
+      '.claude/**',
       'test/fixtures/**',
       'playground/**',
       '.playground/**',
