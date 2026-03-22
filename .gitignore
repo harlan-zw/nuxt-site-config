@@ -38,6 +38,9 @@ coverage
 # VSCode
 .vscode
 
+# Claude Code
+.claude/worktrees
+
 # Intellij idea
 *.iml
 .idea

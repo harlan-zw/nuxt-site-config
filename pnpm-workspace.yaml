@@ -22,6 +22,7 @@ catalog:
   '@nuxtjs/eslint-config-typescript': ^12.1.0
   '@nuxtjs/i18n': ^10.2.3
   '@types/node': ^25.5.0
+  '@vue/test-utils': ^2.4.6
   '@vueuse/core': ^14.2.1
   bumpp: ^11.0.1
   eslint: ^10.1.0
@@ -29,7 +30,7 @@ catalog:
   execa: ^9.6.1
   floating-vue: ^5.2.2
   h3: ^1.15.10
-  lint-staged: ^16.4.0
+  happy-dom: ^20.8.4
   nuxt: ^4.4.2
   nuxt-i18n-micro: ^3.13.4
   pathe: ^2.0.3

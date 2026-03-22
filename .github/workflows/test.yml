@@ -68,4 +68,5 @@ jobs:
           cache: pnpm
       - run: pnpm i
       - run: pnpm dev:prepare
+      - run: pnpm build
       - run: pnpm test --run
