@@ -1,6 +1,5 @@
 export * from './getNitroOrigin'
 export * from './getSiteConfig'
-export * from './getSiteIndexable'
 export * from './updateSiteConfig'
 export * from './useNitroOrigin'
 export * from './useSiteConfig'

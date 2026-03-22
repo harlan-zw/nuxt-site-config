@@ -45,11 +45,6 @@ export interface SiteConfigResolved {
   [key: string]: any
 }
 
-/**
- * @deprecated use SiteConfigResolved
- */
-export type SiteConfig = SiteConfigResolved
-
 export type MaybeComputedRef<T> = T | (() => T) | ComputedRef<T> | Ref<T>
 export type MaybeComputedRefEntries<T> = {
   [key in keyof T]?: MaybeComputedRef<T[key]>

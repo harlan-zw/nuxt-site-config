@@ -136,7 +136,7 @@ declare module 'nitropack' {
     site?: import('${typesPath}').SiteConfigInput
   }
   interface NitroRouteConfig {
-    site?: import('${typesPath}').SiteConfig
+    site?: import('${typesPath}').SiteConfigResolved
   }
   interface NitroRuntimeHooks {
     'site-config:init': (ctx: import('${typesPath}').HookSiteConfigInitContext) => void | Promise<void>
