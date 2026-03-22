@@ -51,7 +51,6 @@
   },
   "dependencies": {
     "@nuxt/kit": "catalog:",
-    "pkg-types": "catalog:",
     "site-config-stack": "workspace:*",
     "std-env": "catalog:",
     "ufo": "catalog:"

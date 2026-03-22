@@ -14,8 +14,7 @@ export interface SiteConfigResolved {
   /**
    * The name of the site.
    *
-   * - Build / Prerender: Inferred from CI environment (Netlify) or `package.json`
-   * - SSR:
+   * - Build / Prerender: Inferred from CI environment (Netlify)
    *
    * Used by: nuxt-schema-org, nuxt-seo-kit
    */
