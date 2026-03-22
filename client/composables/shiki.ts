@@ -1,16 +1,13 @@
 import type { HighlighterCore } from 'shiki'
-import type { Ref, ShallowRef, WritableComputedRef } from 'vue'
+import type { Ref } from 'vue'
 import { createHighlighterCore } from 'shiki/core'
 import { createJavaScriptRegexEngine } from 'shiki/engine/javascript'
 import { computed, ref, toValue } from 'vue'
-import { devtools } from './rpc'
-
-type MaybeRef<T = any> = T | Ref<T> | ShallowRef<T> | WritableComputedRef<T>
 
 export const shiki = ref<HighlighterCore>()
 
-export async function loadShiki(): Promise<HighlighterCore> {
-  // Only loading when needed
+// eslint-disable-next-line ts/explicit-function-return-type
+export async function loadShiki() {
   shiki.value = await createHighlighterCore({
     themes: [
       import('@shikijs/themes/vitesse-light'),
@@ -24,12 +21,12 @@ export async function loadShiki(): Promise<HighlighterCore> {
   return shiki.value
 }
 
-export function renderCodeHighlight(code: MaybeRef<string>, lang: 'json'): WritableComputedRef<string> {
+// eslint-disable-next-line ts/explicit-function-return-type
+export function useRenderCodeHighlight(code: Ref<string> | string, lang: 'json') {
   return computed(() => {
-    const colorMode = devtools.value?.colorMode || 'light'
-    return shiki.value!.codeToHtml(toValue(code), {
+    return shiki.value!.codeToHtml(toValue(code) || '', {
       lang,
-      theme: colorMode === 'dark' ? 'vitesse-dark' : 'vitesse-light',
+      themes: { light: 'vitesse-light', dark: 'vitesse-dark' },
     }) || ''
   })
 }

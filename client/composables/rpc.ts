@@ -8,7 +8,7 @@ export const appFetch = ref<$Fetch>()
 
 export const devtools = ref<NuxtDevtoolsClient>()
 
-export const colorMode = ref<'dark' | 'light'>()
+export const colorMode = ref<'dark' | 'light'>('dark')
 
 onDevtoolsClientConnected(async (client) => {
   // @ts-expect-error untyped

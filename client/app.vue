@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import type { SiteConfigInput } from '../packages/site-config/src'
-import { useHead } from '#imports'
-import { computed, ref } from 'vue'
+import { computed, ref, useHead } from '#imports'
 import { colorMode } from './composables/rpc'
-import { loadShiki, renderCodeHighlight } from './composables/shiki'
+import { loadShiki, useRenderCodeHighlight } from './composables/shiki'
 import { data, refreshSources } from './composables/state'
-import 'floating-vue/dist/style.css'
 
 await loadShiki()
 
@@ -22,9 +20,10 @@ async function refresh() {
 
 const tab = ref('config')
 
+const isDark = computed(() => colorMode.value === 'dark')
 useHead({
   htmlAttrs: {
-    class: () => colorMode.value || '',
+    class: () => isDark.value ? 'dark' : '',
   },
 })
 
@@ -45,175 +44,303 @@ function normaliseSiteConfigInput(_input: Partial<SiteConfigInput>) {
   delete input._context
   return input
 }
+
+const navItems = [
+  { value: 'config', icon: 'carbon:settings', label: 'Config' },
+  { value: 'stack', icon: 'carbon:stacked-scrolling-1', label: 'Stack' },
+  { value: 'debug', icon: 'carbon:debug', label: 'Debug' },
+  { value: 'docs', icon: 'carbon:book', label: 'Docs' },
+]
 </script>
 
 <template>
-  <div class="relative n-bg-base flex flex-col">
-    <header class="sticky top-0 z-2 px-4 pt-4">
-      <div class="flex justify-between items-start" mb2>
-        <div class="flex space-x-5">
-          <h1 text-xl flex items-center gap-2>
-            <NIcon icon="carbon:settings-check" class="text-blue-300" />
-            Site Config <NBadge class="text-sm">
-              {{ data?.version }}
-            </NBadge>
-          </h1>
-        </div>
-        <div class="flex items-center space-x-3 text-xl">
-          <fieldset
-            class="n-select-tabs flex flex-inline flex-wrap items-center border n-border-base rounded-lg n-bg-base"
-          >
-            <label
-              v-for="(value, idx) of ['config', 'stack', 'debug', 'docs']"
-              :key="idx"
-              class="relative n-border-base hover:n-bg-active cursor-pointer"
-              :class="[
-                idx ? 'border-l n-border-base ml--1px' : '',
-                value === tab ? 'n-bg-active' : '',
-              ]"
+  <UApp>
+    <div class="relative bg-base flex flex-col min-h-screen">
+      <div class="gradient-bg" />
+
+      <!-- Header -->
+      <header class="header glass sticky top-0 z-50">
+        <div class="header-content">
+          <!-- Logo & Brand -->
+          <div class="flex items-center gap-3 sm:gap-4">
+            <a
+              href="https://nuxtseo.com"
+              target="_blank"
+              class="flex items-center opacity-90 hover:opacity-100 transition-opacity"
             >
-              <div v-if="value === 'config'" :class="[value === tab ? '' : 'op35']">
-                <VTooltip>
-                  <div class="px-5 py-2">
-                    <h2 text-lg flex items-center>
-                      <NIcon icon="carbon:settings opacity-50" />
-                    </h2>
-                  </div>
-                  <template #popper>
-                    Site Config
-                  </template>
-                </VTooltip>
+              <NuxtSeoLogo class="h-6 sm:h-7" />
+            </a>
+
+            <div class="divider" />
+
+            <div class="flex items-center gap-2">
+              <div class="brand-icon">
+                <UIcon name="carbon:settings-check" class="text-base sm:text-lg" />
               </div>
-              <div v-else-if="value === 'stack'" :class="[value === tab ? '' : 'op35']">
-                <VTooltip>
-                  <div class="px-5 py-2">
-                    <h2 text-lg flex items-center>
-                      <NIcon icon="carbon:stacked-scrolling-1 opacity-50" />
-                      <NBadge class="text-sm">
-                        {{ stack.length }}
-                      </NBadge>
-                    </h2>
-                  </div>
-                  <template #popper>
-                    Stack
-                  </template>
-                </VTooltip>
-              </div>
-              <div v-else-if="value === 'debug'" :class="[value === tab ? '' : 'op35']">
-                <VTooltip>
-                  <div class="px-5 py-2">
-                    <h2 text-lg flex items-center>
-                      <NIcon icon="carbon:debug opacity-50" />
-                    </h2>
-                  </div>
-                  <template #popper>
-                    Debug
-                  </template>
-                </VTooltip>
-              </div>
-              <div v-else-if="value === 'docs'" :class="[value === tab ? '' : 'op35']">
-                <VTooltip>
-                  <div class="px-5 py-2">
-                    <h2 text-lg flex items-center>
-                      <NIcon icon="carbon:book opacity-50" />
-                    </h2>
-                  </div>
-                  <template #popper>
-                    Documentation
-                  </template>
-                </VTooltip>
-              </div>
-              <input
-                v-model="tab"
-                type="radio"
-                :value="value"
-                :title="value"
-                class="absolute cursor-pointer pointer-events-none inset-0 op-0.1"
+              <h1 class="text-sm sm:text-base font-semibold tracking-tight text-[var(--color-text)]">
+                Site Config
+              </h1>
+              <UBadge
+                v-if="data?.version"
+                color="neutral"
+                variant="subtle"
+                size="xs"
+                class="font-mono text-[10px] sm:text-xs hidden sm:inline-flex"
               >
-            </label>
-          </fieldset>
-          <VTooltip>
-            <button text-lg="" type="button" class="n-icon-button n-button n-transition n-disabled:n-disabled" @click="refresh">
-              <NIcon icon="carbon:reset" class="group-hover:text-green-500" />
-            </button>
-            <template #popper>
-              Refresh
-            </template>
-          </VTooltip>
-        </div>
-        <div class="items-center space-x-3 hidden lg:flex">
-          <div class="opacity-80 text-sm">
-            <NLink href="https://github.com/sponsors/harlan-zw" target="_blank">
-              <NIcon icon="carbon:favorite" class="mr-[2px]" />
-              Sponsor
-            </NLink>
+                {{ data.version }}
+              </UBadge>
+            </div>
           </div>
-          <div class="opacity-80 text-sm">
-            <NLink href="https://github.com/harlan-zw/nuxt-site-config" target="_blank">
-              <NIcon icon="logos:github-icon" class="mr-[2px]" />
-              Submit an issue
-            </NLink>
-          </div>
-          <a href="https://nuxtseo.com" target="_blank" aria-label="Nuxt SEO" class="flex items-end gap-1.5 font-semibold text-xl dark:text-white font-title">
-            <NuxtSeoLogo />
-          </a>
+
+          <!-- Navigation -->
+          <nav class="flex items-center gap-1 sm:gap-2">
+            <!-- Nav Tabs -->
+            <div class="nav-tabs">
+              <button
+                v-for="item of navItems"
+                :key="item.value"
+                type="button"
+                class="nav-tab"
+                :class="[tab === item.value ? 'active' : '']"
+                @click="tab = item.value"
+              >
+                <UTooltip :text="item.label" :delay-duration="300">
+                  <div class="nav-tab-inner">
+                    <UIcon
+                      :name="item.icon"
+                      class="text-base sm:text-lg"
+                      :class="tab === item.value ? 'text-[var(--seo-green)]' : ''"
+                    />
+                    <span class="nav-label">{{ item.label }}</span>
+                  </div>
+                </UTooltip>
+              </button>
+            </div>
+
+            <!-- Actions -->
+            <div class="flex items-center gap-1">
+              <UTooltip text="Refresh" :delay-duration="300">
+                <UButton
+                  variant="ghost"
+                  color="neutral"
+                  size="sm"
+                  icon="carbon:reset"
+                  class="nav-action"
+                  @click="refresh"
+                />
+              </UTooltip>
+
+              <UTooltip text="GitHub" :delay-duration="300">
+                <UButton
+                  variant="ghost"
+                  color="neutral"
+                  size="sm"
+                  icon="simple-icons:github"
+                  to="https://github.com/harlan-zw/nuxt-site-config"
+                  target="_blank"
+                  class="nav-action hidden sm:flex"
+                />
+              </UTooltip>
+            </div>
+          </nav>
         </div>
-      </div>
-    </header>
-    <div class="flex-row flex p4 h-full" style="min-height: calc(100vh - 64px);">
-      <main class="mx-auto flex flex-col w-full bg-white dark:bg-black dark:bg-dark-700 bg-light-200 ">
-        <NLoading v-if="!stack || loading" />
-        <template v-else>
-          <div v-if="tab === 'config'">
-            <div class="space-y-3">
-              <div v-for="([key, value]) in config" :key="key" class="w-full grid grid-cols-12 items-center space-x-3 py-1.5 px-3 shadow-sm border-t-1 border-t-transparent border-b-1 border-b-gray-200/20">
-                <div class="col-span-2 opacity-80">
+      </header>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <main class="mx-auto flex flex-col w-full max-w-7xl">
+          <div v-if="!stack.length || loading" class="flex items-center justify-center py-20">
+            <UIcon name="carbon:circle-dash" class="text-2xl animate-spin text-[var(--color-text-muted)]" />
+          </div>
+          <template v-else>
+            <div v-if="tab === 'config'" class="space-y-3 animate-fade-up">
+              <div v-for="([key, value]) in config" :key="key" class="w-full grid grid-cols-12 items-center gap-3 py-2 px-3 border-b border-[var(--color-border-subtle)]">
+                <div class="col-span-2 text-sm font-medium text-[var(--color-text-muted)]">
                   {{ key }}
                 </div>
                 <div class="col-span-7">
                   <OCodeBlock :lines="false" class="max-h-[350px] min-h-full overflow-y-auto" :code="JSON.stringify(value, null, 2)" lang="json" />
                 </div>
-                <div v-if="data?.config._context && key in data.config._context" class="opacity-40">
+                <div v-if="data?.config._context && key in data.config._context" class="col-span-3 text-xs text-[var(--color-text-subtle)]">
                   {{ data.config._context[key] }}
                 </div>
               </div>
             </div>
-          </div>
-          <div v-if="tab === 'stack'" class="space-y-5">
-            <OSectionBlock v-for="(s, key) in stack" :key="key">
-              <template #text>
-                <h3 class="opacity-80 text-base mb-1">
-                  {{ s._context }}
-                </h3>
-              </template>
-              <template #description>
-                <div class="opacity-60 text-xs">
-                  Priority: {{ s._priority || 0 }}
+            <div v-if="tab === 'stack'" class="space-y-5 animate-fade-up">
+              <OSectionBlock v-for="(s, key) in stack" :key="key">
+                <template #text>
+                  <h3 class="text-base font-semibold text-[var(--color-text)]">
+                    {{ s._context }}
+                  </h3>
+                </template>
+                <template #description>
+                  <div class="text-xs text-[var(--color-text-muted)]">
+                    Priority: {{ s._priority || 0 }}
+                  </div>
+                </template>
+                <div class="px-3 py-2 space-y-5">
+                  <OCodeBlock class="max-h-[350px] min-h-full overflow-y-auto" :code="JSON.stringify(normaliseSiteConfigInput(s), null, 2)" lang="json" />
                 </div>
-              </template>
-              <div class="px-3 py-2 space-y-5">
-                <OCodeBlock class="max-h-[350px] min-h-full overflow-y-auto" :code="JSON.stringify(normaliseSiteConfigInput(s), null, 2)" lang="json" />
-              </div>
-            </OSectionBlock>
-          </div>
-          <div v-else-if="tab === 'debug'" class="h-full max-h-full overflow-hidden">
-            <OSectionBlock>
-              <template #text>
-                <h3 class="opacity-80 text-base mb-1">
-                  <NIcon icon="carbon:settings" class="mr-1" />
-                  Runtime Config
-                </h3>
-              </template>
-              <div class="px-3 py-2 space-y-5">
-                <pre of-auto h-full text-sm style="white-space: break-spaces;" v-html="renderCodeHighlight(JSON.stringify(data, null, 2), 'json').value" />
-              </div>
-            </OSectionBlock>
-          </div>
-          <div v-else-if="tab === 'docs'" class="h-full max-h-full overflow-hidden">
-            <iframe src="https://nuxtseo.com/site-config" class="w-full h-full border-none" style="min-height: calc(100vh - 100px);" />
-          </div>
-        </template>
-      </main>
+              </OSectionBlock>
+            </div>
+            <div v-else-if="tab === 'debug'" class="animate-fade-up">
+              <OSectionBlock>
+                <template #text>
+                  <h3 class="text-base font-semibold text-[var(--color-text)]">
+                    <UIcon name="carbon:settings" class="mr-1" />
+                    Runtime Config
+                  </h3>
+                </template>
+                <div class="px-3 py-2 space-y-5">
+                  <pre class="overflow-auto h-full text-sm" style="white-space: break-spaces;" v-html="useRenderCodeHighlight(JSON.stringify(data, null, 2), 'json').value" />
+                </div>
+              </OSectionBlock>
+            </div>
+            <div v-else-if="tab === 'docs'" class="h-full max-h-full overflow-hidden">
+              <iframe src="https://nuxtseo.com/site-config" class="w-full h-full border-none" style="min-height: calc(100vh - 100px);" />
+            </div>
+          </template>
+        </main>
+      </div>
     </div>
-  </div>
+  </UApp>
 </template>
+
+<style>
+/* Header */
+.header {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.625rem 1rem;
+  max-width: 80rem;
+  margin: 0 auto;
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  .header-content {
+    padding: 0.75rem 1.25rem;
+  }
+}
+
+.divider {
+  width: 1px;
+  height: 1.25rem;
+  background: var(--color-border);
+}
+
+.brand-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: var(--radius-sm);
+  background: oklch(65% 0.2 145 / 0.12);
+  color: var(--seo-green);
+}
+
+/* Navigation tabs */
+.nav-tabs {
+  display: flex;
+  align-items: center;
+  gap: 0.125rem;
+  padding: 0.25rem;
+  border-radius: var(--radius-md);
+  background: var(--color-surface-sunken);
+  border: 1px solid var(--color-border-subtle);
+}
+
+.nav-tab {
+  position: relative;
+  border-radius: var(--radius-sm);
+  transition: background 150ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 150ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.nav-tab-inner {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.5rem;
+  color: var(--color-text-muted);
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+
+@media (min-width: 640px) {
+  .nav-tab-inner {
+    padding: 0.375rem 0.75rem;
+  }
+}
+
+.nav-tab:hover .nav-tab-inner {
+  color: var(--color-text);
+}
+
+.nav-tab.active {
+  background: var(--color-surface-elevated);
+  box-shadow: 0 1px 3px oklch(0% 0 0 / 0.08);
+}
+
+.dark .nav-tab.active {
+  box-shadow: 0 1px 3px oklch(0% 0 0 / 0.3);
+}
+
+.nav-tab.active .nav-tab-inner {
+  color: var(--color-text);
+}
+
+.nav-label {
+  display: none;
+}
+
+@media (min-width: 640px) {
+  .nav-label {
+    display: inline;
+  }
+}
+
+.nav-action {
+  color: var(--color-text-muted) !important;
+}
+
+.nav-action:hover {
+  color: var(--color-text) !important;
+  background: var(--color-surface-sunken) !important;
+}
+
+/* Main content wrapper */
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 0.75rem;
+  min-height: calc(100vh - 60px);
+}
+
+@media (min-width: 640px) {
+  .main-content {
+    padding: 1rem;
+  }
+}
+
+/* Base HTML */
+html {
+  font-family: var(--font-sans);
+  overflow-y: scroll;
+  overscroll-behavior: none;
+}
+
+body {
+  min-height: 100vh;
+}
+
+html.dark {
+  color-scheme: dark;
+}
+</style>
