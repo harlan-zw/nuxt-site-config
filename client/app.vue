@@ -1,6 +1,7 @@
 <script setup lang="ts">
+import type { KeyValueItem } from '@nuxtjs/seo/shared'
 import type { SiteConfigInput } from '../packages/site-config/src'
-import { computed, ref, useRenderCodeHighlight } from '#imports'
+import { computed, ref } from '#imports'
 import { data, refreshSources } from './composables/state'
 
 useDevtoolsConnection({
@@ -24,18 +25,39 @@ const stack = computed<Partial<SiteConfigInput>[]>(() => {
   return (data.value?.stack || []).toReversed()
 })
 
-const config = computed(() => {
+function formatValue(value: unknown): string | boolean | undefined {
+  if (value === undefined || value === null)
+    return undefined
+  if (typeof value === 'boolean')
+    return value
+  if (typeof value === 'string' || typeof value === 'number')
+    return String(value)
+  return JSON.stringify(value, null, 2)
+}
+
+const configItems = computed<KeyValueItem[]>(() => {
   const _config = { ...data.value?.config || {} }
+  const context = _config._context || {}
   delete _config._context
   delete _config._priorities
-  return Object.entries(_config)
+  return Object.entries(_config).map(([key, value]) => ({
+    key: context[key] ? `${key} (${context[key]})` : key,
+    value: formatValue(value),
+    copyable: true,
+    mono: true,
+  }))
 })
 
-function normaliseSiteConfigInput(_input: Partial<SiteConfigInput>) {
-  const input = { ..._input }
-  delete input._priority
-  delete input._context
-  return input
+function stackItems(input: Partial<SiteConfigInput>): KeyValueItem[] {
+  const normalized = { ...input }
+  delete normalized._priority
+  delete normalized._context
+  return Object.entries(normalized).map(([key, value]) => ({
+    key,
+    value: formatValue(value),
+    copyable: true,
+    mono: true,
+  }))
 }
 
 const navItems = [
@@ -57,48 +79,24 @@ const navItems = [
     :loading="loading || !stack.length"
     @refresh="refresh"
   >
-    <div v-if="tab === 'config'" class="space-y-3 animate-fade-up">
-      <div v-for="([key, value]) in config" :key="key" class="w-full grid grid-cols-12 items-center gap-3 py-2 px-3 border-b border-[var(--color-border-subtle)]">
-        <div class="col-span-2 text-sm font-medium text-[var(--color-text-muted)]">
-          {{ key }}
-        </div>
-        <div class="col-span-7">
-          <OCodeBlock :lines="false" class="max-h-[350px] min-h-full overflow-y-auto" :code="JSON.stringify(value, null, 2)" lang="json" />
-        </div>
-        <div v-if="data?.config._context && key in data.config._context" class="col-span-3 text-xs text-[var(--color-text-subtle)]">
-          {{ data.config._context[key] }}
-        </div>
-      </div>
+    <div v-if="tab === 'config'" class="animate-fade-up">
+      <DevtoolsKeyValue :items="configItems" striped />
     </div>
     <div v-if="tab === 'stack'" class="space-y-5 animate-fade-up">
-      <OSectionBlock v-for="(s, key) in stack" :key="key">
+      <DevtoolsSection v-for="(s, key) in stack" :key="key">
         <template #text>
           <h3 class="text-base font-semibold text-[var(--color-text)]">
             {{ s._context }}
           </h3>
         </template>
         <template #description>
-          <div class="text-xs text-[var(--color-text-muted)]">
-            Priority: {{ s._priority || 0 }}
-          </div>
+          <DevtoolsMetric :value="s._priority || 0" label="priority" icon="carbon:chart-bar" />
         </template>
-        <div class="px-3 py-2 space-y-5">
-          <OCodeBlock class="max-h-[350px] min-h-full overflow-y-auto" :code="JSON.stringify(normaliseSiteConfigInput(s), null, 2)" lang="json" />
-        </div>
-      </OSectionBlock>
+        <DevtoolsKeyValue :items="stackItems(s)" />
+      </DevtoolsSection>
     </div>
     <div v-else-if="tab === 'debug'" class="animate-fade-up">
-      <OSectionBlock>
-        <template #text>
-          <h3 class="text-base font-semibold text-[var(--color-text)]">
-            <UIcon name="carbon:settings" class="mr-1" />
-            Runtime Config
-          </h3>
-        </template>
-        <div class="px-3 py-2 space-y-5">
-          <pre class="overflow-auto h-full text-sm" style="white-space: break-spaces;" v-html="useRenderCodeHighlight(JSON.stringify(data, null, 2), 'json').value" />
-        </div>
-      </OSectionBlock>
+      <DevtoolsSnippet :code="JSON.stringify(data, null, 2)" lang="json" label="Runtime Config" />
     </div>
     <div v-else-if="tab === 'docs'" class="h-full max-h-full overflow-hidden">
       <DevtoolsDocs url="https://nuxtseo.com/site-config" />
