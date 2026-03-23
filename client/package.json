@@ -10,6 +10,7 @@
     "@nuxt/devtools-kit": "catalog:",
     "@nuxt/kit": "catalog:",
     "nuxt": "catalog:",
+    "nuxtseo-layer-devtools": "catalog:",
     "nuxtseo-shared": "catalog:",
     "vue": "catalog:",
     "vue-router": "catalog:"

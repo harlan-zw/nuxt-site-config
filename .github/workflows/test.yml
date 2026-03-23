@@ -1,72 +1,18 @@
-name: Test
-
-permissions:
-  contents: read
+name: CI
 
 on:
   push:
-    branches:
-      - main
     paths-ignore:
       - '**/README.md'
-  pull_request:
-    branches:
-      - main
+      - 'docs/**'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.number || github.sha }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+
 jobs:
-  lint:
-    runs-on: ubuntu-24.04-arm
-    steps:
-      - uses: actions/checkout@v6
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v6
-        with:
-          node-version: lts/*
-          cache: pnpm
-      - run: pnpm i
-      - run: pnpm lint
-
-  build:
-    runs-on: ubuntu-24.04-arm
-    steps:
-      - uses: actions/checkout@v6
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v6
-        with:
-          node-version: lts/*
-          cache: pnpm
-      - run: pnpm i
-      - run: pnpm dev:prepare
-      - run: pnpm build
-
-  typecheck:
-    runs-on: ubuntu-24.04-arm
-    steps:
-      - uses: actions/checkout@v6
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v6
-        with:
-          node-version: lts/*
-          cache: pnpm
-      - run: pnpm i
-      - run: pnpm dev:prepare
-      - run: pnpm typecheck
-      - run: pnpm test:attw
-
-  test:
-    runs-on: ubuntu-24.04-arm
-    steps:
-      - uses: actions/checkout@v6
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v6
-        with:
-          node-version: lts/*
-          cache: pnpm
-      - run: pnpm i
-      - run: pnpm dev:prepare
-      - run: pnpm build
-      - run: pnpm test --run
+  ci:
+    uses: harlan-zw/nuxt-seo/.github/workflows/reusable-ci.yml@main
