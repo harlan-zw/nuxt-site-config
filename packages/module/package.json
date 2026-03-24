@@ -49,9 +49,7 @@
     "dist"
   ],
   "scripts": {
-    "client:build": "nuxi generate ../../client",
-    "client:dev": "nuxi dev ../../client --port 3030",
-    "build": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxt-module-build build && pnpm run client:build",
+    "build": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxt-module-build build",
     "dev:build": "nuxi build playground",
     "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare",
     "prepack": "pnpm run build",

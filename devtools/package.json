@@ -1,15 +1,13 @@
 {
-  "name": "nuxt-site-config-client",
+  "name": "nuxt-site-config-devtools",
   "private": true,
   "scripts": {
     "typecheck": "nuxt typecheck"
   },
   "devDependencies": {
     "@iconify-json/carbon": "catalog:",
-    "@iconify-json/simple-icons": "catalog:",
     "nuxt": "catalog:",
     "nuxtseo-layer-devtools": "catalog:",
-    "nuxtseo-shared": "catalog:",
     "vue": "catalog:"
   }
 }

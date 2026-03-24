@@ -7,13 +7,12 @@ packages:
   - packages/module
   - packages/kit
   - packages/site-config
-  - client
+  - devtools
 
 catalog:
   '@antfu/eslint-config': ^7.7.3
   '@arethetypeswrong/cli': ^0.18.2
   '@iconify-json/carbon': ^1.2.19
-  '@iconify-json/simple-icons': ^1.2.75
   '@nuxt/kit': ^4.4.2
   '@nuxt/module-builder': ^1.0.2
   '@nuxt/schema': ^4.4.2

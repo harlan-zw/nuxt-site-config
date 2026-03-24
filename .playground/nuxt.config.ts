@@ -12,39 +12,6 @@ export default defineNuxtConfig({
   modules: [
     NuxtSitConfig,
     '@nuxtjs/i18n',
-    /**
-     * Start a sub Nuxt Server for developing the client
-     *
-     * The terminal output can be found in the Terminals tab of the devtools.
-     */
-    defineNuxtModule({
-      setup(_, nuxt) {
-        if (!nuxt.options.dev)
-          return
-
-        const subprocess = startSubprocess(
-          {
-            command: 'npx',
-            args: ['nuxi', 'dev', '--port', '3030'],
-            cwd: resolve(__dirname, '../client'),
-          },
-          {
-            id: 'nuxt-site-config:client',
-            name: 'Nuxt Site Config Client Dev',
-          },
-        )
-        subprocess.getProcess().stdout?.on('data', (data) => {
-          console.log(` sub: ${data.toString()}`)
-        })
-
-        process.on('exit', () => {
-          subprocess.terminate()
-        })
-
-        // process.getProcess().stdout?.pipe(process.stdout)
-        // process.getProcess().stderr?.pipe(process.stderr)
-      },
-    }),
   ],
 
   nitro: {
