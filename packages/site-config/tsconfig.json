@@ -3,9 +3,8 @@
   "compilerOptions": {
     "target": "ESNext",
     "jsx": "preserve",
-    "baseUrl": ".",
     "module": "ESNext",
-    "moduleResolution": "Node",
+    "moduleResolution": "Bundler",
     "resolveJsonModule": true,
     "types": [
       "node"

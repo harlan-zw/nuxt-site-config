@@ -15,11 +15,11 @@ import {
   useLogger,
 } from '@nuxt/kit'
 import { getSiteConfigStack, initSiteConfig, updateSiteConfig } from 'nuxt-site-config-kit'
+import { setupDevToolsUI } from 'nuxtseo-shared/devtools'
 import { relative } from 'pathe'
 import { readPackageJSON } from 'pkg-types'
 import { SiteConfigPriority, validateSiteConfigStack } from 'site-config-stack'
 import { parseURL } from 'ufo'
-import { setupDevToolsUI } from './devtools'
 
 const PORT_SUFFIX_RE = /:\d+$/
 
@@ -257,8 +257,14 @@ export {}
         addPrerenderRoutes('/__site-config__/debug.json')
     }
 
-    if (nuxt.options.dev)
-      setupDevToolsUI(resolve)
+    if (nuxt.options.dev) {
+      setupDevToolsUI({
+        route: '/__nuxt-site-config',
+        name: 'nuxt-site-config',
+        title: 'Site Config',
+        icon: 'carbon:settings-check',
+      }, resolve)
+    }
 
     // injects the payload for non-ssr templates
     addServerPlugin(resolve('./runtime/server/plugins/injectState'))

@@ -1,21 +1,7 @@
 import { resolve } from 'pathe'
 
 export default defineNuxtConfig({
-  ssr: false,
-
-  modules: [
-    '@nuxt/fonts',
-    '@nuxt/ui',
-  ],
-
-  css: ['~/assets/css/global.css'],
-
-  // @ts-expect-error @nuxt/fonts module config
-  fonts: {
-    families: [
-      { name: 'Hubot Sans' },
-    ],
-  },
+  extends: ['nuxtseo-layer-devtools'],
 
   devtools: {
     enabled: false,

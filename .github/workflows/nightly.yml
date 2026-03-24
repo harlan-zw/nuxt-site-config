@@ -1,0 +1,18 @@
+name: Nightly
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+    tags:
+      - '!**'
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    uses: harlan-zw/nuxt-seo/.github/workflows/reusable-nightly.yml@main
+    with:
+      publish-packages: ./packages/module ./packages/kit ./packages/site-config

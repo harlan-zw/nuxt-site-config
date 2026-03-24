@@ -1,16 +1,18 @@
-import type { ModuleRuntimeConfig } from '../../packages/module/src/runtime/types'
-import type { SiteConfigResolved, SiteConfigStack } from '../../packages/site-config/src/type'
-import { ref } from 'vue'
-import { appFetch } from './rpc'
+import type { AsyncData } from 'nuxt/app'
+import { appFetch, refreshTime } from '#imports'
 
-export const data = ref<{
+export interface SiteConfigDebugData {
   nitroOrigin: string
-  config: SiteConfigResolved
-  stack: SiteConfigStack[]
-  runtimeConfig: ModuleRuntimeConfig
-} | null>(null)
+  config: Record<string, any>
+  stack: Array<Record<string, any> & { _context?: string, _priority?: number }>
+  runtimeConfig: Record<string, any>
+  version?: string
+}
 
-export async function refreshSources(): Promise<void> {
-  if (appFetch.value)
-    data.value = await appFetch.value('/__site-config__/debug.json')
+export function useSiteConfigData(): AsyncData<SiteConfigDebugData | null, Error | null> {
+  return useAsyncData<SiteConfigDebugData | null>('site-config-debug', async () => {
+    if (!appFetch.value)
+      return null
+    return appFetch.value('/__site-config__/debug.json')
+  }, { watch: [refreshTime] })
 }
