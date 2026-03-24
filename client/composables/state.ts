@@ -1,3 +1,4 @@
+import type { AsyncData } from 'nuxt/app'
 import { appFetch, refreshTime } from '#imports'
 
 export interface SiteConfigDebugData {
@@ -8,7 +9,7 @@ export interface SiteConfigDebugData {
   version?: string
 }
 
-export function useSiteConfigData() {
+export function useSiteConfigData(): AsyncData<SiteConfigDebugData | null, Error | null> {
   return useAsyncData<SiteConfigDebugData | null>('site-config-debug', async () => {
     if (!appFetch.value)
       return null

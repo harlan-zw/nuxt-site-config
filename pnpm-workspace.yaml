@@ -14,18 +14,14 @@ catalog:
   '@arethetypeswrong/cli': ^0.18.2
   '@iconify-json/carbon': ^1.2.19
   '@iconify-json/simple-icons': ^1.2.75
-  '@nuxt/devtools-kit': ^3.2.4
-  '@nuxt/fonts': ^0.14.0
   '@nuxt/kit': ^4.4.2
   '@nuxt/module-builder': ^1.0.2
   '@nuxt/schema': ^4.4.2
   '@nuxt/test-utils': ^4.0.0
-  '@nuxt/ui': ^4.6.0
   '@nuxtjs/eslint-config-typescript': ^12.1.0
   '@nuxtjs/i18n': ^10.2.4
   '@types/node': ^25.5.0
   '@vue/test-utils': ^2.4.6
-  '@vueuse/core': ^14.2.1
   bumpp: ^11.0.1
   eslint: ^10.1.0
   eslint-plugin-harlanzw: ^0.11.0
@@ -36,17 +32,13 @@ catalog:
   nuxt-i18n-micro: ^3.13.4
   nuxtseo-layer-devtools: ^0.3.0
   nuxtseo-shared: ^0.7.0
-
   pathe: ^2.0.3
   pkg-types: ^2.3.0
-  shiki: ^4.0.2
-  sirv: ^3.0.2
   std-env: ^4.0.0
   typescript: ^6.0.2
   ufo: ^1.6.3
   vitest: ^4.1.1
   vue: ^3.5.30
-  vue-router: ^5.0.4
   vue-tsc: ^3.2.6
 ignoredBuiltDependencies:
   - '@parcel/watcher'
