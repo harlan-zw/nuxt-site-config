@@ -1,3 +1,7 @@
+shellEmulator: true
+
+trustPolicy: no-downgrade
+
 packages:
   - playground
   - packages/module
@@ -39,8 +43,4 @@ catalog:
 ignoredBuiltDependencies:
   - '@parcel/watcher'
   - esbuild
-shellEmulator: true
-
-trustPolicy: no-downgrade
-
 trustPolicyIgnoreAfter: 262800

@@ -4,6 +4,7 @@
     "node_modules",
     "dist",
     "../../test",
-    "../../devtools"
+    "../../devtools",
+    "../../examples"
   ]
 }

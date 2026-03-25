@@ -1,6 +1,36 @@
 # Changelog
 
 
+## v4.0.2...main
+
+[compare changes](https://github.com/harlan-zw/nuxt-site-config/compare/v4.0.2...main)
+
+### 🏡 Chore
+
+- Broken client build ([b8b86da](https://github.com/harlan-zw/nuxt-site-config/commit/b8b86da))
+- Broken client build ([108eaf4](https://github.com/harlan-zw/nuxt-site-config/commit/108eaf4))
+
+### ❤️ Contributors
+
+- Harlan Wilton ([@harlan-zw](https://github.com/harlan-zw))
+
+## v4.0.1...main
+
+[compare changes](https://github.com/harlan-zw/nuxt-site-config/compare/v4.0.1...main)
+
+### 🩹 Fixes
+
+- **devtools:** Label module ([0cb3a2a](https://github.com/harlan-zw/nuxt-site-config/commit/0cb3a2a))
+
+### 🏡 Chore
+
+- Examples ([7bb03fd](https://github.com/harlan-zw/nuxt-site-config/commit/7bb03fd))
+- Bump deps ([3906525](https://github.com/harlan-zw/nuxt-site-config/commit/3906525))
+
+### ❤️ Contributors
+
+- Harlan Wilton ([@harlan-zw](https://github.com/harlan-zw))
+
 ## v4.0.0...main
 
 [compare changes](https://github.com/harlan-zw/nuxt-site-config/compare/v4.0.0...main)
