@@ -34,6 +34,7 @@ const navItems = [
 <template>
   <DevtoolsLayout
     v-model:active-tab="tab"
+    module-name="nuxt-site-config"
     title="Site Config"
     icon="carbon:settings-check"
     :version="data?.version"
