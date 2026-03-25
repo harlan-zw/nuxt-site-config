@@ -58,7 +58,7 @@ export default defineNuxtConfig({
 
 - Type: `string`
 
-The canonical site URL.
+The canonical site URL. On supported CI platforms (Vercel, [Netlify](https://netlify.com), Cloudflare Pages), this is automatically populated from platform environment variables if not explicitly set. See [How it works](/docs/site-config/guides/how-it-works) for details.
 
 ## `env`
 
@@ -73,7 +73,7 @@ See [this issue](https://github.com/nuxt/nuxt/issues/19819) on why we can't use 
 
 - Type: `string`
 
-The name of the site.
+The name of the site. On [Vercel](https://vercel.com) and Netlify, this is automatically populated from platform environment variables if not explicitly set. See [How it works](/docs/site-config/guides/how-it-works) for details.
 
 ## `indexable`
 

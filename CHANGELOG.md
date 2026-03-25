@@ -1,6 +1,24 @@
 # Changelog
 
 
+## v4.0.0...main
+
+[compare changes](https://github.com/harlan-zw/nuxt-site-config/compare/v4.0.0...main)
+
+### 🩹 Fixes
+
+- **i18n:** Defer locale resolution to support no_prefix strategy ([de33423](https://github.com/harlan-zw/nuxt-site-config/commit/de33423))
+- **devtools:** Sync UI ([93f7b21](https://github.com/harlan-zw/nuxt-site-config/commit/93f7b21))
+- Devtool refresh ([458bf08](https://github.com/harlan-zw/nuxt-site-config/commit/458bf08))
+
+### 💅 Refactors
+
+- Migrate to nuxtseo-shared ([#90](https://github.com/harlan-zw/nuxt-site-config/pull/90))
+
+### ❤️ Contributors
+
+- Harlan Wilton ([@harlan-zw](https://github.com/harlan-zw))
+
 ## v3.2.5...main
 
 [compare changes](https://github.com/harlan-zw/nuxt-site-config/compare/v3.2.5...main)
