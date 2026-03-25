@@ -5,7 +5,7 @@ description: Learn how to use Nuxt Hooks to customize your site config.
 
 ## `site-config:resolve`
 
-**Type:** `async () => void | Promise<void>`{lang="html"}
+**Type:** `() => void`{lang="html"}
 
 Modify the build time site config after the module resolves it.
 

@@ -78,7 +78,7 @@ The name of the site. On [Vercel](https://vercel.com) and Netlify, this is autom
 ## `indexable`
 
 - Type: `boolean`
-- Default: `siteConfig.env === 'production' || process.env.NODE_ENV === 'production'`
+- Default: `siteConfig.env === 'production'` (where `env` defaults to `process.env.NODE_ENV`)
 
 Can the site be indexed by search engines.
 

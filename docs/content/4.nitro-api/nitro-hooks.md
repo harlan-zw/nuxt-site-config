@@ -21,7 +21,7 @@ import { getNitroOrigin } from '#site-config/server/composables'
 export default defineNitroPlugin((nitroApp) => {
   nitroApp.hooks.hook('site-config:init', ({ event, siteConfig }) => {
     const origin = getNitroOrigin(event)
-    if (origin.startsWith('fr.')) {
+    if (origin.startsWith('https://fr.')) {
       siteConfig.push({
         _context: 'french nitro plugin', // helps you debug
         name: 'Mon Site',

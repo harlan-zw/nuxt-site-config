@@ -75,7 +75,7 @@ export default defineNitroPlugin((nitroApp) => {
   nitroApp.hooks.hook('site-config:init', ({ event, siteConfig }) => {
     const origin = getNitroOrigin(event)
     // Example: Set configuration based on subdomain
-    if (origin.startsWith('fr.')) {
+    if (origin.startsWith('https://fr.')) {
       // push whatever config you'd like for this request
       siteConfig.push({
         name: 'Mon Site',
