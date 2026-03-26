@@ -1,6 +1,3 @@
-shellEmulator: true
-
-trustPolicy: no-downgrade
 packages:
   - playground
   - packages/module
@@ -28,9 +25,9 @@ catalog:
   h3: ^1.15.10
   happy-dom: ^20.8.8
   nuxt: ^4.4.2
-  nuxt-i18n-micro: ^3.13.4
-  nuxtseo-layer-devtools: ^0.4.5
-  nuxtseo-shared: ^0.8.1
+  nuxt-i18n-micro: ^3.14.1
+  nuxtseo-layer-devtools: ^0.5.0
+  nuxtseo-shared: ^0.8.2
   pathe: ^2.0.3
   pkg-types: ^2.3.0
   std-env: ^4.0.0
@@ -42,4 +39,7 @@ catalog:
 ignoredBuiltDependencies:
   - '@parcel/watcher'
   - esbuild
+shellEmulator: true
+
+trustPolicy: no-downgrade
 trustPolicyIgnoreAfter: 262800
