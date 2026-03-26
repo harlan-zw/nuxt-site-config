@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v4.0.5...main
+
+[compare changes](https://github.com/harlan-zw/nuxt-site-config/compare/v4.0.5...main)
+
+### 🏡 Chore
+
+- Bump deps ([8a24d1c](https://github.com/harlan-zw/nuxt-site-config/commit/8a24d1c))
+
+### ❤️ Contributors
+
+- Harlan Wilton ([@harlan-zw](https://github.com/harlan-zw))
+
 ## v4.0.4...main
 
 [compare changes](https://github.com/harlan-zw/nuxt-site-config/compare/v4.0.4...main)
