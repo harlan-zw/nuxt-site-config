@@ -12,6 +12,11 @@ export default defineConfig({
             './test/unit/**/*.test.ts',
             './src/**/*.test.ts',
           ],
+          typecheck: {
+            enabled: true,
+            tsconfig: './test/tsconfig.json',
+            include: ['./test/unit/**/*.test-d.ts'],
+          },
         },
       }),
       defineProject({
