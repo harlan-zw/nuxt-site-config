@@ -1,6 +1,25 @@
 # Changelog
 
 
+## v4.0.6...main
+
+[compare changes](https://github.com/harlan-zw/nuxt-site-config/compare/v4.0.6...main)
+
+### 🩹 Fixes
+
+- **devtools:** Refine UI ([b9eda73](https://github.com/harlan-zw/nuxt-site-config/commit/b9eda73))
+
+### 🏡 Chore
+
+- Bump deps ([8185fc4](https://github.com/harlan-zw/nuxt-site-config/commit/8185fc4))
+- Bump deps ([42c0c01](https://github.com/harlan-zw/nuxt-site-config/commit/42c0c01))
+- Bump deps ([9b8a93a](https://github.com/harlan-zw/nuxt-site-config/commit/9b8a93a))
+- Lint ([4bb9a69](https://github.com/harlan-zw/nuxt-site-config/commit/4bb9a69))
+
+### ❤️ Contributors
+
+- Harlan Wilton ([@harlan-zw](https://github.com/harlan-zw))
+
 ## v4.0.5...main
 
 [compare changes](https://github.com/harlan-zw/nuxt-site-config/compare/v4.0.5...main)
