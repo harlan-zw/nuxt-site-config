@@ -54,11 +54,21 @@ export type MaybeComputedRefEntries<T> = {
   [key in keyof T]?: MaybeComputedRef<T[key]>
 }
 
-export type SiteConfigInput = Omit<MaybeComputedRefEntries<Partial<SiteConfigResolved>>, '_context' | 'indexable'> & {
+/**
+ * Strip the string index signature from a type so mapped types preserve
+ * the declared named keys (required for autocomplete and type checking).
+ */
+type KnownKeys<T> = {
+  [K in keyof T as string extends K ? never : number extends K ? never : K]: T[K]
+}
+
+export type SiteConfigInput = Omit<MaybeComputedRefEntries<KnownKeys<SiteConfigResolved>>, '_context' | 'indexable'> & {
   _context?: string
   _priority?: number
   // is cast as a boolean
   indexable?: MaybeComputedRef<string | boolean>
+  // allow arbitrary keys for extension; named keys above still get autocomplete and type checking
+  [key: string]: any
 }
 
 export interface GetSiteConfigOptions {
