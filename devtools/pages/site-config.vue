@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from '#imports'
-import { useSiteConfigData } from './composables/state'
+import { useSiteConfigData } from '../lib/site-config/state'
 
 await loadShiki()
 

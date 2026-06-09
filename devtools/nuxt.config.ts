@@ -1,21 +1,3 @@
-import { resolve } from 'pathe'
-
-export default defineNuxtConfig({
-  extends: ['nuxtseo-layer-devtools'],
-
-  devtools: {
-    enabled: false,
-  },
-
-  nitro: {
-    output: {
-      publicDir: resolve(__dirname, '../packages/module/dist/devtools'),
-    },
-  },
-
-  app: {
-    baseURL: '/__nuxt-site-config',
-  },
-
-  compatibilityDate: '2025-03-13',
-})
+// Nuxt SEO devtools panel, shipped as a layer (Model C). The unified devtools client
+// (assembled by nuxtseo-shared in the user's project) extends this to render /site-config.
+export default defineNuxtConfig({})
