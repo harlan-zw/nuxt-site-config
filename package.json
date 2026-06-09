@@ -18,8 +18,7 @@
   "scripts": {
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "build": "pnpm --filter \"./packages/**\" build && nuxt generate devtools",
-    "devtools": "nuxt dev devtools --port 3030",
+    "build": "pnpm --filter \"./packages/**\" build",
     "dev": "nuxi dev .playground",
     "prepack": "pnpm run build",
     "dev:build": "nuxi build .playground",
