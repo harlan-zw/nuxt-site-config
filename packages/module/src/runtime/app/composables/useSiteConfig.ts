@@ -1,11 +1,11 @@
 import type { GetSiteConfigOptions } from 'site-config-stack'
 import type { NuxtSiteConfig } from '../../types'
+import { defu } from 'defu'
+import { reactive, watchEffect } from 'vue'
 import {
   useNuxtApp,
   useRequestEvent,
 } from '#app'
-import { defu } from 'defu'
-import { reactive, watchEffect } from 'vue'
 
 export function useSiteConfig(options?: GetSiteConfigOptions): NuxtSiteConfig {
   const stack = import.meta.server ? useRequestEvent()?.context.siteConfig.get(defu({ resolveRefs: true }, options)) : reactive<NuxtSiteConfig>({} as NuxtSiteConfig)

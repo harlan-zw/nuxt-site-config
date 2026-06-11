@@ -56,6 +56,7 @@
     "ufo": "catalog:"
   },
   "devDependencies": {
-    "@nuxt/schema": "catalog:"
+    "@nuxt/schema": "catalog:",
+    "unbuild": "catalog:"
   }
 }

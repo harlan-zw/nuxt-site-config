@@ -32,6 +32,16 @@ export default antfu(
     },
   },
   {
+    files: [
+      '**/runtime/app/**/getNitroOrigin.ts',
+      '**/runtime/app/**/utils.ts',
+      '**/runtime/server/**/getSiteConfig.ts',
+    ],
+    rules: {
+      'harlanzw/vue-require-composable-prefix': 'off',
+    },
+  },
+  {
     files: ['examples/**/package.json'],
     rules: {
       'pnpm/json-enforce-catalog': 'off',

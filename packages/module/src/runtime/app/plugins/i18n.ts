@@ -1,9 +1,9 @@
-import { defineNuxtPlugin } from '#app'
-// @ts-expect-error untyped
-import { i18nPluginDeps } from '#build/nuxt-site-config/i18n-plugin-deps.mjs'
 import { SiteConfigPriority } from 'site-config-stack'
 import { parseURL } from 'ufo'
 import { computed, toValue, watch } from 'vue'
+import { defineNuxtPlugin } from '#app'
+// @ts-expect-error untyped
+import { i18nPluginDeps } from '#build/nuxt-site-config/i18n-plugin-deps.mjs'
 import { getSiteConfigStack } from './i18n-shared'
 
 function resolveDefaultLocale(i18n: any): string | undefined {

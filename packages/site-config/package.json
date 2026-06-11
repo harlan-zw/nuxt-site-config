@@ -51,6 +51,7 @@
     "ufo": "catalog:"
   },
   "devDependencies": {
+    "unbuild": "catalog:",
     "vue": "catalog:"
   }
 }

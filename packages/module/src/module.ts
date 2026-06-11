@@ -100,7 +100,6 @@ export default defineNuxtModule<ModuleOptions>({
 
     // merge the site config into the runtime config once modules are done extending it
     nuxt.hook('modules:done', async () => {
-      // @ts-expect-error untyped
       await nuxt.callHook('site-config:resolve')
       // let's validate the stack
       const errors = validateSiteConfigStack(getSiteConfigStack(), { dev: nuxt.options.dev })

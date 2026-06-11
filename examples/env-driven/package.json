@@ -8,8 +8,8 @@
     "preview": "nuxt preview"
   },
   "dependencies": {
-    "nuxt": "^4.4.2",
+    "nuxt": "^4.4.8",
     "nuxt-site-config": "latest",
-    "vue": "^3.5.32"
+    "vue": "^3.5.36"
   }
 }

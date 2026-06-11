@@ -3,7 +3,7 @@
   "type": "module",
   "version": "4.0.8",
   "private": true,
-  "packageManager": "pnpm@10.33.0",
+  "packageManager": "pnpm@11.5.3",
   "description": "Shared site configuration for Nuxt 3 modules.",
   "license": "MIT",
   "funding": "https://github.com/sponsors/harlan-zw",
@@ -24,7 +24,7 @@
     "dev:build": "nuxi build .playground",
     "typecheck": "pnpm -r --parallel --filter \"./packages/**\" run typecheck",
     "setup:fixtures": "nuxi prepare test/fixtures/basic && nuxi prepare test/fixtures/i18n",
-    "dev:prepare": "pnpm -r --parallel --filter \"./packages/**\" run stub && nuxt-module-build build --stub packages/module && nuxi prepare .playground && nuxt-module-build prepare packages/module && pnpm setup:fixtures",
+    "dev:prepare": "pnpm -r --parallel --filter \"./packages/**\" run stub && nuxt-module-build build --stub packages/module && nuxi prepare .playground && nuxt-module-build prepare packages/module && pnpm setup:fixtures && pnpm --filter \"./packages/module\" run client:build",
     "release": "pnpm build && bumpp -x \"npx changelogen --output=CHANGELOG.md\" package.json packages/*/package.json",
     "test:attw": "pnpm -r --parallel --filter \"./packages/**\" run test:attw",
     "test": "vitest"

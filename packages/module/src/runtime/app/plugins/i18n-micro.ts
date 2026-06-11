@@ -1,5 +1,5 @@
-import { defineNuxtPlugin, useRuntimeConfig } from '#app'
 import { SiteConfigPriority } from 'site-config-stack'
+import { defineNuxtPlugin, useRuntimeConfig } from '#app'
 import { getSiteConfigStack } from './i18n-shared'
 
 export default defineNuxtPlugin({

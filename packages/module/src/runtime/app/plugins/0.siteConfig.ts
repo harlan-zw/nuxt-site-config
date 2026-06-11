@@ -1,6 +1,6 @@
 import type { SiteConfigResolved } from 'site-config-stack'
-import { defineNuxtPlugin, useRequestEvent, useRuntimeConfig, useState } from '#app'
 import { createSiteConfigStack } from 'site-config-stack'
+import { defineNuxtPlugin, useRequestEvent, useRuntimeConfig, useState } from '#app'
 
 export default defineNuxtPlugin({
   name: 'nuxt-site-config:init',

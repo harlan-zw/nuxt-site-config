@@ -60,6 +60,7 @@
     "test:attw": "attw --pack"
   },
   "dependencies": {
+    "@nuxt/devalue": "catalog:",
     "@nuxt/kit": "catalog:",
     "h3": "catalog:",
     "nuxt-site-config-kit": "workspace:*",
@@ -70,7 +71,8 @@
     "ufo": "catalog:"
   },
   "devDependencies": {
-    "@nuxt/schema": "catalog:"
+    "@nuxt/schema": "catalog:",
+    "unbuild": "catalog:"
   },
   "build": {
     "externals": [
