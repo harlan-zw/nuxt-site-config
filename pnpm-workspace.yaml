@@ -1,5 +1,7 @@
 minimumReleaseAgeExclude:
   - '@types/node@25.9.3'
+  - nuxtseo-layer-devtools@5.2.3
+  - nuxtseo-shared@5.2.3
 
 shellEmulator: true
 
@@ -33,7 +35,8 @@ catalog:
   happy-dom: ^20.10.2
   nuxt: ^4.4.8
   nuxt-i18n-micro: ^3.18.2
-  nuxtseo-shared: ^5.2.1
+  nuxtseo-layer-devtools: ^5.2.3
+  nuxtseo-shared: ^5.2.3
   pathe: ^2.0.3
   pkg-types: ^2.3.1
   std-env: ^4.1.0
@@ -53,3 +56,4 @@ allowBuilds:
   '@parcel/watcher': true
   esbuild: true
   unrs-resolver: true
+  vue-demi: true

@@ -49,7 +49,7 @@
     "dist"
   ],
   "scripts": {
-    "client:build": "node -e \"require('fs').cpSync('../../devtools','dist/devtools',{recursive:true})\"",
+    "client:build": "node -e \"require('fs').cpSync('./devtools','dist/devtools',{recursive:true})\"",
     "build": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxt-module-build build && npm run client:build",
     "dev:build": "nuxi build playground",
     "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare",
@@ -64,6 +64,7 @@
     "@nuxt/kit": "catalog:",
     "h3": "catalog:",
     "nuxt-site-config-kit": "workspace:*",
+    "nuxtseo-layer-devtools": "catalog:",
     "nuxtseo-shared": "catalog:",
     "pathe": "catalog:",
     "pkg-types": "catalog:",
