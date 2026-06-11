@@ -53,7 +53,7 @@
     "build": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxt-module-build build && npm run client:build",
     "dev:build": "nuxi build playground",
     "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare",
-    "prepack": "pnpm run build",
+    "prepack": "nuxt-module-build build && npm run client:build",
     "release": "bumpp package.json --commit --push --tag",
     "test": "vitest",
     "typecheck": "nuxt typecheck",

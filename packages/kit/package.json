@@ -47,7 +47,7 @@
     "stub": "unbuild --stub",
     "typecheck": "tsc --noEmit",
     "test:attw": "attw --pack",
-    "prepack": "pnpm run build"
+    "prepack": "unbuild"
   },
   "dependencies": {
     "@nuxt/kit": "catalog:",
