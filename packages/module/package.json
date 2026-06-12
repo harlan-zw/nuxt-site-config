@@ -64,7 +64,6 @@
     "@nuxt/kit": "catalog:",
     "h3": "catalog:",
     "nuxt-site-config-kit": "workspace:*",
-    "nuxtseo-layer-devtools": "catalog:",
     "nuxtseo-shared": "catalog:",
     "pathe": "catalog:",
     "pkg-types": "catalog:",
@@ -73,6 +72,7 @@
   },
   "devDependencies": {
     "@nuxt/schema": "catalog:",
+    "nuxtseo-layer-devtools": "catalog:",
     "unbuild": "catalog:"
   },
   "build": {

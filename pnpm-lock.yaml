@@ -195,9 +195,6 @@ importers:
       nuxt-site-config-kit:
         specifier: workspace:*
         version: link:../kit
-      nuxtseo-layer-devtools:
-        specifier: 'catalog:'
-        version: 5.2.3(bc0b5aaa4fb11d79b7b4e64ffa277d33)
       nuxtseo-shared:
         specifier: 'catalog:'
         version: 5.2.3(@nuxt/schema@4.4.8)(magicast@0.5.2)(nuxt@4.4.8(@babel/plugin-syntax-jsx@7.27.1(@babel/core@7.29.0))(@babel/plugin-syntax-typescript@7.28.6(@babel/core@7.29.0))(@netlify/blobs@9.1.1)(@parcel/watcher@2.5.6)(@types/node@25.9.3)(@vue/compiler-sfc@3.5.35)(cac@6.7.14)(db0@0.3.4)(eslint@10.4.1(jiti@2.7.0))(ioredis@5.11.1)(lightningcss@1.32.0)(magicast@0.5.2)(optionator@0.9.4)(rollup-plugin-visualizer@7.0.1(rollup@4.61.1))(rollup@4.61.1)(terser@5.46.0)(typescript@6.0.3)(vite@7.3.5(@types/node@25.9.3)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.46.0)(yaml@2.9.0))(vue-tsc@3.3.4(typescript@6.0.3))(yaml@2.9.0))(vite@7.3.5(@types/node@25.9.3)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.46.0)(yaml@2.9.0))(vue@3.5.35(typescript@6.0.3))
@@ -217,6 +214,9 @@ importers:
       '@nuxt/schema':
         specifier: 'catalog:'
         version: 4.4.8
+      nuxtseo-layer-devtools:
+        specifier: 'catalog:'
+        version: 5.2.3(bc0b5aaa4fb11d79b7b4e64ffa277d33)
       unbuild:
         specifier: 'catalog:'
         version: 3.6.1(typescript@6.0.3)(vue-sfc-transformer@0.1.17(@vue/compiler-core@3.5.35)(esbuild@0.28.0)(vue@3.5.35(typescript@6.0.3)))(vue-tsc@3.3.4(typescript@6.0.3))(vue@3.5.35(typescript@6.0.3))
