@@ -74,7 +74,7 @@ export function createSiteConfigStack(options?: { debug: boolean }): { stack: Pa
         entry[k] = val
     }
     // only push if entry has non-internal keys
-    if (Object.keys(entry).filter(k => !k.startsWith('_')).length === 0) {
+    if (!Object.keys(entry).some(k => !k.startsWith('_'))) {
       return () => {}
     }
     stack.push(entry)
