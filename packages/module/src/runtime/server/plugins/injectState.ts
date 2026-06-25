@@ -1,6 +1,8 @@
 import devalue from '@nuxt/devalue'
 import { defineNitroPlugin, getRouteRules } from 'nitropack/runtime'
 import { toValue } from 'vue'
+// @ts-expect-error virtual Nitro module
+import { NUXT_SITE_CONFIG_NO_SSR } from '#nuxt-site-config/no-ssr.mjs'
 import { getSiteConfig } from '../composables/getSiteConfig'
 
 const PRERENDER_NO_SSR_ROUTES = new Set(['/index.html', '/200.html', '/404.html'])
@@ -11,7 +13,8 @@ export default defineNitroPlugin(async (nitroApp) => {
     const routeOptions = getRouteRules(event)
     const isIsland = (process.env.NUXT_COMPONENT_ISLANDS && event.path.startsWith('/__nuxt_island'))
     const url = event.path
-    const noSSR = !!(process.env.NUXT_NO_SSR)
+    const noSSR = !!NUXT_SITE_CONFIG_NO_SSR
+      || !!(process.env.NUXT_NO_SSR)
       || event.context.nuxt?.noSSR
       || (routeOptions.ssr === false && !isIsland)
       || (import.meta.prerender ? PRERENDER_NO_SSR_ROUTES.has(url) : false)

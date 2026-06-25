@@ -24,8 +24,8 @@ packages:
   - devtools
   - '!examples/**'
 overrides:
-  vue: ^3.5.38
   vitest-environment-nuxt: 1.0.1
+  vue: ^3.5.38
 catalog:
   '@antfu/eslint-config': ^9.0.0
   '@arethetypeswrong/cli': ^0.18.3
