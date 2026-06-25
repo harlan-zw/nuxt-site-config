@@ -6,6 +6,7 @@ import {
   addServerHandler,
   addServerImportsDir,
   addServerPlugin,
+  addServerTemplate,
   addTemplate,
   addTypeTemplate,
   createResolver,
@@ -194,6 +195,11 @@ export {}
     nuxt.options.alias['#site-config'] = resolve('./runtime')
     // add site-config-stack to transpile
     nuxt.options.build.transpile.push('site-config-stack')
+
+    addServerTemplate({
+      filename: '#nuxt-site-config/no-ssr.mjs',
+      getContents: () => `export const NUXT_SITE_CONFIG_NO_SSR = ${nuxt.options.ssr === false}`,
+    })
 
     addPlugin({
       src: resolve('./runtime/app/plugins/0.siteConfig'),
