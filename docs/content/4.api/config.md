@@ -1,25 +1,29 @@
 ---
 title: Nuxt Config
 description: The config options available for Nuxt Site Config.
+relatedPages:
+  - path: /docs/site-config/guides/how-it-works
+    title: How it works
+  - path: /docs/site-config/guides/setting-site-config
+    title: Recommended Config
+  - path: /docs/robots/api/config
+    title: Nuxt Config
 ---
 
-## `enabled`
+## `enabled: boolean`{lang="ts"}
 
-- Type: `boolean`{lang="ts"}
 - Default: `true`{lang="ts"}
 
 Whether site config activates for this project.
 
-## `debug`
+## `debug: boolean`{lang="ts"}
 
-- Type: `boolean`
-- Default: `false`
+- Default: `false`{lang="ts"}
 
 Whether to activate debug mode for site config.
 
-## `multiTenancy`
+## `multiTenancy: { hosts: string[]; config: SiteConfigInput }[]`{lang="ts"}
 
-- Type: `{ hosts: string[]; config: SiteConfigInput }[]`{lang="ts"}
 - Default: `[]`{lang="ts"}
 
 Configure multiple sites with different configurations based on the host. Each site configuration requires:
@@ -27,7 +31,7 @@ Configure multiple sites with different configurations based on the host. Each s
 - `hosts`: An array of hostnames that should use this configuration
 - `config`: The site configuration to use when the hostname matches
 
-```ts [Example]
+```ts [nuxt.config.ts]
 export default defineNuxtConfig({
   site: {
     multiTenancy: [
@@ -54,43 +58,34 @@ export default defineNuxtConfig({
 })
 ```
 
-## `url`
-
-- Type: `string`
+## `url: string`{lang="ts"}
 
 The canonical site URL. On supported CI platforms (Vercel, [Netlify](https://netlify.com), Cloudflare Pages), this is automatically populated from platform environment variables if not explicitly set. See [How it works](/docs/site-config/guides/how-it-works) for details.
 
-## `env`
+## `env: string`{lang="ts"}
 
-- Type: `string`
-- Default: `process.env.NODE_ENV`
+- Default: `process.env.NODE_ENV`{lang="ts"}
 
 The environment the site is running in.
 
 See [this issue](https://github.com/nuxt/nuxt/issues/19819) on why we can't use `process.env.NODE_ENV`.
 
-## `name`
-
-- Type: `string`
+## `name: string`{lang="ts"}
 
 The name of the site. On [Vercel](https://vercel.com) and Netlify, this is automatically populated from platform environment variables if not explicitly set. See [How it works](/docs/site-config/guides/how-it-works) for details.
 
-## `indexable`
+## `indexable: boolean`{lang="ts"}
 
-- Type: `boolean`
-- Default: `siteConfig.env === 'production'` (where `env` defaults to `process.env.NODE_ENV`)
+- Default: `siteConfig.env === 'production'`{lang="ts"} (where `env` defaults to `process.env.NODE_ENV`)
 
-Can the site be indexed by search engines.
+Whether the site can be indexed by search engines.
 
-## `trailingSlash`
+## `trailingSlash: boolean`{lang="ts"}
 
-- Type: `boolean`
-- Default: `false`
+- Default: `false`{lang="ts"}
 
 Whether to add trailing slashes to the URLs.
 
-## `defaultLocale`
-
-- Type: `string`
+## `defaultLocale: string`{lang="ts"}
 
 The default locale of the site.
