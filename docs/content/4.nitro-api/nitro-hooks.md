@@ -1,6 +1,13 @@
 ---
 title: Nitro Hooks
 description: Learn how to use Nitro Hooks to customize your site config.
+relatedPages:
+  - path: /docs/site-config/api/nuxt-hooks
+    title: Nuxt Hooks
+  - path: /docs/site-config/guides/multi-tenancy
+    title: Multi-Tenancy
+  - path: /docs/site-config/guides/runtime-site-config
+    title: Runtime Site Config
 ---
 
 ## `site-config:init`
