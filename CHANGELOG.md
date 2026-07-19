@@ -1,6 +1,28 @@
 # Changelog
 
 
+## v4.1.0...main
+
+[compare changes](https://github.com/harlan-zw/nuxt-site-config/compare/v4.1.0...main)
+
+### 🔥 Performance
+
+- **devtools:** Move nuxtseo-layer-devtools to dev dep ([#97](https://github.com/harlan-zw/nuxt-site-config/pull/97))
+
+### 🩹 Fixes
+
+- Hydrate site config in spa mode ([#98](https://github.com/harlan-zw/nuxt-site-config/pull/98))
+
+### 🏡 Chore
+
+- Bump deps ([8ac56ca](https://github.com/harlan-zw/nuxt-site-config/commit/8ac56ca))
+- Bump deps ([8e01e7c](https://github.com/harlan-zw/nuxt-site-config/commit/8e01e7c))
+- Bump ([721ec74](https://github.com/harlan-zw/nuxt-site-config/commit/721ec74))
+
+### ❤️ Contributors
+
+- Harlan Wilton ([@harlan-zw](https://github.com/harlan-zw))
+
 ## v4.0.6...main
 
 [compare changes](https://github.com/harlan-zw/nuxt-site-config/compare/v4.0.6...main)
