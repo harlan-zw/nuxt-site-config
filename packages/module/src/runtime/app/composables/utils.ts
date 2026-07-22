@@ -3,12 +3,12 @@ import type { VueCreateSitePathResolverOptions } from '../../types'
 import { fixSlashes, resolveSitePath } from 'site-config-stack/urls'
 import { computed, unref } from 'vue'
 import { useRuntimeConfig } from '#app'
-import { useNitroOrigin } from './useNitroOrigin'
+import { getNitroOrigin } from './getNitroOrigin'
 import { useSiteConfig } from './useSiteConfig'
 
 export function createSitePathResolver(options: VueCreateSitePathResolverOptions = {}): (path: MaybeRef<string>) => Ref<string> {
   const siteConfig = useSiteConfig()
-  const nitroOrigin = useNitroOrigin()
+  const nitroOrigin = getNitroOrigin()
   const nuxtBase = useRuntimeConfig().app.baseURL || '/'
   return (path: MaybeRef<string>) => {
     // don't use any composables within here
@@ -29,7 +29,7 @@ export function withSiteTrailingSlash(path: MaybeRef<string>): ComputedRef<strin
 
 export function withSiteUrl(path: MaybeRef<string>, options: VueCreateSitePathResolverOptions = {}): ComputedRef<string> {
   const siteConfig = useSiteConfig()
-  const nitroOrigin = useNitroOrigin()
+  const nitroOrigin = getNitroOrigin()
   const base = useRuntimeConfig().app.baseURL || '/'
   return computed(() => {
     return resolveSitePath(unref(path), {
