@@ -11,6 +11,7 @@ import {
   addTypeTemplate,
   createResolver,
   defineNuxtModule,
+  getNuxtVersion,
   hasNuxtModule,
   hasNuxtModuleCompatibility,
   useLogger,
@@ -77,6 +78,7 @@ export default defineNuxtModule<ModuleOptions>({
   },
   async setup(config, nuxt) {
     const { resolve } = createResolver(import.meta.url)
+    const usesNitroV3 = Number.parseInt(getNuxtVersion(nuxt)) >= 5
     const { name, version } = await readPackageJSON(resolve('../package.json'))
     const logger = useLogger(name)
     logger.level = config.debug ? 4 : 3
@@ -195,6 +197,28 @@ export {}
     nuxt.options.alias['#site-config'] = resolve('./runtime')
     // add site-config-stack to transpile
     nuxt.options.build.transpile.push('site-config-stack')
+
+    nuxt.options.nitro.virtual ||= {}
+    nuxt.options.nitro.virtual['#nuxt-site-config/server-runtime'] = usesNitroV3
+      ? `
+export { definePlugin as defineNitroPlugin } from 'nitro'
+export { useNitroApp } from 'nitro/app'
+export { useRuntimeConfig } from 'nitro/runtime-config'
+export { eventHandler, getRequestHost, getRequestProtocol, setHeader } from 'nitro/h3'
+
+export function getRouteRules(event) {
+  const routeRules = event.context.routeRules || {}
+  return {
+    site: routeRules.site?.options,
+    // Nitro 3 removes matched false rules, while Nuxt treats a missing ssr rule as no-SSR.
+    ssr: routeRules.ssr?.options ?? false,
+  }
+}
+`
+      : `
+export { defineNitroPlugin, getRouteRules, useNitroApp, useRuntimeConfig } from 'nitropack/runtime'
+export { eventHandler, getRequestHost, getRequestProtocol, setHeader } from 'h3'
+`
 
     addServerTemplate({
       filename: '#nuxt-site-config/no-ssr.mjs',
