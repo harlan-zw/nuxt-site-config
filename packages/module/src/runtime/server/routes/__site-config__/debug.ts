@@ -1,6 +1,6 @@
 import type { SiteConfigInput } from 'site-config-stack'
-import { eventHandler, setHeader } from 'h3'
-import { useRuntimeConfig } from 'nitropack/runtime'
+import { eventHandler, setHeader } from '#nuxtseo/h3'
+import { useRuntimeConfig } from '#nuxtseo/nitro'
 import { getNitroOrigin } from '../../composables/getNitroOrigin'
 import { getSiteConfig } from '../../composables/getSiteConfig'
 

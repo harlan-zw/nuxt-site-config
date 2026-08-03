@@ -1,6 +1,6 @@
 import type { H3Event } from 'h3'
-import { getRequestHost, getRequestProtocol } from 'h3'
 import { getNitroOrigin as _getNitroOrigin } from 'nuxt-site-config-kit/util'
+import { getRequestHost, getRequestProtocol } from '#nuxtseo/h3'
 
 export function getNitroOrigin(e?: H3Event): string {
   return _getNitroOrigin({
