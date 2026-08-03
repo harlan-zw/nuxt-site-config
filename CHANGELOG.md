@@ -1,6 +1,22 @@
 # Changelog
 
 
+## v4.1.1...main
+
+[compare changes](https://github.com/harlan-zw/nuxt-site-config/compare/v4.1.1...main)
+
+### 📖 Documentation
+
+- Content audit sweep (grammar, links, structure) ([#99](https://github.com/harlan-zw/nuxt-site-config/pull/99))
+
+### 🏡 Chore
+
+- Bump ([f454b4d](https://github.com/harlan-zw/nuxt-site-config/commit/f454b4d))
+
+### ❤️ Contributors
+
+- Harlan Wilton ([@harlan-zw](https://github.com/harlan-zw))
+
 ## v4.1.0...main
 
 [compare changes](https://github.com/harlan-zw/nuxt-site-config/compare/v4.1.0...main)
