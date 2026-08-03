@@ -1,4 +1,4 @@
-import NuxtSiteConfig from '../../../packages/module/src/module'
+import NuxtSiteConfig from 'nuxt-site-config'
 
 export default defineNuxtConfig({
   modules: [

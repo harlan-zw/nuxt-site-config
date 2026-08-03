@@ -24,7 +24,7 @@ export interface ModuleRuntimeConfig {
   version: string
 }
 
-export interface HookSiteConfigInitContext {
-  event: H3Event
+export interface HookSiteConfigInitContext<Event = H3Event> {
+  event: Event
   siteConfig: SiteConfigStack
 }

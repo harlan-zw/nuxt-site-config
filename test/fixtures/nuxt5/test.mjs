@@ -54,6 +54,12 @@ try {
 
   const ssrHtml = await fetch(origin).then(response => response.text())
   assert.doesNotMatch(ssrHtml, /window\.__NUXT_SITE_CONFIG__=/)
+
+  const siteResponse = await fetch(`${origin}/api/site`).then(response => response.json())
+  assert.equal(siteResponse.config.name, 'Nuxt 5 SPA')
+  assert.equal(siteResponse.config.url, 'https://nuxt5.example.com')
+  assert.equal(siteResponse.nitroOrigin, `${origin}/`)
+  assert.equal(siteResponse.rule.site.name, 'Nuxt 5 Route Site')
 }
 finally {
   server.kill()
