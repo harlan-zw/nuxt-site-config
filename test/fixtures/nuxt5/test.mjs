@@ -1,8 +1,9 @@
 import assert from 'node:assert/strict'
 import { spawn } from 'node:child_process'
 import { once } from 'node:events'
-import { readFile } from 'node:fs/promises'
+import { readFile, readdir } from 'node:fs/promises'
 import { createServer } from 'node:net'
+import { resolve } from 'node:path'
 
 const portServer = createServer()
 portServer.listen(0, '127.0.0.1')
@@ -13,7 +14,15 @@ await once(portServer, 'close')
 
 const origin = `http://127.0.0.1:${port}`
 const nitroManifest = JSON.parse(await readFile(new URL('.output/nitro.json', import.meta.url), 'utf8'))
-const nitroServer = await readFile(new URL('.output/server/_libs/@nuxt/nitro-server.mjs', import.meta.url), 'utf8')
+const nitroServerEntries = await readdir(new URL('.output/server', import.meta.url), {
+  recursive: true,
+  withFileTypes: true,
+})
+const nitroServer = (await Promise.all(
+  nitroServerEntries
+    .filter(entry => entry.isFile() && entry.name.endsWith('.mjs'))
+    .map(entry => readFile(resolve(entry.parentPath, entry.name), 'utf8')),
+)).join('\n')
 
 assert.equal(nitroManifest.versions.nitro, '3.0.260610-beta')
 assert.doesNotMatch(nitroServer, /nitropack\/runtime/)

@@ -1,8 +1,10 @@
 import type { HookSiteConfigInitContext } from '../../types'
 import { createSiteConfigStack, envSiteConfig, SiteConfigPriority } from 'site-config-stack'
 import { parseURL } from 'ufo'
-import { eventHandler, getRouteRules, useNitroApp, useRuntimeConfig } from '#nuxt-site-config/server-runtime'
+import { eventHandler } from '#nuxtseo/h3'
+import { useNitroApp, useRuntimeConfig } from '#nuxtseo/nitro'
 import { getNitroOrigin } from '../composables/getNitroOrigin'
+import { getSiteRouteRules } from '../composables/getRouteRules'
 
 const PORT_SUFFIX_RE = /:\d+$/
 
@@ -36,7 +38,7 @@ export default eventHandler(async (e) => {
   const buildStack = config.stack || []
   buildStack.forEach((c: any) => siteConfig.push(c))
   // append route rules
-  const routeRules = getRouteRules(e)
+  const routeRules = getSiteRouteRules(e)
   if (routeRules.site) {
     siteConfig.push({
       _context: 'route-rules',

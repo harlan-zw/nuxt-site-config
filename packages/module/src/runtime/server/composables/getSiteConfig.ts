@@ -3,7 +3,7 @@ import type { GetSiteConfigOptions } from 'site-config-stack'
 import type { NuxtSiteConfig } from '../../types'
 import { defu } from 'defu'
 import { createSiteConfigStack } from 'site-config-stack'
-import { useRuntimeConfig } from '#nuxt-site-config/server-runtime'
+import { useRuntimeConfig } from '#nuxtseo/nitro'
 import { logger } from '../util'
 
 export function getSiteConfig(e: H3Event, _options?: GetSiteConfigOptions): NuxtSiteConfig {

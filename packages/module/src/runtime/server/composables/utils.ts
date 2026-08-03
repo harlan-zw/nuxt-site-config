@@ -1,7 +1,7 @@
 import type { H3Event } from 'h3'
 import type { CreateSitePathResolverOptions } from '../../types'
 import { fixSlashes, resolveSitePath } from 'site-config-stack/urls'
-import { useRuntimeConfig } from '#nuxt-site-config/server-runtime'
+import { useRuntimeConfig } from '#nuxtseo/nitro'
 import { getNitroOrigin } from './getNitroOrigin'
 import { getSiteConfig } from './getSiteConfig'
 

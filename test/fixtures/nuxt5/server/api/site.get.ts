@@ -1,4 +1,5 @@
 import type { NitroRouteConfig } from 'nitro/types'
+import { getSiteConfig } from '#imports'
 import { eventHandler } from 'nitro/h3'
 
 const siteRouteRule = {

@@ -28,7 +28,7 @@
     "release": "pnpm build && bumpp -x \"npx changelogen --output=CHANGELOG.md\" package.json packages/*/package.json",
     "test:attw": "pnpm -r --parallel --filter \"./packages/**\" run test:attw",
     "test": "vitest && pnpm test:nuxt5",
-    "test:nuxt5": "pnpm --dir test/fixtures/nuxt5 install --ignore-workspace --frozen-lockfile && pnpm --dir test/fixtures/nuxt5 test"
+    "test:nuxt5": "pnpm --dir test/fixtures/nuxt5 install --frozen-lockfile && pnpm --dir test/fixtures/nuxt5 test"
   },
   "devDependencies": {
     "@antfu/eslint-config": "catalog:",
