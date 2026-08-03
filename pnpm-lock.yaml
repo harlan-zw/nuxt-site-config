@@ -73,7 +73,7 @@ catalogs:
       specifier: ^5.3.2
       version: 5.3.2
     nuxtseo-shared:
-      specifier: https://pkg.pr.new/nuxtseo-shared@597
+      specifier: https://pkg.pr.new/nuxtseo-shared@1e1aeb7
       version: 5.3.6
     pathe:
       specifier: ^2.0.3
@@ -207,7 +207,7 @@ importers:
         version: link:../kit
       nuxtseo-shared:
         specifier: 'catalog:'
-        version: https://pkg.pr.new/nuxtseo-shared@597(f8843206392cbbc7dd7dd4376b5f3c60)
+        version: https://pkg.pr.new/nuxtseo-shared@1e1aeb7(f8843206392cbbc7dd7dd4376b5f3c60)
       pathe:
         specifier: 'catalog:'
         version: 2.0.3
@@ -6416,8 +6416,8 @@ packages:
       zod:
         optional: true
 
-  nuxtseo-shared@https://pkg.pr.new/nuxtseo-shared@597:
-    resolution: {integrity: sha512-tiZu9+pS8QJOBA2RPvBuIYBHBPk87zs4R2KKfG+YjzDEas5VbqS2Smup+dZt9jZjB+v33a3hWIh7M3J1feBZqg==, tarball: https://pkg.pr.new/nuxtseo-shared@597}
+  nuxtseo-shared@https://pkg.pr.new/nuxtseo-shared@1e1aeb7:
+    resolution: {integrity: sha512-tiZu9+pS8QJOBA2RPvBuIYBHBPk87zs4R2KKfG+YjzDEas5VbqS2Smup+dZt9jZjB+v33a3hWIh7M3J1feBZqg==, tarball: https://pkg.pr.new/nuxtseo-shared@1e1aeb7}
     version: 5.3.6
     peerDependencies:
       '@nuxt/schema': ^3.16.0 || ^4.0.0 || ^5.0.0
@@ -15702,7 +15702,7 @@ snapshots:
       - unplugin
       - vite
 
-  nuxtseo-shared@https://pkg.pr.new/nuxtseo-shared@597(f8843206392cbbc7dd7dd4376b5f3c60):
+  nuxtseo-shared@https://pkg.pr.new/nuxtseo-shared@1e1aeb7(f8843206392cbbc7dd7dd4376b5f3c60):
     dependencies:
       '@clack/prompts': 1.7.0
       '@nuxt/devtools-kit': 4.0.0-alpha.7(magic-string@1.0.0)(magicast@0.5.3)(oxc-parser@0.139.0)(rolldown@1.2.0)(unplugin@3.3.0(esbuild@0.28.0)(rolldown@1.2.0)(rollup@4.61.1)(vite@8.1.5(@types/node@26.1.1)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.48.0)(yaml@2.9.0)))(vite@8.1.5(@types/node@26.1.1)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.48.0)(yaml@2.9.0))

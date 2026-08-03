@@ -54,7 +54,7 @@ catalog:
   nuxt: ^4.5.0
   nuxt-i18n-micro: ^3.21.4
   nuxtseo-layer-devtools: ^5.3.2
-  nuxtseo-shared: https://pkg.pr.new/nuxtseo-shared@597
+  nuxtseo-shared: https://pkg.pr.new/nuxtseo-shared@1e1aeb7
   pathe: ^2.0.3
   pkg-types: ^2.3.1
   std-env: ^4.2.0
