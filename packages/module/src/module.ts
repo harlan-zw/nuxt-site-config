@@ -13,7 +13,6 @@ import {
   defineNuxtModule,
   hasNuxtModule,
   hasNuxtModuleCompatibility,
-  resolveModule,
   useLogger,
 } from '@nuxt/kit'
 import { getSiteConfigStack, initSiteConfig, updateSiteConfig } from 'nuxt-site-config-kit'
@@ -87,7 +86,7 @@ export default defineNuxtModule<ModuleOptions>({
       return
     }
     const nitroCompatibility = setupNitroRuntimeCompatibility(nuxt)
-    nuxt.options.nitro.alias!.ofetch ||= resolveModule('ofetch', { url: new URL(import.meta.url) })
+
     await initSiteConfig()
     // the module config should have the highest priority
     // site config input should be config except without the debug option

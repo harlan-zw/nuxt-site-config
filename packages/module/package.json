@@ -70,7 +70,6 @@
     "h3": "catalog:",
     "nuxt-site-config-kit": "workspace:*",
     "nuxtseo-shared": "catalog:",
-    "ofetch": "catalog:",
     "pathe": "catalog:",
     "pkg-types": "catalog:",
     "site-config-stack": "workspace:*",
