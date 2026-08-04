@@ -1,6 +1,36 @@
 # Changelog
 
 
+## v4.1.3...main
+
+[compare changes](https://github.com/harlan-zw/nuxt-site-config/compare/v4.1.3...main)
+
+### 🩹 Fixes
+
+- Use stable shared compatibility release ([#102](https://github.com/harlan-zw/nuxt-site-config/pull/102))
+
+### ❤️ Contributors
+
+- Harlan Wilton ([@harlan-zw](https://github.com/harlan-zw))
+
+## v4.1.2...main
+
+[compare changes](https://github.com/harlan-zw/nuxt-site-config/compare/v4.1.2...main)
+
+### 🩹 Fixes
+
+- Support Nitro 3 runtime imports ([#101](https://github.com/harlan-zw/nuxt-site-config/pull/101))
+
+### 🏡 Chore
+
+- Code cleanup sweep ([#100](https://github.com/harlan-zw/nuxt-site-config/pull/100))
+- Bump ([732513a](https://github.com/harlan-zw/nuxt-site-config/commit/732513a))
+
+### ❤️ Contributors
+
+- Harlan Wilton ([@harlan-zw](https://github.com/harlan-zw))
+- Max ([@onmax](https://github.com/onmax))
+
 ## v4.1.1...main
 
 [compare changes](https://github.com/harlan-zw/nuxt-site-config/compare/v4.1.1...main)
