@@ -17,7 +17,7 @@ export async function initSiteConfig(nuxt: Nuxt | null = tryUseNuxt()): Promise<
   siteConfig.push({
     _context: 'system',
     _priority: SiteConfigPriority.system,
-    env: process.env.NODE_ENV,
+    env: nuxt.options.envName || process.env.NODE_ENV,
   })
 
   // add the env vars lowest priority
