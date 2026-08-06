@@ -1,6 +1,26 @@
 # Changelog
 
 
+## v4.1.4...main
+
+[compare changes](https://github.com/harlan-zw/nuxt-site-config/compare/v4.1.4...main)
+
+### 🚀 Enhancements
+
+- **ci:** Add package size reporting ([#103](https://github.com/harlan-zw/nuxt-site-config/pull/103))
+
+### 🩹 Fixes
+
+- Align Nitro 3 runtime dependencies ([#104](https://github.com/harlan-zw/nuxt-site-config/pull/104))
+
+### 🏡 Chore
+
+- Bump ([3153a5f](https://github.com/harlan-zw/nuxt-site-config/commit/3153a5f))
+
+### ❤️ Contributors
+
+- Harlan Wilton ([@harlan-zw](https://github.com/harlan-zw))
+
 ## v4.1.3...main
 
 [compare changes](https://github.com/harlan-zw/nuxt-site-config/compare/v4.1.3...main)

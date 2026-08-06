@@ -30,7 +30,7 @@ packages:
   - '!examples/**'
 overrides:
   vitest-environment-nuxt: 1.0.1
-  vue: ^3.5.40
+  vue: ^3.5.41
 catalog:
   '@antfu/eslint-config': ^9.2.0
   '@arethetypeswrong/cli': ^0.18.5
@@ -52,7 +52,7 @@ catalog:
   h3: ^1.15.11
   happy-dom: ^20.11.1
   nuxt: ^4.5.1
-  nuxt-i18n-micro: ^3.26.0
+  nuxt-i18n-micro: ^3.27.0
   nuxtseo-layer-devtools: ^5.3.10
   nuxtseo-shared: ^5.3.10
   pathe: ^2.0.3
@@ -62,7 +62,7 @@ catalog:
   ufo: ^1.6.4
   unbuild: ^3.6.1
   vitest: ^4.1.10
-  vue: ^3.5.40
+  vue: ^3.5.41
   vue-tsc: ^3.3.9
 ignoredBuiltDependencies:
   - '@parcel/watcher'
