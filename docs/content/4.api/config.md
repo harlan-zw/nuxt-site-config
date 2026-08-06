@@ -64,11 +64,11 @@ The canonical site URL. On supported CI platforms (Vercel, [Netlify](https://net
 
 ## `env: string`{lang="ts"}
 
-- Default: `process.env.NODE_ENV`{lang="ts"}
+- Default: `import.meta.envName`{lang="ts"}, then `process.env.NODE_ENV`{lang="ts"}
 
 The environment the site is running in.
 
-See [this issue](https://github.com/nuxt/nuxt/issues/19819) on why we can't use `process.env.NODE_ENV`.
+`NUXT_SITE_ENV` takes priority over this default when configured.
 
 ## `name: string`{lang="ts"}
 
@@ -76,7 +76,7 @@ The name of the site. On [Vercel](https://vercel.com) and Netlify, this is autom
 
 ## `indexable: boolean`{lang="ts"}
 
-- Default: `siteConfig.env === 'production'`{lang="ts"} (where `env` defaults to `process.env.NODE_ENV`)
+- Default: `siteConfig.env === 'production'`{lang="ts"}
 
 Whether the site can be indexed by search engines.
 
