@@ -1,7 +1,8 @@
+import { resolveCanonicalLocaleDomain } from 'nuxtseo-shared/i18n-runtime'
 import { SiteConfigPriority } from 'site-config-stack'
-import { parseURL } from 'ufo'
+import { hasProtocol, parseURL } from 'ufo'
 import { computed, toValue, watch } from 'vue'
-import { defineNuxtPlugin } from '#app'
+import { defineNuxtPlugin, useRequestURL } from '#app'
 // @ts-expect-error untyped
 import { i18nPluginDeps } from '#build/nuxt-site-config/i18n-plugin-deps.mjs'
 import { getSiteConfigStack } from './i18n-shared'
@@ -11,8 +12,17 @@ function resolveDefaultLocale(i18n: any): string | undefined {
   return locale?.language || locale?.iso || i18n.defaultLocale
 }
 
-function resolveI18nUrl(i18n: any): string | undefined {
-  return toValue(i18n.baseUrl) || undefined
+function resolveI18nUrl(i18n: any, requestProtocol: string): string | undefined {
+  const baseUrl = toValue(i18n.baseUrl) || undefined
+  if (!toValue(i18n.differentDomains))
+    return baseUrl
+
+  const locales = toValue(i18n.locales)
+  const defaultLocale = locales.find((locale: any) => locale.code === toValue(i18n.defaultLocale))
+  const domain = resolveCanonicalLocaleDomain(toValue(i18n.localeProperties), defaultLocale)
+  if (!domain)
+    return baseUrl
+  return hasProtocol(domain, { strict: true }) ? domain : `${requestProtocol}//${domain}`
 }
 
 function resolveCurrentLocale(i18n: any): string | undefined {
@@ -38,6 +48,7 @@ export default defineNuxtPlugin({
     if (!i18n)
       return
     const stack = getSiteConfigStack()
+    const requestProtocol = useRequestURL().protocol
     const i18nBaseUrl = toValue((i18n as any).baseUrl)
     if (i18nBaseUrl) {
       const siteConfig = stack!.get({ resolveRefs: true })
@@ -63,7 +74,7 @@ export default defineNuxtPlugin({
       stack!.push({
         _priority: SiteConfigPriority.i18n,
         _context: '@nuxtjs/i18n',
-        url: () => resolveI18nUrl(i18n),
+        url: () => resolveI18nUrl(i18n, requestProtocol),
         defaultLocale: () => resolveDefaultLocale(i18n),
         currentLocale: () => resolveCurrentLocale(i18n),
         description: () => resolveDescription(i18n),
@@ -74,7 +85,7 @@ export default defineNuxtPlugin({
 
     // On client: use computed + watch for reactive locale changes
     const defaultLocale = computed(() => resolveDefaultLocale(i18n))
-    const i18nUrl = computed(() => resolveI18nUrl(i18n))
+    const i18nUrl = computed(() => resolveI18nUrl(i18n, requestProtocol))
     const currentLocale = computed(() => resolveCurrentLocale(i18n))
     const description = computed(() => resolveDescription(i18n))
     const name = computed(() => resolveName(i18n))

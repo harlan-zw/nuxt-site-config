@@ -34,16 +34,19 @@ export default defineNuxtConfig({
     locales: [
       {
         code: 'en',
+        domain: 'en.nuxtseo.com',
         language: 'en-US',
         file: resolver.resolve('locales/en.ts'),
       },
       {
         code: 'es',
+        domain: 'es.nuxtseo.com',
         language: 'es-ES',
         file: resolver.resolve('locales/es.ts'),
       },
       {
         code: 'fr',
+        domain: 'https://fr.nuxtseo.com',
         language: 'fr-FR',
         file: resolver.resolve('locales/fr.ts'),
       },
