@@ -1,6 +1,22 @@
 # Changelog
 
 
+## v4.1.5...main
+
+[compare changes](https://github.com/harlan-zw/nuxt-site-config/compare/v4.1.5...main)
+
+### 🚀 Enhancements
+
+- Use Nuxt envName as site env fallback ([#106](https://github.com/harlan-zw/nuxt-site-config/pull/106))
+
+### 🏡 Chore
+
+- Bump ([f6d12c9](https://github.com/harlan-zw/nuxt-site-config/commit/f6d12c9))
+
+### ❤️ Contributors
+
+- Harlan Wilton ([@harlan-zw](https://github.com/harlan-zw))
+
 ## v4.1.4...main
 
 [compare changes](https://github.com/harlan-zw/nuxt-site-config/compare/v4.1.4...main)
