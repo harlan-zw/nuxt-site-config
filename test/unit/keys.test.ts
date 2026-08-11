@@ -10,12 +10,18 @@ const env = {
 
 describe('keys', () => {
   it('env', () => {
-    expect(envSiteConfig(env)).toMatchInlineSnapshot(`
-      {
-        "env": "staging",
-        "fooBar": "baz",
-        "url": "https://example.com",
-      }
-    `)
+    expect(envSiteConfig(env)).toEqual({
+      url: 'https://example.com',
+      env: 'staging',
+      fooBar: 'baz',
+    })
+  })
+
+  it('ignores inherited and non-enumerable properties', () => {
+    const inheritedEnv = Object.create({ NUXT_SITE_NAME: 'Inherited' })
+    inheritedEnv.NUXT_SITE_URL = 'https://example.com'
+    Object.defineProperty(inheritedEnv, 'NUXT_SITE_ENV', { value: 'hidden' })
+
+    expect(envSiteConfig(inheritedEnv)).toEqual({ url: 'https://example.com' })
   })
 })

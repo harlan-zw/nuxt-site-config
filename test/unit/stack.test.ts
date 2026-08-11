@@ -60,4 +60,67 @@ describe('createSiteConfigStack', () => {
 
     expect(stack.stack.length).toBe(0)
   })
+
+  it('reflects pushes and disposal after repeated reads', () => {
+    const stack = createSiteConfigStack()
+    stack.push({ name: 'base', _priority: 0 })
+
+    expect(stack.get().name).toBe('base')
+    const dispose = stack.push({ name: 'override', _priority: 1 })
+    expect(stack.get().name).toBe('override')
+
+    dispose()
+    expect(stack.get().name).toBe('base')
+  })
+
+  it('reflects reactive value mutations between reads', () => {
+    const name = { __v_isRef: true, value: 'first' }
+    const stack = createSiteConfigStack()
+    stack.push({ name })
+
+    expect(stack.get({ resolveRefs: true }).name).toBe('first')
+    name.value = 'second'
+    expect(stack.get({ resolveRefs: true }).name).toBe('second')
+  })
+
+  it('isolates resolved values between stacks', () => {
+    const first = createSiteConfigStack()
+    const second = createSiteConfigStack()
+    first.push({ name: 'first' })
+    second.push({ name: 'second' })
+
+    expect(first.get().name).toBe('first')
+    expect(second.get().name).toBe('second')
+  })
+
+  it('does not retain mutations to a resolved value', () => {
+    const stack = createSiteConfigStack()
+    stack.push({ name: 'original' })
+
+    stack.get().name = 'changed'
+
+    expect(stack.get().name).toBe('original')
+  })
+
+  it('reflects direct stack mutations after a read', () => {
+    const stack = createSiteConfigStack()
+    stack.push({ name: 'high', _priority: 1 })
+    expect(stack.get().name).toBe('high')
+
+    stack.stack.push({ name: 'low', _priority: 0 })
+    expect(stack.get().name).toBe('high')
+
+    stack.stack[0]._priority = 2
+    expect(stack.get().name).toBe('low')
+  })
+
+  it('keeps debug and normalization options independent', () => {
+    const stack = createSiteConfigStack()
+    stack.push({ url: 'example.com', _context: 'fixture' })
+
+    expect(stack.get({ skipNormalize: true }).url).toBe('example.com')
+    expect(stack.get().url).toBe('https://example.com')
+    expect(stack.get({ debug: true })._context?.url).toBe('fixture')
+    expect(stack.get()._context).toBeUndefined()
+  })
 })

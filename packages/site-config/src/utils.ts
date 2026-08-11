@@ -1,13 +1,23 @@
-const NUXT_SITE_ENV_RE = /^NUXT_(PUBLIC_)?SITE_/
+const NUXT_SITE_PREFIX = 'NUXT_SITE_'
+const NUXT_PUBLIC_SITE_PREFIX = 'NUXT_PUBLIC_SITE_'
 
 export function envSiteConfig(env: Record<string, any> = {}): Record<string, any> {
-  return Object.fromEntries(Object.entries(env)
-    .filter(([k]) => k.startsWith('NUXT_SITE_') || k.startsWith('NUXT_PUBLIC_SITE_'))
-    .map(([k, v]) => [
-      k.replace(NUXT_SITE_ENV_RE, '')
-        .split('_')
-        .map((s, i) => i === 0 ? s.toLowerCase() : (s[0]?.toUpperCase() + s.slice(1).toLowerCase()))
-        .join(''),
-      v,
-    ] as const))
+  const config: Record<string, any> = {}
+  for (const key of Object.keys(env)) {
+    const prefixLength = key.startsWith(NUXT_SITE_PREFIX)
+      ? NUXT_SITE_PREFIX.length
+      : key.startsWith(NUXT_PUBLIC_SITE_PREFIX)
+        ? NUXT_PUBLIC_SITE_PREFIX.length
+        : 0
+    if (!prefixLength)
+      continue
+    const segments = key.slice(prefixLength).split('_')
+    let configKey = segments[0]!.toLowerCase()
+    for (let i = 1; i < segments.length; i++) {
+      const segment = segments[i]!
+      configKey += segment[0]?.toUpperCase() + segment.slice(1).toLowerCase()
+    }
+    config[configKey] = env[key]
+  }
+  return config
 }
