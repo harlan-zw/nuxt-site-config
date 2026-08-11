@@ -41,6 +41,8 @@ Risks:
 * The cached object remains internal. Each request spreads its values into an isolated request stack.
 * Deploy time URL and arbitrary site keys were checked against a production bundle. Both reached SSR state after server startup.
 
+A property whitelist was rejected. `SiteConfigInput` permits extension keys, and `envSiteConfig` exposes them through names such as `NUXT_PUBLIC_SITE_FOO_BAR`. A whitelist would silently remove that behavior. After instance caching, even a perfect whitelist can only reduce one startup parse. An allocation-light single-pass parser remains a compatible option if startup profiles later justify it.
+
 ### 2. Cache stack ordering after mutations
 
 Status: rejected.
