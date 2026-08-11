@@ -41,7 +41,15 @@ Risks:
 * The cached object remains internal. Each request spreads its values into an isolated request stack.
 * Deploy time URL and arbitrary site keys were checked against a production bundle. Both reached SSR state after server startup.
 
-A property whitelist was rejected. `SiteConfigInput` permits extension keys, and `envSiteConfig` exposes them through names such as `NUXT_PUBLIC_SITE_FOO_BAR`. A whitelist would silently remove that behavior. After instance caching, even a perfect whitelist can only reduce one startup parse. An allocation-light single-pass parser remains a compatible option if startup profiles later justify it.
+A property whitelist was rejected. `SiteConfigInput` permits extension keys, and `envSiteConfig` exposes them through names such as `NUXT_PUBLIC_SITE_FOO_BAR`. A whitelist would silently remove that behavior. The retained parser uses one `Object.keys` loop. It avoids entry tuples, filtered and mapped arrays, and regex replacement.
+
+| Environment entries | Baseline parser | Single-pass parser | CPU reduction |
+|---:|---:|---:|---:|
+| 69 | 7.219 µs | 1.478 µs | 79.5% |
+| 261 | 24.410 µs | 3.973 µs | 83.7% |
+| 1,029 | 98.517 µs | 15.206 µs | 84.6% |
+
+These isolated startup measurements use the median of seven samples. Outputs matched for private, public, arbitrary, and repeated-underscore keys. Own enumerable property behavior is covered by tests. The request workload delta remains zero because each instance calls the parser once.
 
 ### 2. Cache stack ordering after mutations
 
