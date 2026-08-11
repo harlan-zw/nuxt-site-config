@@ -7,6 +7,7 @@ import { getNitroOrigin } from '../composables/getNitroOrigin'
 import { getSiteRouteRules } from '../composables/getRouteRules'
 
 const PORT_SUFFIX_RE = /:\d+$/
+const serverEnvSiteConfig = envSiteConfig(import.meta.env || {})
 
 export default eventHandler(async (e) => {
   if (e.context._initedSiteConfig)
@@ -33,7 +34,7 @@ export default eventHandler(async (e) => {
     _priority: SiteConfigPriority.runtime,
     ...(runtimeConfig.site || {}),
     ...(runtimeConfig.public.site || {}),
-    ...envSiteConfig(import.meta.env || {}), // just in-case, shouldn't be needed
+    ...serverEnvSiteConfig,
   })
   const buildStack = config.stack || []
   buildStack.forEach((c: any) => siteConfig.push(c))
