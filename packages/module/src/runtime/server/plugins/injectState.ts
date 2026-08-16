@@ -1,5 +1,5 @@
 import devalue from '@nuxt/devalue'
-import { toValue } from 'vue'
+import { toValue } from 'site-config-stack'
 // @ts-expect-error virtual Nitro module
 import { NUXT_SITE_CONFIG_NO_SSR } from '#nuxt-site-config/no-ssr.mjs'
 import { defineNitroPlugin } from '#nuxtseo/nitro'
