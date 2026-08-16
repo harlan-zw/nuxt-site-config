@@ -48,6 +48,7 @@
     "nuxt-i18n-micro": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:",
+    "vue": "catalog:",
     "vue-tsc": "catalog:"
   }
 }
