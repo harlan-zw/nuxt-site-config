@@ -4,27 +4,14 @@ import harlanzw from 'eslint-plugin-harlanzw'
 export default antfu(
   {
     type: 'lib',
-    ignores: [
-      'CLAUDE.md',
-      '.claude/**',
-      'test/fixtures/**',
-      'playground/**',
-      '.playground/**',
-    ],
-    rules: {
-      'no-use-before-define': 'off',
-      'node/prefer-global/process': 'off',
-      'node/prefer-global/buffer': 'off',
-    },
   },
-  {
-    files: ['**/test/**/*.ts', '**/test/**/*.js'],
-    rules: {
-      'ts/no-unsafe-function-type': 'off',
-      'no-console': 'off',
-    },
-  },
-  ...harlanzw({ link: true, nuxt: true, vue: true }),
+  ...harlanzw({
+    // base covers `playground/`, this repo's dev app is `.playground/`
+    base: { ignores: ['.playground/**'] },
+    link: true,
+    nuxt: true,
+    vue: true,
+  }),
   {
     files: ['**/runtime/server/**/*.ts', '**/runtime/app/**/useNitroOrigin.ts', '**/kit/src/**/*.ts'],
     rules: {
@@ -39,14 +26,6 @@ export default antfu(
     ],
     rules: {
       'harlanzw/vue-require-composable-prefix': 'off',
-    },
-  },
-  {
-    files: ['examples/**/package.json'],
-    rules: {
-      'pnpm/json-enforce-catalog': 'off',
-      'pnpm/json-valid-catalog': 'off',
-      'pnpm/json-prefer-workspace-settings': 'off',
     },
   },
 )
