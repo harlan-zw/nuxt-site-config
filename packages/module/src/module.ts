@@ -18,7 +18,7 @@ import {
 import { getSiteConfigStack, initSiteConfig, updateSiteConfig } from 'nuxt-site-config-kit'
 import { setupDevToolsUI } from 'nuxtseo-shared/devtools'
 import { renderNitroTypeAugmentations, setupNitroRuntimeCompatibility } from 'nuxtseo-shared/kit'
-import { relative } from 'pathe'
+import { normalize, relative } from 'pathe'
 import { readPackageJSON } from 'pkg-types'
 import { SiteConfigPriority, validateSiteConfigStack } from 'site-config-stack'
 import { parseURL } from 'ufo'
@@ -276,8 +276,13 @@ export { getRouteRules as getNitroRouteRules } from 'nitropack/runtime'
       })
     }
 
-    // resolve site config before any server middleware, including the user's own
-    addServerPlugin(resolve('./runtime/server/plugins/init'))
+    // resolve site config before any server middleware, including the user's own.
+    // Prepend the plugin so its request hook runs before a hook from `nitro.plugins`
+    // or from a module installed earlier.
+    nuxt.options.nitro.plugins = [
+      normalize(resolve('./runtime/server/plugins/init')),
+      ...(nuxt.options.nitro.plugins || []),
+    ]
     // fallback for requests that skip the request hook
     addServerHandler({
       middleware: true,
