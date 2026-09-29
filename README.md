@@ -5,6 +5,14 @@
 [![License][license-src]][license-href]
 [![Nuxt][nuxt-src]][nuxt-href]
 
+<a href="https://skilld.dev/gh/harlan-zw/nuxt-site-config">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://skilld.dev/b/harlan-zw/nuxt-site-config?theme=dark">
+    <source media="(prefers-color-scheme: light)" srcset="https://skilld.dev/b/harlan-zw/nuxt-site-config?theme=light">
+    <img alt="Skill repository on skilld.dev" src="https://skilld.dev/b/harlan-zw/nuxt-site-config?theme=light">
+  </picture>
+</a>
+
 Nuxt Site Config is a module for module authors to share common site config across modules.
 
 Module authors consume it to provide a common site config API; end users typically interact with it through other modules.
@@ -36,10 +44,7 @@ npx nuxi@latest module add site-config
 ```
 
 > [!TIP]
-> Generate an Agent Skill for this package using [skilld](https://github.com/harlan-zw/skilld):
-> ```bash
-> npx skilld add nuxt-site-config
-> ```
+> Using an AI agent? Get the nuxt-site-config Skill on [skilld.dev/gh/harlan-zw/nuxt-site-config](https://skilld.dev/gh/harlan-zw/nuxt-site-config).
 
 ## Documentation
 
