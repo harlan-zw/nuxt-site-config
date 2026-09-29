@@ -34,7 +34,7 @@ Sources, from lowest to highest priority:
 4. Modules that call `updateSiteConfig()` from `nuxt-site-config/kit`, then the `site` key in `nuxt.config.ts`, then the `site-config:resolve` hook.
 5. i18n values (see below).
 6. `NUXT_SITE_*` env vars at build, then at runtime.
-7. Per request: `multiTenancy`, route rules, then the `site-config:init` hook.
+7. Per request: route rules, then `multiTenancy`, then the `site-config:init` hook.
 
 A build time `updateSiteConfig()` without `_priority` ranks with the `site` key. A runtime push without `_priority` (route rules, `site-config:init`, Nitro `updateSiteConfig(event)`) ranks above everything. At equal priority, the last push wins.
 

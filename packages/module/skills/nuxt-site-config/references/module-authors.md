@@ -59,4 +59,5 @@ An `undefined` or `''` value is skipped, so an unset module option does not clea
 
 Your runtime files use the same auto imports as the app: `useSiteConfig()` in app code, and `getSiteConfig(event)` in Nitro.
 Site config resolves in the Nitro `request` hook, so server middleware, handlers, and the `site-config:init` hook can all read it.
+The module registers that hook before every other Nitro plugin, so your own `request` hook can read it too.
 `getSiteConfig(event).indexable` defaults to `env === 'production'`, the same value as `getSiteIndexable(event)`.
