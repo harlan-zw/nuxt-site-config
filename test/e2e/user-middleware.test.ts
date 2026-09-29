@@ -12,6 +12,9 @@ await setup({
       name: 'Middleware Site',
       url: 'https://middleware.example.com',
     },
+    nitro: {
+      plugins: [fileURLToPath(new URL('../fixtures/basic/nitro/site-name-request-hook.ts', import.meta.url))],
+    },
   },
 })
 
@@ -20,5 +23,10 @@ describe('user server middleware', () => {
     const res = await fetch('/')
     expect(res.headers.get('x-site-name')).toBe('Middleware Site')
     expect(res.headers.get('x-site-url')).toBe('https://middleware.example.com')
+  })
+
+  it('reads resolved site config from a user request hook', async () => {
+    const res = await fetch('/')
+    expect(res.headers.get('x-plugin-site-name')).toBe('Middleware Site')
   })
 })
