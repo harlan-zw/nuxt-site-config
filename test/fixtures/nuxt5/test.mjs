@@ -56,12 +56,15 @@ async function waitForServer() {
 try {
   const response = await waitForServer()
   const html = await response.text()
+  assert.equal(response.headers.get('x-site-name'), 'Nuxt 5 Route Site')
 
   assert.match(html, /window\.__NUXT_SITE_CONFIG__=/)
   assert.match(html, /Nuxt 5 Route Site/)
   assert.match(html, /nuxt5\.example\.com/)
 
-  const ssrHtml = await fetch(origin).then(response => response.text())
+  const ssrResponse = await fetch(origin)
+  assert.equal(ssrResponse.headers.get('x-site-name'), 'Nuxt 5 SPA')
+  const ssrHtml = await ssrResponse.text()
   assert.doesNotMatch(ssrHtml, /window\.__NUXT_SITE_CONFIG__=/)
 
   const siteResponse = await fetch(`${origin}/api/site`).then(response => response.json())

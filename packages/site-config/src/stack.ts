@@ -24,7 +24,7 @@ export function normalizeSiteConfig(config: SiteConfigResolved): SiteConfigResol
   return newConfig as SiteConfigResolved
 }
 
-export function validateSiteConfigStack(stack: SiteConfigStack, options?: { dev?: boolean }): string[] {
+export function validateSiteConfigStack(stack: SiteConfigStack, options?: { dev?: boolean, prerender?: boolean }): string[] {
   const resolved = normalizeSiteConfig(stack.get({
     // we need the context
     debug: true,
@@ -45,6 +45,10 @@ export function validateSiteConfigStack(stack: SiteConfigStack, options?: { dev?
       errors.push(`url "${val}" from ${context} should not contain a query`)
     else if (hostname === 'localhost' && !options?.dev && resolved.env !== 'development')
       errors.push(`url "${val}" from ${context} should not be localhost`)
+  }
+  // a prerender has no request origin to fall back on, so absolute URLs would render as relative paths
+  else if (options?.prerender) {
+    errors.push('url is not set, so prerendered pages render absolute URLs as relative paths. Set site.url or NUXT_SITE_URL')
   }
   return errors
 }
