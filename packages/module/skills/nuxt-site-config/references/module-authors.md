@@ -1,7 +1,7 @@
 # nuxt-site-config for module authors
 
 Use this when you write a Nuxt module that reads or sets site config at build time.
-Tested against `nuxt-site-config` 4.2.3 with the fixes from #113 and #114, on Nuxt 4.5.2.
+Tested against `nuxt-site-config` 4.2.3 with the fixes from #113, #114, and #116, on Nuxt 4.5.2.
 
 ## Install from your module
 
@@ -10,7 +10,7 @@ It re-exports `nuxt-site-config-kit`, including `SiteConfigPriority`.
 
 ```ts
 import { defineNuxtModule } from '@nuxt/kit'
-import { installNuxtSiteConfig, SiteConfigPriority, updateSiteConfig, useSiteConfig } from 'nuxt-site-config/kit'
+import { installNuxtSiteConfig, updateSiteConfig, useSiteConfig } from 'nuxt-site-config/kit'
 
 export default defineNuxtModule({
   meta: { name: 'my-module', configKey: 'myModule' },
@@ -19,7 +19,6 @@ export default defineNuxtModule({
     await installNuxtSiteConfig()
     updateSiteConfig({
       _context: 'my-module',
-      _priority: SiteConfigPriority.nitro,
       url: options.siteUrl,
     })
     nuxt.hook('modules:done', () => {
@@ -32,22 +31,20 @@ export default defineNuxtModule({
 
 ## Priority of your values
 
-`updateSiteConfig()` without `_priority` counts as runtime priority.
-Then your module option overrides the user's `site.url` and a runtime `NUXT_SITE_URL`.
-The installation docs example has this problem.
-
-With `_priority: SiteConfigPriority.nitro`, the user's `site` key and env vars win.
+`updateSiteConfig()` without `_priority` ranks with the user's `site` key (`config`).
+The user's `site` key and `NUXT_SITE_*` env vars win over your value.
 Your value still beats the request origin when the user sets no `url`.
+To override the user, pass a higher `_priority`, such as `SiteConfigPriority.runtime`.
 
 | Constant | Value | Source |
 | --- | --- | --- |
 | `system` | -15 | `env` default |
 | `vendor` | -5 | CI vars |
 | `nitro` | -4 | request origin |
-| `config` | -3 | `site` key |
-| `i18n` | -2 | i18n messages |
+| `config` | -3 | `site` key, and a build time `updateSiteConfig()` without `_priority` |
+| `i18n` | -2 | i18n messages and `i18n.baseUrl` |
 | `build` | -1 | build env vars |
-| `runtime` | 0 | runtime env vars, and any entry without `_priority` |
+| `runtime` | 0 | runtime env vars, and a runtime push without `_priority` |
 
 At equal priority, the last push wins.
 An `undefined` or `''` value is skipped, so an unset module option does not clear a key.

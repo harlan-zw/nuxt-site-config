@@ -5,7 +5,7 @@ description: Set, read, and debug shared site config (url, name, env, indexable,
 
 # nuxt-site-config
 
-Tested against `nuxt-site-config` 4.2.3 with the fixes from #113 and #114, on Nuxt 4.5.2 (requires Nuxt `>=3.9.0`).
+Tested against `nuxt-site-config` 4.2.3 with the fixes from #113, #114, and #116, on Nuxt 4.5.2 (requires Nuxt `>=3.9.0`).
 The module resolves one site config per request from many sources. The Nuxt SEO modules (sitemap, robots, schema.org, OG image) read it.
 `@nuxtjs/seo` installs it already. Docs: https://nuxtseo.com/docs/site-config
 
@@ -31,12 +31,12 @@ Sources, from lowest to highest priority:
 1. `env`: Nuxt `envName`, else `NODE_ENV`. A production build is `production`.
 2. CI vars: `VERCEL_URL`, `URL` (Netlify), `CF_PAGES_URL`; `SITE_NAME` for the name.
 3. The request origin (SSR only). It trusts `X-Forwarded-Host` and `X-Forwarded-Proto`.
-4. The `site` key in `nuxt.config.ts`.
+4. Modules that call `updateSiteConfig()` from `nuxt-site-config/kit`, then the `site` key in `nuxt.config.ts`, then the `site-config:resolve` hook.
 5. i18n values (see below).
 6. `NUXT_SITE_*` env vars at build, then at runtime.
 7. Per request: `multiTenancy`, route rules, then the `site-config:init` hook.
 
-An entry without `_priority` counts as runtime priority. At equal priority, the last push wins.
+A build time `updateSiteConfig()` without `_priority` ranks with the `site` key. A runtime push without `_priority` (route rules, `site-config:init`, Nitro `updateSiteConfig(event)`) ranks above everything. At equal priority, the last push wins.
 
 - Without `url`, SSR uses the request origin. A prerender has no request, so `url` is undefined and "absolute" URLs render as relative paths. The build warns at prerender start.
 - `indexable` defaults to `env === 'production'`. `getSiteConfig(event).indexable` and `getSiteIndexable(event)` return the same value.
@@ -104,8 +104,7 @@ On Nuxt 4.1 or later, the module order in `modules` does not matter.
 
 ## Traps
 
-- **`i18n.baseUrl` overrides `site.url` and a runtime `NUXT_SITE_URL`.** Set one of them only, or give them the same value.
-- **`updateSiteConfig()` in the `site-config:resolve` Nuxt hook beats runtime env vars.** It has no `_priority`, so it counts as runtime. Pass `_priority: SiteConfigPriority.config` (from `nuxt-site-config/kit`) to let env vars win.
+- **`i18n.baseUrl` overrides `site.url`.** This is intended, and a mismatch logs an error. Set one of them only, or give them the same value. `NUXT_SITE_URL` overrides both.
 - **A `url` with a path warns and prefixes every URL with that path.** Put the path in `app.baseURL`, and keep `url` as the origin.
 - **`withSiteUrl()` and `createSitePathResolver()` leave out `app.baseURL` by default.** Pass `withBase: true`.
 
@@ -130,6 +129,7 @@ In 4.2.3 and earlier:
 - `getSiteConfig(event)` in a `server/middleware/` file returns empty values. Use the `site-config:init` hook.
 - The whole `multiTenancy` array ships to the client payload. Keep private values out of it.
 - `getSiteConfig(event).indexable` is `undefined` unless set. Use `getSiteIndexable(event)`.
+- An entry without `_priority` counts as runtime priority. So `i18n.baseUrl`, a module's `updateSiteConfig()`, and `updateSiteConfig()` in `site-config:resolve` beat `site.url` and `NUXT_SITE_URL`. Pass `_priority: SiteConfigPriority.config` to let env vars win.
 
 ## Config
 
