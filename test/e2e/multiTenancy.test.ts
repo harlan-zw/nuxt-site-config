@@ -79,4 +79,14 @@ describe('mutlitenancy', async () => {
     expect(name).toBe('Example')
     expect(description).toBe('Example description')
   })
+  it('ships only the matched tenant to the client', async () => {
+    const s = await $fetch('/', {
+      headers: {
+        'x-forwarded-host': 'local.example.com',
+      },
+    })
+    expect(s).not.toContain('multiTenancy')
+    expect(s).not.toContain('local.foo.com')
+    expect(s).not.toContain('Foo description')
+  })
 })

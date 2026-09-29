@@ -88,12 +88,9 @@ export default defineNuxtModule<ModuleOptions>({
     const nitroCompatibility = setupNitroRuntimeCompatibility(nuxt)
 
     await initSiteConfig()
-    // the module config should have the highest priority
-    // site config input should be config except without the debug option
-    const siteConfigInput = { ...config }
-    // @ts-expect-error untyped
-    delete siteConfigInput.debug
-    delete siteConfigInput.enabled
+    // module options are not site config: keep them out of the stack, since the
+    // resolved config ships to the client payload (multiTenancy holds every tenant)
+    const { enabled: _enabled, debug: _debug, multiTenancy: _multiTenancy, ...siteConfigInput } = config
     updateSiteConfig({
       // we should allow environment variables to override the site config
       _priority: SiteConfigPriority.config,
