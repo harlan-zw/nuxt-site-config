@@ -91,12 +91,14 @@ export default defineNuxtModule<ModuleOptions>({
     // module options are not site config: keep them out of the stack, since the
     // resolved config ships to the client payload (multiTenancy holds every tenant)
     const { enabled: _enabled, debug: _debug, multiTenancy: _multiTenancy, ...siteConfigInput } = config
-    updateSiteConfig({
+    const userSiteConfig = {
       // we should allow environment variables to override the site config
       _priority: SiteConfigPriority.config,
       _context: 'nuxt-site-config:config',
       ...siteConfigInput,
-    })
+    }
+    // push now so modules can read the user's config during setup
+    const removeUserSiteConfig = updateSiteConfig(userSiteConfig)
 
     const loggedErrors = new Set<string>()
     // a prerender has no request origin, so a missing url silently makes absolute URLs relative
@@ -116,6 +118,10 @@ export default defineNuxtModule<ModuleOptions>({
 
     // merge the site config into the runtime config once modules are done extending it
     nuxt.hook('modules:done', async () => {
+      // modules push at the same priority during setup: re-push the user's config so it wins over them,
+      // while the site-config:resolve hook can still override it
+      removeUserSiteConfig()
+      updateSiteConfig(userSiteConfig)
       await nuxt.callHook('site-config:resolve')
       // let's validate the stack
       const errors = validateSiteConfigStack(getSiteConfigStack(), { dev: nuxt.options.dev })
@@ -246,6 +252,7 @@ export { getRouteRules as getNitroRouteRules } from 'nitropack/runtime'
       // @ts-expect-error untyped
       const locale = nuxt.options.i18n?.locales?.find(l => l.code === nuxt.options.i18n?.defaultLocale)
       updateSiteConfig({
+        _priority: SiteConfigPriority.i18n,
         _context: '@nuxtjs/i18n',
         url: typeof baseUrl === 'string' ? baseUrl : undefined,
         // @ts-expect-error untyped
@@ -261,6 +268,7 @@ export { getRouteRules as getNitroRouteRules } from 'nitropack/runtime'
       // @ts-expect-error untyped
       const locale = nuxt.options.i18n?.locales?.find(l => l.code === nuxt.options.i18n?.defaultLocale)
       updateSiteConfig({
+        _priority: SiteConfigPriority.i18n,
         _context: 'nuxt-i18n-micro',
         url: typeof baseUrl === 'string' ? baseUrl : undefined,
         // @ts-expect-error untyped
