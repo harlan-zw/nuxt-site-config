@@ -88,12 +88,9 @@ export default defineNuxtModule<ModuleOptions>({
     const nitroCompatibility = setupNitroRuntimeCompatibility(nuxt)
 
     await initSiteConfig()
-    // the module config should have the highest priority
-    // site config input should be config except without the debug option
-    const siteConfigInput = { ...config }
-    // @ts-expect-error untyped
-    delete siteConfigInput.debug
-    delete siteConfigInput.enabled
+    // module options are not site config: keep them out of the stack, since the
+    // resolved config ships to the client payload (multiTenancy holds every tenant)
+    const { enabled: _enabled, debug: _debug, multiTenancy: _multiTenancy, ...siteConfigInput } = config
     updateSiteConfig({
       // we should allow environment variables to override the site config
       _priority: SiteConfigPriority.config,
@@ -101,11 +98,28 @@ export default defineNuxtModule<ModuleOptions>({
       ...siteConfigInput,
     })
 
+    const loggedErrors = new Set<string>()
+    // a prerender has no request origin, so a missing url silently makes absolute URLs relative
+    nuxt.hook('nitro:init', (nitro) => {
+      nitro.hooks.hook('prerender:init', () => {
+        // the modules:done validation already logged every other error
+        const errors = validateSiteConfigStack(getSiteConfigStack(), { dev: nuxt.options.dev, prerender: true })
+          .filter(error => !loggedErrors.has(error))
+        if (errors.length > 0) {
+          logger.warn('[Nuxt Site Config] Invalid config for prerendering, please correct:')
+          for (const error of errors)
+            logger.log(`  - ${error}`)
+          logger.log('')
+        }
+      })
+    })
+
     // merge the site config into the runtime config once modules are done extending it
     nuxt.hook('modules:done', async () => {
       await nuxt.callHook('site-config:resolve')
       // let's validate the stack
       const errors = validateSiteConfigStack(getSiteConfigStack(), { dev: nuxt.options.dev })
+      errors.forEach(error => loggedErrors.add(error))
       if (errors.length > 0) {
         logger.warn('[Nuxt Site Config] Invalid config provided, please correct:')
         for (const error of errors)
@@ -191,10 +205,13 @@ export {}
     nuxt.options.nitro.virtual ||= {}
     nuxt.options.nitro.virtual['#nuxt-site-config/route-rules'] = nitroCompatibility._tag === 'nitro-v3'
       ? `
+import { getRouteRules } from 'nitro/app'
+
 export const hasMatchedRouteRules = true
 
+// the request hook runs before Nitro matches route rules onto the event, so match them here
 export function getNitroRouteRules(event) {
-  return event.context.routeRules || {}
+  return event.context.routeRules || getRouteRules(event.req.method, event.url.pathname)?.routeRules || {}
 }
 `
       : `
@@ -251,7 +268,9 @@ export { getRouteRules as getNitroRouteRules } from 'nitropack/runtime'
       })
     }
 
-    // add middleware
+    // resolve site config before any server middleware, including the user's own
+    addServerPlugin(resolve('./runtime/server/plugins/init'))
+    // fallback for requests that skip the request hook
     addServerHandler({
       middleware: true,
       handler: resolve('./runtime/server/middleware/init'),

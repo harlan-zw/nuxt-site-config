@@ -3,10 +3,12 @@ import { getQuery, hasProtocol, parseHost, parseURL, withHttps } from 'ufo'
 import { toValue } from './utils'
 
 export function normalizeSiteConfig(config: SiteConfigResolved): SiteConfigResolved {
-  // fix booleans index / trailingSlash
+  // env vars arrive as strings, so "false" must not read as truthy
   if (typeof config.indexable !== 'undefined')
     config.indexable = String(config.indexable) !== 'false'
-  if (typeof config.trailingSlash !== 'undefined' && !config.trailingSlash)
+  else if (typeof config.env !== 'undefined')
+    config.indexable = config.env === 'production'
+  if (typeof config.trailingSlash !== 'undefined')
     config.trailingSlash = String(config.trailingSlash) !== 'false'
   if (config.url && !hasProtocol(String(config.url), { acceptRelative: true, strict: false }))
     config.url = withHttps(String(config.url))
@@ -22,7 +24,7 @@ export function normalizeSiteConfig(config: SiteConfigResolved): SiteConfigResol
   return newConfig as SiteConfigResolved
 }
 
-export function validateSiteConfigStack(stack: SiteConfigStack, options?: { dev?: boolean }): string[] {
+export function validateSiteConfigStack(stack: SiteConfigStack, options?: { dev?: boolean, prerender?: boolean }): string[] {
   const resolved = normalizeSiteConfig(stack.get({
     // we need the context
     debug: true,
@@ -43,6 +45,10 @@ export function validateSiteConfigStack(stack: SiteConfigStack, options?: { dev?
       errors.push(`url "${val}" from ${context} should not contain a query`)
     else if (hostname === 'localhost' && !options?.dev && resolved.env !== 'development')
       errors.push(`url "${val}" from ${context} should not be localhost`)
+  }
+  // a prerender has no request origin to fall back on, so absolute URLs would render as relative paths
+  else if (options?.prerender) {
+    errors.push('url is not set, so prerendered pages render absolute URLs as relative paths. Set site.url or NUXT_SITE_URL')
   }
   return errors
 }
