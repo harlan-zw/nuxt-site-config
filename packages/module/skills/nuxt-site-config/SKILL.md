@@ -5,7 +5,7 @@ description: Set, read, and debug shared site config (url, name, env, indexable,
 
 # nuxt-site-config
 
-Tested against `nuxt-site-config` 4.2.3 with the fixes from #113, #114, and #116, on Nuxt 4.5.2 (requires Nuxt `>=3.9.0`).
+Tested against `nuxt-site-config` 4.2.3 with the fixes from #113, #114, and #117, on Nuxt 4.5.2 (requires Nuxt `>=3.9.0`).
 The module resolves one site config per request from many sources. The Nuxt SEO modules (sitemap, robots, schema.org, OG image) read it.
 `@nuxtjs/seo` installs it already. Docs: https://nuxtseo.com/docs/site-config
 

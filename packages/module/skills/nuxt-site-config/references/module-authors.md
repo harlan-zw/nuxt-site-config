@@ -1,7 +1,7 @@
 # nuxt-site-config for module authors
 
 Use this when you write a Nuxt module that reads or sets site config at build time.
-Tested against `nuxt-site-config` 4.2.3 with the fixes from #113, #114, and #116, on Nuxt 4.5.2.
+Tested against `nuxt-site-config` 4.2.3 with the fixes from #113, #114, and #117, on Nuxt 4.5.2.
 
 ## Install from your module
 
