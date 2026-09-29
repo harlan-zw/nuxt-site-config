@@ -65,9 +65,15 @@ export function getSiteConfigStack(nuxt: Nuxt | null = tryUseNuxt()): SiteConfig
 
   return nuxt._siteConfig
 }
+/**
+ * Push build time site config.
+ *
+ * Without a `_priority`, the entry ranks with the user's `site` key (`SiteConfigPriority.config`),
+ * so `NUXT_SITE_*` env vars at build and at runtime still override it.
+ */
 export function updateSiteConfig(input: SiteConfigInput, nuxt: Nuxt | null = tryUseNuxt()): () => void {
   const container = getSiteConfigStack(nuxt)
-  return container.push(input)
+  return container.push({ _priority: SiteConfigPriority.config, ...input })
 }
 
 export function useSiteConfig(nuxt: Nuxt | null = tryUseNuxt()): SiteConfigResolved {
