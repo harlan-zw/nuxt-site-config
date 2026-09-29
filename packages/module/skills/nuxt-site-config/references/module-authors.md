@@ -1,7 +1,7 @@
 # nuxt-site-config for module authors
 
 Use this when you write a Nuxt module that reads or sets site config at build time.
-Tested against `nuxt-site-config` 4.2.3 on Nuxt 4.5.2.
+Tested against `nuxt-site-config` 4.2.3 with the fixes from #113 and #114, on Nuxt 4.5.2.
 
 ## Install from your module
 
@@ -61,5 +61,5 @@ An `undefined` or `''` value is skipped, so an unset module option does not clea
 ## Runtime code in your module
 
 Your runtime files use the same auto imports as the app: `useSiteConfig()` in app code, and `getSiteConfig(event)` in Nitro.
-Read site config inside a handler or a `site-config:init` hook, not in your own server middleware. Your middleware can run before the module sets up the request.
-For `indexable`, call `getSiteIndexable(event)`. The resolved config has no `indexable` key unless a user sets it.
+Site config resolves in the Nitro `request` hook, so server middleware, handlers, and the `site-config:init` hook can all read it.
+`getSiteConfig(event).indexable` defaults to `env === 'production'`, the same value as `getSiteIndexable(event)`.

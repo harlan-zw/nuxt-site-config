@@ -5,7 +5,7 @@ description: Set, read, and debug shared site config (url, name, env, indexable,
 
 # nuxt-site-config
 
-Tested against `nuxt-site-config` 4.2.3 on Nuxt 4.5.2 (requires Nuxt `>=3.9.0`).
+Tested against `nuxt-site-config` 4.2.3 with the fixes from #113 and #114, on Nuxt 4.5.2 (requires Nuxt `>=3.9.0`).
 The module resolves one site config per request from many sources. The Nuxt SEO modules (sitemap, robots, schema.org, OG image) read it.
 `@nuxtjs/seo` installs it already. Docs: https://nuxtseo.com/docs/site-config
 
@@ -38,8 +38,8 @@ Sources, from lowest to highest priority:
 
 An entry without `_priority` counts as runtime priority. At equal priority, the last push wins.
 
-- Without `url`, SSR uses the request origin. A prerender has no request, so `url` is undefined and "absolute" URLs render as relative paths. There is no warning.
-- `indexable` is absent from the resolved config unless you set it. Read it with `getSiteIndexable(event)`, which falls back to `env === 'production'`.
+- Without `url`, SSR uses the request origin. A prerender has no request, so `url` is undefined and "absolute" URLs render as relative paths. The build warns at prerender start.
+- `indexable` defaults to `env === 'production'`. `getSiteConfig(event).indexable` and `getSiteIndexable(event)` return the same value.
 - A staging deploy that runs a production build is indexable. Set `NUXT_SITE_ENV=staging` or `NUXT_SITE_INDEXABLE=false`.
 
 ## Read site config
@@ -100,17 +100,14 @@ These messages override `site.name`. A runtime `NUXT_SITE_NAME` overrides the me
 { "nuxtSiteConfig": { "name": "Mon Site", "description": "Ma description" } }
 ```
 
-The module order in `modules` does not matter.
+On Nuxt 4.1 or later, the module order in `modules` does not matter.
 
 ## Traps
 
 - **`i18n.baseUrl` overrides `site.url` and a runtime `NUXT_SITE_URL`.** Set one of them only, or give them the same value.
-- **`NUXT_SITE_TRAILING_SLASH=false` turns trailing slashes on.** The string `"false"` stays truthy. Remove the var instead.
-- **`getSiteConfig(event)` in a `server/middleware/` file returns empty values.** Your middleware runs before the module initializes the request. It warns in dev only. Use the `site-config:init` hook.
 - **`updateSiteConfig()` in the `site-config:resolve` Nuxt hook beats runtime env vars.** It has no `_priority`, so it counts as runtime. Pass `_priority: SiteConfigPriority.config` (from `nuxt-site-config/kit`) to let env vars win.
 - **A `url` with a path warns and prefixes every URL with that path.** Put the path in `app.baseURL`, and keep `url` as the origin.
 - **`withSiteUrl()` and `createSitePathResolver()` leave out `app.baseURL` by default.** Pass `withBase: true`.
-- **The whole `multiTenancy` array ships to the client in the payload.** Every tenant's hosts and config is public. Do not put private values in it.
 
 ## Version limits
 
@@ -126,6 +123,13 @@ v4 removed these. Code written for v3 still uses them:
 ```
 
 `useNitroOrigin()` is deprecated. Use `getNitroOrigin()`. The `#internal/nuxt-site-config` import path is gone.
+
+In 4.2.3 and earlier:
+
+- `NUXT_SITE_TRAILING_SLASH=false` turns trailing slashes on. Remove the var instead.
+- `getSiteConfig(event)` in a `server/middleware/` file returns empty values. Use the `site-config:init` hook.
+- The whole `multiTenancy` array ships to the client payload. Keep private values out of it.
+- `getSiteConfig(event).indexable` is `undefined` unless set. Use `getSiteIndexable(event)`.
 
 ## Config
 
