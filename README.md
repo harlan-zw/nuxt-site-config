@@ -4,14 +4,7 @@
 [![npm downloads][npm-downloads-src]][npm-downloads-href]
 [![License][license-src]][license-href]
 [![Nuxt][nuxt-src]][nuxt-href]
-
-<a href="https://skilld.dev/gh/harlan-zw/nuxt-site-config">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://skilld.dev/b/harlan-zw/nuxt-site-config?theme=dark">
-    <source media="(prefers-color-scheme: light)" srcset="https://skilld.dev/b/harlan-zw/nuxt-site-config?theme=light">
-    <img alt="Skill repository on skilld.dev" src="https://skilld.dev/b/harlan-zw/nuxt-site-config?theme=light">
-  </picture>
-</a>
+[![Skill repository on skilld.dev][skilld-src]][skilld-href]
 
 Nuxt Site Config is a module for module authors to share common site config across modules.
 
@@ -55,14 +48,17 @@ npx nuxi@latest module add site-config
 Licensed under the [MIT license](https://github.com/harlan-zw/nuxt-site-config/blob/main/LICENSE.md).
 
 <!-- Badges -->
-[npm-version-src]: https://img.shields.io/npm/v/nuxt-site-config/latest.svg?style=flat&colorA=18181B&colorB=28CF8D
+[npm-version-src]: https://img.shields.io/npm/v/nuxt-site-config/latest.svg?style=flat&labelColor=16152b&color=00a63e
 [npm-version-href]: https://npmjs.com/package/nuxt-site-config
 
-[npm-downloads-src]: https://img.shields.io/npm/dm/nuxt-site-config.svg?style=flat&colorA=18181B&colorB=28CF8D
+[npm-downloads-src]: https://img.shields.io/npm/dm/nuxt-site-config.svg?style=flat&labelColor=16152b&color=00a63e
 [npm-downloads-href]: https://npmjs.com/package/nuxt-site-config
 
-[license-src]: https://img.shields.io/github/license/harlan-zw/nuxt-site-config.svg?style=flat&colorA=18181B&colorB=28CF8D
+[license-src]: https://img.shields.io/github/license/harlan-zw/nuxt-site-config.svg?style=flat&labelColor=16152b&color=00a63e
 [license-href]: https://github.com/harlan-zw/nuxt-site-config/blob/main/LICENSE.md
 
-[nuxt-src]: https://img.shields.io/badge/Nuxt-18181B?logo=nuxt.js
+[nuxt-src]: https://img.shields.io/badge/Nuxt-16152b?logo=nuxt&style=flat
 [nuxt-href]: https://nuxt.com
+
+[skilld-src]: https://skilld.dev/b/harlan-zw/nuxt-site-config?style=flat&labelColor=16152b&color=00a63e&logoColor=ffffff
+[skilld-href]: https://skilld.dev/gh/harlan-zw/nuxt-site-config
