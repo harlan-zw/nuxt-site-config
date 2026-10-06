@@ -1,6 +1,7 @@
 import NuxtSiteConfig from 'nuxt-site-config'
 
 export default defineNuxtConfig({
+  app: { baseURL: process.env.NUXT_TEST_BASE_URL || '/base/' },
   future: { compatibilityVersion: process.env.NUXT_TEST_FUTURE === '5' ? 5 : 4 },
   modules: [
     NuxtSiteConfig,

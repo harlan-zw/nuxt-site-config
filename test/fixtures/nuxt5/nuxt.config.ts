@@ -1,5 +1,5 @@
-import NuxtSeoShared from 'nuxtseo-shared'
 import NuxtSiteConfig from 'nuxt-site-config'
+import NuxtSeoShared from 'nuxtseo-shared'
 
 // Stable support excludes prereleases. This fixture enables only its pinned nightly.
 for (const module of [NuxtSiteConfig, NuxtSeoShared]) {
@@ -10,6 +10,7 @@ for (const module of [NuxtSiteConfig, NuxtSeoShared]) {
 }
 
 export default defineNuxtConfig({
+  app: { baseURL: process.env.NUXT_TEST_BASE_URL || '/base/' },
   modules: [
     NuxtSiteConfig,
   ],

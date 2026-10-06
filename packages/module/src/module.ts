@@ -1,6 +1,6 @@
 import type { SiteConfigInput } from 'site-config-stack'
 import { readFile } from 'node:fs/promises'
-import { relative } from 'node:path'
+import { dirname, relative } from 'node:path'
 import {
   addImports,
   addPlugin,
@@ -77,7 +77,7 @@ export default defineNuxtModule<ModuleOptions>({
     }
   },
   async setup(config, nuxt) {
-    const { resolve } = createResolver(import.meta.url)
+    const { resolve, resolvePath } = createResolver(import.meta.url)
     const { name, version } = JSON.parse(await readFile(resolve('../package.json'), 'utf8'))
     const logger = useLogger(name)
     logger.level = config.debug ? 4 : 3
@@ -86,6 +86,32 @@ export default defineNuxtModule<ModuleOptions>({
       return
     }
     const nitroCompatibility = setupNitroRuntimeCompatibility(nuxt)
+    // Workspace realpaths do not contain their package name. Include both identities.
+    const runtimeImports = ['nuxt-site-config-kit/util', 'site-config-stack']
+    const runtimeDirectories = await Promise.all(runtimeImports.map(async path => dirname(await resolvePath(path))))
+    const runtimeInline = ['nuxt-site-config-kit', 'site-config-stack', ...runtimeDirectories]
+    const nitroOptions = nuxt.options.nitro as {
+      noExternals?: boolean | (string | RegExp)[]
+      externals?: { inline?: (string | RegExp)[] }
+    }
+    if (nitroCompatibility._tag === 'nitro-v3') {
+      if (nitroOptions.noExternals !== true) {
+        const inline = Array.isArray(nitroOptions.noExternals) ? nitroOptions.noExternals : []
+        for (const path of runtimeInline) {
+          if (!inline.includes(path))
+            inline.push(path)
+        }
+        nitroOptions.noExternals = inline
+      }
+    }
+    else {
+      nitroOptions.externals ||= {}
+      nitroOptions.externals.inline ||= []
+      for (const path of runtimeInline) {
+        if (!nitroOptions.externals.inline.includes(path))
+          nitroOptions.externals.inline.push(path)
+      }
+    }
 
     await initSiteConfig()
     // module options are not site config: keep them out of the stack, since the
