@@ -1,8 +1,8 @@
 {
   "name": "nuxt-site-config",
   "type": "module",
-  "version": "4.2.3",
-  "description": "Shared site configuration for Nuxt 3 modules.",
+  "version": "5.0.0",
+  "description": "Shared site configuration for Nuxt modules.",
   "author": {
     "name": "Harlan Wilton",
     "email": "harlan@harlanzw.com",
@@ -49,6 +49,9 @@
     "dist",
     "skills"
   ],
+  "engines": {
+    "node": "^22.22.3 || ^24.15.0 || >=26.0.0"
+  },
   "scripts": {
     "client:build": "node -e \"require('fs').cpSync('./devtools','dist/devtools',{recursive:true})\"",
     "build": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxt-module-build build && npm run client:build",
@@ -61,18 +64,16 @@
     "test:attw": "attw --pack"
   },
   "peerDependencies": {
-    "vue": "^3.5.30"
+    "nuxt": "^4.6.0 || ^5.0.0",
+    "vue": "^3.5.43"
   },
   "dependencies": {
     "@nuxt/devalue": "catalog:",
     "@nuxt/kit": "catalog:",
     "consola": "catalog:",
     "defu": "catalog:",
-    "h3": "catalog:",
     "nuxt-site-config-kit": "workspace:*",
     "nuxtseo-shared": "catalog:",
-    "pathe": "catalog:",
-    "pkg-types": "catalog:",
     "site-config-stack": "workspace:*",
     "ufo": "catalog:"
   },
@@ -84,7 +85,8 @@
   },
   "build": {
     "externals": [
-      "@nuxt/schema"
+      "@nuxt/schema",
+      "nuxt/server"
     ]
   }
 }

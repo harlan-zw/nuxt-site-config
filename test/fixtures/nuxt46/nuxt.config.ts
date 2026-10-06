@@ -1,14 +1,7 @@
 import NuxtSiteConfig from 'nuxt-site-config'
 
-// Stable support excludes prereleases. This fixture enables only its pinned nightly.
-for (const module of [NuxtSiteConfig]) {
-  const meta = await module.getMeta?.()
-  if (!meta)
-    throw new Error('Fixture module metadata unavailable')
-  meta.compatibility = { ...meta.compatibility, nuxt: '^4.6.0 || ^5.0.0 || 5.0.0-2610052343-36eafab' }
-}
-
 export default defineNuxtConfig({
+  future: { compatibilityVersion: process.env.NUXT_TEST_FUTURE === '5' ? 5 : 4 },
   modules: [
     NuxtSiteConfig,
   ],

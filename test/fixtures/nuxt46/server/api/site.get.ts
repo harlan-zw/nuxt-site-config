@@ -1,5 +1,5 @@
 import type { AppRouteRules } from 'nuxt/server'
-import { getSiteConfig } from '#site-config/server/composables'
+import { getSiteConfig } from '#imports'
 import { defineEventHandler } from 'nuxt/server'
 
 const siteRouteRule = {

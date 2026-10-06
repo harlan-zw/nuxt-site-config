@@ -1,12 +1,14 @@
-import type { H3Event } from 'h3'
-import { getNitroOrigin as _getNitroOrigin } from 'nuxt-site-config-kit/util'
-import { getRequestHost, getRequestProtocol } from '#nuxtseo/h3'
+import type { RequestEvent } from 'nuxt/server'
+import { getNitroOrigin as resolveNitroOrigin } from 'nuxt-site-config-kit/util'
+import { getRequestHost, getRequestProtocol } from 'nuxt/server'
 
-export function getNitroOrigin(e?: H3Event): string {
-  return _getNitroOrigin({
+export function getNitroOrigin(event?: Pick<RequestEvent, 'context'> & Partial<Pick<RequestEvent, 'req'>>): string {
+  if (event?.context.siteConfigNitroOrigin)
+    return event.context.siteConfigNitroOrigin
+  return resolveNitroOrigin({
     isDev: import.meta.dev,
     isPrerender: import.meta.prerender,
-    requestHost: e ? getRequestHost(e, { xForwardedHost: true }) : undefined,
-    requestProtocol: e ? getRequestProtocol(e, { xForwardedProto: true }) as 'http' | 'https' : undefined,
+    requestHost: event?.req ? getRequestHost({ req: event.req }, { xForwardedHost: true }) : undefined,
+    requestProtocol: event?.req ? getRequestProtocol({ req: event.req }, { xForwardedProto: true }) as 'http' | 'https' : undefined,
   })
 }

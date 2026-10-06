@@ -1,14 +1,14 @@
-import type { H3Event } from 'h3'
+import type { RequestEvent } from 'nuxt/server'
 import type { CreateSitePathResolverOptions } from '../../types'
+import { useRuntimeConfig } from 'nuxt/server'
 import { fixSlashes, resolveSitePath } from 'site-config-stack/urls'
-import { useRuntimeConfig } from '#nuxtseo/nitro'
 import { getNitroOrigin } from './getNitroOrigin'
 import { getSiteConfig } from './getSiteConfig'
 
-export function createSitePathResolver(e: H3Event, options: CreateSitePathResolverOptions = {}): (path: string) => string {
+export function createSitePathResolver(e: Pick<RequestEvent, 'context'>, options: CreateSitePathResolverOptions = {}): (path: string) => string {
   const siteConfig = getSiteConfig(e)
   const nitroOrigin = getNitroOrigin(e)
-  const nuxtBase = useRuntimeConfig(e).app.baseURL || '/'
+  const nuxtBase = useRuntimeConfig().app.baseURL || '/'
   return (path: string) => {
     // don't use any composables within here
     return resolveSitePath(path, {
@@ -20,14 +20,14 @@ export function createSitePathResolver(e: H3Event, options: CreateSitePathResolv
   }
 }
 
-export function withSiteTrailingSlash(e: H3Event, path: string): string {
-  const siteConfig = e.context.siteConfig?.get()
+export function withSiteTrailingSlash(e: Pick<RequestEvent, 'context'>, path: string): string {
+  const siteConfig = getSiteConfig(e)
   return fixSlashes(siteConfig.trailingSlash, path)
 }
 
-export function withSiteUrl(e: H3Event, path: string, options: CreateSitePathResolverOptions = {}): string {
-  const siteConfig = e.context.siteConfig?.get()
-  let siteUrl = e.context.siteConfigNitroOrigin
+export function withSiteUrl(e: Pick<RequestEvent, 'context'>, path: string, options: CreateSitePathResolverOptions = {}): string {
+  const siteConfig = getSiteConfig(e)
+  let siteUrl = getNitroOrigin(e)
   if ((options.canonical !== false || import.meta.prerender) && siteConfig.url)
     siteUrl = siteConfig.url
 
@@ -35,7 +35,7 @@ export function withSiteUrl(e: H3Event, path: string, options: CreateSitePathRes
     absolute: true,
     siteUrl,
     trailingSlash: siteConfig.trailingSlash,
-    base: e.context.nitro.baseURL,
+    base: useRuntimeConfig().app.baseURL || '/',
     withBase: options.withBase,
   })
 }

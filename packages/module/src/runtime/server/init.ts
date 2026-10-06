@@ -1,10 +1,9 @@
-import type { H3Event } from 'h3'
+import type { AppRouteRules, RequestEvent } from 'nuxt/server'
 import type { HookSiteConfigInitContext } from '../types'
+import { useRuntimeConfig } from 'nuxt/server'
 import { createSiteConfigStack, envSiteConfig, SiteConfigPriority } from 'site-config-stack'
 import { parseURL } from 'ufo'
-import { useNitroApp, useRuntimeConfig } from '#nuxtseo/nitro'
-import { getNitroOrigin } from './composables/getNitroOrigin'
-import { getSiteRouteRules } from './composables/getRouteRules'
+import { useNitroApp } from '#nuxtseo/nitro'
 
 const PORT_SUFFIX_RE = /:\d+$/
 const serverEnvSiteConfig = envSiteConfig(import.meta.env || {})
@@ -15,17 +14,17 @@ const serverEnvSiteConfig = envSiteConfig(import.meta.env || {})
  * Runs from the Nitro `request` hook, so it lands before every server middleware,
  * including the user's own. The middleware stays as a fallback.
  */
-export async function initRequestSiteConfig(e: H3Event): Promise<void> {
+export async function initRequestSiteConfig(e: Pick<RequestEvent, 'context'>, origin: string, routeRules: AppRouteRules): Promise<void> {
   if (e.context._initedSiteConfig)
     return
-  const runtimeConfig = useRuntimeConfig(e)
+  const runtimeConfig = useRuntimeConfig()
   // resolved per request so the nitro origin is always up to date
   const config = runtimeConfig['nuxt-site-config']
   const nitroApp = useNitroApp()
   const siteConfig = e.context.siteConfig || createSiteConfigStack({
     debug: config.debug,
   })
-  const nitroOrigin = getNitroOrigin(e)
+  const nitroOrigin = origin
   e.context.siteConfigNitroOrigin = nitroOrigin
   // this will always be wrong when prerendering
   if (!import.meta.prerender) {
@@ -45,7 +44,6 @@ export async function initRequestSiteConfig(e: H3Event): Promise<void> {
   const buildStack = config.stack || []
   buildStack.forEach((c: any) => siteConfig.push(c))
   // append route rules
-  const routeRules = getSiteRouteRules(e)
   if (routeRules.site) {
     siteConfig.push({
       _context: 'route-rules',

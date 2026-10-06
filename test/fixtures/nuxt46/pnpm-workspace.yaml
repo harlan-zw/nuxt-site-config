@@ -1,28 +1,4 @@
-minimumReleaseAgeExclude:
-  - eslint-plugin-harlanzw@0.19.2
-  - nuxtseo-layer-devtools
-  - nuxtseo-shared
-  - '@types/node@25.9.3'
-  - '@vue/compiler-core@3.5.38'
-  - '@vue/compiler-dom@3.5.38'
-  - '@vue/compiler-sfc@3.5.38'
-  - '@vue/compiler-ssr@3.5.38'
-  - '@vue/reactivity@3.5.38'
-  - '@vue/runtime-core@3.5.38'
-  - '@vue/runtime-dom@3.5.38'
-  - '@vue/server-renderer@3.5.38'
-  - '@vue/shared@3.5.38'
-  - vue@3.5.38
-  - '@nuxt/kit@4.5.0 || 4.6.0'
-  - '@nuxt/nitro-server@4.5.0 || 4.6.0'
-  - '@nuxt/schema@4.5.0 || 4.6.0'
-  - '@nuxt/vite-builder@4.5.0 || 4.6.0'
-  - nuxt@4.5.0 || 4.6.0
-  - '@nuxt/cli@4.0.0'
-  - '@nuxt/vite-server@4.6.0'
-
-shellEmulator: true
-
+packages: []
 trustPolicy: no-downgrade
 trustPolicyExclude:
   - stylehacks@9.0.7
@@ -33,39 +9,33 @@ trustPolicyExclude:
   - postcss-normalize-positions@9.0.6
   - postcss-minify-font-values@9.0.7
   - postcss-discard-overridden@9.0.5
-  - postcss-discard-duplicates@9.0.5
   - postcss-reduce-transforms@9.0.4
+  - postcss-discard-duplicates@9.0.5
   - postcss-normalize-unicode@9.0.5
   - postcss-normalize-charset@9.0.5
   - postcss-unique-selectors@9.0.5
   - postcss-normalize-string@9.0.5
   - postcss-minify-selectors@9.0.6
+  - postcss-discard-comments@9.0.6
   - postcss-minify-gradients@9.0.6
+  - postcss-merge-longhand@9.2.0
   - postcss-ordered-values@9.0.6
   - postcss-reduce-initial@9.0.6
-  - postcss-discard-comments@9.0.6
-  - postcss-merge-longhand@9.2.0
   - postcss-convert-values@9.0.7
   - postcss-normalize-url@9.0.5
-  - postcss-minify-params@9.0.6
   - postcss-discard-empty@9.0.5
   - postcss-merge-rules@9.0.8
+  - postcss-minify-params@9.0.6
   - postcss-colormin@9.0.6
   - cssnano-utils@8.1.0
   - postcss-svgo@9.0.4
   - cssnano-preset-default@9.2.2
   - cssnano@9.2.2
-packages:
-  - playground
-  - packages/module
-  - packages/kit
-  - packages/site-config
-  - devtools
-  - '!examples/**'
 overrides:
-  cssnano: 9.2.2
   cssnano-preset-default: 9.2.2
   cssnano-utils: 8.1.0
+  cssnano: 9.2.2
+  nuxt-site-config-kit: file:./kit.tgz
   postcss-calc: 11.2.2
   postcss-colormin: 9.0.6
   postcss-convert-values: 9.0.7
@@ -93,41 +63,8 @@ overrides:
   postcss-reduce-transforms: 9.0.4
   postcss-svgo: 9.0.4
   postcss-unique-selectors: 9.0.5
+  site-config-stack: file:./stack.tgz
   stylehacks: 9.0.7
-  vitest-environment-nuxt: 1.0.1
-  vue: ^3.5.43
-catalog:
-  '@antfu/eslint-config': ^9.3.0
-  '@arethetypeswrong/cli': ^0.18.5
-  '@nuxt/devalue': ^2.0.2
-  '@nuxt/kit': ^4.6.0
-  '@nuxt/module-builder': ^1.0.3
-  '@nuxt/schema': ^4.6.0
-  '@nuxt/test-utils': ^4.3.3
-  '@nuxtjs/eslint-config-typescript': ^12.1.0
-  '@nuxtjs/i18n': ^10.6.0
-  '@types/node': ^26.2.0
-  '@vue/test-utils': ^2.4.11
-  bumpp: ^12.2.0
-  consola: ^3.4.2
-  defu: ^6.1.7
-  eslint: ^10.8.1
-  eslint-plugin-harlanzw: ^0.19.2
-  execa: ^10.0.1
-  happy-dom: ^20.11.2
-  nuxt: 4.6.0
-  nuxt-i18n-micro: ^3.28.0
-  nuxtseo-layer-devtools: ^5.3.12
-  nuxtseo-shared: ^6.0.0
-  typescript: 6.0.3
-  ufo: ^1.6.4
-  unbuild: ^3.6.1
-  vitest: ^4.1.10
-  vue: ^3.5.43
-  vue-tsc: ^3.3.9
-ignoredBuiltDependencies:
-  - '@parcel/watcher'
-  - esbuild
 
 trustPolicyIgnoreAfter: 262800
 
@@ -136,3 +73,12 @@ allowBuilds:
   esbuild: true
   unrs-resolver: true
   vue-demi: true
+
+minimumReleaseAgeExclude:
+  - '@nuxt/cli@4.0.0'
+  - '@nuxt/kit@4.6.0'
+  - '@nuxt/nitro-server@4.6.0'
+  - '@nuxt/schema@4.6.0'
+  - '@nuxt/vite-builder@4.6.0'
+  - '@nuxt/vite-server@4.6.0'
+  - nuxt@4.6.0

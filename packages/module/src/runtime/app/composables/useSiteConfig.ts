@@ -8,7 +8,7 @@ import {
 } from '#app'
 
 export function useSiteConfig(options?: GetSiteConfigOptions): NuxtSiteConfig {
-  const stack = import.meta.server ? useRequestEvent()?.context.siteConfig.get(defu({ resolveRefs: true }, options)) : reactive<NuxtSiteConfig>({} as NuxtSiteConfig)
+  const stack = (import.meta.server ? useRequestEvent()?.context.siteConfig?.get(defu({ resolveRefs: true }, options)) : undefined) || reactive<NuxtSiteConfig>({} as NuxtSiteConfig)
   if (import.meta.client) {
     watchEffect(() => {
       const data = (useNuxtApp().$nuxtSiteConfig as any).get(defu({ resolveRefs: true }, options)) as NuxtSiteConfig

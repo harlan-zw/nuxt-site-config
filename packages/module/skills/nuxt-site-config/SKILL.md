@@ -5,7 +5,7 @@ description: Set, read, and debug shared site config (url, name, env, indexable,
 
 # nuxt-site-config
 
-Tested against `nuxt-site-config` 4.2.3 with the fixes from #113, #114, and #117, on Nuxt 4.5.2 (requires Nuxt `>=3.9.0`).
+Requires Nuxt `^4.6.0 || ^5.0.0` and Node `^22.22.3 || ^24.15.0 || >=26.0.0`.
 The module resolves one site config per request from many sources. The Nuxt SEO modules (sitemap, robots, schema.org, OG image) read it.
 `@nuxtjs/seo` installs it already. Docs: https://nuxtseo.com/docs/site-config
 
@@ -68,7 +68,7 @@ Use the `site-config:init` Nitro hook. It runs after every other source.
 // server/plugins/site-config.ts
 export default defineNitroPlugin((nitroApp) => {
   nitroApp.hooks.hook('site-config:init', ({ event, siteConfig }) => {
-    if (getHeader(event, 'host')?.startsWith('fr.'))
+    if (new URL(getNitroOrigin(event)).hostname.startsWith('fr.'))
       siteConfig.push({ _context: 'fr-host', name: 'Mon Site', url: 'https://fr.example.com' })
   })
 })
@@ -100,7 +100,7 @@ These messages override `site.name`. A runtime `NUXT_SITE_NAME` overrides the me
 { "nuxtSiteConfig": { "name": "Mon Site", "description": "Ma description" } }
 ```
 
-On Nuxt 4.1 or later, the module order in `modules` does not matter.
+The module order in `modules` does not matter.
 
 ## Traps
 
@@ -122,14 +122,6 @@ v4 removed these. Code written for v3 still uses them:
 ```
 
 `useNitroOrigin()` is deprecated. Use `getNitroOrigin()`. The `#internal/nuxt-site-config` import path is gone.
-
-In 4.2.3 and earlier:
-
-- `NUXT_SITE_TRAILING_SLASH=false` turns trailing slashes on. Remove the var instead.
-- `getSiteConfig(event)` in a `server/middleware/` file returns empty values. Use the `site-config:init` hook.
-- The whole `multiTenancy` array ships to the client payload. Keep private values out of it.
-- `getSiteConfig(event).indexable` is `undefined` unless set. Use `getSiteIndexable(event)`.
-- An entry without `_priority` counts as runtime priority. So `i18n.baseUrl`, a module's `updateSiteConfig()`, and `updateSiteConfig()` in `site-config:resolve` beat `site.url` and `NUXT_SITE_URL`. Pass `_priority: SiteConfigPriority.config` to let env vars win.
 
 ## Config
 

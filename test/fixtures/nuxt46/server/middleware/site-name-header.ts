@@ -1,4 +1,4 @@
-import { getSiteConfig } from '#site-config/server/composables'
+import { getSiteConfig } from '#imports'
 import { defineEventHandler } from 'nuxt/server'
 
 // A user middleware that reads site config. Nitro registers it before the module's init middleware.
