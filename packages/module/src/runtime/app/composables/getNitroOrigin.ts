@@ -1,5 +1,5 @@
 import type { RequestEvent } from 'nuxt/server'
-import { useRequestEvent } from '#app'
+import { useRequestEvent } from 'nuxt/app'
 
 export function getNitroOrigin(e?: Pick<RequestEvent, 'context'>): string {
   if (import.meta.server) {

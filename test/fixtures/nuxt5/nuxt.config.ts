@@ -1,7 +1,8 @@
+import NuxtSeoShared from 'nuxtseo-shared'
 import NuxtSiteConfig from 'nuxt-site-config'
 
 // Stable support excludes prereleases. This fixture enables only its pinned nightly.
-for (const module of [NuxtSiteConfig]) {
+for (const module of [NuxtSiteConfig, NuxtSeoShared]) {
   const meta = await module.getMeta?.()
   if (!meta)
     throw new Error('Fixture module metadata unavailable')

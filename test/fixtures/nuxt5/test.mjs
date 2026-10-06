@@ -54,9 +54,11 @@ try {
   const ssrResponse = await fetch(origin)
   assert.equal(ssrResponse.headers.get('x-site-name'), 'Nuxt 5 SPA')
   const ssrHtml = await ssrResponse.text()
+  assert.match(ssrHtml, /https:\/\/nuxt5\.example\.com\/alias-proof/)
   assert.doesNotMatch(ssrHtml, /window\.__NUXT_SITE_CONFIG__=/)
 
   const siteResponse = await fetch(`${origin}/api/site`).then(response => response.json())
+  assert.equal(siteResponse.aliasUrl, 'https://nuxt5.example.com/alias-proof')
   assert.equal(siteResponse.config.name, 'Nuxt 5 SPA')
   assert.equal(siteResponse.config.url, 'https://nuxt5.example.com')
   assert.equal(siteResponse.nitroOrigin, `${origin}/`)

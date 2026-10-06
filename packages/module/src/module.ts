@@ -2,11 +2,11 @@ import type { SiteConfigInput } from 'site-config-stack'
 import { readFile } from 'node:fs/promises'
 import { relative } from 'node:path'
 import {
-  addImportsDir,
+  addImports,
   addPlugin,
   addPrerenderRoutes,
   addServerHandler,
-  addServerImportsDir,
+  addServerImports,
   addServerPlugin,
   addServerTemplate,
   addTemplate,
@@ -19,7 +19,7 @@ import {
 } from '@nuxt/kit'
 import { getSiteConfigStack, initSiteConfig, updateSiteConfig } from 'nuxt-site-config-kit'
 import { setupDevToolsUI } from 'nuxtseo-shared/devtools'
-import { renderNitroTypeAugmentations, setupNitroRuntimeCompatibility } from 'nuxtseo-shared/kit'
+import { renderNitroTypeAugmentations, setupNitroRuntimeCompatibility, setupRuntimeAliases } from 'nuxtseo-shared/kit'
 import { SiteConfigPriority, validateSiteConfigStack } from 'site-config-stack'
 import { parseURL } from 'ufo'
 
@@ -194,7 +194,9 @@ export {}
       nuxt: true,
     })
 
-    addImportsDir(resolve('./runtime/app/composables'))
+    setupRuntimeAliases({ namespace: '#site-config', app: resolve('./runtime/app'), server: resolve('./runtime/server') }, nuxt)
+    addImports(['getNitroOrigin', 'updateSiteConfig', 'useNitroOrigin', 'useSiteConfig', 'createSitePathResolver', 'withSiteTrailingSlash', 'withSiteUrl']
+      .map(name => ({ name, from: '#site-config/app' })))
 
     // on prerender
 
@@ -203,7 +205,8 @@ export {}
       nuxt.options.alias['site-config-stack'] = resolve('../../site-config/src/index')
     }
 
-    addServerImportsDir(resolve('./runtime/server/composables'))
+    addServerImports(['getNitroOrigin', 'getSiteConfig', 'getSiteIndexable', 'updateSiteConfig', 'useNitroOrigin', 'createSitePathResolver', 'withSiteTrailingSlash', 'withSiteUrl', 'initRequestSiteConfig']
+      .map(name => ({ name, from: '#site-config/server' })))
     nuxt.options.alias['#site-config'] = resolve('./runtime')
     // add site-config-stack to transpile
     nuxt.options.build.transpile.push('site-config-stack')

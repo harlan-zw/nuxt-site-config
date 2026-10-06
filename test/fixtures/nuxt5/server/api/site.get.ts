@@ -1,5 +1,5 @@
 import type { AppRouteRules } from 'nuxt/server'
-import { getSiteConfig } from '#site-config/server/composables'
+import { getSiteConfig, withSiteUrl } from '#site-config/server'
 import { defineEventHandler } from 'nuxt/server'
 
 const siteRouteRule = {
@@ -12,6 +12,7 @@ export default defineEventHandler((event) => {
   const nitroOrigin: string | undefined = event.context.siteConfigNitroOrigin
   return {
     config: getSiteConfig(event),
+    aliasUrl: withSiteUrl(event, '/alias-proof'),
     nitroOrigin,
     rule: siteRouteRule,
   }
