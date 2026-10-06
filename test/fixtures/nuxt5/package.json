@@ -8,13 +8,16 @@
   },
   "dependencies": {
     "nitro": "3.0.260903-beta",
-    "nuxt": "npm:nuxt-nightly@5.0.0-2610052343-36eafab",
-    "nuxt-site-config": "file:./module.tgz",
+    "nuxt": "npm:nuxt-nightly@5.0.0-2610061032-c7ad8cd",
+    "nuxt-site-config": "link:../../../packages/module",
     "vue": "^3.5.43",
-    "vue-router": "^5.3.1"
+    "vue-router": "^5.3.1",
+    "nuxt-site-config-kit": "link:../../../packages/kit",
+    "site-config-stack": "link:../../../packages/site-config",
+    "nuxtseo-shared": "https://pkg.pr.new/harlan-zw/nuxt-seo/nuxtseo-shared@226c091a0744b7286ef721ac035eed53856bfaa5"
   },
   "devDependencies": {
     "typescript": "6.0.3",
-    "vue-tsc": "^3.3.7"
+    "vue-tsc": "^3.3.12"
   }
 }

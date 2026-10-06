@@ -30,9 +30,8 @@
     "dev:prepare": "pnpm -r --parallel --filter \"./packages/**\" run stub && nuxt-module-build build --stub packages/module && nuxi prepare .playground && nuxt-module-build prepare packages/module && pnpm setup:fixtures && pnpm --filter \"./packages/module\" run client:build",
     "release": "pnpm build && bumpp -x \"npx changelogen --output=CHANGELOG.md\" package.json packages/*/package.json",
     "test:attw": "pnpm -r --parallel --filter \"./packages/**\" run test:attw",
-    "test": "vitest run && pnpm test:nuxt5 && pnpm run test:nuxt46",
-    "test:nuxt5": "node scripts/test-nuxt-lanes.ts nuxt5",
-    "test:nuxt46": "node scripts/test-nuxt-lanes.ts nuxt4 && node scripts/test-nuxt-lanes.ts future5"
+    "test": "vitest run && pnpm test:nuxt5",
+    "test:nuxt5": "pnpm --dir test/fixtures/nuxt5 install --frozen-lockfile && pnpm --dir test/fixtures/nuxt5 test"
   },
   "devDependencies": {
     "@antfu/eslint-config": "catalog:",
