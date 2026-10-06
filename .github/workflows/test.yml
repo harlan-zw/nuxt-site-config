@@ -1,9 +1,15 @@
 name: CI
 
 on:
-  push:
+  pull_request:
     paths-ignore:
-      - '**/README.md'
+      - '**/*.md'
+      - 'docs/**'
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - '**/*.md'
       - 'docs/**'
 
 concurrency:
@@ -15,6 +21,7 @@ permissions:
 
 jobs:
   ci:
-    uses: harlan-zw/nuxt-seo/.github/workflows/reusable-ci.yml@main
+    uses: harlan-zw/nuxt-seo/.github/workflows/reusable-ci.yml@09760efb0ffeac9f477673725c1c2f1fc8b1b049
     with:
       test-command: pnpm build && pnpm test
+      node-version: 22.22.3

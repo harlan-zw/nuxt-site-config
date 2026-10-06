@@ -1,5 +1,3 @@
-import { isDevelopment } from 'std-env'
-
 const PROTOCOL_RE = /^https?:\/\//
 const TRAILING_SLASH_RE = /\/$/
 
@@ -59,7 +57,7 @@ function splitHostPort(host: string): { host: string, port: string } {
 }
 
 export function getNitroOrigin(ctx: NitroOriginContext = {}): string {
-  const isDev = ctx.isDev ?? isDevelopment
+  const isDev = ctx.isDev ?? (process.env.NODE_ENV === 'dev' || process.env.NODE_ENV === 'development' || process.env.MODE === 'development')
   const isPrerender = ctx.isPrerender ?? !!process.env.prerender
 
   let host = ''

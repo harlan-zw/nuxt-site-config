@@ -1,8 +1,8 @@
+import { defineNuxtPlugin, useRequestURL } from 'nuxt/app'
 import { resolveCanonicalLocaleDomain } from 'nuxtseo-shared/i18n-runtime'
 import { SiteConfigPriority } from 'site-config-stack'
 import { hasProtocol, parseURL } from 'ufo'
 import { computed, toValue, watch } from 'vue'
-import { defineNuxtPlugin, useRequestURL } from '#app'
 // @ts-expect-error untyped
 import { i18nPluginDeps } from '#build/nuxt-site-config/i18n-plugin-deps.mjs'
 import { getSiteConfigStack } from './i18n-shared'

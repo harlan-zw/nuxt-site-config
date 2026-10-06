@@ -1,25 +1,10 @@
-import type { H3Event } from 'h3'
-import type { SiteConfigInput } from '../../types'
-import { normalizeNitroMatchedRouteRules } from 'nuxtseo-shared/server'
-import { getNitroRouteRules, hasMatchedRouteRules } from '#nuxt-site-config/route-rules'
+import type { RequestEvent } from 'nuxt/server'
+import { getRouteRules } from 'nuxt/server'
+// @ts-expect-error virtual server template
+import { NUXT_SITE_CONFIG_SSR_DEFAULT } from '#nuxt-site-config/no-ssr.mjs'
 
-interface MatchedRouteRule {
-  options: unknown
-}
-
-interface SiteRouteRules {
-  site?: SiteConfigInput
-  ssr?: boolean
-}
-
-export function getSiteRouteRules(event: H3Event): SiteRouteRules & { ssr: boolean } {
-  const nitroRouteRules = getNitroRouteRules(event)
-  const routeRules = hasMatchedRouteRules
-    ? normalizeNitroMatchedRouteRules(nitroRouteRules as Record<string, MatchedRouteRule>) as SiteRouteRules
-    : nitroRouteRules as SiteRouteRules
-  return {
-    site: routeRules.site,
-    // Nitro 3 removes matched false rules, while Nuxt treats a missing ssr rule as no-SSR.
-    ssr: routeRules.ssr ?? false,
-  }
+export function getSiteRouteRules(event: Pick<RequestEvent, 'context'>) {
+  const routeRules = getRouteRules(event)
+  // Nitro 3 omits false rules and supplies ssr:true for the normal SSR baseline.
+  return { site: routeRules.site, ssr: routeRules.ssr ?? NUXT_SITE_CONFIG_SSR_DEFAULT }
 }

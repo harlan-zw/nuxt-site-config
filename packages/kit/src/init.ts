@@ -1,6 +1,6 @@
 import type { Nuxt } from '@nuxt/schema'
 import type { SiteConfigInput, SiteConfigResolved, SiteConfigStack } from 'site-config-stack'
-import { installModule, resolvePath, tryUseNuxt } from '@nuxt/kit'
+import { installModule, tryUseNuxt } from '@nuxt/kit'
 import { createSiteConfigStack, envSiteConfig, SiteConfigPriority } from 'site-config-stack'
 
 export async function initSiteConfig(nuxt: Nuxt | null = tryUseNuxt()): Promise<SiteConfigStack | undefined> {
@@ -52,7 +52,12 @@ export async function initSiteConfig(nuxt: Nuxt | null = tryUseNuxt()): Promise<
 }
 
 export async function installNuxtSiteConfig(nuxt: Nuxt | null = tryUseNuxt()): Promise<void> {
-  await installModule(await resolvePath('nuxt-site-config'))
+  if (!nuxt)
+    return
+  // Module dependencies can install Site Config below a consumer package.
+  const installed = nuxt.options._installedModules.some(module => module.meta.name === 'nuxt-site-config')
+  if (!installed)
+    await installModule('nuxt-site-config', {}, nuxt)
   await initSiteConfig(nuxt)
 }
 

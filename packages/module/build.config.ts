@@ -9,6 +9,6 @@ export default defineBuildConfig({
   ],
   externals: [
     '#imports',
-    'h3',
+    'nuxt/server',
   ],
 })

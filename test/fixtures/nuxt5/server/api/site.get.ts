@@ -1,17 +1,18 @@
-import type { NitroRouteConfig } from 'nitro/types'
-import { getSiteConfig } from '#imports'
-import { eventHandler } from 'nitro/h3'
+import type { AppRouteRules } from 'nuxt/server'
+import { getSiteConfig, withSiteUrl } from '#site-config/server'
+import { defineEventHandler } from 'nuxt/server'
 
 const siteRouteRule = {
   site: {
     name: 'Nuxt 5 Route Site',
   },
-} satisfies NitroRouteConfig
+} satisfies AppRouteRules
 
-export default eventHandler((event) => {
-  const nitroOrigin: string = event.context.siteConfigNitroOrigin
+export default defineEventHandler((event) => {
+  const nitroOrigin: string | undefined = event.context.siteConfigNitroOrigin
   return {
     config: getSiteConfig(event),
+    aliasUrl: withSiteUrl(event, '/alias-proof'),
     nitroOrigin,
     rule: siteRouteRule,
   }

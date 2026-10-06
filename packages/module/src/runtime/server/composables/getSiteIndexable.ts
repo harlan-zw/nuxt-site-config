@@ -1,7 +1,7 @@
-import type { H3Event } from 'h3'
+import type { RequestEvent } from 'nuxt/server'
 import { getSiteConfig } from './getSiteConfig'
 
-export function getSiteIndexable(e: H3Event): boolean {
+export function getSiteIndexable(e: Pick<RequestEvent, 'context'>): boolean {
   // move towards deprecating indexable
   const { env, indexable } = getSiteConfig(e)
   // legacy

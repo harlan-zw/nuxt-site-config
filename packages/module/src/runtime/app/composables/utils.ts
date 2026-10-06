@@ -1,8 +1,8 @@
 import type { ComputedRef, MaybeRef, Ref } from 'vue'
 import type { VueCreateSitePathResolverOptions } from '../../types'
+import { useRuntimeConfig } from 'nuxt/app'
 import { fixSlashes, resolveSitePath } from 'site-config-stack/urls'
 import { computed, unref } from 'vue'
-import { useRuntimeConfig } from '#app'
 import { getNitroOrigin } from './getNitroOrigin'
 import { useSiteConfig } from './useSiteConfig'
 

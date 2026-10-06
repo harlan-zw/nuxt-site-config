@@ -1,18 +1,17 @@
 import type { SiteConfigInput } from 'site-config-stack'
-import { eventHandler, setHeader } from '#nuxtseo/h3'
-import { useRuntimeConfig } from '#nuxtseo/nitro'
+import { defineEventHandler, useRuntimeConfig } from 'nuxt/server'
 import { getNitroOrigin } from '../../composables/getNitroOrigin'
 import { getSiteConfig } from '../../composables/getSiteConfig'
 
-export default eventHandler(async (e) => {
+export default defineEventHandler(async (e) => {
   const siteConfig = getSiteConfig(e)
   const nitroOrigin = getNitroOrigin(e)
   // use version
-  const runtimeConfig = useRuntimeConfig(e)
+  const runtimeConfig = useRuntimeConfig()
 
-  const stack = e.context.siteConfig.stack as Partial<SiteConfigInput>[]
+  const stack = (e.context.siteConfig?.stack || []) as Partial<SiteConfigInput>[]
   // add json headers
-  setHeader(e, 'Content-Type', 'application/json')
+  e.res.headers.set('Content-Type', 'application/json')
   return {
     config: siteConfig,
     stack,

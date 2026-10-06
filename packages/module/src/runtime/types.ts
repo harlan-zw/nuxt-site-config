@@ -1,4 +1,4 @@
-import type { H3Event } from 'h3'
+import type { RequestEvent } from 'nuxt/server'
 import type { SiteConfigInput, SiteConfigResolved, SiteConfigStack } from 'site-config-stack'
 import type { Ref } from 'vue'
 
@@ -24,7 +24,7 @@ export interface ModuleRuntimeConfig {
   version: string
 }
 
-export interface HookSiteConfigInitContext<Event = H3Event> {
+export interface HookSiteConfigInitContext<Event = Pick<RequestEvent, 'context'>> {
   event: Event
   siteConfig: SiteConfigStack
 }

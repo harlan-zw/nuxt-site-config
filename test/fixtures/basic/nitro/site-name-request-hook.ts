@@ -1,6 +1,6 @@
 import { setHeader } from 'h3'
 import { defineNitroPlugin } from 'nitropack/runtime'
-import { getSiteConfig } from '#site-config/server/composables'
+import { getSiteConfig } from '#site-config/server'
 
 // A user Nitro plugin that reads site config from its own `request` hook.
 // Registered through `nitro.plugins`, which lands before module plugins, so this hook runs first.
