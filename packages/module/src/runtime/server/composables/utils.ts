@@ -13,7 +13,7 @@ export function createSitePathResolver(e: Pick<RequestEvent, 'context'>, options
     // don't use any composables within here
     return resolveSitePath(path, {
       ...options,
-      siteUrl: options.canonical !== false || import.meta.prerender ? siteConfig.url : nitroOrigin,
+      siteUrl: options.canonical !== false || import.meta.prerender ? (siteConfig.url || nitroOrigin) : nitroOrigin,
       trailingSlash: siteConfig.trailingSlash,
       base: nuxtBase,
     })
