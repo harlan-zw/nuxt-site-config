@@ -18,3 +18,4 @@ jobs:
     uses: harlan-zw/nuxt-seo/.github/workflows/reusable-ci.yml@main
     with:
       test-command: pnpm build && pnpm test
+      playwright: false
