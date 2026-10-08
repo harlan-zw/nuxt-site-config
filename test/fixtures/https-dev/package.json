@@ -1,4 +1,5 @@
 {
   "name": "https-dev-fixture",
-  "private": true
+  "private": true,
+  "type": "module"
 }
