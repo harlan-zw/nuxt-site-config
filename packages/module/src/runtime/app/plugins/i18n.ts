@@ -12,17 +12,28 @@ function resolveDefaultLocale(i18n: any): string | undefined {
   return locale?.language || locale?.iso || i18n.defaultLocale
 }
 
+// @nuxtjs/i18n resolves its baseUrl as joinURL(baseUrl, app.baseURL), so the value
+// either has no host or carries the app base path. A site url must be an origin, keep
+// only the protocol and host and let lower priority config provide the url otherwise.
+function resolveSiteUrlOrigin(url: string | undefined): string | undefined {
+  if (!url || url.startsWith('/'))
+    return undefined
+  const absolute = hasProtocol(url, { acceptRelative: true, strict: false }) ? url : `https://${url}`
+  const { protocol, host } = parseURL(absolute)
+  return host ? `${protocol}//${host}` : undefined
+}
+
 function resolveI18nUrl(i18n: any, requestProtocol: string): string | undefined {
   const baseUrl = toValue(i18n.baseUrl) || undefined
   if (!toValue(i18n.differentDomains))
-    return baseUrl
+    return resolveSiteUrlOrigin(baseUrl)
 
   const locales = toValue(i18n.locales)
   const defaultLocale = locales.find((locale: any) => locale.code === toValue(i18n.defaultLocale))
   const domain = resolveCanonicalLocaleDomain(toValue(i18n.localeProperties), defaultLocale)
   if (!domain)
-    return baseUrl
-  return hasProtocol(domain, { strict: true }) ? domain : `${requestProtocol}//${domain}`
+    return resolveSiteUrlOrigin(baseUrl)
+  return resolveSiteUrlOrigin(hasProtocol(domain, { strict: true }) ? domain : `${requestProtocol}//${domain}`)
 }
 
 function resolveCurrentLocale(i18n: any): string | undefined {
@@ -57,7 +68,7 @@ export default defineNuxtPlugin({
         const i18nURL = parseURL(i18nBaseUrl, 'https://')
         const siteConfigURL = parseURL(currentUrl, 'https://')
         // if host matches ignore
-        if (i18nURL.host !== siteConfigURL.host) {
+        if (i18nURL.host && i18nURL.host !== siteConfigURL.host) {
           if (siteConfig.env === 'production') {
             console.error(`[Nuxt Site Config] Your I18n baseUrl \`${i18nURL.host}\` doesn't match your site url ${siteConfigURL.host}. This will cause production SEO issues. Either provide a matching baseUrl or remove the site url config.`)
           }
