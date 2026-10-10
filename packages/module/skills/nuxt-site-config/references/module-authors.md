@@ -10,13 +10,15 @@ It re-exports `nuxt-site-config-kit`, including `SiteConfigPriority`.
 
 ```ts
 import { defineNuxtModule } from '@nuxt/kit'
-import { installNuxtSiteConfig, updateSiteConfig, useSiteConfig } from 'nuxt-site-config/kit'
+import { updateSiteConfig, useSiteConfig } from 'nuxt-site-config/kit'
 
 export default defineNuxtModule({
   meta: { name: 'my-module', configKey: 'myModule' },
   defaults: { siteUrl: undefined as string | undefined },
-  async setup(options, nuxt) {
-    await installNuxtSiteConfig()
+  moduleDependencies: {
+    'nuxt-site-config': { version: '>=5.0.0' },
+  },
+  setup(options, nuxt) {
     updateSiteConfig({
       _context: 'my-module',
       url: options.siteUrl,
@@ -52,7 +54,8 @@ An `undefined` or `''` value is skipped, so an unset module option does not clea
 ## Read at build time
 
 - `useSiteConfig()` from the kit returns only what is pushed so far. Read it in `modules:done` or later, after other modules push.
-- `getSiteConfigStack()` throws "Site config is not initialized" if `installNuxtSiteConfig()` did not run first.
+- Kit functions initialize the config stack on first use, including the user's `site` key and build environment values.
+- Dependency setup can run later. Read in `modules:done` or later to include other modules and i18n.
 - `withSiteUrl(path)` from the kit returns an absolute URL. Pass `throwErrorOnMissingSiteUrl: true` to fail the build when `url` is missing.
 
 ## Runtime code in your module

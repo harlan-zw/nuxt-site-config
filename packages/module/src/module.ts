@@ -114,6 +114,11 @@ export default defineNuxtModule<ModuleOptions>({
     }
 
     await initSiteConfig()
+    // Replace the early seed with the module's merged options.
+    const stack = getSiteConfigStack().stack
+    const seedIndex = stack.findIndex(entry => entry._context === 'nuxt-site-config:init')
+    if (seedIndex !== -1)
+      stack.splice(seedIndex, 1)
     // module options are not site config: keep them out of the stack, since the
     // resolved config ships to the client payload (multiTenancy holds every tenant)
     const { enabled: _enabled, debug: _debug, multiTenancy: _multiTenancy, ...siteConfigInput } = config

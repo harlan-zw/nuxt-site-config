@@ -1,12 +1,48 @@
 import type { Nuxt } from '@nuxt/schema'
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { initSiteConfig } from '../../packages/kit/src/init'
+import { getSiteConfigStack, initSiteConfig, updateSiteConfig, useSiteConfig } from '../../packages/kit/src/init'
 
 afterEach(() => {
   vi.unstubAllEnvs()
 })
 
 describe('initSiteConfig', () => {
+  it('reads user config before the dependency module runs', () => {
+    const nuxt = {
+      options: {
+        site: {
+          url: 'https://user.example.com',
+          name: 'User Site',
+          enabled: true,
+          debug: true,
+          multiTenancy: [{ hosts: ['private.example.com'], config: { name: 'Private Site' } }],
+        },
+      },
+    } as unknown as Nuxt
+
+    expect(useSiteConfig(nuxt)).toMatchObject({ url: 'https://user.example.com', name: 'User Site' })
+    expect(useSiteConfig(nuxt)).not.toHaveProperty('multiTenancy')
+    expect(useSiteConfig(nuxt)).not.toHaveProperty('enabled')
+    expect(useSiteConfig(nuxt)).not.toHaveProperty('debug')
+  })
+
+  it('keeps build environment values above early user config', () => {
+    vi.stubEnv('NUXT_SITE_URL', 'https://env.example.com')
+    const nuxt = { options: { site: { url: 'https://user.example.com' } } } as Nuxt
+
+    expect(useSiteConfig(nuxt).url).toBe('https://env.example.com')
+  })
+
+  it('keeps module contributions when initialization runs later', async () => {
+    const nuxt = { options: {} } as Nuxt
+
+    updateSiteConfig({ name: 'Module Site' }, nuxt)
+    await initSiteConfig(nuxt)
+
+    expect(useSiteConfig(nuxt).name).toBe('Module Site')
+    expect(getSiteConfigStack(nuxt).get().name).toBe('Module Site')
+  })
+
   it('uses the Nuxt environment name before NODE_ENV', async () => {
     vi.stubEnv('NODE_ENV', 'production')
     const nuxt = {
