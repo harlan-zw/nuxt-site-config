@@ -7,7 +7,7 @@ export default defineNuxtConfig({
     defineNuxtModule({
       meta: { name: 'site-config-consumer' },
       moduleDependencies: {
-        'nuxt-site-config': {},
+        [resolve(import.meta.dirname, '../../../packages/module/src/module.ts')]: {},
       },
       setup() {
         const site = useSiteConfig()
@@ -15,9 +15,6 @@ export default defineNuxtConfig({
       },
     }),
   ],
-  alias: {
-    'nuxt-site-config': resolve(import.meta.dirname, '../../../packages/module/src/module'),
-  },
   site: {
     url: 'https://dependency.example.com',
     name: 'User Site',

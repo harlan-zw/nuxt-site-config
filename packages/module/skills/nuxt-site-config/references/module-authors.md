@@ -9,6 +9,7 @@ Add `nuxt-site-config` to your package `dependencies`, then import the kit from 
 It re-exports `nuxt-site-config-kit`, including `SiteConfigPriority`.
 
 ```ts
+import { fileURLToPath } from 'node:url'
 import { defineNuxtModule } from '@nuxt/kit'
 import { updateSiteConfig, useSiteConfig } from 'nuxt-site-config/kit'
 
@@ -16,7 +17,7 @@ export default defineNuxtModule({
   meta: { name: 'my-module', configKey: 'myModule' },
   defaults: { siteUrl: undefined as string | undefined },
   moduleDependencies: {
-    'nuxt-site-config': { version: '>=5.0.0' },
+    [fileURLToPath(import.meta.resolve('nuxt-site-config'))]: { version: '>=5.0.0' },
   },
   setup(options, nuxt) {
     updateSiteConfig({
@@ -30,6 +31,8 @@ export default defineNuxtModule({
   },
 })
 ```
+
+Resolve from your package to support nested dependencies in pnpm's global virtual store.
 
 ## Priority of your values
 
