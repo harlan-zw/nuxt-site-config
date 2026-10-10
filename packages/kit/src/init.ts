@@ -1,12 +1,15 @@
 import type { Nuxt } from '@nuxt/schema'
 import type { SiteConfigInput, SiteConfigResolved, SiteConfigStack } from 'site-config-stack'
-import { installModule, tryUseNuxt } from '@nuxt/kit'
+import { tryUseNuxt } from '@nuxt/kit'
 import { createSiteConfigStack, envSiteConfig, SiteConfigPriority } from 'site-config-stack'
 
 export async function initSiteConfig(nuxt: Nuxt | null = tryUseNuxt()): Promise<SiteConfigStack | undefined> {
   if (!nuxt)
     return
+  return initSiteConfigStack(nuxt)
+}
 
+function initSiteConfigStack(nuxt: Nuxt): SiteConfigStack {
   let siteConfig = nuxt._siteConfig
   if (siteConfig)
     return siteConfig
@@ -47,28 +50,24 @@ export async function initSiteConfig(nuxt: Nuxt | null = tryUseNuxt()): Promise<
     _priority: SiteConfigPriority.build,
     ...envSiteConfig(process.env || {}),
   })
+
+  // Dependency modules can run after their consumers. Seed config for early reads.
+  const options = nuxt.options as Nuxt['options'] & { site?: SiteConfigInput | false }
+  const { enabled: _enabled, debug: _debug, multiTenancy: _multiTenancy, ...siteConfigInput } = options.site || {}
+  siteConfig.push({
+    _priority: SiteConfigPriority.config,
+    ...siteConfigInput,
+    _context: 'nuxt-site-config:init',
+  })
   nuxt._siteConfig = siteConfig
   return siteConfig
-}
-
-export async function installNuxtSiteConfig(nuxt: Nuxt | null = tryUseNuxt()): Promise<void> {
-  if (!nuxt)
-    return
-  // Module dependencies can install Site Config below a consumer package.
-  const installed = nuxt.options._installedModules.some(module => module.meta.name === 'nuxt-site-config')
-  if (!installed)
-    await installModule('nuxt-site-config', {}, nuxt)
-  await initSiteConfig(nuxt)
 }
 
 export function getSiteConfigStack(nuxt: Nuxt | null = tryUseNuxt()): SiteConfigStack {
   if (!nuxt)
     throw new Error('Nuxt context is missing.')
 
-  if (!nuxt._siteConfig)
-    throw new Error('Site config is not initialized. Make sure you are running your module after nuxt-site-config.')
-
-  return nuxt._siteConfig
+  return initSiteConfigStack(nuxt)
 }
 /**
  * Push build time site config.
