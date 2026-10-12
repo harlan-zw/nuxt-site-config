@@ -15,15 +15,17 @@ relatedPages:
 **Type:**
 ```ts
 export interface HookSiteConfigInitContext {
-  event: H3Event
+  event: Pick<RequestEvent, 'context'>
   siteConfig: SiteConfigStack
 }
 ```
 
 Modify site config after initialization.
 
+The hook types `event` as the shared request context. Pass it to `getNitroOrigin(event)`{lang="ts"} to read the request origin.
+
 ```ts [server/plugins/site-config.ts]
-import { getNitroOrigin } from '#site-config/server/composables'
+import { getNitroOrigin } from '#site-config/server'
 
 export default defineNitroPlugin((nitroApp) => {
   nitroApp.hooks.hook('site-config:init', ({ event, siteConfig }) => {
