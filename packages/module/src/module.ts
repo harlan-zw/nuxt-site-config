@@ -56,7 +56,7 @@ export default defineNuxtModule<ModuleOptions>({
   meta: {
     name: 'nuxt-site-config',
     compatibility: {
-      nuxt: '^4.6.0 || ^5.0.0',
+      nuxt: '^4.6.0 || ^5.0.0-0',
     },
     configKey: 'site',
   },
