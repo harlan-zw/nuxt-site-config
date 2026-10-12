@@ -67,7 +67,6 @@ allowBuilds:
   esbuild: true
 
 overrides:
-  nuxtseo-shared: https://pkg.pr.new/harlan-zw/nuxt-seo/nuxtseo-shared@226c091a0744b7286ef721ac035eed53856bfaa5
   nuxt-site-config-kit: link:../../../packages/kit
   site-config-stack: link:../../../packages/site-config
 
