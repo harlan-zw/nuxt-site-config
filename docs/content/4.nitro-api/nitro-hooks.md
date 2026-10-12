@@ -22,7 +22,7 @@ export interface HookSiteConfigInitContext {
 
 Modify site config after initialization.
 
-The hook types `event` as the shared request context. Pass it to `getNitroOrigin(event)`{lang="ts"} to read the request origin.
+The `event` type includes only `context`. Pass `event` to `getNitroOrigin(event)`{lang="ts"} to read the request origin.
 
 ```ts [server/plugins/site-config.ts]
 import { getNitroOrigin } from '#site-config/server'
