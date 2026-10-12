@@ -33,7 +33,7 @@ Module authors consume it to provide a common site config API; end users typical
 Install `nuxt-site-config` dependency to your project:
 
 ```bash
-npx nuxi@latest module add site-config
+npx nuxt module add nuxt-site-config
 ```
 
 > [!TIP]

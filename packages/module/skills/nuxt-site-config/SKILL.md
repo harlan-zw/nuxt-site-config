@@ -1,15 +1,20 @@
 ---
 name: nuxt-site-config
 description: Set, read, and debug shared site config (url, name, env, indexable, trailingSlash) in a Nuxt app with the nuxt-site-config module. Use when a task mentions the site config key, useSiteConfig, getSiteConfig, updateSiteConfig, createSitePathResolver, withSiteUrl, getNitroOrigin, NUXT_SITE_URL or other NUXT_SITE_ env vars, multiTenancy, the site-config:init hook, nuxtSiteConfig i18n messages, nuxt-site-config/kit, or a wrong canonical URL, site name, or indexable value in Nuxt SEO modules.
+license: MIT
+compatibility: "Requires Node.js ^22.22.3 || ^24.15.0 || >=26.0.0. Requires Nuxt ^4.6.0 || ^5.0.0."
 ---
 
 # nuxt-site-config
 
 Requires Nuxt `^4.6.0 || ^5.0.0` and Node `^22.22.3 || ^24.15.0 || >=26.0.0`.
 The module resolves one site config per request from many sources. The Nuxt SEO modules (sitemap, robots, schema.org, OG image) read it.
-`@nuxtjs/seo` installs it already. Docs: https://nuxtseo.com/docs/site-config
+Docs: https://nuxtseo.com/docs/site-config
 
 ## Setup
+
+Included in `@nuxtjs/seo` v6. If the app uses `@nuxtjs/seo`, configure the `site` key and do not add the module again.
+Otherwise, install it with `npx nuxt module add nuxt-site-config`.
 
 Set `url` and `name` under the `site` key. Nothing infers `name` from `package.json`.
 
@@ -45,7 +50,7 @@ A build time `updateSiteConfig()` without `_priority` ranks with the `site` key.
 ## Read site config
 
 In app code, `useSiteConfig()` is auto imported. In `server/`, use `getSiteConfig(event)`.
-Server helpers are auto imported. The explicit path is `#site-config/server/composables`.
+Helpers are auto imported. The explicit paths are `#site-config/app` and `#site-config/server`.
 
 ```ts
 // server/api/canonical.ts
@@ -110,6 +115,15 @@ The module order in `modules` does not matter.
 
 ## Version limits
 
+v5 changed these. Code written for v4 can still expect the old behaviour:
+
+- `installNuxtSiteConfig()` is gone from `nuxt-site-config/kit`. Declare `nuxt-site-config` in `moduleDependencies` (see [references/module-authors.md](references/module-authors.md)).
+- A build time `updateSiteConfig()` without `_priority` no longer beats the `site` key or `NUXT_SITE_*`. To keep the old rank, pass `_priority: SiteConfigPriority.runtime`.
+- `updateSiteConfig()` in the `site-config:resolve` hook no longer beats `NUXT_SITE_*` env vars.
+- `NUXT_SITE_TRAILING_SLASH=false` now disables trailing slashes. In v4, the string `"false"` enabled them.
+- An unset `indexable` now resolves to a boolean from `env`. Do not check it for `undefined`.
+- The DevTools tab needs `nuxtseo-devtools-host` as a dev dependency.
+
 v4 removed these. Code written for v3 still uses them:
 
 ```diff
@@ -135,4 +149,4 @@ Module authors: see [references/module-authors.md](references/module-authors.md)
 
 - `/__site-config__/debug.json` shows the resolved config and the full stack. It exists in dev, or in production with `site: { debug: true }`.
 - `useSiteConfig({ debug: true })._context` names the source of each key.
-- Nuxt DevTools has a Site Config tab.
+- Nuxt DevTools has a Site Config tab. It needs `nuxtseo-devtools-host` as a dev dependency: `pnpm add -D nuxtseo-devtools-host`.
