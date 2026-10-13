@@ -2,6 +2,29 @@ import type { GetSiteConfigOptions, SiteConfigInput, SiteConfigResolved, SiteCon
 import { getQuery, hasProtocol, parseHost, parseURL, withHttps } from 'ufo'
 import { toValue } from './utils'
 
+/**
+ * Copy plain objects and arrays at every depth, so a stack entry never shares an object with its input.
+ *
+ * On the server, inputs are often deep frozen: Nitro freezes the shared runtime config that the
+ * build-time stack and the `site` runtime config come from. Consumers write into the resolved
+ * config, so a shared object either throws or leaks the write into the input, and from there into
+ * later requests. Refs, getters, reactive proxies and class instances keep their identity.
+ */
+function copyPlainData(value: unknown): any {
+  if (Array.isArray(value))
+    return value.map(copyPlainData)
+  // `__v_isRef` is the marker `toValue` reads, so a ref stays live between reads
+  if (!value || typeof value !== 'object' || (value as { __v_isRef?: boolean }).__v_isRef || (value as { __v_isReactive?: boolean }).__v_isReactive)
+    return value
+  const proto = Object.getPrototypeOf(value)
+  if (proto !== Object.prototype && proto !== null)
+    return value
+  const copy: Record<string, unknown> = {}
+  for (const key in value)
+    copy[key] = copyPlainData((value as Record<string, unknown>)[key])
+  return copy
+}
+
 export function normalizeSiteConfig(config: SiteConfigResolved): SiteConfigResolved {
   // env vars arrive as strings, so "false" must not read as truthy
   if (typeof config.indexable !== 'undefined')
@@ -63,25 +86,25 @@ export function createSiteConfigStack(options?: { debug: boolean }): { stack: Pa
         // noop
       }
     }
-    // avoid exposing internals unless we're debugging
-    if (!input._context && debug) {
-      // use stack trace to determine function name calling this
-      let lastFunctionName = new Error('tmp').stack?.split('\n')[2]?.split(' ')[5]
-      // avoid exposing paths
-      if (lastFunctionName?.includes('/'))
-        lastFunctionName = 'anonymous'
-      input._context = lastFunctionName
-    }
     const entry: Record<string, any> = {}
     // filter input, make sure values are defined and not ''
     for (const k in input) {
       const val = input[k]
       if (typeof val !== 'undefined' && val !== '')
-        entry[k] = val
+        entry[k] = copyPlainData(val)
     }
     // only push if entry has non-internal keys
     if (!Object.keys(entry).some(k => !k.startsWith('_'))) {
       return () => {}
+    }
+    // avoid exposing internals unless we're debugging
+    if (!entry._context && debug) {
+      // use stack trace to determine function name calling this
+      let lastFunctionName = new Error('tmp').stack?.split('\n')[2]?.split(' ')[5]
+      // avoid exposing paths
+      if (lastFunctionName?.includes('/'))
+        lastFunctionName = 'anonymous'
+      entry._context = lastFunctionName
     }
     stack.push(entry)
     // return function to remove by reference (not index - indices shift on removal)
