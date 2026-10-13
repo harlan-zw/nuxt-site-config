@@ -97,7 +97,10 @@ export default defineNuxtModule<ModuleOptions>({
     if (nitroCompatibility._tag === 'nitro-v3') {
       if (nitroOptions.noExternals !== true) {
         const inline = Array.isArray(nitroOptions.noExternals) ? nitroOptions.noExternals : []
-        for (const path of runtimeInline) {
+        // Nitro 3 bundles only what this list names when it prerenders. The
+        // server runtime imports the `#nuxtseo/*` aliases, which resolve only
+        // inside the bundle, so Node cannot load it as an external file.
+        for (const path of [...runtimeInline, resolve('./runtime/server')]) {
           if (!inline.includes(path))
             inline.push(path)
         }
