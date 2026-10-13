@@ -1,7 +1,7 @@
 {
   "name": "nuxt-site-config",
   "type": "module",
-  "version": "5.0.2",
+  "version": "5.0.3",
   "description": "Shared site configuration for Nuxt modules.",
   "author": {
     "name": "Harlan Wilton",
