@@ -123,4 +123,36 @@ describe('createSiteConfigStack', () => {
     expect(stack.get({ debug: true })._context?.url).toBe('fixture')
     expect(stack.get()._context).toBeUndefined()
   })
+
+  it.each([false, true])('never writes into a pushed input (debug: %s)', (debug) => {
+    const stack = createSiteConfigStack({ debug })
+    // Nitro deep freezes runtime config, so build-time entries arrive like this
+    const input = deepFreeze({ name: 'Example', identity: { type: 'Person', sameAs: ['https://github.com/harlan-zw'] } })
+
+    expect(() => stack.push(input)).not.toThrow()
+    expect(input).not.toHaveProperty('_context')
+
+    const resolved = stack.get()
+    expect(resolved.identity).toEqual({ type: 'Person', sameAs: ['https://github.com/harlan-zw'] })
+    expect(Object.isFrozen(resolved.identity)).toBe(false)
+    expect(Object.isFrozen(resolved.identity.sameAs)).toBe(false)
+  })
+
+  it('keeps a mutable input apart from the resolved config', () => {
+    const stack = createSiteConfigStack()
+    const input = { identity: { type: 'Organization', name: 'Example' } }
+    stack.push(input)
+
+    stack.get().identity.name = 'Changed'
+
+    expect(input.identity.name).toBe('Example')
+  })
 })
+
+function deepFreeze<T extends Record<string, any>>(value: T): T {
+  for (const child of Object.values(value)) {
+    if (child && typeof child === 'object')
+      deepFreeze(child)
+  }
+  return Object.freeze(value)
+}
