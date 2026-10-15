@@ -23,6 +23,7 @@ export default antfu(
       '**/runtime/app/**/getNitroOrigin.ts',
       '**/runtime/app/**/utils.ts',
       '**/runtime/server/**/getSiteConfig.ts',
+      '**/runtime/server/**/utils.ts',
     ],
     rules: {
       'harlanzw/vue-require-composable-prefix': 'off',
