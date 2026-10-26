@@ -6,7 +6,6 @@ import { parseURL } from 'ufo'
 import { useNitroApp } from '#nuxtseo/nitro'
 
 const PORT_SUFFIX_RE = /:\d+$/
-const serverEnvSiteConfig = envSiteConfig(import.meta.env || {})
 
 /**
  * Resolve the site config stack for a request, once.
@@ -17,6 +16,9 @@ const serverEnvSiteConfig = envSiteConfig(import.meta.env || {})
 export async function initRequestSiteConfig(e: Pick<RequestEvent, 'context'>, origin: string, routeRules: AppRouteRules): Promise<void> {
   if (e.context._initedSiteConfig)
     return
+  // Workers expose bindings at request time. Nitro's import-meta global may
+  // also be unavailable while circular dependencies evaluate during startup.
+  const serverEnvSiteConfig = envSiteConfig(process.env || {})
   const runtimeConfig = useRuntimeConfig()
   // resolved per request so the nitro origin is always up to date
   const config = runtimeConfig['nuxt-site-config']

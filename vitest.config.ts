@@ -6,6 +6,9 @@ export default defineConfig({
     reporters: 'dot',
     projects: [
       defineProject({
+        resolve: {
+          dedupe: ['nuxt'],
+        },
         test: {
           name: 'unit',
           include: [
