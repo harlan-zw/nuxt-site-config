@@ -89,6 +89,7 @@ allowBuilds:
   '@firebase/util': false
   '@parcel/watcher': true
   esbuild: true
+  nuxt-i18n-micro: false
   protobufjs: false
   simple-git-hooks: false
   unrs-resolver: true
