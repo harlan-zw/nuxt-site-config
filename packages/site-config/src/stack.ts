@@ -36,9 +36,10 @@ export function normalizeSiteConfig(config: SiteConfigResolved): SiteConfigResol
   if (config.url && !hasProtocol(String(config.url), { acceptRelative: true, strict: false }))
     config.url = withHttps(String(config.url))
 
-  // sort the keys
-  const keys = Object.keys(config)
-    .sort((a, b) => a.localeCompare(b))
+  // sort the keys by code unit, so server and client agree on the order in any
+  // runtime and locale. `localeCompare` initialises the Intl collator on first
+  // use, a few ms of CPU on a cold serverless isolate.
+  const keys = Object.keys(config).sort()
   // create new object
   const newConfig: Partial<SiteConfigResolved> = {}
   for (const k of keys)

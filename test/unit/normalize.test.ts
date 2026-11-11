@@ -33,3 +33,11 @@ describe('resolved booleans', () => {
     expect(resolve({ env: 'staging', indexable: true }).indexable).toBe(true)
   })
 })
+
+describe('resolved key order', () => {
+  it('orders keys by code unit, whatever order they were pushed in', () => {
+    const keys = Object.keys(resolve({ url: 'https://example.com', name: 'Site', Zeta: 1, alpha: 2 }))
+    expect(keys).toEqual([...keys].sort())
+    expect(keys.indexOf('Zeta')).toBeLessThan(keys.indexOf('alpha'))
+  })
+})
