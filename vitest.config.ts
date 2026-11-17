@@ -5,6 +5,19 @@ export default defineConfig({
     globals: true,
     reporters: 'dot',
     projects: [
+      ...[true, false].map(server => defineProject({
+        resolve: { dedupe: ['nuxt'] },
+        define: {
+          'import.meta.server': server,
+          'import.meta.client': !server,
+        },
+        test: {
+          name: server ? 'i18n-server' : 'i18n-client',
+          include: ['./test/i18n-plugin.test.ts'],
+          pool: 'forks',
+          execArgv: ['--expose-gc'],
+        },
+      })),
       defineProject({
         test: {
           name: 'unit',
