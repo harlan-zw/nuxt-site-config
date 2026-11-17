@@ -5,6 +5,7 @@ import { hasProtocol, parseURL } from 'ufo'
 import { computed, toValue, watch } from 'vue'
 // @ts-expect-error untyped
 import { i18nPluginDeps } from '#build/nuxt-site-config/i18n-plugin-deps.mjs'
+import { createServerGetter } from './i18n-server'
 import { getSiteConfigStack } from './i18n-shared'
 
 function resolveDefaultLocale(i18n: any): string | undefined {
@@ -76,20 +77,18 @@ export default defineNuxtPlugin({
       }
     }
 
-    // On SSR, use getter functions instead of computed refs or plain values.
-    // Plain values resolve too early (before middleware sets the locale for no_prefix strategy).
-    // Computed refs create Vue effect scopes that capture the i18n instance, preventing GC.
-    // Getter functions are resolved lazily via toValue() when stack.get({ resolveRefs: true })
-    // is called at render time, after all middleware has run.
+    // Resolve after middleware sets the no_prefix locale, including during streamed rendering.
+    // Nuxt owns i18n during SSR. The event must not extend that ownership after SSR or errors.
     if (import.meta.server) {
+      const target = new WeakRef(i18n)
       stack!.push({
         _priority: SiteConfigPriority.i18n,
         _context: '@nuxtjs/i18n',
-        url: () => resolveI18nUrl(i18n, requestProtocol),
-        defaultLocale: () => resolveDefaultLocale(i18n),
-        currentLocale: () => resolveCurrentLocale(i18n),
-        description: () => resolveDescription(i18n),
-        name: () => resolveName(i18n),
+        url: createServerGetter(target, resolveI18nUrl, requestProtocol),
+        defaultLocale: createServerGetter(target, resolveDefaultLocale),
+        currentLocale: createServerGetter(target, resolveCurrentLocale),
+        description: createServerGetter(target, resolveDescription),
+        name: createServerGetter(target, resolveName),
       })
       return
     }
