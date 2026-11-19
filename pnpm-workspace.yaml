@@ -54,6 +54,7 @@ overrides:
   cssnano: 9.2.2
   cssnano-preset-default: 9.2.2
   cssnano-utils: 8.1.0
+  minimatch@>=9.0.0 <9.0.7: ^9.0.9
   postcss-calc: 11.2.2
   postcss-colormin: 9.0.6
   postcss-convert-values: 9.0.7
