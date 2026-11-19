@@ -19,7 +19,7 @@ function resolveServerEnvSiteConfig(event: Pick<RequestEvent, 'context'>) {
   const env = (event.context as WorkerRuntime).cloudflare?.env
     ?? req?.runtime?.cloudflare?.env
     ?? (globalThis as { __env__?: Bindings }).__env__
-    ?? process.env
+    ?? (typeof process === 'undefined' ? undefined : process.env)
   if (!env)
     return
   let config = serverEnvSiteConfigs.get(env)

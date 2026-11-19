@@ -66,4 +66,20 @@ describe('request site config environment', () => {
     expect(first.context.siteConfig!.get().name).toBe('Original environment')
     expect(next.context.siteConfig!.get().name).toBe('New environment')
   })
+
+  it('uses runtime config when the environment is unavailable', async () => {
+    const event = request()
+    vi.stubGlobal('process', undefined)
+    let initialized: Promise<void>
+    try {
+      initialized = initRequestSiteConfig(event, 'https://example.com', {})
+    }
+    finally {
+      vi.unstubAllGlobals()
+    }
+
+    await initialized
+
+    expect(event.context.siteConfig!.get().name).toBe('Runtime config')
+  })
 })
