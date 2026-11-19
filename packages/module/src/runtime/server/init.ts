@@ -5,7 +5,30 @@ import { createSiteConfigStack, envSiteConfig, SiteConfigPriority } from 'site-c
 import { parseURL } from 'ufo'
 import { useNitroApp } from '#nuxtseo/nitro'
 
+type Bindings = Record<string, unknown>
+interface WorkerRuntime {
+  cloudflare?: { env?: Bindings }
+}
+
 const PORT_SUFFIX_RE = /:\d+$/
+const serverEnvSiteConfigs = new WeakMap<Bindings, ReturnType<typeof envSiteConfig>>()
+
+function resolveServerEnvSiteConfig(event: Pick<RequestEvent, 'context'>) {
+  const { req } = event as { req?: { runtime?: WorkerRuntime } }
+  // Nitro 2 exposes bindings through context. Nitro 3 attaches them to the request.
+  const env = (event.context as WorkerRuntime).cloudflare?.env
+    ?? req?.runtime?.cloudflare?.env
+    ?? (globalThis as { __env__?: Bindings }).__env__
+    ?? process.env
+  if (!env)
+    return
+  let config = serverEnvSiteConfigs.get(env)
+  if (!config) {
+    config = envSiteConfig(env)
+    serverEnvSiteConfigs.set(env, config)
+  }
+  return config
+}
 
 /**
  * Resolve the site config stack for a request, once.
@@ -16,9 +39,6 @@ const PORT_SUFFIX_RE = /:\d+$/
 export async function initRequestSiteConfig(e: Pick<RequestEvent, 'context'>, origin: string, routeRules: AppRouteRules): Promise<void> {
   if (e.context._initedSiteConfig)
     return
-  // Workers expose bindings at request time. Nitro's import-meta global may
-  // also be unavailable while circular dependencies evaluate during startup.
-  const serverEnvSiteConfig = envSiteConfig(process.env || {})
   const runtimeConfig = useRuntimeConfig()
   // resolved per request so the nitro origin is always up to date
   const config = runtimeConfig['nuxt-site-config']
@@ -41,7 +61,7 @@ export async function initRequestSiteConfig(e: Pick<RequestEvent, 'context'>, or
     _priority: SiteConfigPriority.runtime,
     ...(runtimeConfig.site || {}),
     ...(runtimeConfig.public.site || {}),
-    ...serverEnvSiteConfig,
+    ...resolveServerEnvSiteConfig(e),
   })
   const buildStack = config.stack || []
   buildStack.forEach((c: any) => siteConfig.push(c))
