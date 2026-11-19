@@ -19,6 +19,9 @@ export default defineConfig({
         },
       })),
       defineProject({
+        resolve: {
+          dedupe: ['nuxt'],
+        },
         test: {
           name: 'unit',
           include: [
