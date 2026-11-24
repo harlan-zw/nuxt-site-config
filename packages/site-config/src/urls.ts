@@ -43,6 +43,7 @@ const fileExtensions = [
   'webp',
   'svg',
   'ico',
+  'heic',
 
   // Documents
   'pdf',
@@ -114,6 +115,18 @@ const fileExtensions = [
   'sql',
   'yaml',
   'yml',
+  'fits',
+
+  // 3D models
+  'stl',
+  'obj',
+  'step',
+  '3mf',
+
+  // Geospatial data
+  'kml',
+  'kmz',
+  'geojson',
 
   // Fonts
   'woff',

@@ -95,7 +95,7 @@ Extensions match without regard to case. The leading dot is optional.
 export default defineNuxtConfig({
   site: {
     trailingSlash: true,
-    fileExtensions: ['stl', 'obj', 'step', '3mf', 'kml', 'kmz', 'geojson', 'heic', 'fits'],
+    fileExtensions: ['mrc'],
   },
 })
 ```

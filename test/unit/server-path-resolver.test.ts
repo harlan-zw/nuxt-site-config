@@ -29,9 +29,9 @@ describe('server path resolver', () => {
   })
 
   it('uses the file extensions for the current site in each URL helper', () => {
-    const configuredSite = { context: { ...event.context, config: { trailingSlash: true, fileExtensions: ['stl'] } } }
+    const configuredSite = { context: { ...event.context, config: { trailingSlash: true, fileExtensions: ['mrc'] } } }
     const otherSite = { context: { ...event.context, config: { trailingSlash: true } } }
-    const path = '/downloads/model.stl'
+    const path = '/downloads/sample.mrc'
 
     expect(createSitePathResolver(configuredSite)(path)).toBe(path)
     expect(withSiteTrailingSlash(configuredSite, path)).toBe(path)
