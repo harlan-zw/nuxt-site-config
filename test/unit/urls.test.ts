@@ -257,26 +257,26 @@ describe('urls', () => {
 })
 
 describe('file paths', () => {
-  it.each(['stl', 'obj', 'step', '3mf', 'kml', 'kmz', 'geojson', 'heic', 'fits'])('keeps configured .%s downloads free of trailing slashes', (extension) => {
+  it.each(['stl', 'obj', 'step', '3mf', 'kml', 'kmz', 'geojson', 'heic', 'fits'])('keeps .%s downloads free of trailing slashes by default', (extension) => {
     const link = `/downloads/asset.${extension}?download=1#file`
     expect(resolveSitePath(link, {
       ...defaults,
       trailingSlash: true,
-      fileExtensions: [extension],
     })).toBe(link)
   })
 
   it.each([
-    ['/downloads/asset.STL', '/downloads/asset.STL'],
+    ['/downloads/asset.MRC', '/downloads/asset.MRC'],
     ['/downloads/asset.pdf', '/downloads/asset.pdf'],
     ['/blog/example.com', '/blog/example.com/'],
     ['/blog/asset.stl/notes', '/blog/asset.stl/notes/'],
+    ['/blog/asset.mrc/notes', '/blog/asset.mrc/notes/'],
   ])('applies the file extension policy to %s', (link, expected) => {
-    expect(fixSlashes(true, link, ['.StL'])).toBe(expected)
+    expect(fixSlashes(true, link, ['.MrC'])).toBe(expected)
   })
 
   it('applies the trailing slash rule to unconfigured extensions', () => {
-    expect(fixSlashes(true, '/downloads/asset.stl')).toBe('/downloads/asset.stl/')
+    expect(fixSlashes(true, '/downloads/asset.mrc')).toBe('/downloads/asset.mrc/')
   })
 
   it('normal', () => {
