@@ -17,6 +17,7 @@ export function createSitePathResolver(options: VueCreateSitePathResolverOptions
       withBase: unref(options.withBase),
       siteUrl: (unref(options.canonical) !== false || import.meta.prerender) ? siteConfig.url : nitroOrigin,
       trailingSlash: siteConfig.trailingSlash,
+      fileExtensions: siteConfig.fileExtensions,
       base: nuxtBase,
     }))
   }
@@ -24,7 +25,7 @@ export function createSitePathResolver(options: VueCreateSitePathResolverOptions
 
 export function withSiteTrailingSlash(path: MaybeRef<string>): ComputedRef<string> {
   const siteConfig = useSiteConfig()
-  return computed(() => fixSlashes(siteConfig.trailingSlash, unref(path)))
+  return computed(() => fixSlashes(siteConfig.trailingSlash, unref(path), siteConfig.fileExtensions))
 }
 
 export function withSiteUrl(path: MaybeRef<string>, options: VueCreateSitePathResolverOptions = {}): ComputedRef<string> {
@@ -36,6 +37,7 @@ export function withSiteUrl(path: MaybeRef<string>, options: VueCreateSitePathRe
       absolute: true,
       siteUrl: (unref(options.canonical) !== false || import.meta.prerender) ? siteConfig.url : nitroOrigin,
       trailingSlash: siteConfig.trailingSlash,
+      fileExtensions: siteConfig.fileExtensions,
       base,
       withBase: unref(options.withBase),
     })

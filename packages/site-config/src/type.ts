@@ -34,6 +34,10 @@ export interface SiteConfigResolved {
    */
   trailingSlash?: boolean
   /**
+   * Additional file extensions to recognize when applying trailing slash rules.
+   */
+  fileExtensions?: readonly string[]
+  /**
    * The mapping of the context of each site config value being set.
    */
   _context?: Record<string, string>
