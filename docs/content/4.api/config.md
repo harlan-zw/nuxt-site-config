@@ -86,6 +86,20 @@ Whether the site can be indexed by search engines.
 
 Whether to add trailing slashes to the URLs.
 
+## `fileExtensions: string[]`{lang="ts"}
+
+Add file extensions to the built-in list. Site Config skips trailing slash changes for URLs with these extensions.
+Extensions match without regard to case. The leading dot is optional.
+
+```ts [nuxt.config.ts]
+export default defineNuxtConfig({
+  site: {
+    trailingSlash: true,
+    fileExtensions: ['stl', 'obj', 'step', '3mf', 'kml', 'kmz', 'geojson', 'heic', 'fits'],
+  },
+})
+```
+
 ## `defaultLocale: string`{lang="ts"}
 
 The default locale of the site.

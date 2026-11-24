@@ -5,7 +5,7 @@ import { getNitroOrigin } from './util'
 
 export function withSiteTrailingSlash(path: string): string {
   const siteConfig = useSiteConfig()
-  return fixSlashes(siteConfig.trailingSlash, path)
+  return fixSlashes(siteConfig.trailingSlash, path, siteConfig.fileExtensions)
 }
 
 export function createSitePathResolver(options: { canonical?: boolean, absolute?: boolean, withBase?: boolean } = {}, nuxt = useNuxt()): (path: string) => string {
@@ -19,6 +19,7 @@ export function createSitePathResolver(options: { canonical?: boolean, absolute?
       ...options,
       siteUrl: canUseSiteUrl ? siteConfig.url! : nitroOrigin,
       trailingSlash: siteConfig.trailingSlash,
+      fileExtensions: siteConfig.fileExtensions,
       base: nuxtBase,
     })
   }
@@ -35,6 +36,7 @@ export function withSiteUrl(path: string, options: { withBase?: boolean, throwEr
     absolute: true,
     siteUrl: siteConfig.url || '',
     trailingSlash: siteConfig.trailingSlash,
+    fileExtensions: siteConfig.fileExtensions,
     base,
     withBase: options.withBase,
   })

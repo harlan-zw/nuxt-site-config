@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { createSitePathResolver, withSiteUrl } from '../../packages/module/src/runtime/server/composables/utils'
+import { createSitePathResolver, withSiteTrailingSlash, withSiteUrl } from '../../packages/module/src/runtime/server/composables/utils'
 
 vi.mock('nuxt/server', () => ({ useRuntimeConfig: () => ({ app: { baseURL: '/' } }) }))
 vi.mock('../../packages/module/src/runtime/server/composables/getSiteConfig', () => ({ getSiteConfig: (event: any) => event.context.config }))
@@ -26,5 +26,16 @@ describe('server path resolver', () => {
     const second = createSitePathResolver({ context: { origin: 'https://other.example', config: {} } } as any, { absolute: true })
     expect(first('/one')).toBe('https://tenant.example/one')
     expect(second('/two')).toBe('https://other.example/two')
+  })
+
+  it('uses the file extensions for the current site in each URL helper', () => {
+    const configuredSite = { context: { ...event.context, config: { trailingSlash: true, fileExtensions: ['stl'] } } }
+    const otherSite = { context: { ...event.context, config: { trailingSlash: true } } }
+    const path = '/downloads/model.stl'
+
+    expect(createSitePathResolver(configuredSite)(path)).toBe(path)
+    expect(withSiteTrailingSlash(configuredSite, path)).toBe(path)
+    expect(withSiteUrl(configuredSite, path)).toBe(`https://tenant.example${path}`)
+    expect(createSitePathResolver(otherSite)(path)).toBe(`${path}/`)
   })
 })

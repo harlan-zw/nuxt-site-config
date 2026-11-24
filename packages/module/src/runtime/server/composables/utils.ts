@@ -15,6 +15,7 @@ export function createSitePathResolver(e: Pick<RequestEvent, 'context'>, options
       ...options,
       siteUrl: options.canonical !== false || import.meta.prerender ? (siteConfig.url || nitroOrigin) : nitroOrigin,
       trailingSlash: siteConfig.trailingSlash,
+      fileExtensions: siteConfig.fileExtensions,
       base: nuxtBase,
     })
   }
@@ -22,7 +23,7 @@ export function createSitePathResolver(e: Pick<RequestEvent, 'context'>, options
 
 export function withSiteTrailingSlash(e: Pick<RequestEvent, 'context'>, path: string): string {
   const siteConfig = getSiteConfig(e)
-  return fixSlashes(siteConfig.trailingSlash, path)
+  return fixSlashes(siteConfig.trailingSlash, path, siteConfig.fileExtensions)
 }
 
 export function withSiteUrl(e: Pick<RequestEvent, 'context'>, path: string, options: CreateSitePathResolverOptions = {}): string {
@@ -35,6 +36,7 @@ export function withSiteUrl(e: Pick<RequestEvent, 'context'>, path: string, opti
     absolute: true,
     siteUrl,
     trailingSlash: siteConfig.trailingSlash,
+    fileExtensions: siteConfig.fileExtensions,
     base: useRuntimeConfig().app.baseURL || '/',
     withBase: options.withBase,
   })

@@ -1,3 +1,4 @@
+import type { SiteConfigResolved } from './type'
 import {
   hasProtocol,
   parseURL,
@@ -9,7 +10,7 @@ import {
 
 const FILE_EXT_RE = /\.[0-9a-z]+$/i
 
-export function resolveSitePath(pathOrUrl: string, options: { siteUrl: string, trailingSlash?: boolean, base?: string, absolute?: boolean, withBase?: boolean }): string {
+export function resolveSitePath(pathOrUrl: string, options: Pick<SiteConfigResolved, 'trailingSlash' | 'fileExtensions'> & { siteUrl: string, base?: string, absolute?: boolean, withBase?: boolean }): string {
   let path = pathOrUrl
   // check we should check what we're working with, either an absolute or relative path
   if (hasProtocol(pathOrUrl, { strict: false, acceptRelative: true })) {
@@ -29,7 +30,7 @@ export function resolveSitePath(pathOrUrl: string, options: { siteUrl: string, t
   }
   const baseWithOrigin = options.withBase ? withBase(base, origin || '/') : origin
   const resolvedUrl = withBase(path, baseWithOrigin)
-  return (path === '/' && !options.withBase) ? withTrailingSlash(resolvedUrl) : fixSlashes(options.trailingSlash, resolvedUrl)
+  return (path === '/' && !options.withBase) ? withTrailingSlash(resolvedUrl) : fixSlashes(options.trailingSlash, resolvedUrl, options.fileExtensions)
 }
 
 const fileExtensions = [
@@ -158,15 +159,23 @@ const fileExtensions = [
   'sav',
 ]
 
-export function isPathFile(path: string): boolean {
+export function isPathFile(path: string, extraExtensions?: readonly string[]): boolean {
   const lastSegment = path.split('/').pop()
-  const ext = ((lastSegment || path).match(FILE_EXT_RE)?.[0])
-  return !!(ext && fileExtensions.includes(ext.replace('.', '')))
+  const extension = (lastSegment || path).match(FILE_EXT_RE)?.[0].slice(1)
+  if (!extension)
+    return false
+  if (fileExtensions.includes(extension))
+    return true
+
+  const lowerExtension = extension.toLowerCase()
+  return Array.isArray(extraExtensions) && extraExtensions.some(extra =>
+    typeof extra === 'string' && extra.replace(/^\./, '').toLowerCase() === lowerExtension,
+  )
 }
 
-export function fixSlashes(trailingSlash: boolean | undefined, pathOrUrl: string): string {
+export function fixSlashes(trailingSlash: boolean | undefined, pathOrUrl: string, extraExtensions?: readonly string[]): string {
   const $url = parseURL(pathOrUrl)
-  if (isPathFile($url.pathname))
+  if (isPathFile($url.pathname, extraExtensions))
     return pathOrUrl
   const fixedPath = trailingSlash ? withTrailingSlash($url.pathname) : withoutTrailingSlash($url.pathname)
   // reconstruct the url
