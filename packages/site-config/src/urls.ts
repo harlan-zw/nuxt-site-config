@@ -172,6 +172,8 @@ const fileExtensions = [
   'sav',
 ]
 
+export function isPathFile(path: string): boolean
+export function isPathFile(path: string, extraExtensions?: readonly string[]): boolean
 export function isPathFile(path: string, extraExtensions?: readonly string[]): boolean {
   const lastSegment = path.split('/').pop()
   const extension = (lastSegment || path).match(FILE_EXT_RE)?.[0].slice(1)

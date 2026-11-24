@@ -1,6 +1,12 @@
 import type { NuxtSiteConfig } from '../../packages/module/src/runtime/types'
 import type { SiteConfigInput } from '../../packages/site-config/src/type'
 import { describe, expectTypeOf, it } from 'vitest'
+import { isPathFile } from '../../packages/site-config/src/urls'
+
+it('accepts isPathFile as a filter callback', () => {
+  const files = ['/report.pdf'].filter(isPathFile)
+  expectTypeOf(files).toEqualTypeOf<string[]>()
+})
 
 describe('SiteConfigInput', () => {
   it('rejects wrong types on known keys (autocomplete + type checking)', () => {
