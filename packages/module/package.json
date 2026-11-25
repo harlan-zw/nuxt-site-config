@@ -54,13 +54,13 @@
   },
   "scripts": {
     "client:build": "node -e \"require('fs').cpSync('./devtools','dist/devtools',{recursive:true})\"",
-    "build": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxt-module-build build && npm run client:build",
+    "build": "nuxt-module-build prepare && tsdown && pnpm run client:build",
     "dev:build": "nuxi build playground",
-    "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare",
-    "prepack": "nuxt-module-build build && npm run client:build",
+    "dev:prepare": "nuxt-module-build prepare && tsdown",
+    "prepack": "nuxt-module-build prepare && tsdown && pnpm run client:build",
     "release": "bumpp package.json --commit --push --tag",
     "test": "vitest",
-    "typecheck": "nuxt typecheck",
+    "typecheck": "vue-tsc -b --noEmit",
     "test:attw": "attw --pack"
   },
   "peerDependencies": {
@@ -78,15 +78,10 @@
     "ufo": "catalog:"
   },
   "devDependencies": {
+    "@nuxt/module-builder": "catalog:",
     "@nuxt/schema": "catalog:",
     "nuxtseo-layer-devtools": "catalog:",
-    "unbuild": "catalog:",
+    "tsdown": "catalog:",
     "vue": "catalog:"
-  },
-  "build": {
-    "externals": [
-      "@nuxt/schema",
-      "nuxt/server"
-    ]
   }
 }
