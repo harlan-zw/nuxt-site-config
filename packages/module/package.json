@@ -54,13 +54,13 @@
   },
   "scripts": {
     "client:build": "node -e \"require('fs').cpSync('./devtools','dist/devtools',{recursive:true})\"",
-    "build": "nuxt-module-build prepare && tsdown && npm run client:build",
+    "build": "nuxt-module-build prepare && tsdown && pnpm run client:build",
     "dev:build": "nuxi build playground",
     "dev:prepare": "nuxt-module-build prepare && tsdown",
-    "prepack": "nuxt-module-build prepare && tsdown && npm run client:build",
+    "prepack": "nuxt-module-build prepare && tsdown && pnpm run client:build",
     "release": "bumpp package.json --commit --push --tag",
     "test": "vitest",
-    "typecheck": "nuxt typecheck",
+    "typecheck": "vue-tsc -b --noEmit",
     "test:attw": "attw --pack"
   },
   "peerDependencies": {

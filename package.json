@@ -22,7 +22,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "build": "pnpm --filter \"./packages/**\" build",
-    "dev": "nuxi dev .playground",
+    "dev": "pnpm --filter \"nuxt-site-config^...\" build && pnpm --filter nuxt-site-config exec nuxt-module-build prepare && nuxt dev .playground",
     "prepack": "pnpm run build",
     "dev:build": "nuxi build .playground",
     "typecheck": "pnpm -r --parallel --filter \"./packages/**\" run typecheck",
