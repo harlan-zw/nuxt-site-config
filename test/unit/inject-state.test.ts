@@ -5,6 +5,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 const state = vi.hoisted(() => ({
   routeRules: {} as AppRouteRules,
   baseURL: '/',
+  noSSR: false,
   getRouteRules: vi.fn<(event: unknown) => AppRouteRules>(() => state.routeRules),
   matchRouteRules: vi.fn<(path: string, method?: string) => AppRouteRules>(() => state.routeRules),
 }))
@@ -25,7 +26,9 @@ vi.mock('nuxt/server', () => ({
 }))
 
 vi.mock('#nuxt-site-config/no-ssr.mjs', () => ({
-  NUXT_SITE_CONFIG_NO_SSR: false,
+  get NUXT_SITE_CONFIG_NO_SSR() {
+    return state.noSSR
+  },
   // Simulates Nitro 3 prior to the fix, where missing ssr defaulted to false.
   NUXT_SITE_CONFIG_SSR_DEFAULT: false,
 }))
@@ -93,6 +96,7 @@ function makeEvent(overrides: Record<string, any> = {}) {
 afterEach(() => {
   state.routeRules = {}
   state.baseURL = '/'
+  state.noSSR = false
   state.getRouteRules.mockClear()
   state.matchRouteRules.mockClear()
 })
@@ -182,6 +186,50 @@ describe('injectState plugin', () => {
     expect(status404Ctx.body).toEqual([])
   })
 
+  it('detects data-ssr="false" case-insensitively on script opening tags only', async () => {
+    const onRenderHtml = createRenderHtmlHarness()
+
+    const uppercaseCtx = {
+      body: [],
+      bodyAppend: ['<script>1</script><SCRIPT TYPE="application/json" DATA-NUXT-DATA="nuxt-app" DATA-SSR="false">[]</SCRIPT>'],
+    }
+    await onRenderHtml(uppercaseCtx, { event: makeEvent({ path: '/spa' }) })
+    expect(uppercaseCtx.body).toHaveLength(1)
+    expect(uppercaseCtx.body[0]).toContain('window.__NUXT_SITE_CONFIG__=')
+
+    const bodyTextCtx = {
+      body: [],
+      bodyAppend: ['<script>const s = \'data-nuxt-data="nuxt-app" data-ssr="false"\'</script>'],
+    }
+    await onRenderHtml(bodyTextCtx, { event: makeEvent({ path: '/ssr' }) })
+    expect(bodyTextCtx.body).toEqual([])
+  })
+
+  it('injects window.__NUXT_SITE_CONFIG__ on error pages when global ssr: false is enabled', async () => {
+    const onRenderHtml = createRenderHtmlHarness()
+    state.noSSR = true
+
+    const errorRouteCtx = { body: [], bodyAppend: [] }
+    await onRenderHtml(errorRouteCtx, { event: makeEvent({ path: '/__nuxt_error?statusCode=404' }) })
+    expect(errorRouteCtx.body).toHaveLength(1)
+    expect(errorRouteCtx.body[0]).toContain('window.__NUXT_SITE_CONFIG__=')
+
+    const renderingErrorCtx = { body: [], bodyAppend: [] }
+    await onRenderHtml(renderingErrorCtx, {
+      event: makeEvent({
+        path: '/missing',
+        context: { _initedSiteConfig: true, siteConfig: createSiteConfigStack(), nuxt: { '~rendering-error': true } },
+      }),
+    })
+    expect(renderingErrorCtx.body).toHaveLength(1)
+    expect(renderingErrorCtx.body[0]).toContain('window.__NUXT_SITE_CONFIG__=')
+
+    const status404Ctx = { body: [], bodyAppend: [] }
+    await onRenderHtml(status404Ctx, { event: makeEvent({ path: '/missing', res: { status: 404 } }) })
+    expect(status404Ctx.body).toHaveLength(1)
+    expect(status404Ctx.body[0]).toContain('window.__NUXT_SITE_CONFIG__=')
+  })
+
   it('skips injecting state when SSR already serialized site config into the payload', async () => {
     const onRenderHtml = createRenderHtmlHarness()
     state.routeRules = { ssr: false }
@@ -207,18 +255,47 @@ describe('init middleware and request hook', () => {
     expect(state.getRouteRules).not.toHaveBeenCalled()
   })
 
-  it('skips building siteConfigStack on direct /__nuxt_error requests', async () => {
+  it('initializes siteConfig on direct /__nuxt_error requests while skipping route rules', async () => {
     const onRequest = createRequestHookHarness()
     const requestEvent: any = { path: '/__nuxt_error', method: 'GET', context: {} }
 
     await onRequest(requestEvent)
-    expect(requestEvent.context.siteConfig).toBeUndefined()
     expect(state.matchRouteRules).not.toHaveBeenCalled()
+    expect(requestEvent.context._initedSiteConfig).toBe(true)
+    expect(requestEvent.context.siteConfig.get().name).toBe('Test Site')
 
     const middlewareEvent: any = { path: '/__nuxt_error', method: 'GET', context: {} }
     await (initMiddleware as any)(middlewareEvent)
-    expect(middlewareEvent.context.siteConfig).toBeUndefined()
     expect(state.getRouteRules).not.toHaveBeenCalled()
+    expect(middlewareEvent.context._initedSiteConfig).toBe(true)
+    expect(middlewareEvent.context.siteConfig.get().name).toBe('Test Site')
+  })
+
+  it('initializes siteConfig on Nitro 2 localFetch error renders when event.context.nuxt is unset', async () => {
+    const onRequest = createRequestHookHarness()
+    const requestEvent: any = {
+      path: '/__nuxt_error?__nuxt_error_payload=foo',
+      method: 'GET',
+      node: { req: { __unenv__: { nuxt: { '~rendering-error': true } } } },
+      context: {},
+    }
+
+    await onRequest(requestEvent)
+    expect(state.matchRouteRules).not.toHaveBeenCalled()
+    expect(requestEvent.context._initedSiteConfig).toBe(true)
+    expect(requestEvent.context.siteConfig.get().name).toBe('Test Site')
+
+    const middlewareEvent: any = {
+      path: '/__nuxt_error?__nuxt_error_payload=foo',
+      method: 'GET',
+      node: { req: { __unenv__: { nuxt: { '~rendering-error': true } } } },
+      context: {},
+    }
+
+    await (initMiddleware as any)(middlewareEvent)
+    expect(state.getRouteRules).not.toHaveBeenCalled()
+    expect(middlewareEvent.context._initedSiteConfig).toBe(true)
+    expect(middlewareEvent.context.siteConfig.get().name).toBe('Test Site')
   })
 
   it('skips route-rule matching on internal /__nuxt_error renders while keeping siteConfig available for error.vue', async () => {

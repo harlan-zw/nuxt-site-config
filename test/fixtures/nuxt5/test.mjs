@@ -89,6 +89,8 @@ try {
   const errorResponse = await fetch(`${requestOrigin}/__nuxt_error`)
   assert.equal(errorResponse.status, 404)
   const errorHtml = await errorResponse.text()
+  assert.match(errorHtml, /\$ssite-config/)
+  assert.match(errorHtml, /Nuxt 5 SPA/)
   assert.doesNotMatch(errorHtml, /window\.__NUXT_SITE_CONFIG__=/)
 
   const siteResponse = await fetch(`${requestOrigin}/api/site`).then(response => response.json())

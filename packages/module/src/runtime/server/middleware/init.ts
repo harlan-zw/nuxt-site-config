@@ -8,7 +8,5 @@ export default defineEventHandler((e) => {
     return
   const path = resolveRequestPath(e, useRuntimeConfig().app.baseURL)
   const isError = isNuxtErrorPath(path)
-  if (isError && !e.context.nuxt?.['~rendering-error'])
-    return
   return initRequestSiteConfig(e, getNitroOrigin(e), isError ? {} : getRouteRules(e))
 })

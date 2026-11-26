@@ -12,9 +12,6 @@ export default defineNitroPlugin((nitroApp) => {
       return
     const path = resolveRequestPath(event, useRuntimeConfig().app.baseURL)
     const isError = isNuxtErrorPath(path)
-    // Direct requests to /__nuxt_error are immediately rejected with 404 by Nuxt.
-    if (isError && !event.context.nuxt?.['~rendering-error'])
-      return
     return initRequestSiteConfig(event, getNitroOrigin({
       isDev: import.meta.dev,
       isPrerender: import.meta.prerender,
