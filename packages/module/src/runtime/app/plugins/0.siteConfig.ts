@@ -6,7 +6,8 @@ export default defineNuxtPlugin({
   name: 'nuxt-site-config:init',
   enforce: 'pre',
   async setup(nuxtApp) {
-    const stack = import.meta.server ? useRequestEvent()?.context?.siteConfig : createSiteConfigStack()
+    const event = import.meta.server ? useRequestEvent() : undefined
+    const stack = import.meta.server ? event?.context?.siteConfig : createSiteConfigStack()
     const state = useState<SiteConfigResolved | undefined>('site-config')
     if (import.meta.server) {
       nuxtApp.hooks.hook('app:rendered', () => {
@@ -15,6 +16,8 @@ export default defineNuxtPlugin({
           debug: (useRuntimeConfig() as any)['nuxt-site-config'].debug,
           resolveRefs: true,
         })
+        if (event?.context)
+          (event.context as Record<string, unknown>)._siteConfigInPayload = true
       })
     }
 
