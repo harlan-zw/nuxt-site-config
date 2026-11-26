@@ -247,8 +247,7 @@ export {}
 
     addServerTemplate({
       filename: '#nuxt-site-config/no-ssr.mjs',
-      getContents: () => `export const NUXT_SITE_CONFIG_NO_SSR = ${nuxt.options.ssr === false}
-export const NUXT_SITE_CONFIG_SSR_DEFAULT = ${nitroCompatibility._tag !== 'nitro-v3'}`,
+      getContents: () => `export const NUXT_SITE_CONFIG_NO_SSR = ${nuxt.options.ssr === false}`,
     })
 
     addPlugin({

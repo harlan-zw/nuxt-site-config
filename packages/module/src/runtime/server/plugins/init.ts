@@ -1,19 +1,25 @@
 import { getNitroOrigin } from 'nuxt-site-config-kit/util'
 import { matchRouteRules, useRuntimeConfig } from 'nuxt/server'
-import { withoutBase } from 'ufo'
 import { getRequestHost, getRequestProtocol } from '#nuxtseo/h3'
 import { defineNitroPlugin } from '#nuxtseo/nitro'
 import { initRequestSiteConfig } from '../init'
+import { isNuxtErrorPath, resolveRequestPath } from '../util'
 
 export default defineNitroPlugin((nitroApp) => {
   // Nitro invokes this hook before user middleware and before route rules are attached.
   nitroApp.hooks.hook('request', (event) => {
-    const path = withoutBase(event.path.split('?')[0] || '/', useRuntimeConfig().app.baseURL)
+    if (event.context._initedSiteConfig)
+      return
+    const path = resolveRequestPath(event, useRuntimeConfig().app.baseURL)
+    const isError = isNuxtErrorPath(path)
+    // Direct requests to /__nuxt_error are immediately rejected with 404 by Nuxt.
+    if (isError && !event.context.nuxt?.['~rendering-error'])
+      return
     return initRequestSiteConfig(event, getNitroOrigin({
       isDev: import.meta.dev,
       isPrerender: import.meta.prerender,
       requestHost: getRequestHost(event, { xForwardedHost: true }),
       requestProtocol: getRequestProtocol(event, { xForwardedProto: true }) as 'http' | 'https',
-    }), matchRouteRules(path, event.method))
+    }), isError ? {} : matchRouteRules(path, event.method))
   })
 })

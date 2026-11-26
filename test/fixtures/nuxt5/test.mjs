@@ -86,6 +86,11 @@ try {
   assert.match(ssrHtml, /https:\/\/nuxt5\.example\.com\/alias-proof/)
   assert.doesNotMatch(ssrHtml, /window\.__NUXT_SITE_CONFIG__=/)
 
+  const errorResponse = await fetch(`${requestOrigin}/__nuxt_error`)
+  assert.equal(errorResponse.status, 404)
+  const errorHtml = await errorResponse.text()
+  assert.doesNotMatch(errorHtml, /window\.__NUXT_SITE_CONFIG__=/)
+
   const siteResponse = await fetch(`${requestOrigin}/api/site`).then(response => response.json())
   assert.equal(siteResponse.aliasUrl, 'https://nuxt5.example.com/alias-proof')
   assert.equal(siteResponse.config.name, 'Nuxt 5 SPA')
